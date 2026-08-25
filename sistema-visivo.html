@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistema visivo — ARTES Contract</title>
+<meta name="description" content="Palette, tipografia, griglia e comportamenti d'interazione del template ARTES Contract.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/artes.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="topbar">
+    <span>Arredi contract su misura — Calabria / Italia</span>
+    <div class="topbar__right">
+      <span>MEPA · Acquisti in Rete PA</span>
+      <a href="#">Chi siamo</a>
+      <a href="#">Contatti</a>
+      <span>T +39 0000 000 000</span>
+      <span class="topbar__lang">IT / EN</span>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <a class="masthead__logo" href="index.html"><img src="assets/artes-logo-black.png" alt="ARTES Arredamenti"></a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="index.html">Home</a>
+      <a href="#">Contract</a>
+      <a href="#">Produzione</a>
+      <button type="button" class="nav__trigger" data-mega-trigger aria-expanded="false" aria-controls="mega">
+        <span>Settori</span><span class="nav__count">05</span>
+      </button>
+      <a href="#">Brand Partner</a>
+      <a href="#">Prodotti</a>
+      <a href="#">Realizzazioni</a>
+      <a href="#">Architetti</a>
+    </nav>
+    <div class="masthead__actions">
+      <a href="#" class="btn-sm btn-sm--outline">Area Progettisti</a>
+      <a href="#" class="btn-sm btn-sm--red">Contattaci</a>
+    </div>
+  </div>
+
+  <div class="mega" id="mega" hidden>
+    <div class="mega__grid">
+      <div class="mega__col">
+        <div class="mega__head"><span class="mega__num">01</span><a class="mega__title" href="#">Workspace</a></div>
+        <div class="mega__ph"></div>
+        <div class="mega__list">
+          <a href="#">Uffici direzionali</a>
+          <a href="#">Open space</a>
+          <a href="#">Coworking</a>
+          <a href="#">Sale meeting e conferenze</a>
+          <a href="#">Academy e aule formazione</a>
+          <a href="#">Scuole, università, biblioteche</a>
+          <a href="#">Reception corporate</a>
+          <a href="#">Business lounge e aree break</a>
+        </div>
+      </div>
+      <div class="mega__col">
+        <div class="mega__head"><span class="mega__num">02</span><a class="mega__title" href="#">Retail</a></div>
+        <div class="mega__ph"></div>
+        <div class="mega__list">
+          <a href="#">Boutique e negozi moda</a>
+          <a href="#">Showroom e concept store</a>
+          <a href="#">Profumerie e retail beauty</a>
+          <a href="#">Gioiellerie e ottiche</a>
+          <a href="#">Farmacie e parafarmacie</a>
+          <a href="#">Telefonia ed elettronica</a>
+          <a href="#">Store sportivi</a>
+          <a href="#">Temporary shop e franchising</a>
+        </div>
+      </div>
+      <div class="mega__col">
+        <div class="mega__head"><span class="mega__num">03</span><a class="mega__title" href="#">Food &amp; Beverage</a></div>
+        <div class="mega__ph"></div>
+        <div class="mega__list">
+          <a href="#">Bar e caffetterie</a>
+          <a href="#">Bistrot e ristoranti</a>
+          <a href="#">Pizzerie e pub</a>
+          <a href="#">Lounge e cocktail bar</a>
+          <a href="#">Wine bar ed enoteche</a>
+          <a href="#">Gelaterie</a>
+          <a href="#">Fast casual e street food</a>
+          <a href="#">Food court e rooftop bar</a>
+        </div>
+      </div>
+      <div class="mega__col">
+        <div class="mega__head"><span class="mega__num">04</span><a class="mega__title" href="#">Food Retail</a></div>
+        <div class="mega__ph"></div>
+        <div class="mega__list">
+          <a href="#">Panetterie e bakery</a>
+          <a href="#">Pasticcerie</a>
+          <a href="#">Gastronomie e salumerie</a>
+          <a href="#">Macellerie e pescherie</a>
+          <a href="#">Caseifici</a>
+          <a href="#">Market gourmet</a>
+          <a href="#">Chocolate shop e take-away</a>
+          <a href="#">Healthy food store</a>
+        </div>
+      </div>
+      <div class="mega__col">
+        <div class="mega__head"><span class="mega__num">05</span><a class="mega__title" href="#">Hospitality</a></div>
+        <div class="mega__ph"></div>
+        <div class="mega__list">
+          <a href="#">Hotel e resort</a>
+          <a href="#">Boutique hotel e b&amp;b premium</a>
+          <a href="#">Spa e wellness center</a>
+          <a href="#">Reception e lounge hotel</a>
+          <a href="#">Aree breakfast</a>
+          <a href="#">Rooftop hospitality</a>
+          <a href="#">Residence e business hotel</a>
+          <a href="#">Co-living e serviced apartment</a>
+        </div>
+      </div>
+    </div>
+    <div class="mega__foot">
+      <span>Ogni settore raccoglie realizzazioni, brand partner e prodotti collegati</span>
+      <a href="#">Tutte le realizzazioni →</a>
+    </div>
+  </div>
+</header>
+
+<nav class="screenbar" aria-label="Viste del template">
+  <a href="index.html">Home</a>
+  <a href="realizzazione.html">Scheda settore</a>
+  <a href="sistema-visivo.html" class="is-active">Sistema visivo</a>
+  <span class="screenbar__meta">Bozza template — v1</span>
+</nav>
+
+<main class="sistema">
+
+  <h1 class="sistema__title">Sistema visivo</h1>
+  <p class="sistema__lead">Palette, tipografia, griglia e comportamenti d'interazione del template. Il rosso ARTES resta un accento: mai fondale, sempre segnale.</p>
+
+  <div class="eyebrow">Palette</div>
+  <div class="palette">
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#F7F6F4"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Bone</div>
+        <div class="swatch__hex">#F7F6F4</div>
+        <div class="swatch__u">Fondo primario, respiro editoriale.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#F2F0EC"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Sand</div>
+        <div class="swatch__hex">#F2F0EC</div>
+        <div class="swatch__u">Fondo secondario per sezioni alterne.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#E2DFD9"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Line</div>
+        <div class="swatch__hex">#E2DFD9</div>
+        <div class="swatch__u">Filetti, bordi, griglie da 1px.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#171716"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Graphite</div>
+        <div class="swatch__hex">#171716</div>
+        <div class="swatch__u">Testo, blocchi immersivi, CTA scura.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:#8A8A8E"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Grey ARTES</div>
+        <div class="swatch__hex">#8A8A8E</div>
+        <div class="swatch__u">Grigio del marchio: dati e didascalie.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch__chip" style="background:var(--accent)"></div>
+      <div class="swatch__body">
+        <div class="swatch__n">Red ARTES</div>
+        <div class="swatch__hex">#D71A1A</div>
+        <div class="swatch__u">Accento: numerazioni, CTA primaria, hover.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="type-grid">
+    <div class="type-card">
+      <div class="eyebrow">Tipografia</div>
+      <div class="type-spec__name">Archivo</div>
+      <div class="type-spec__note">Display · 300/400/500/600 · tracking −3.5%</div>
+      <div class="type-rule"></div>
+      <div class="type-spec__name type-spec__name--body">Instrument Sans</div>
+      <div class="type-spec__note">Testo corrente · 15–18px · interlinea 1.6</div>
+      <div class="type-rule"></div>
+      <div class="type-spec__name type-spec__name--mono">IBM Plex Mono</div>
+      <div class="type-spec__note">Etichette, numerazioni, dati tecnici · maiuscolo · tracking +14%</div>
+    </div>
+    <div class="type-card">
+      <div class="eyebrow">Scala tipografica</div>
+      <div class="scala">
+        <div class="scala__row">
+          <span class="scala__k">H1 / 104px</span>
+          <span class="scala__s-h1">Artes: arredi contract</span>
+        </div>
+        <div class="scala__row">
+          <span class="scala__k">H2 / 44px</span>
+          <span class="scala__s-h2">Un solo processo</span>
+        </div>
+        <div class="scala__row">
+          <span class="scala__k">H3 / 20px</span>
+          <span class="scala__s-h3">Progettazione</span>
+        </div>
+        <div class="scala__row">
+          <span class="scala__k">Lead / 18px</span>
+          <span class="scala__s-lead">Un unico interlocutore dal rilievo al post-vendita.</span>
+        </div>
+        <div class="scala__row">
+          <span class="scala__k">Body / 15px</span>
+          <span class="scala__s-body">Testo corrente delle schede e dei paragrafi descrittivi.</span>
+        </div>
+        <div class="scala__row">
+          <span class="scala__k">Label / 10.5px</span>
+          <span class="scala__s-lbl">ETICHETTA TECNICA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Griglia, spazi e interazioni</div>
+  <div class="regole">
+    <div class="regola">
+      <div class="regola__t">Griglia 12 colonne</div>
+      <div class="regola__d">Margini laterali fissi di 40px, gutter 20px. Il portfolio usa span 2/4/6 per un ritmo asimmetrico controllato.</div>
+    </div>
+    <div class="regola">
+      <div class="regola__t">Filetti, non ombre</div>
+      <div class="regola__d">Nessun box-shadow: la gerarchia nasce da bordi 1px, fondi alterni e spazio bianco.</div>
+    </div>
+    <div class="regola">
+      <div class="regola__t">Spazi verticali</div>
+      <div class="regola__d">Scala 20 / 34 / 44 / 80 / 110px. Le sezioni respirano tra 96 e 120px.</div>
+    </div>
+    <div class="regola">
+      <div class="regola__t">Hover</div>
+      <div class="regola__d">Card: fondo da Bone a bianco in 250ms. Immagini: velo scuro che si intensifica, outline rosso 1px.</div>
+    </div>
+    <div class="regola">
+      <div class="regola__t">Immagini</div>
+      <div class="regola__d">Formati fissi 16:9 e 3:4, mai arrotondate. Il full-bleed è riservato a hero e apertura scheda.</div>
+    </div>
+    <div class="regola">
+      <div class="regola__t">Uso del rosso</div>
+      <div class="regola__d">Massimo tre occorrenze per schermata: numerazione di sezione, CTA primaria, stato attivo.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <img class="footer__logo" src="assets/artes-logo-black.png" alt="ARTES Arredamenti">
+      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e installazione di arredi su misura per workspace, retail, food e hospitality.</p>
+    </div>
+    <div>
+      <div class="footer__t">Azienda</div>
+      <div class="footer__list">
+        <a href="#">Chi siamo</a><a href="#">Contract</a><a href="#">Produzione</a><a href="#">Realizzazioni</a><a href="#">Contatti</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Settori</div>
+      <div class="footer__list">
+        <a href="#">Workspace</a><a href="#">Retail</a><a href="#">Food &amp; Beverage</a><a href="#">Food Retail</a><a href="#">Hospitality</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Risorse</div>
+      <div class="footer__list">
+        <a href="#">Brand Partner</a><a href="#">Prodotti</a><a href="#">Architetti</a><a href="#">MEPA / PA</a><a href="#">Cataloghi PDF</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Contatti</div>
+      <div class="footer__contact">Via —, Catanzaro (CZ)<br>T +39 0000 000 000<br>info@artesarredamenti.it</div>
+      <a href="#" class="footer__cta">Richiedi un progetto</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Artes Arredamenti — P.IVA 00000000000</span>
+    <span>Privacy · Cookie · MEPA</span>
+  </div>
+</footer>
+
+<script src="assets/js/artes.js"></script>
+</body>
+</html>
