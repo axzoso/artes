@@ -201,7 +201,6 @@ img { max-width: 100%; }
 .nav a.is-active { border-bottom: 1px solid var(--graphite); }
 .nav__trigger {
   position: relative;
-  cursor: default;
   display: flex;
   align-items: center;
   gap: 7px;
@@ -856,3 +855,177 @@ img { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* --- 11. Pagine interne ------------------------------------------------- */
+/* Pattern condivisi dalle pagine di secondo livello (Contract, Produzione,
+   Settori…). L'apertura è editoriale e chiara, non immersiva: l'hero scuro
+   da 760px resta un privilegio della home. */
+
+.page-intro { padding: 44px var(--pad) 0; }
+.page-intro__row {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 80px;
+  align-items: end;
+  padding: 56px 0 44px;
+}
+.page-intro__row .eyebrow { margin-bottom: 22px; }
+.page-intro__row .lead { margin: 0; }
+.page-title {
+  font-weight: 400;
+  font-size: 72px;
+  line-height: .98;
+  letter-spacing: -.035em;
+  text-wrap: pretty;
+}
+.page-title strong { font-weight: 600; }
+
+/* Fascia immagine a tutta larghezza sotto l'apertura. */
+.page-band {
+  margin: 0 var(--pad) 96px;
+  position: relative;
+  height: 420px;
+  background: var(--hatch-a-wide);
+}
+.page-band .ph__note { left: 26px; bottom: 22px; font-size: 10.5px; letter-spacing: .12em; color: var(--muted-2); }
+
+/* Griglie a filetto: il pattern ricorrente di tutto il sistema —
+   gap 1px su fondo --line, che disegna i separatori senza bordi. */
+.grid-1px {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.grid-1px--2 { grid-template-columns: repeat(2, 1fr); }
+.grid-1px--3 { grid-template-columns: repeat(3, 1fr); }
+.grid-1px--4 { grid-template-columns: repeat(4, 1fr); }
+
+.card { background: var(--bone); padding: 34px 30px 38px; transition: background .25s; }
+.card--lg { padding: 44px 40px 48px; }
+.card--dark { background: var(--graphite); }
+.grid-1px--hover .card:hover { background: #fff; }
+.card__n {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.card__t {
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -.015em;
+  margin-top: 14px;
+}
+.card__d { font-size: 13.5px; line-height: 1.6; color: var(--muted-2); margin-top: 12px; }
+.card--dark .card__t { color: #fff; }
+.card--dark .card__d { color: rgba(255,255,255,.62); }
+.card--dark .card__n { color: rgba(255,255,255,.45); }
+
+/* Elenco puntato senza punti: filetti sottili, come le specifiche tecniche. */
+.card__list { list-style: none; margin: 20px 0 0; padding: 0; }
+.card__list li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted-1);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.card__list li:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* Le sette fasi in versione estesa: numero, titolo, descrizione, output. */
+.fasi-list { border-top: 1px solid var(--line); }
+.fase-row {
+  display: grid;
+  grid-template-columns: 72px 230px 1fr 230px;
+  gap: 32px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.fase-row__n { font-family: var(--mono); font-size: 10.5px; color: var(--accent); padding-top: 5px; }
+.fase-row__t { font-family: var(--display); font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+.fase-row__d { font-size: 14.5px; line-height: 1.6; color: var(--muted-2); }
+.fase-row__out { text-align: right; }
+.fase-row__out dt {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted-4);
+}
+.fase-row__out dd { margin: 5px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink); }
+.fase-row__out dd + dt { margin-top: 14px; }
+
+/* Sezione senza filetto di chiusura (quando segue una fascia scura). */
+.section--flush { border-bottom: 0; }
+.section--tight { padding-top: 0; }
+
+/* Varianti d'uso ricorrenti, al posto degli style inline. */
+.card--span2 { grid-column: span 2; }
+.section__head .lead { max-width: 400px; margin: 0; }
+.lead--flush { margin: 0 0 26px; }
+.lead--note { font-size: 14px; margin-top: 24px; }
+.link-rule--spaced { margin-top: 26px; }
+.scheda__specs--boxed { border: 1px solid var(--line); }
+.materiali--wide { grid-template-columns: repeat(8, 1fr); }
+
+/* --- 12. Indice settori -------------------------------------------------- */
+
+.grid-1px--5 { grid-template-columns: repeat(5, 1fr); }
+
+/* Un blocco per settore, immagine e testo che si alternano di lato. */
+.settore {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+.settore__text { padding: 96px 70px 96px var(--pad); }
+.settore__media {
+  position: relative;
+  min-height: 640px;
+  background: var(--hatch-a-mid);
+  border-left: 1px solid var(--line);
+}
+.settore__media .ph__note { left: 26px; bottom: 24px; font-size: 10.5px; letter-spacing: .12em; color: var(--muted-2); }
+.settore__inset {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 42%;
+  height: 42%;
+  background: var(--hatch-b);
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Righe pari a specchio: l'immagine passa a sinistra. */
+.settore--flip .settore__text { order: 2; padding: 96px var(--pad) 96px 70px; }
+.settore--flip .settore__media { order: 1; border-left: 0; border-right: 1px solid var(--line); }
+.settore--flip .settore__inset { right: auto; left: 0; border-left: 0; border-right: 1px solid var(--line); }
+
+.settore__t { font-weight: 400; font-size: 40px; line-height: 1.04; letter-spacing: -.03em; }
+.settore__d { margin: 24px 0 0; max-width: 460px; font-size: 15.5px; line-height: 1.6; color: var(--muted-2); text-wrap: pretty; }
+
+/* Gli otto ambiti, su due colonne di filetti. */
+.ambiti {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 36px;
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+}
+.ambiti a {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--muted-1);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.ambiti a:hover { color: var(--accent); }
+
+.settore__links { display: flex; gap: 28px; margin-top: 34px; }

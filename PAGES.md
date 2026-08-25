@@ -23,21 +23,12 @@ che `assets/css/artes.css` resta identico ovunque, in locale e in preview.
 Le URL parlanti (`/settori/hospitality/`) si possono introdurre dopo, in
 un passaggio unico, quando il sito va in produzione su dominio proprio.
 
-## Prima di iniziare
+## Come si aggiunge una pagina
 
-Header, barra viste e footer sono **duplicati in ogni file** (~150 righe).
-Costruire 80+ pagine copiandoli a mano garantisce che prima o poi
-divergano. Da decidere prima della pagina 4:
-
-- un piccolo script di build che inserisce il guscio in ogni pagina
-  (come lo script già usato per generare `realizzazione.html` e
-  `sistema-visivo.html`), **oppure**
-- accettare la duplicazione e trattare `index.html` come unica fonte da
-  cui copiare, ri-verificando dopo ogni modifica al guscio.
-
-Inoltre: `realizzazione.html` va rinominata in
-`realizzazioni-boutique-hotel-aurea.html` per coerenza, aggiornando i
-link nella barra viste delle tre pagine esistenti.
+Il guscio non è più duplicato: sta in `src/shell.html` e le pagine in
+`src/pages/` contengono solo il proprio `<main>`. Si crea il sorgente, si
+lancia `python3 build.py`, e il link nel menu si aggiunge una volta sola
+nel guscio. Dettagli nel README.
 
 ---
 
@@ -46,18 +37,20 @@ link nella barra viste delle tre pagine esistenti.
 | Percorso | Pagina | Note |
 |---|---|---|
 | ✅ `index.html` | Home | |
-| ✅ `realizzazione.html` | Scheda: Boutique Hotel Aurea | da rinominare |
+| ✅ `realizzazione.html` | **Template scheda progetto** | non è una pagina: è il layout del CPT |
 | ✅ `sistema-visivo.html` | Sistema visivo | documento interno, fuori dalla nav pubblica |
+| ✅ `contract.html` | Contract — il servizio, le 7 fasi | |
+| ✅ `produzione.html` | Produzione — lavorazioni e officina | |
+| ✅ `settori.html` | Settori — indice delle 5 macro-aree | |
 
 ## 2. Navigazione principale — priorità alta
 
-Le sette voci del menu, oggi tutte `href="#"`.
+Delle sette voci del menu ne restano quattro. `contract.html`,
+`produzione.html` e `settori.html` sono fatte (sezione 1) e i loro link
+sono già attivi in nav, footer, mega menu e CTA della home.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `contract.html` | Contract — il servizio, le 7 fasi | nav, footer, CTA "Scopri il servizio contract" |
-| ⬜ `produzione.html` | Produzione — lavorazioni e officina | nav, footer, CTA "Dentro la produzione" |
-| ⬜ `settori.html` | Settori — indice delle 5 macro-aree | nav, CTA "Tutti i settori", breadcrumb scheda |
 | ⬜ `brand-partner.html` | Brand Partner — griglia completa | nav, footer, CTA "Tutti i brand" |
 | ⬜ `prodotti.html` | Prodotti — catalogo per categoria | nav, footer |
 | ⬜ `realizzazioni.html` | Realizzazioni — archivio con filtri | nav, footer, CTA "Tutte le realizzazioni", "Archivio completo" |
@@ -119,20 +112,24 @@ Le otto voci per settore elencate nel mega menu.
 `reception-lounge-hotel` · `aree-breakfast` · `rooftop-hospitality` ·
 `residence-business-hotel` · `co-living-serviced-apartment`
 
-## 6. Realizzazioni — 8 schede
+## 6. Realizzazioni — nessuna pagina da creare
 
-Stesso impianto di `realizzazione.html`, già validato.
+`realizzazione.html` **non è una pagina**: è il layout della scheda
+progetto, che in WordPress diventa un Custom Post Type gestito con
+JetEngine (Crocoblock). Le singole realizzazioni sono record del CPT, non
+file statici — il template si costruisce una volta sola.
 
-| Percorso | Progetto | Settore | Citata in |
-|---|---|---|---|
-| ⬜ `realizzazioni-headquarter-mediterranea.html` | Headquarter Mediterranea — Catanzaro, 1.400 m² | Workspace | home |
-| ⬜ `realizzazioni-panificio-grani-antichi.html` | Panificio Grani Antichi — Lamezia Terme | Food Retail | home |
-| ⬜ `realizzazioni-concept-store-sila.html` | Concept store Sila — Cosenza, 240 m² | Retail | home |
-| ⬜ `realizzazioni-rooftop-bar-levante.html` | Rooftop Bar Levante — Reggio Calabria | Food & Beverage | home |
-| ⬜ `realizzazioni-academy-ferrara-group.html` | Academy Ferrara Group — Crotone, 90 posti | Workspace | home |
-| ⬜ `realizzazioni-resort-capo-bianco.html` | Resort Capo Bianco | Hospitality | scheda |
-| ⬜ `realizzazioni-spa-terme-luigiane.html` | Spa Terme Luigiane | Hospitality | scheda |
-| ⬜ `realizzazioni-business-hotel-fera.html` | Business Hotel Fera | Hospitality | scheda |
+Restano quindi da creare solo l'archivio (`realizzazioni.html`, sezione 2)
+e le tassonomie di settore che lo filtrano.
+
+I progetti citati nel template servono come dati di prova per il CPT:
+Boutique Hotel Aurea, Headquarter Mediterranea, Panificio Grani Antichi,
+Concept store Sila, Rooftop Bar Levante, Academy Ferrara Group, Resort
+Capo Bianco, Spa Terme Luigiane, Business Hotel Fera.
+
+Da verificare se anche **brand partner** (sezione 7) vada trattato come
+CPT: la struttura è identica — un archivio più N schede uguali fra loro.
+Se sì, quelle 19 pagine spariscono allo stesso modo.
 
 ## 7. Brand partner — 19 schede
 
@@ -165,7 +162,7 @@ espansa dentro `brand-partner.html`.
 
 ## Ordine di costruzione consigliato
 
-1. **Guscio condiviso** — decidere build script o copia manuale (vedi sopra).
+1. ~~Guscio condiviso~~ — fatto: `build.py` + `src/`.
 2. **`contatti.html` + `richiedi-preventivo.html`** — chiudono 7 CTA su 8
    della home; senza queste il template resta una vetrina cieca.
 3. **`settori.html` + le 5 landing di settore** — sbloccano mega menu,

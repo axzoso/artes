@@ -39,11 +39,9 @@
       el.addEventListener('mouseleave', scheduleClose);
     });
 
+    // Il trigger è un link a settori.html: il click naviga, non intercettiamo.
+    // Da tastiera il focus apre il pannello, Escape lo chiude.
     trigger.addEventListener('focus', open);
-    trigger.addEventListener('click', function (e) {
-      e.preventDefault();
-      panel.hidden ? open() : close();
-    });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !panel.hidden) {
