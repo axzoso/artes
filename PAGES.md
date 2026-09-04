@@ -31,9 +31,10 @@ un passaggio unico, quando il sito va in produzione su dominio proprio.
 ## Come si aggiunge una pagina
 
 Struttura piatta, senza build: si parte copiando una pagina esistente con
-header/mega menu/footer già dentro, si sostituisce il `<main>` e si
-aggiorna il link nel menu — nav, footer e mega menu vanno aggiornati a
-mano su ogni pagina esistente. Dettagli nel README.
+header (nav + le 5 tendine di settore) e footer già dentro, si sostituisce
+il `<main>` e si aggiorna il link nel menu — nav, footer e le tendine di
+settore vanno aggiornati a mano su ogni pagina esistente. Dettagli nel
+README.
 
 ---
 
@@ -59,16 +60,17 @@ mano su ogni pagina esistente. Dettagli nel README.
 
 ## 2. Navigazione principale — priorità alta
 
-Delle sette voci del menu ne restano quattro. `contract.html` e
-`arredamento-su-misura.html` (ex `produzione.html`) sono fatte, così come
-le 5 landing di settore che hanno sostituito `settori.html` (sezione 1),
-e i loro link sono già attivi in nav, footer, mega menu e CTA della home.
+La nav principale ha 9 voci, tutte già fatte (sezione 1): Home, le 5
+tendine di settore, Arredamento su misura (ex `produzione.html`), Arredo
+Contract (`contract.html`), Chi siamo. `prodotti.html`,
+`realizzazioni.html` e `architetti.html` non sono più in nav: restano
+linkate solo da footer e dalle CTA della home.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `prodotti.html` | Prodotti — catalogo per categoria | nav, footer |
-| ⬜ `realizzazioni.html` | Realizzazioni — archivio con filtri | nav, footer, CTA "Tutte le realizzazioni", "Archivio completo" |
-| ⬜ `architetti.html` | Architetti — servizi per studi | nav, footer |
+| ⬜ `prodotti.html` | Prodotti — catalogo per categoria | footer |
+| ⬜ `realizzazioni.html` | Realizzazioni — archivio con filtri | footer, CTA "Tutte le realizzazioni", "Archivio completo" |
+| ⬜ `architetti.html` | Architetti — servizi per studi | footer |
 
 ## 3. Utility e conversione — priorità alta
 
@@ -84,19 +86,22 @@ e i loro link sono già attivi in nav, footer, mega menu e CTA della home.
 
 ## 4. Settori — 5 landing
 
-Linkate da mega menu, mosaico home, footer, breadcrumb.
+Le 5 landing di settore esistono già come pagine standalone, linkate
+dalle tendine di nav, dal mosaico home, dal footer e dai breadcrumb —
+vedi sezione 1. I nomi di lavoro sotto sono superati: restano solo come
+mappa storica verso i nomi reali.
 
-| Percorso | Pagina |
+| Percorso | Note |
 |---|---|
-| ⬜ `settori-workspace.html` | 01 Workspace |
-| ⬜ `settori-retail.html` | 02 Retail |
-| ⬜ `settori-food-beverage.html` | 03 Food & Beverage |
-| ⬜ `settori-food-retail.html` | 04 Food Retail |
-| ⬜ `settori-hospitality.html` | 05 Hospitality |
+| — | ~~`settori-workspace.html`~~ (01 Workspace) → `arredamento-ufficio.html`, vedi sezione 1 |
+| — | ~~`settori-retail.html`~~ (02 Retail) → `arredo-negozi.html`, vedi sezione 1 |
+| — | ~~`settori-food-beverage.html`~~ (03 Food & Beverage) → `arredamento-alimentari-wine-food.html`, vedi sezione 1 |
+| — | ~~`settori-food-retail.html`~~ (04 Food Retail) → `arredamento-bar-ristoranti.html`, vedi sezione 1 |
+| — | ~~`settori-hospitality.html`~~ (05 Hospitality) → `arredamento-hotel.html`, vedi sezione 1 |
 
 ## 5. Settori — 40 sotto-voci
 
-Le otto voci per settore elencate nel mega menu.
+Le otto voci per settore elencate in ciascuna tendina di nav.
 
 > **Raccomandazione:** non farne 40 pagine separate, almeno all'inizio.
 > Con i contenuti attuali sarebbero quasi identiche fra loro e povere per
@@ -175,7 +180,9 @@ espansa dentro `brand-partner.html`.
 
 ## Ordine di costruzione consigliato
 
-1. ~~Guscio condiviso~~ — fatto: `build.py` + `src/`.
+1. ~~Guscio condiviso~~ — superato: il sito è ora completamente statico,
+   senza build step; `build.py` e `src/` sono stati rimossi (vedi
+   README).
 2. **`contatti.html` + `richiedi-preventivo.html`** — chiudono 7 CTA su 8
    della home; senza queste il template resta una vetrina cieca.
 3. ~~`settori.html` + le 5 landing di settore~~ — fatto: le 5 landing

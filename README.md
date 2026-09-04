@@ -10,14 +10,15 @@ o CrocoBuilder di Crocoblock).
 ```
 *.html                Pagine del sito, file piatti — una per pagina
 assets/css/artes.css  Foglio di stile unico, organizzato per sezioni
-assets/js/artes.js    Mega menu "Settori" + filtri del portfolio
+assets/js/artes.js    Tendine di settore in nav + filtri del portfolio
 assets/artes-logo-black.png   ⚠️ da fornire (vedi sotto)
 PAGES.md              Mappa delle pagine ancora da creare
 ```
 
-Nessuna build: si modificano i file `.html` direttamente. Header, mega
-menu e footer sono duplicati in ogni pagina — un cambiamento a uno di
-questi blocchi va riportato a mano su tutte le pagine esistenti.
+Nessuna build: si modificano i file `.html` direttamente. Header (con le
+5 tendine indipendenti di settore) e footer sono duplicati in ogni
+pagina — un cambiamento a uno di questi blocchi va riportato a mano su
+tutte le pagine esistenti.
 
 `realizzazione.html` non è una pagina ma il **layout della scheda
 progetto**, che in WordPress diventa un CPT gestito con JetEngine.
