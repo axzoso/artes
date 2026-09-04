@@ -1,64 +1,83 @@
 /* ARTES Contract — interazioni del template.
-   Due comportamenti soltanto: il mega menu "Settori" e i filtri del portfolio.
-   Tutto il resto è markup statico: la pagina resta leggibile senza JS. */
+   Due comportamenti soltanto: le tendine di settore in header e i filtri
+   dei progetti/brand. Tutto il resto è markup statico: la pagina resta
+   leggibile senza JS. */
 
 (function () {
   'use strict';
 
-  /* --- Mega menu ------------------------------------------------------- */
-  /* Apre in hover come nel design, ma resta raggiungibile da tastiera:
-     focus apre, Escape chiude, un click fuori chiude. */
+  /* --- Tendine di settore ------------------------------------------------ */
+  /* Ogni voce di nav con [data-drop-trigger] apre il proprio pannello
+     (aria-controls). Aprirne una chiude le altre. Stesso comportamento di
+     prima: hover con piccolo ritardo di chiusura, focus apre, Escape chiude,
+     un click fuori chiude. */
 
-  function initMega() {
-    var trigger = document.querySelector('[data-mega-trigger]');
-    var panel = document.getElementById('mega');
-    if (!trigger || !panel) return;
+  function initDrops() {
+    var triggers = document.querySelectorAll('[data-drop-trigger]');
+    if (!triggers.length) return;
+
+    var pairs = [];
+    triggers.forEach(function (trigger) {
+      var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+      if (panel) pairs.push({ trigger: trigger, panel: panel });
+    });
+    if (!pairs.length) return;
 
     var closeTimer = null;
 
-    function open() {
-      clearTimeout(closeTimer);
-      panel.hidden = false;
-      trigger.setAttribute('aria-expanded', 'true');
+    function closeAll(exceptPanel) {
+      pairs.forEach(function (pair) {
+        if (pair.panel === exceptPanel) return;
+        pair.panel.hidden = true;
+        pair.trigger.setAttribute('aria-expanded', 'false');
+      });
     }
 
-    /* Ritardo breve: il puntatore attraversa un vuoto fra trigger e pannello. */
-    function scheduleClose() {
+    function open(pair) {
       clearTimeout(closeTimer);
-      closeTimer = setTimeout(close, 120);
+      closeAll(pair.panel);
+      pair.panel.hidden = false;
+      pair.trigger.setAttribute('aria-expanded', 'true');
     }
 
-    function close() {
+    function scheduleCloseAll() {
       clearTimeout(closeTimer);
-      panel.hidden = true;
-      trigger.setAttribute('aria-expanded', 'false');
+      closeTimer = setTimeout(function () { closeAll(null); }, 120);
     }
 
-    [trigger, panel].forEach(function (el) {
-      el.addEventListener('mouseenter', open);
-      el.addEventListener('mouseleave', scheduleClose);
+    pairs.forEach(function (pair) {
+      [pair.trigger, pair.panel].forEach(function (el) {
+        el.addEventListener('mouseenter', function () { open(pair); });
+        el.addEventListener('mouseleave', scheduleCloseAll);
+      });
+      // Il trigger è un link alla pagina di settore: il click naviga, non intercettiamo.
+      pair.trigger.addEventListener('focus', function () { open(pair); });
     });
 
-    // Il trigger è un link a settori.html: il click naviga, non intercettiamo.
-    // Da tastiera il focus apre il pannello, Escape lo chiude.
-    trigger.addEventListener('focus', open);
-
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !panel.hidden) {
-        close();
-        trigger.focus();
-      }
+      if (e.key !== 'Escape') return;
+      var openPair = pairs.filter(function (p) { return !p.panel.hidden; })[0];
+      if (!openPair) return;
+      closeAll(null);
+      openPair.trigger.focus();
     });
 
     document.addEventListener('focusin', function (e) {
-      if (panel.hidden) return;
-      if (!panel.contains(e.target) && e.target !== trigger) close();
+      pairs.forEach(function (pair) {
+        if (pair.panel.hidden) return;
+        if (!pair.panel.contains(e.target) && e.target !== pair.trigger) {
+          pair.panel.hidden = true;
+          pair.trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
     });
   }
 
-  /* --- Filtri realizzazioni -------------------------------------------- */
-  /* I progetti sono già nel markup con il loro span di griglia: filtrare
-     significa nasconderli, così la griglia si ricompone da sola. */
+  /* --- Filtri (progetti o brand) ----------------------------------------- */
+  /* Generico: filtra qualunque figlio diretto con [data-settore] dentro
+     [data-progetti], in base al bottone .filtro[data-filtro] attivo dentro
+     [data-filtri]. Usato sia per le griglie progetti sia per la griglia
+     brand partner. */
 
   function initFiltri() {
     var bar = document.querySelector('[data-filtri]');
@@ -66,20 +85,20 @@
     if (!bar || !grid) return;
 
     var buttons = bar.querySelectorAll('.filtro');
-    var progetti = grid.querySelectorAll('.progetto');
-    var empty = grid.querySelector('.progetti__empty');
+    var items = grid.querySelectorAll('[data-settore]');
+    var empty = grid.querySelector('[data-empty]');
 
-    function apply(settore) {
+    function apply(valore) {
       var visibili = 0;
 
-      progetti.forEach(function (p) {
-        var match = settore === 'Tutti' || p.dataset.settore === settore;
-        p.hidden = !match;
+      items.forEach(function (item) {
+        var match = valore === 'Tutti' || item.dataset.settore === valore;
+        item.hidden = !match;
         if (match) visibili++;
       });
 
       buttons.forEach(function (b) {
-        var active = b.dataset.filtro === settore;
+        var active = b.dataset.filtro === valore;
         b.classList.toggle('is-active', active);
         b.setAttribute('aria-pressed', String(active));
       });
@@ -96,7 +115,7 @@
   }
 
   function init() {
-    initMega();
+    initDrops();
     initFiltri();
   }
 
