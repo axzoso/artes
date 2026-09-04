@@ -189,11 +189,11 @@ img { max-width: 100%; }
 .nav {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 13px;
   flex: 0 0 auto;
   flex-wrap: nowrap;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 12.5px;
   letter-spacing: .01em;
   margin-right: auto;
 }
@@ -234,40 +234,17 @@ img { max-width: 100%; }
 .btn-sm--red { padding: 12px 17px; background: var(--accent); color: #fff; }
 .btn-sm--red:hover { background: var(--graphite); color: #fff; }
 
-/* Mega menu — Settori */
-.mega {
+/* Tendine di settore — un pannello per voce di nav */
+.drop {
   border-top: 1px solid var(--line);
   background: #fff;
-  padding: 38px var(--pad) 44px;
+  padding: 30px var(--pad) 34px;
 }
-.mega[hidden] { display: none; }
-.mega__grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1px;
-  background: var(--line-soft);
-}
-.mega__col { background: #fff; padding: 0 26px 0 0; }
-.mega__head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
-.mega__num { font-family: var(--mono); font-size: 10px; color: var(--accent); }
-.mega__title { font-family: var(--display); font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
-.mega__ph { height: 76px; margin-bottom: 16px; background: var(--hatch-b-wide); }
-.mega__list { display: flex; flex-direction: column; gap: 6px; }
-.mega__list a { font-size: 12.5px; color: var(--muted-2); line-height: 1.35; }
-.mega__foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 32px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line-soft);
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted-3);
-}
-.mega__foot a { color: var(--accent); }
+.drop[hidden] { display: none; }
+.drop__inner { max-width: 300px; }
+.drop__ph { height: 76px; margin-bottom: 16px; background: var(--hatch-b-wide); }
+.drop__list { display: flex; flex-direction: column; gap: 6px; }
+.drop__list a { font-size: 12.5px; color: var(--muted-2); line-height: 1.35; }
 
 /* --- 6. Home ------------------------------------------------------------ */
 
