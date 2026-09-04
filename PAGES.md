@@ -25,10 +25,10 @@ un passaggio unico, quando il sito va in produzione su dominio proprio.
 
 ## Come si aggiunge una pagina
 
-Il guscio non è più duplicato: sta in `src/shell.html` e le pagine in
-`src/pages/` contengono solo il proprio `<main>`. Si crea il sorgente, si
-lancia `python3 build.py`, e il link nel menu si aggiunge una volta sola
-nel guscio. Dettagli nel README.
+Struttura piatta, senza build: si parte copiando una pagina esistente con
+header/mega menu/footer già dentro, si sostituisce il `<main>` e si
+aggiorna il link nel menu — nav, footer e mega menu vanno aggiornati a
+mano su ogni pagina esistente. Dettagli nel README.
 
 ---
 
@@ -190,9 +190,8 @@ Vincolanti per ogni pagina nuova, come da `sistema-visivo.html`:
 - classi esistenti da riusare prima di scriverne di nuove: `.eyebrow`,
   `.h-section`, `.lead`, `.link-rule`, `.btn`, `.section__head`, `.ph`.
 
-## Nota per la preview su GitHub Pages
+## Nota sulla preview su GitHub Pages
 
-Il progetto non è ancora un repository git. Per la preview servono:
-`git init`, un repo remoto, e Pages attivo sul branch scelto. Le pagine
-non ancora create restano `href="#"`: meglio lasciarle così che puntare a
-file inesistenti, che su Pages darebbero 404.
+Il sito è live su GitHub Pages (branch `main`, root). Le pagine non ancora
+create restano `href="#"`: meglio lasciarle così che puntare a file
+inesistenti, che su Pages darebbero 404.

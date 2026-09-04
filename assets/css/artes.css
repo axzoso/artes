@@ -269,27 +269,6 @@ img { max-width: 100%; }
 }
 .mega__foot a { color: var(--accent); }
 
-/* --- 5. Screen bar (navigazione fra le viste del template) --------------- */
-
-.screenbar {
-  display: flex;
-  padding: 0 var(--pad);
-  border-bottom: 1px solid var(--line);
-  background: var(--sand);
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.screenbar a {
-  padding: 14px 22px;
-  border-right: 1px solid var(--line);
-  color: var(--muted-3);
-}
-.screenbar a:hover { color: var(--graphite); }
-.screenbar a.is-active { background: var(--graphite); color: #fff; }
-.screenbar__meta { margin-left: auto; display: flex; align-items: center; color: var(--muted-4); }
-
 /* --- 6. Home ------------------------------------------------------------ */
 
 /* 6.1 Hero */

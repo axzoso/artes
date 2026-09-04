@@ -1,60 +1,32 @@
-# ARTES Contract — template sito
+# ARTES Contract — mockup live
 
-Implementazione statica del canvas Claude Design **ARTES Contract**
-(`ARTES Contract.dc.html`), riportato da prototipo a sito reale.
+Struttura statica HTML/CSS/JS del sito **ARTES Contract**, pubblicata su
+GitHub Pages come mockup live da far visionare al cliente per
+l'approvazione. Da qui parte poi lo sviluppo reale su WordPress (Elementor
+o CrocoBuilder di Crocoblock).
 
 ## Struttura
 
 ```
-build.py              Assembla le pagine: src/ → root
-src/shell.html        Il guscio: head, header, mega menu, barra viste, footer
-src/pages/*.html      Una per pagina: front-matter + solo il <main>
-*.html                Pagine generate — NON modificare a mano
+*.html                Pagine del sito, file piatti — una per pagina
 assets/css/artes.css  Foglio di stile unico, organizzato per sezioni
 assets/js/artes.js    Mega menu "Settori" + filtri del portfolio
 assets/artes-logo-black.png   ⚠️ da fornire (vedi sotto)
 PAGES.md              Mappa delle pagine ancora da creare
 ```
 
+Nessuna build: si modificano i file `.html` direttamente. Header, mega
+menu e footer sono duplicati in ogni pagina — un cambiamento a uno di
+questi blocchi va riportato a mano su tutte le pagine esistenti.
+
 `realizzazione.html` non è una pagina ma il **layout della scheda
 progetto**, che in WordPress diventa un CPT gestito con JetEngine.
 
-La barra grigia sotto l'header ("Bozza template — v1") è il selettore di
-vista del prototipo: nel sito reale va rimossa dal guscio insieme al
-blocco `.screenbar`.
-
-## Come si lavora
-
-Le pagine in root sono **generate**: modificarle a mano significa perdere
-le modifiche al build successivo. Si tocca `src/`, poi si ricostruisce.
+## Anteprima
 
 ```
-python3 build.py           # rigenera tutte le pagine
-python3 build.py --check   # verifica se la root è allineata a src/
 python3 -m http.server     # anteprima su localhost:8000
 ```
-
-### Aggiungere una pagina
-
-Creare `src/pages/nome-pagina.html`:
-
-```html
-<!--
-title: Titolo della pagina
-description: Meta description per i motori di ricerca.
-nav: nome-pagina.html   # voce di menu da evidenziare (opzionale)
-view: index.html        # vista del prototipo da evidenziare (opzionale)
--->
-<main>
-  …
-</main>
-```
-
-Poi `python3 build.py`. Se la pagina va anche nel menu, il link si
-aggiunge in `src/shell.html` — una volta sola, vale per tutte.
-
-La voce "Settori" si evidenzia con `nav: settori`: nel menu è il trigger
-del mega menu, non un link come gli altri.
 
 ## Logo mancante
 
