@@ -1,5 +1,10 @@
 # Mappa delle pagine — ARTES Contract
 
+> **Nota (2026-09-04):** i 5 "settori" sono stati esplosi da sezioni
+> ancorate di `settori.html` (rimosso) a pagine standalone di primo
+> livello in nav. Vedi `docs/superpowers/specs/2026-09-04-menu-restructure-design.md`
+> per il design completo.
+
 Elenco di tutte le pagine citate dai link del template. Ricavato dai 110
 link distinti presenti in `index.html`, `realizzazione.html` e
 `sistema-visivo.html`: ogni `href="#"` del prototipo corrisponde a una
@@ -41,7 +46,16 @@ mano su ogni pagina esistente. Dettagli nel README.
 | ✅ `sistema-visivo.html` | Sistema visivo | documento interno, fuori dalla nav pubblica |
 | ✅ `contract.html` | Contract — il servizio, le 7 fasi | |
 | ✅ `produzione.html` | Produzione — lavorazioni e officina | |
-| ✅ `settori.html` | Settori — indice delle 5 macro-aree | |
+| — | ~~`settori.html`~~ | rimosso: contenuto distribuito nelle 5 pagine di settore standalone sotto |
+| ✅ `arredamento-ufficio.html` | Arredamento ufficio | ex sezione Workspace di settori.html |
+| ✅ `arredo-negozi.html` | Arredo negozi | ex sezione Retail di settori.html |
+| ✅ `arredamento-bar-ristoranti.html` | Arredamento bar e ristoranti | eredita micro-cat. Food Retail |
+| ✅ `arredamento-alimentari-wine-food.html` | Arredamento alimentari, wine e food | eredita micro-cat. Food & Beverage |
+| ✅ `arredamento-hotel.html` | Arredamento hotel | ex sezione Hospitality di settori.html |
+| ✅ `arredamento-su-misura.html` | Arredamento su misura | rinomina di produzione.html |
+| ✅ `chi-siamo.html` | Chi siamo | prima pagina reale, era href="#" |
+| ✅ `brand-partner.html` | Brand Partner | archivio filtrabile per categoria |
+| ✅ `brand-pedrali.html` | Pedrali (scheda brand) | primo esempio di collegamento bidirezionale brand↔progetto |
 
 ## 2. Navigazione principale — priorità alta
 
