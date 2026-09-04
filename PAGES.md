@@ -45,7 +45,7 @@ mano su ogni pagina esistente. Dettagli nel README.
 | ✅ `realizzazione.html` | **Template scheda progetto** | non è una pagina: è il layout del CPT |
 | ✅ `sistema-visivo.html` | Sistema visivo | documento interno, fuori dalla nav pubblica |
 | ✅ `contract.html` | Contract — il servizio, le 7 fasi | |
-| ✅ `produzione.html` | Produzione — lavorazioni e officina | |
+| — | ~~`produzione.html`~~ | rinominato in `arredamento-su-misura.html` (vedi sotto) |
 | — | ~~`settori.html`~~ | rimosso: contenuto distribuito nelle 5 pagine di settore standalone sotto |
 | ✅ `arredamento-ufficio.html` | Arredamento ufficio | ex sezione Workspace di settori.html |
 | ✅ `arredo-negozi.html` | Arredo negozi | ex sezione Retail di settori.html |
@@ -59,13 +59,13 @@ mano su ogni pagina esistente. Dettagli nel README.
 
 ## 2. Navigazione principale — priorità alta
 
-Delle sette voci del menu ne restano quattro. `contract.html`,
-`produzione.html` e `settori.html` sono fatte (sezione 1) e i loro link
-sono già attivi in nav, footer, mega menu e CTA della home.
+Delle sette voci del menu ne restano quattro. `contract.html` e
+`arredamento-su-misura.html` (ex `produzione.html`) sono fatte, così come
+le 5 landing di settore che hanno sostituito `settori.html` (sezione 1),
+e i loro link sono già attivi in nav, footer, mega menu e CTA della home.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `brand-partner.html` | Brand Partner — griglia completa | nav, footer, CTA "Tutti i brand" |
 | ⬜ `prodotti.html` | Prodotti — catalogo per categoria | nav, footer |
 | ⬜ `realizzazioni.html` | Realizzazioni — archivio con filtri | nav, footer, CTA "Tutte le realizzazioni", "Archivio completo" |
 | ⬜ `architetti.html` | Architetti — servizi per studi | nav, footer |
@@ -74,7 +74,6 @@ sono già attivi in nav, footer, mega menu e CTA della home.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `chi-siamo.html` | Chi siamo | topbar, footer |
 | ⬜ `contatti.html` | Contatti — sedi, form, mappa | topbar, footer, "Contattaci", "Parla con un tecnico" |
 | ⬜ `richiedi-preventivo.html` | Richiesta progetto / preventivo | "Richiedi un progetto", "Richiedi un preventivo" (5 CTA) |
 | ⬜ `area-progettisti.html` | Area progettisti — accesso riservato | header, hero, "Accedi all'area progettisti" |
@@ -158,7 +157,7 @@ espansa dentro `brand-partner.html`.
 | ⬜ `brand-della-rovere.html` | Della Rovere | Ufficio |
 | ⬜ `brand-martex.html` | Martex | Ufficio |
 | ⬜ `brand-estel.html` | Estel | Ufficio |
-| ⬜ `brand-pedrali.html` | Pedrali | Contract |
+| ✅ `brand-pedrali.html` | Pedrali | Contract — vedi sezione 1 |
 | ⬜ `brand-gaber.html` | Gaber | Contract |
 | ⬜ `brand-et-al.html` | Et al. | Contract |
 | ⬜ `brand-caimi.html` | Caimi | Acustica |
@@ -179,13 +178,15 @@ espansa dentro `brand-partner.html`.
 1. ~~Guscio condiviso~~ — fatto: `build.py` + `src/`.
 2. **`contatti.html` + `richiedi-preventivo.html`** — chiudono 7 CTA su 8
    della home; senza queste il template resta una vetrina cieca.
-3. **`settori.html` + le 5 landing di settore** — sbloccano mega menu,
-   mosaico e breadcrumb tutti insieme.
+3. ~~`settori.html` + le 5 landing di settore~~ — fatto: le 5 landing
+   esistono come pagine standalone (sezione 1), `settori.html` è stato
+   rimosso.
 4. **`realizzazioni.html`** — l'archivio; poi le 8 schede a seguire, che
    riusano un impianto già pronto.
-5. **`contract.html`, `produzione.html`, `architetti.html`** — le pagine
-   narrative, le più lente da scrivere come testi.
-6. **`brand-partner.html`, `prodotti.html`, `chi-siamo.html`.**
+5. **`architetti.html`** — pagina narrativa, `contract.html` e
+   `arredamento-su-misura.html` sono già fatte (sezione 1).
+6. **`prodotti.html`.** `brand-partner.html` e `chi-siamo.html` sono già
+   fatte (sezione 1).
 7. **Utility e legali** — `mepa`, `cataloghi`, `privacy`, `cookie`.
 8. **Schede brand e sotto-voci di settore**, solo dove servono davvero.
 
