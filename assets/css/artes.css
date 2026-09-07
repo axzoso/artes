@@ -1155,6 +1155,23 @@ img.tile__texture {
   }
   .fase-row__out { text-align: left; }
   .fase-row__out dd + dt { margin-top: 10px; }
+
+  /* --- 12. Indice settori --- */
+  .grid-1px--5 { grid-template-columns: repeat(2, 1fr); }
+
+  .settore { grid-template-columns: 1fr; }
+  .settore__text { padding: 56px var(--pad); }
+  .settore--flip .settore__text { padding: 56px var(--pad); }
+  .settore__media,
+  .settore--flip .settore__media {
+    order: -1;
+    min-height: 320px;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .settore__inset { display: none; }
+  .settore__t { font-size: 34px; }
 }
 
 @media (max-width: 640px) {
@@ -1205,4 +1222,11 @@ img.tile__texture {
   .page-band { height: 200px; }
   .grid-1px--2, .grid-1px--3, .grid-1px--4 { grid-template-columns: 1fr; }
   .materiali--wide { grid-template-columns: repeat(2, 1fr); }
+
+  /* --- 12. Indice settori --- */
+  .grid-1px--5 { grid-template-columns: 1fr; }
+  .settore__media,
+  .settore--flip .settore__media { min-height: 260px; }
+  .settore__t { font-size: 26px; }
+  .ambiti { grid-template-columns: 1fr; }
 }
