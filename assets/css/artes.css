@@ -1137,6 +1137,24 @@ img.tile__texture {
   .sistema__title { font-size: 44px; }
   .palette { grid-template-columns: repeat(3, 1fr); }
   .type-spec__name { font-size: 50px; }
+
+  /* --- 9. Footer --- */
+  .footer__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+
+  /* --- 11. Pagine interne --- */
+  .page-intro__row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
+  .page-title { font-size: 52px; }
+  .page-band { height: 260px; }
+  .grid-1px--3, .grid-1px--4 { grid-template-columns: repeat(2, 1fr); }
+  .materiali--wide { grid-template-columns: repeat(4, 1fr); }
+
+  .fase-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 24px 0;
+  }
+  .fase-row__out { text-align: left; }
+  .fase-row__out dd + dt { margin-top: 10px; }
 }
 
 @media (max-width: 640px) {
@@ -1177,4 +1195,14 @@ img.tile__texture {
   .type-grid { grid-template-columns: 1fr; }
   .type-spec__name { font-size: 34px; }
   .regole { grid-template-columns: 1fr; }
+
+  /* --- 9. Footer --- */
+  .footer__grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* --- 11. Pagine interne --- */
+  .page-title { font-size: 34px; }
+  .page-band { height: 200px; }
+  .grid-1px--2, .grid-1px--3, .grid-1px--4 { grid-template-columns: 1fr; }
+  .materiali--wide { grid-template-columns: repeat(2, 1fr); }
 }
