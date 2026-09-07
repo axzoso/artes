@@ -1122,6 +1122,21 @@ img.tile__texture {
   .cta-duo { grid-template-columns: 1fr; }
   .cta-panel { min-height: 320px; padding: 60px var(--pad) !important; }
   .cta-panel h2 { font-size: 34px; }
+
+  /* --- 7. Scheda realizzazione --- */
+  .scheda__title-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
+  .scheda__title { font-size: 52px; }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .scheda__specs { grid-template-columns: 1fr; }
+  .specs { border-right: 0; border-bottom: 1px solid var(--line); padding: 48px var(--pad); }
+  .finiture { padding: 48px var(--pad); }
+  .correlate__grid { grid-template-columns: repeat(2, 1fr); }
+  .correlate h2 { font-size: 30px; }
+
+  /* --- 8. Sistema visivo --- */
+  .sistema__title { font-size: 44px; }
+  .palette { grid-template-columns: repeat(3, 1fr); }
+  .type-spec__name { font-size: 50px; }
 }
 
 @media (max-width: 640px) {
@@ -1146,4 +1161,20 @@ img.tile__texture {
   .brands { grid-template-columns: repeat(2, 1fr); }
 
   .cta-panel h2 { font-size: 26px; }
+
+  /* --- 7. Scheda realizzazione --- */
+  .scheda__title { font-size: 34px; }
+  .materiali { grid-template-columns: repeat(2, 1fr); }
+  .brands-mini { grid-template-columns: repeat(2, 1fr); }
+  .correlate__grid { grid-template-columns: 1fr; }
+  .correlate h2 { font-size: 24px; }
+  .cta-band { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .cta-band h2 { font-size: 24px; }
+
+  /* --- 8. Sistema visivo --- */
+  .sistema__title { font-size: 30px; }
+  .palette { grid-template-columns: repeat(2, 1fr); }
+  .type-grid { grid-template-columns: 1fr; }
+  .type-spec__name { font-size: 34px; }
+  .regole { grid-template-columns: 1fr; }
 }
