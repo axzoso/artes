@@ -1010,3 +1010,93 @@ img.tile__texture {
 .ambiti a:hover { color: var(--accent); }
 
 .settore__links { display: flex; gap: 28px; margin-top: 34px; }
+
+/* --- 13. Responsive ------------------------------------------------------ */
+/* Due breakpoint sopra al layout desktop esistente (che resta invariato
+   sopra i 1025px): tablet ≤1024px, mobile ≤640px. Il mobile eredita le
+   regole tablet e le sovrascrive. Ogni blocco rispecchia l'ordine delle
+   sezioni 1-12 sopra, per restare navigabile. */
+
+/* Nav mobile — markup sempre presente nel DOM, nascosto via CSS sopra i
+   1024px (dove restano attivi nav orizzontale e tendine hover). */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line-btn);
+  background: none;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.nav-toggle__bar {
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--graphite);
+  transition: transform .2s, opacity .2s;
+}
+.nav-toggle.is-open .nav-toggle__bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle.is-open .nav-toggle__bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-nav[hidden] { display: none; }
+
+@media (max-width: 1024px) {
+  :root { --pad: 28px; --gutter: 16px; }
+  body { min-width: 0; }
+
+  /* --- 4. Header --- */
+  .topbar, .nav { display: none; }
+  .masthead { height: 64px; }
+  .masthead__actions .btn-sm--outline { display: none; }
+  .nav-toggle { display: flex; }
+
+  .mobile-nav:not([hidden]) {
+    display: block;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 70;
+    background: var(--bone);
+    overflow-y: auto;
+    padding: 24px var(--pad) 40px;
+  }
+  .mobile-nav__list { display: flex; flex-direction: column; }
+  .mobile-nav__list > a {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 17px;
+  }
+  .mobile-nav__item { border-bottom: 1px solid var(--line-soft); }
+  .mobile-nav__trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 17px;
+    color: inherit;
+    cursor: pointer;
+  }
+  .mobile-nav__trigger::after { content: '+'; font-family: var(--mono); font-size: 16px; color: var(--muted-3); }
+  .mobile-nav__trigger[aria-expanded="true"]::after { content: '\2013'; }
+  .mobile-nav__panel[hidden] { display: none; }
+  .mobile-nav__panel { display: flex; flex-direction: column; padding: 0 0 16px; }
+  .mobile-nav__panel a { padding: 10px 0; font-size: 15px; color: var(--muted-2); }
+  .mobile-nav__panel a:first-child { color: var(--accent); font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; padding-bottom: 14px; }
+  .mobile-nav__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
+}
+
+@media (max-width: 640px) {
+  :root { --pad: 18px; --gutter: 10px; }
+}
