@@ -150,6 +150,24 @@ img { max-width: 100%; }
   color: var(--muted-3);
 }
 
+/* Foto reali dentro gli slot placeholder: coprono il fondo hatch a tutta
+   area, mantenendo i formati fissi già previsti dal template. */
+.ph img,
+.scheda__hero img,
+.settore__media img,
+.produzione__media img,
+.progetto__media img,
+.page-band img,
+img.hero__texture,
+img.tile__texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* --- 4. Header ---------------------------------------------------------- */
 
 .header {
