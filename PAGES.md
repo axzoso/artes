@@ -217,3 +217,25 @@ Vincolanti per ogni pagina nuova, come da `sistema-visivo.html`:
 Il sito è live su GitHub Pages (branch `main`, root). Le pagine non ancora
 create restano `href="#"`: meglio lasciarle così che puntare a file
 inesistenti, che su Pages darebbero 404.
+
+## Pagine live
+
+URL base: `https://axzoso.github.io/artes/`. Le 13 pagine esistenti
+(sezione 1) sono tutte pubblicate — tabella aggiornata a ogni push su
+`main`.
+
+| Pagina | Link |
+|---|---|
+| Home | https://axzoso.github.io/artes/index.html |
+| Arredo Contract | https://axzoso.github.io/artes/contract.html |
+| Arredamento ufficio | https://axzoso.github.io/artes/arredamento-ufficio.html |
+| Arredo negozi | https://axzoso.github.io/artes/arredo-negozi.html |
+| Arredamento bar e ristoranti | https://axzoso.github.io/artes/arredamento-bar-ristoranti.html |
+| Arredamento alimentari, wine e food | https://axzoso.github.io/artes/arredamento-alimentari-wine-food.html |
+| Arredamento hotel | https://axzoso.github.io/artes/arredamento-hotel.html |
+| Arredamento su misura | https://axzoso.github.io/artes/arredamento-su-misura.html |
+| Chi siamo | https://axzoso.github.io/artes/chi-siamo.html |
+| Brand Partner | https://axzoso.github.io/artes/brand-partner.html |
+| Pedrali (scheda brand) | https://axzoso.github.io/artes/brand-pedrali.html |
+| Boutique Hotel Aurea (template scheda progetto) | https://axzoso.github.io/artes/realizzazione.html |
+| Sistema visivo (documento interno) | https://axzoso.github.io/artes/sistema-visivo.html |
