@@ -1,4 +1,5 @@
 .worktrees/
+.DS_Store
 
 # Materiale fotografico grezzo caricato dal cliente (104MB, foto originali
 # a piena risoluzione): le versioni ottimizzate per il web sono già estratte

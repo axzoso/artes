@@ -11,7 +11,7 @@ o CrocoBuilder di Crocoblock).
 *.html                Pagine del sito, file piatti — una per pagina
 assets/css/artes.css  Foglio di stile unico, organizzato per sezioni
 assets/js/artes.js    Tendine di settore in nav + filtri del portfolio
-assets/artes-logo-black.png   ⚠️ da fornire (vedi sotto)
+assets/artes-logo.png Logo, 800×217px, ottimizzato per l'uso a schermo (28px/26px)
 PAGES.md              Mappa delle pagine ancora da creare
 ```
 
@@ -28,14 +28,6 @@ progetto**, che in WordPress diventa un CPT gestito con JetEngine.
 ```
 python3 -m http.server     # anteprima su localhost:8000
 ```
-
-## Logo mancante
-
-`assets/artes-logo-black.png` non è incluso: il trasferimento del binario
-dal progetto Design non è andato a buon fine e il file corrotto è stato
-rimosso invece di essere pubblicato. Scaricare `assets/artes-logo-black.png`
-dal progetto Claude Design e collocarlo in `assets/`. Il markup lo
-referenzia già in header (`height: 28px`) e footer (`height: 26px`).
 
 ## Convenzioni del template
 

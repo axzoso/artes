@@ -790,7 +790,7 @@ img.tile__texture {
   grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
   gap: 40px;
 }
-.footer__logo { height: 26px; width: auto; display: block; filter: brightness(0) invert(1); }
+.footer__logo { height: 26px; width: auto; display: block; }
 .footer__about { margin: 22px 0 0; max-width: 280px; font-size: 15px; line-height: 1.6; color: var(--sand-muted); }
 .footer__t {
   font-family: var(--mono);
