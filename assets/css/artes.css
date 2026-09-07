@@ -158,6 +158,8 @@ img { max-width: 100%; }
 .produzione__media img,
 .progetto__media img,
 .page-band img,
+.produzione__inset img,
+.settore__inset img,
 img.hero__texture,
 img.tile__texture {
   position: absolute;
