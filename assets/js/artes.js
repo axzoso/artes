@@ -114,9 +114,65 @@
     apply('Tutti');
   }
 
+  /* --- Nav mobile (hamburger + accordion) -------------------------------- */
+  /* Sotto i 1024px la nav orizzontale e le tendine hover spariscono via CSS;
+     questo pannello a schermo intero le sostituisce. Le 5 voci di settore
+     diventano accordion: un pannello aperto alla volta. */
+
+  function initMobileNav() {
+    var toggle = document.querySelector('.nav-toggle');
+    var panel = document.getElementById('mobile-nav');
+    if (!toggle || !panel) return;
+
+    function open() {
+      panel.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', function () {
+      if (panel.hidden) open(); else close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) close();
+    });
+
+    var triggers = panel.querySelectorAll('.mobile-nav__trigger');
+    triggers.forEach(function (trigger) {
+      var sub = document.getElementById(trigger.getAttribute('aria-controls'));
+      if (!sub) return;
+
+      trigger.addEventListener('click', function () {
+        var wasOpen = !sub.hidden;
+
+        triggers.forEach(function (t) {
+          var s = document.getElementById(t.getAttribute('aria-controls'));
+          if (!s) return;
+          s.hidden = true;
+          t.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!wasOpen) {
+          sub.hidden = false;
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
   function init() {
     initDrops();
     initFiltri();
+    initMobileNav();
   }
 
   if (document.readyState === 'loading') {
