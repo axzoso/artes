@@ -1055,6 +1055,11 @@ img.tile__texture {
   .masthead { height: 64px; }
   .masthead__actions .btn-sm--outline { display: none; }
   .nav-toggle { display: flex; }
+  /* .header's backdrop-filter creates a new containing block for fixed-position
+     descendants, so .mobile-nav (position: fixed) would otherwise be confined to
+     .header's own (64px-tall) box instead of covering the viewport. Drop the
+     filter at this width, where the fullscreen mobile panel is what matters. */
+  .header { backdrop-filter: none; }
 
   .mobile-nav:not([hidden]) {
     display: block;
@@ -1097,7 +1102,13 @@ img.tile__texture {
   .mobile-nav__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
 
   /* --- 6. Home --- */
-  .hero { height: 560px; }
+  /* .hero__stats is absolutely positioned over the bottom of .hero on desktop;
+     at narrower widths the lead text wraps onto more lines and the fixed-height
+     hero can no longer contain hero__inner without the stats bar overlapping it.
+     Let the hero grow to its content instead of clipping it. */
+  .hero { height: auto; }
+  .hero__inner { height: auto; padding: 56px var(--pad) 40px; justify-content: flex-start; }
+  .hero__stats { position: relative; left: auto; right: auto; bottom: auto; }
   .hero__title { font-size: 72px; }
   .hero__lead { font-size: 18px; }
   .h-section { font-size: 36px; }
@@ -1178,7 +1189,7 @@ img.tile__texture {
   :root { --pad: 18px; --gutter: 10px; }
 
   /* --- 6. Home --- */
-  .hero { height: 460px; }
+  .hero__inner { padding: 40px var(--pad) 32px; }
   .hero__title { font-size: 44px; }
   .hero__lead { font-size: 16px; }
   .hero__stats { grid-template-columns: repeat(2, 1fr); }
