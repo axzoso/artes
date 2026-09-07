@@ -466,6 +466,7 @@ img.tile__texture {
 .filtri {
   display: flex;
   gap: 8px;
+  margin-bottom: 34px;
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: .12em;
