@@ -10,6 +10,7 @@
 :root {
   /* Palette — see the "Sistema visivo" page for the canonical roles. */
   --bone:        #F7F6F4;   /* fondo primario   */
+  --stone:       #E8E8E8;   /* fondo secondario per sezioni alterne — tinta del grigio logo (#C6C6C5) */
   --sand:        #4A4945;   /* fondo secondario — grigio scuro (era beige) */
   --line:        #8A8985;   /* filetti 1px — grigio scuro (era beige chiaro) */
   --line-soft:   #E9E6E1;
@@ -127,8 +128,9 @@ img { max-width: 100%; }
 .btn--ghost-solid { border: 1px solid rgba(255,255,255,.4); color: #fff; }
 .btn--ghost-solid:hover { background: #fff; color: var(--graphite); }
 
-/* Sezione standard: filetto di chiusura + margini fissi */
-.section { padding: 110px var(--pad) 120px; border-bottom: 1px solid var(--line); }
+/* Sezione standard: margini fissi. Lo stacco tra sezioni è dato dal fondo
+   (vedi .bg-alt), non da un filetto. */
+.section { padding: 110px var(--pad) 120px; }
 .section__head {
   display: flex;
   justify-content: space-between;
@@ -351,7 +353,7 @@ img.tile__texture {
 }
 
 /* 6.2 Metodo — 7 fasi + tessera scura */
-.metodo { padding: 120px var(--pad); border-bottom: 1px solid var(--line); }
+.metodo { padding: 120px var(--pad); }
 .metodo__grid { display: grid; grid-template-columns: 340px 1fr; gap: 80px; align-items: start; }
 .metodo__intro .h-section { margin: 0; }
 .metodo__intro .lead { margin: 26px 0 0; }
@@ -433,7 +435,7 @@ img.tile__texture {
 .tile p { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.72); max-width: 340px; }
 
 /* 6.4 Produzione — testo / immagine */
-.produzione { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; }
+.produzione { display: grid; grid-template-columns: 1fr 1fr; }
 .produzione__text { padding: 110px 70px 110px var(--pad); }
 .produzione__text .h-section { margin: 0; }
 .produzione__text .lead { margin: 26px 0 42px; max-width: 460px; }
@@ -527,7 +529,6 @@ img.tile__texture {
 /* 6.6 Brand partner */
 .brands-section {
   padding: 96px var(--pad) 100px;
-  border-bottom: 1px solid var(--line);
   background: var(--sand);
 }
 .brands-section__head {
@@ -563,7 +564,7 @@ img.tile__texture {
 .brand__c { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-4); }
 
 /* 6.7 Doppia CTA */
-.cta-duo { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
+.cta-duo { display: grid; grid-template-columns: 1fr 1fr; }
 .cta-panel {
   min-height: 420px;
   display: flex;
@@ -620,8 +621,6 @@ img.tile__texture {
 .gallery .ph__note { font-size: 10.5px; }
 
 .scheda__specs {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -789,7 +788,6 @@ img.tile__texture {
 
 .footer {
   background: var(--sand);
-  border-top: 1px solid var(--line);
   padding: 80px var(--pad) 34px;
 }
 .footer__grid {
@@ -947,8 +945,8 @@ img.tile__texture {
 .fase-row__out dd { margin: 5px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ink); }
 .fase-row__out dd + dt { margin-top: 14px; }
 
-/* Sezione senza filetto di chiusura (quando segue una fascia scura). */
-.section--flush { border-bottom: 0; }
+/* Fondo alternato per sezioni chiare consecutive, al posto del filetto. */
+.bg-alt { background: var(--stone); }
 .section--tight { padding-top: 0; }
 
 /* Varianti d'uso ricorrenti, al posto degli style inline. */
@@ -968,7 +966,6 @@ img.tile__texture {
 .settore {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid var(--line);
 }
 .settore__text { padding: 96px 70px 96px var(--pad); }
 .settore__media {
