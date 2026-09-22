@@ -215,6 +215,8 @@ Vincolanti per ogni pagina nuova, come da `sistema-visivo.html`:
   fondo `--line`;
 - nessun `box-shadow`, nessun angolo arrotondato: solo filetti 1px, fondi
   alterni e spazio bianco;
+- fra sezioni chiare consecutive niente filetto: si alterna il fondo con la
+  classe `.bg-alt` (token `--stone`);
 - il rosso `--accent` massimo tre volte per schermata (numerazione di
   sezione, CTA primaria, stato attivo) — mai come fondale;
 - spazi verticali sulla scala 20 / 34 / 44 / 80 / 110px, sezioni fra

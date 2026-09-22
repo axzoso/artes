@@ -73,13 +73,33 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 - Filtri progetti di home e pagine settore: ogni card ha il suo filtro,
   nessun filtro vuoto senza messaggio.
 
+**Seguito: perché il menu nuovo non si vedeva online**
+
+- Il push di `main` era avvenuto, ma GitHub Pages non pubblicava `main`:
+  la sorgente era impostata dall'11 settembre sul branch di prova
+  `test-sfondi-alternati` (commit `8d53776`, sfondi alternati al posto dei
+  filetti fra sezioni). Online restava quindi il menu vecchio e
+  `shell.js` dava 404. Verificato confrontando il sito live con quel
+  commit (identici) e con l'elenco dei deploy via API pubblica GitHub.
+- Deciso con Claudio (opzione B): la prova degli sfondi era approvata, va
+  in `main`. Commit di merge `311099d`. Conflitti solo sui due settori
+  scambiati, risolti portando `bg-alt` sul file che ora contiene quel
+  contenuto. Rifatte le verifiche su 13 pagine: tutto regolare.
+- Regola aggiunta a `CLAUDE.md` e `PAGES.md`: stacco fra sezioni chiare
+  col fondo `.bg-alt`, non col filetto.
+
 **Aperto**
 
-- **Push su GitHub Pages non fatto**: il cliente vede ancora la versione
-  precedente finché non si pusha `main`.
+- **Sorgente di GitHub Pages da riportare su `main`** (Settings → Pages →
+  Branch: `main` / root). Finché resta su `test-sfondi-alternati` il sito
+  online non si aggiorna. Solo dalle impostazioni del repo: `gh` non è
+  installato su questa macchina.
 - **"Enoteche"**: la mail la elenca fra le sotto-categorie di negozi food,
   ma oggi sta sotto bar & ristoranti ("Wine bar ed enoteche"). Da chiarire
   col cliente prima di spostarla.
+- **Altre sotto-categorie citate nella mail e non ancora nelle tendine**:
+  "enti pubblici" (uffici & workspace), "residenze collettive" e "camerate"
+  (hotel & hospitality). Proposte a Claudio, in attesa di risposta.
 - **Contenuti**: il cliente ha annunciato proposte di modifica dei testi.
   I titoli H1 e le lead delle pagine settore sono rimasti quelli di prima.
   Anche le meta description non sono cambiate: quella hotel potrebbe

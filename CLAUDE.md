@@ -21,6 +21,12 @@ o CrocoBuilder/Crocoblock).
 - Live su GitHub Pages: `https://axzoso.github.io/artes/` (branch `main`, root).
   Ogni push su `main` aggiorna la preview che il cliente sta guardando →
   **push solo quando richiesto esplicitamente.**
+- Se il sito live non riflette `main`, controllare prima quale branch
+  pubblica Pages (Settings → Pages). Dall'11 al 22 settembre 2026 era
+  impostato sul branch di prova `test-sfondi-alternati` e i push su `main`
+  non venivano pubblicati. Controllo rapido senza accesso alle impostazioni:
+  `curl -s "https://api.github.com/repos/axzoso/artes/actions/runs?per_page=3"`
+  mostra lo SHA dell'ultimo deploy.
 - Preview locale: `py -3 -m http.server` nella root, poi `localhost:8000`.
   Lo shell è caricato come `<script src>` e non via `fetch`, quindi il sito
   si vede completo anche aprendo i file con doppio clic (`file://`).
@@ -120,6 +126,9 @@ stile":
 
 - nessun `box-shadow`, nessun angolo arrotondato: filetti 1px, fondi
   alterni, spazio bianco; griglie con `gap: 1px` su fondo `--line`;
+- lo stacco fra sezioni chiare consecutive si fa col fondo, non col
+  filetto: classe `.bg-alt` (token `--stone`, #E8E8E8) sulla sezione. I
+  filetti restano solo dentro i componenti (griglie, liste, colonne);
 - margini laterali fissi 40px (`--pad`), gutter 20px;
 - rosso `--accent` massimo tre volte per schermata (numerazione di sezione,
   CTA primaria, stato attivo) — mai come fondale;
