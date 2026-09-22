@@ -4,6 +4,12 @@
 > ancorate di `settori.html` (rimosso) a pagine standalone di primo
 > livello in nav. Vedi `docs/superpowers/specs/2026-09-04-menu-restructure-design.md`
 > per il design completo.
+>
+> **Nota (2026-09-22):** nomenclatura settori definitiva del cliente
+> (Arredo uffici & workspace · Arredo negozi & retail · Arredo negozi food ·
+> Arredo bar & ristoranti · Arredo hotel & hospitality), tutti e 5 in nav.
+> Corretta l'inversione fra bar/ristoranti e negozi food: vedi `CLAUDE.md`
+> §3 e `docs/diario-sessioni.md`.
 
 Elenco di tutte le pagine citate dai link del template. Ricavato dai 110
 link distinti presenti in `index.html`, `realizzazione.html` e
@@ -49,11 +55,11 @@ Dettagli nel README e in `CLAUDE.md`.
 | ✅ `contract.html` | Contract — il servizio, le 7 fasi | |
 | — | ~~`produzione.html`~~ | rinominato in `arredamento-su-misura.html` (vedi sotto) |
 | — | ~~`settori.html`~~ | rimosso: contenuto distribuito nelle 5 pagine di settore standalone sotto |
-| ✅ `arredamento-ufficio.html` | Arredamento ufficio | ex sezione Workspace di settori.html |
-| ✅ `arredo-negozi.html` | Arredo negozi | ex sezione Retail di settori.html |
-| ✅ `arredamento-bar-ristoranti.html` | Arredamento bar e ristoranti | eredita micro-cat. Food Retail |
-| ✅ `arredamento-alimentari-wine-food.html` | Arredamento alimentari, wine e food | eredita micro-cat. Food & Beverage |
-| ✅ `arredamento-hotel.html` | Arredamento hotel | ex sezione Hospitality di settori.html |
+| ✅ `arredamento-ufficio.html` | 01 Arredo uffici & workspace | ex sezione Workspace di settori.html |
+| ✅ `arredo-negozi.html` | 02 Arredo negozi & retail | ex sezione Retail di settori.html |
+| ✅ `arredo-negozi-food.html` | 03 Arredo negozi food | micro-cat. Food Retail; fino al 2026-09-22 era `arredamento-bar-ristoranti.html` |
+| ✅ `arredamento-bar-ristoranti.html` | 04 Arredo bar & ristoranti | micro-cat. Food & Beverage; fino al 2026-09-22 era `arredamento-alimentari-wine-food.html` |
+| ✅ `arredamento-hotel.html` | 05 Arredo hotel & hospitality | ex sezione Hospitality di settori.html |
 | ✅ `arredamento-su-misura.html` | Arredamento su misura | rinomina di produzione.html |
 | ✅ `chi-siamo.html` | Chi siamo | prima pagina reale, era href="#" |
 | ✅ `brand-partner.html` | Brand Partner | archivio filtrabile per categoria |
@@ -61,11 +67,13 @@ Dettagli nel README e in `CLAUDE.md`.
 
 ## 2. Navigazione principale — priorità alta
 
-La nav principale ha 9 voci, tutte già fatte (sezione 1): Home, le 5
-tendine di settore, Arredamento su misura (ex `produzione.html`), Arredo
-Contract (`contract.html`), Chi siamo. `prodotti.html`,
-`realizzazioni.html` e `architetti.html` non sono più in nav: restano
-linkate solo da footer e dalle CTA della home.
+La nav principale ha 9 voci su una riga dedicata sotto logo e azioni: a
+sinistra i 5 settori, ciascuno con la propria tendina; a destra
+Arredamento su misura (ex `produzione.html`), Arredo Contract
+(`contract.html`), Blog (ancora `href="#"`) e Chi siamo. La Home non è in
+nav: ci porta il logo. `prodotti.html`, `realizzazioni.html` e
+`architetti.html` non sono in nav: restano linkate solo da footer e dalle
+CTA della home.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
@@ -96,8 +104,8 @@ mappa storica verso i nomi reali.
 |---|---|
 | — | ~~`settori-workspace.html`~~ (01 Workspace) → `arredamento-ufficio.html`, vedi sezione 1 |
 | — | ~~`settori-retail.html`~~ (02 Retail) → `arredo-negozi.html`, vedi sezione 1 |
-| — | ~~`settori-food-beverage.html`~~ (03 Food & Beverage) → `arredamento-alimentari-wine-food.html`, vedi sezione 1 |
-| — | ~~`settori-food-retail.html`~~ (04 Food Retail) → `arredamento-bar-ristoranti.html`, vedi sezione 1 |
+| — | ~~`settori-food-retail.html`~~ (Food Retail) → `arredo-negozi-food.html` (03), vedi sezione 1 |
+| — | ~~`settori-food-beverage.html`~~ (Food & Beverage) → `arredamento-bar-ristoranti.html` (04), vedi sezione 1 |
 | — | ~~`settori-hospitality.html`~~ (05 Hospitality) → `arredamento-hotel.html`, vedi sezione 1 |
 
 ## 5. Settori — 40 sotto-voci
@@ -111,25 +119,26 @@ Le otto voci per settore elencate in ciascuna tendina di nav.
 > promuoverne a pagina singola solo quelle con realizzazioni proprie da
 > mostrare. L'elenco resta completo qui sotto per quando servirà.
 
-**Workspace** — `uffici-direzionali` · `open-space` · `coworking` ·
-`sale-meeting` · `academy-formazione` · `scuole-universita-biblioteche` ·
-`reception-corporate` · `business-lounge`
+**Arredo uffici & workspace** — `uffici-direzionali` · `open-space` ·
+`coworking` · `sale-meeting` · `academy-formazione` ·
+`scuole-universita-biblioteche` · `reception-corporate` · `business-lounge`
 
-**Retail** — `boutique-moda` · `showroom-concept-store` ·
+**Arredo negozi & retail** — `boutique-moda` · `showroom-concept-store` ·
 `profumerie-beauty` · `gioiellerie-ottiche` · `farmacie` ·
 `telefonia-elettronica` · `store-sportivi` · `temporary-franchising`
 
-**Food & Beverage** — `bar-caffetterie` · `bistrot-ristoranti` ·
+**Arredo negozi food** — `panetterie-bakery` · `pasticcerie` ·
+`gastronomie-salumerie` · `macellerie-pescherie` · `caseifici` ·
+`alimentari-market-gourmet` · `chocolate-take-away` · `healthy-food-store`
+
+**Arredo bar & ristoranti** — `bar-caffetterie` · `bistrot-ristoranti` ·
 `pizzerie-pub` · `lounge-cocktail-bar` · `wine-bar-enoteche` ·
 `gelaterie` · `fast-casual-street-food` · `food-court-rooftop`
 
-**Food Retail** — `panetterie-bakery` · `pasticcerie` ·
-`gastronomie-salumerie` · `macellerie-pescherie` · `caseifici` ·
-`market-gourmet` · `chocolate-take-away` · `healthy-food-store`
-
-**Hospitality** — `hotel-resort` · `boutique-hotel-bb` · `spa-wellness` ·
-`reception-lounge-hotel` · `aree-breakfast` · `rooftop-hospitality` ·
-`residence-business-hotel` · `co-living-serviced-apartment`
+**Arredo hotel & hospitality** — `hotel-resort` · `boutique-hotel-bb` ·
+`spa-wellness` · `reception-lounge-hotel` · `aree-breakfast` ·
+`rooftop-hospitality` · `residence-business-hotel` ·
+`studentati-foresterie-co-living`
 
 ## 6. Realizzazioni — nessuna pagina da creare
 
@@ -229,11 +238,11 @@ URL base: `https://axzoso.github.io/artes/`. Le 13 pagine esistenti
 |---|---|
 | Home | https://axzoso.github.io/artes/index.html |
 | Arredo Contract | https://axzoso.github.io/artes/contract.html |
-| Arredamento ufficio | https://axzoso.github.io/artes/arredamento-ufficio.html |
-| Arredo negozi | https://axzoso.github.io/artes/arredo-negozi.html |
-| Arredamento bar e ristoranti | https://axzoso.github.io/artes/arredamento-bar-ristoranti.html |
-| Arredamento alimentari, wine e food | https://axzoso.github.io/artes/arredamento-alimentari-wine-food.html |
-| Arredamento hotel | https://axzoso.github.io/artes/arredamento-hotel.html |
+| Arredo uffici & workspace | https://axzoso.github.io/artes/arredamento-ufficio.html |
+| Arredo negozi & retail | https://axzoso.github.io/artes/arredo-negozi.html |
+| Arredo negozi food | https://axzoso.github.io/artes/arredo-negozi-food.html |
+| Arredo bar & ristoranti | https://axzoso.github.io/artes/arredamento-bar-ristoranti.html |
+| Arredo hotel & hospitality | https://axzoso.github.io/artes/arredamento-hotel.html |
 | Arredamento su misura | https://axzoso.github.io/artes/arredamento-su-misura.html |
 | Chi siamo | https://axzoso.github.io/artes/chi-siamo.html |
 | Brand Partner | https://axzoso.github.io/artes/brand-partner.html |

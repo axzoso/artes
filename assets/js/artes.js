@@ -33,9 +33,19 @@
       });
     }
 
+    /* Il contenuto della tendina parte sotto la propria voce: con 5 voci
+       distribuite su tutta la riga, allinearlo al margine sinistro lo
+       staccherebbe dalla voce che l'ha aperto. Vedi --drop-x in artes.css. */
+    function align(pair) {
+      var offset = pair.trigger.getBoundingClientRect().left -
+        pair.panel.parentNode.getBoundingClientRect().left;
+      pair.panel.style.setProperty('--drop-x', Math.round(offset) + 'px');
+    }
+
     function open(pair) {
       clearTimeout(closeTimer);
       closeAll(pair.panel);
+      align(pair);
       pair.panel.hidden = false;
       pair.trigger.setAttribute('aria-expanded', 'true');
     }

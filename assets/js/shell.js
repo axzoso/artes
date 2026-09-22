@@ -34,15 +34,6 @@
 
   <div class="masthead">
     <a class="masthead__logo" href="index.html"><img src="assets/artes-logo.png" alt="ARTES Arredamenti"></a>
-    <nav class="nav" aria-label="Navigazione principale">
-      <a href="arredamento-ufficio.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-ufficio">Arredamento ufficio</a>
-      <a href="arredo-negozi.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-negozi-food" data-nav-alias="arredamento-bar-ristoranti.html arredamento-alimentari-wine-food.html">Arredamento negozi e food</a>
-      <a href="arredamento-hotel.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-hotel">Arredamento hotel</a>
-      <a href="arredamento-su-misura.html">Arredamento su misura</a>
-      <a href="contract.html">Arredo Contract</a>
-      <a href="#">Blog</a>
-      <a href="chi-siamo.html">Chi siamo</a>
-    </nav>
     <div class="masthead__actions">
       <a href="#" class="btn-sm btn-sm--outline">Area Progettisti</a>
       <a href="#" class="btn-sm btn-sm--red">Contattaci</a>
@@ -54,7 +45,23 @@
     </button>
   </div>
 
-  <div class="drop" id="drop-ufficio" hidden>
+  <nav class="navbar" aria-label="Navigazione principale">
+    <div class="nav">
+      <a href="arredamento-ufficio.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-uffici">Arredo uffici &amp; workspace</a>
+      <a href="arredo-negozi.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-negozi">Arredo negozi &amp; retail</a>
+      <a href="arredo-negozi-food.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-negozi-food">Arredo negozi food</a>
+      <a href="arredamento-bar-ristoranti.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-bar">Arredo bar &amp; ristoranti</a>
+      <a href="arredamento-hotel.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-hotel">Arredo hotel &amp; hospitality</a>
+    </div>
+    <div class="nav__end">
+      <a href="arredamento-su-misura.html">Arredamento su misura</a>
+      <a href="contract.html">Arredo Contract</a>
+      <a href="#">Blog</a>
+      <a href="chi-siamo.html">Chi siamo</a>
+    </div>
+  </nav>
+
+  <div class="drop" id="drop-uffici" hidden>
     <div class="drop__inner">
       <div class="drop__ph"></div>
       <div class="drop__list">
@@ -69,46 +76,48 @@
       </div>
     </div>
   </div>
+  <div class="drop" id="drop-negozi" hidden>
+    <div class="drop__inner">
+      <div class="drop__ph"></div>
+      <div class="drop__list">
+        <a href="#">Boutique e negozi moda</a>
+        <a href="#">Showroom e concept store</a>
+        <a href="#">Profumerie e retail beauty</a>
+        <a href="#">Gioiellerie e ottiche</a>
+        <a href="#">Farmacie e parafarmacie</a>
+        <a href="#">Telefonia ed elettronica</a>
+        <a href="#">Store sportivi</a>
+        <a href="#">Temporary shop e franchising</a>
+      </div>
+    </div>
+  </div>
   <div class="drop" id="drop-negozi-food" hidden>
-    <div class="drop__cols">
-      <div class="drop__col">
-        <div class="drop__col-title"><a href="arredo-negozi.html">Arredo negozi</a></div>
-        <div class="drop__list">
-          <a href="#">Boutique e negozi moda</a>
-          <a href="#">Showroom e concept store</a>
-          <a href="#">Profumerie e retail beauty</a>
-          <a href="#">Gioiellerie e ottiche</a>
-          <a href="#">Farmacie e parafarmacie</a>
-          <a href="#">Telefonia ed elettronica</a>
-          <a href="#">Store sportivi</a>
-          <a href="#">Temporary shop e franchising</a>
-        </div>
+    <div class="drop__inner">
+      <div class="drop__ph"></div>
+      <div class="drop__list">
+        <a href="#">Panetterie e bakery</a>
+        <a href="#">Pasticcerie</a>
+        <a href="#">Gastronomie e salumerie</a>
+        <a href="#">Macellerie e pescherie</a>
+        <a href="#">Caseifici</a>
+        <a href="#">Alimentari e market gourmet</a>
+        <a href="#">Chocolate shop e take-away</a>
+        <a href="#">Healthy food store</a>
       </div>
-      <div class="drop__col">
-        <div class="drop__col-title"><a href="arredamento-bar-ristoranti.html">Arredamento bar e ristoranti</a></div>
-        <div class="drop__list">
-          <a href="#">Panetterie e bakery</a>
-          <a href="#">Pasticcerie</a>
-          <a href="#">Gastronomie e salumerie</a>
-          <a href="#">Macellerie e pescherie</a>
-          <a href="#">Caseifici</a>
-          <a href="#">Market gourmet</a>
-          <a href="#">Chocolate shop e take-away</a>
-          <a href="#">Healthy food store</a>
-        </div>
-      </div>
-      <div class="drop__col">
-        <div class="drop__col-title"><a href="arredamento-alimentari-wine-food.html">Arredamento alimentari, wine e food</a></div>
-        <div class="drop__list">
-          <a href="#">Bar e caffetterie</a>
-          <a href="#">Bistrot e ristoranti</a>
-          <a href="#">Pizzerie e pub</a>
-          <a href="#">Lounge e cocktail bar</a>
-          <a href="#">Wine bar ed enoteche</a>
-          <a href="#">Gelaterie</a>
-          <a href="#">Fast casual e street food</a>
-          <a href="#">Food court e rooftop bar</a>
-        </div>
+    </div>
+  </div>
+  <div class="drop" id="drop-bar" hidden>
+    <div class="drop__inner">
+      <div class="drop__ph"></div>
+      <div class="drop__list">
+        <a href="#">Bar e caffetterie</a>
+        <a href="#">Bistrot e ristoranti</a>
+        <a href="#">Pizzerie e pub</a>
+        <a href="#">Lounge e cocktail bar</a>
+        <a href="#">Wine bar ed enoteche</a>
+        <a href="#">Gelaterie</a>
+        <a href="#">Fast casual e street food</a>
+        <a href="#">Food court e rooftop bar</a>
       </div>
     </div>
   </div>
@@ -123,7 +132,7 @@
         <a href="#">Aree breakfast</a>
         <a href="#">Rooftop hospitality</a>
         <a href="#">Residence e business hotel</a>
-        <a href="#">Co-living e serviced apartment</a>
+        <a href="#">Studentati, foresterie e co-living</a>
       </div>
     </div>
   </div>
@@ -131,8 +140,8 @@
   <div class="mobile-nav" id="mobile-nav" hidden>
     <nav class="mobile-nav__list" aria-label="Navigazione mobile">
       <div class="mobile-nav__item">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-ufficio">Arredamento ufficio</button>
-        <div class="mobile-nav__panel" id="mnav-ufficio" hidden>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-uffici">Arredo uffici &amp; workspace</button>
+        <div class="mobile-nav__panel" id="mnav-uffici" hidden>
           <a href="arredamento-ufficio.html">Vedi tutto</a>
           <a href="#">Uffici direzionali</a>
           <a href="#">Open space</a>
@@ -145,45 +154,49 @@
         </div>
       </div>
       <div class="mobile-nav__item">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-negozi-food">Arredamento negozi e food</button>
-        <div class="mobile-nav__panel" id="mnav-negozi-food" hidden>
-          <div class="mobile-nav__group">
-            <a href="arredo-negozi.html" class="mobile-nav__group-title">Arredo negozi</a>
-            <a href="#">Boutique e negozi moda</a>
-            <a href="#">Showroom e concept store</a>
-            <a href="#">Profumerie e retail beauty</a>
-            <a href="#">Gioiellerie e ottiche</a>
-            <a href="#">Farmacie e parafarmacie</a>
-            <a href="#">Telefonia ed elettronica</a>
-            <a href="#">Store sportivi</a>
-            <a href="#">Temporary shop e franchising</a>
-          </div>
-          <div class="mobile-nav__group">
-            <a href="arredamento-bar-ristoranti.html" class="mobile-nav__group-title">Arredamento bar e ristoranti</a>
-            <a href="#">Panetterie e bakery</a>
-            <a href="#">Pasticcerie</a>
-            <a href="#">Gastronomie e salumerie</a>
-            <a href="#">Macellerie e pescherie</a>
-            <a href="#">Caseifici</a>
-            <a href="#">Market gourmet</a>
-            <a href="#">Chocolate shop e take-away</a>
-            <a href="#">Healthy food store</a>
-          </div>
-          <div class="mobile-nav__group">
-            <a href="arredamento-alimentari-wine-food.html" class="mobile-nav__group-title">Arredamento alimentari, wine e food</a>
-            <a href="#">Bar e caffetterie</a>
-            <a href="#">Bistrot e ristoranti</a>
-            <a href="#">Pizzerie e pub</a>
-            <a href="#">Lounge e cocktail bar</a>
-            <a href="#">Wine bar ed enoteche</a>
-            <a href="#">Gelaterie</a>
-            <a href="#">Fast casual e street food</a>
-            <a href="#">Food court e rooftop bar</a>
-          </div>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-negozi">Arredo negozi &amp; retail</button>
+        <div class="mobile-nav__panel" id="mnav-negozi" hidden>
+          <a href="arredo-negozi.html">Vedi tutto</a>
+          <a href="#">Boutique e negozi moda</a>
+          <a href="#">Showroom e concept store</a>
+          <a href="#">Profumerie e retail beauty</a>
+          <a href="#">Gioiellerie e ottiche</a>
+          <a href="#">Farmacie e parafarmacie</a>
+          <a href="#">Telefonia ed elettronica</a>
+          <a href="#">Store sportivi</a>
+          <a href="#">Temporary shop e franchising</a>
         </div>
       </div>
       <div class="mobile-nav__item">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-hotel">Arredamento hotel</button>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-negozi-food">Arredo negozi food</button>
+        <div class="mobile-nav__panel" id="mnav-negozi-food" hidden>
+          <a href="arredo-negozi-food.html">Vedi tutto</a>
+          <a href="#">Panetterie e bakery</a>
+          <a href="#">Pasticcerie</a>
+          <a href="#">Gastronomie e salumerie</a>
+          <a href="#">Macellerie e pescherie</a>
+          <a href="#">Caseifici</a>
+          <a href="#">Alimentari e market gourmet</a>
+          <a href="#">Chocolate shop e take-away</a>
+          <a href="#">Healthy food store</a>
+        </div>
+      </div>
+      <div class="mobile-nav__item">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-bar">Arredo bar &amp; ristoranti</button>
+        <div class="mobile-nav__panel" id="mnav-bar" hidden>
+          <a href="arredamento-bar-ristoranti.html">Vedi tutto</a>
+          <a href="#">Bar e caffetterie</a>
+          <a href="#">Bistrot e ristoranti</a>
+          <a href="#">Pizzerie e pub</a>
+          <a href="#">Lounge e cocktail bar</a>
+          <a href="#">Wine bar ed enoteche</a>
+          <a href="#">Gelaterie</a>
+          <a href="#">Fast casual e street food</a>
+          <a href="#">Food court e rooftop bar</a>
+        </div>
+      </div>
+      <div class="mobile-nav__item">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-hotel">Arredo hotel &amp; hospitality</button>
         <div class="mobile-nav__panel" id="mnav-hotel" hidden>
           <a href="arredamento-hotel.html">Vedi tutto</a>
           <a href="#">Hotel e resort</a>
@@ -193,7 +206,7 @@
           <a href="#">Aree breakfast</a>
           <a href="#">Rooftop hospitality</a>
           <a href="#">Residence e business hotel</a>
-          <a href="#">Co-living e serviced apartment</a>
+          <a href="#">Studentati, foresterie e co-living</a>
         </div>
       </div>
       <a href="arredamento-su-misura.html">Arredamento su misura</a>
@@ -215,7 +228,7 @@
   <div class="footer__grid">
     <div>
       <img class="footer__logo" src="assets/artes-logo.png" alt="ARTES Arredamenti">
-      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e installazione di arredi su misura per uffici, negozi, bar e ristoranti, alimentari e hotel.</p>
+      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e installazione di arredi su misura per uffici e workspace, negozi e retail, negozi food, bar e ristoranti, hotel e hospitality.</p>
     </div>
     <div>
       <div class="footer__t">Azienda</div>
@@ -226,7 +239,7 @@
     <div>
       <div class="footer__t">Settori</div>
       <div class="footer__list">
-        <a href="arredamento-ufficio.html">Arredamento ufficio</a><a href="arredo-negozi.html">Arredo negozi</a><a href="arredamento-bar-ristoranti.html">Arredamento bar e ristoranti</a><a href="arredamento-alimentari-wine-food.html">Arredamento alimentari, wine e food</a><a href="arredamento-hotel.html">Arredamento hotel</a>
+        <a href="arredamento-ufficio.html">Arredo uffici &amp; workspace</a><a href="arredo-negozi.html">Arredo negozi &amp; retail</a><a href="arredo-negozi-food.html">Arredo negozi food</a><a href="arredamento-bar-ristoranti.html">Arredo bar &amp; ristoranti</a><a href="arredamento-hotel.html">Arredo hotel &amp; hospitality</a>
       </div>
     </div>
     <div>

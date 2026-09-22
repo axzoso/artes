@@ -200,29 +200,39 @@ img.tile__texture {
 .topbar a:hover { color: var(--accent); }
 .topbar__lang { color: var(--graphite); }
 
+/* Riga 1: logo a sinistra, azioni (e hamburger sotto i 1024px) a destra */
 .masthead {
   display: flex;
   align-items: center;
   gap: 28px;
   padding: 0 var(--pad);
-  height: 82px;
+  height: 72px;
 }
-.masthead__logo { display: flex; align-items: center; flex: 0 0 auto; }
+.masthead__logo { display: flex; align-items: center; flex: 0 0 auto; margin-right: auto; }
 .masthead__logo img { height: 28px; width: auto; display: block; }
 
-.nav {
+/* Riga 2: i 5 settori (con tendina) a sinistra, le voci aziendali a destra.
+   Due righe perché i nomi dei settori, lunghi per scelta SEO del cliente,
+   non stanno su una riga sola insieme a logo e azioni. */
+.navbar {
   display: flex;
   align-items: center;
-  gap: 13px;
-  flex: 0 0 auto;
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 0 var(--pad);
+  height: 50px;
+  border-top: 1px solid var(--line-soft);
   white-space: nowrap;
-  font-size: 14px;
-  letter-spacing: .01em;
-  margin-right: auto;
+  font-size: 13.5px;
 }
-.nav a, .nav__trigger { padding: 8px 0; }
-.nav a.is-active { border-bottom: 1px solid var(--graphite); }
+/* Corpo e spaziature calibrati sulla larghezza minima (1320px): lì le due
+   metà restano separate da ~70px. Allungare un nome significa ricontrollare. */
+.nav, .nav__end { display: flex; align-items: center; gap: 20px; }
+.nav__end { gap: 18px; font-size: 13px; }
+.nav__end a { color: var(--muted-1); }
+.nav__end a:hover { color: var(--accent); }
+.nav a, .nav__trigger, .nav__end a { padding: 8px 0; }
+.nav a.is-active, .nav__end a.is-active { border-bottom: 1px solid var(--graphite); color: var(--graphite); }
 .nav__trigger {
   position: relative;
   display: flex;
@@ -243,7 +253,6 @@ img.tile__texture {
   flex: 0 0 auto;
   flex-shrink: 0;
   white-space: nowrap;
-  margin-left: 28px;
 }
 .btn-sm {
   font-family: var(--mono);
@@ -258,21 +267,19 @@ img.tile__texture {
 .btn-sm--red { padding: 12px 17px; background: var(--accent); color: #fff; }
 .btn-sm--red:hover { background: var(--graphite); color: #fff; }
 
-/* Tendine di settore — un pannello per voce di nav */
+/* Tendine di settore — un pannello per voce di nav. Il contenuto parte
+   sotto la propria voce: --drop-x viene impostata da artes.js all'apertura
+   (fallback: margine sinistro standard). */
 .drop {
   border-top: 1px solid var(--line);
   background: #fff;
-  padding: 30px var(--pad) 34px;
+  padding: 30px var(--pad) 34px var(--drop-x, var(--pad));
 }
 .drop[hidden] { display: none; }
 .drop__inner { max-width: 300px; }
 .drop__ph { height: 76px; margin-bottom: 16px; background: var(--hatch-b-wide); }
 .drop__list { display: flex; flex-direction: column; gap: 6px; }
 .drop__list a { font-size: 14px; color: var(--muted-2); line-height: 1.35; }
-.drop__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; max-width: 900px; }
-.drop__col-title { font-family: var(--display); font-size: 17px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 14px; }
-.drop__col-title a { color: inherit; }
-.drop__col-title a:hover { color: var(--accent); }
 
 /* --- 6. Home ------------------------------------------------------------ */
 
@@ -1058,7 +1065,7 @@ img.tile__texture {
   body { min-width: 0; }
 
   /* --- 4. Header --- */
-  .topbar, .nav { display: none; }
+  .topbar, .navbar { display: none; }
   .masthead { height: 64px; }
   .masthead__actions .btn-sm--outline { display: none; }
   .nav-toggle { display: flex; }
@@ -1107,9 +1114,6 @@ img.tile__texture {
   .mobile-nav__panel a { padding: 10px 0; font-size: 15px; color: var(--muted-2); }
   .mobile-nav__panel a:first-child { color: var(--accent); font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; padding-bottom: 14px; }
   .mobile-nav__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
-  .mobile-nav__group { margin-top: 14px; }
-  .mobile-nav__group:first-child { margin-top: 0; }
-  .mobile-nav__group-title { display: block; color: var(--accent); font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 0 14px; }
 
   /* --- 6. Home --- */
   /* .hero__stats is absolutely positioned over the bottom of .hero on desktop;
