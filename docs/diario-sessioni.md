@@ -90,10 +90,10 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 **Aperto**
 
-- **Sorgente di GitHub Pages da riportare su `main`** (Settings → Pages →
-  Branch: `main` / root). Finché resta su `test-sfondi-alternati` il sito
-  online non si aggiorna. Solo dalle impostazioni del repo: `gh` non è
-  installato su questa macchina.
+- ~~Sorgente di GitHub Pages da riportare su `main`~~ — fatto: il push di
+  `6c40f81` ha avviato il deploy da `main`, e il sito live mostra menu
+  nuovo e sfondi alternati (verificato in Chrome headless sul dominio
+  pubblico).
 - **"Enoteche"**: la mail la elenca fra le sotto-categorie di negozi food,
   ma oggi sta sotto bar & ristoranti ("Wine bar ed enoteche"). Da chiarire
   col cliente prima di spostarla.
