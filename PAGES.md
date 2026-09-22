@@ -30,11 +30,12 @@ un passaggio unico, quando il sito va in produzione su dominio proprio.
 
 ## Come si aggiunge una pagina
 
-Struttura piatta, senza build: si parte copiando una pagina esistente con
-header (nav + le 5 tendine di settore) e footer già dentro, si sostituisce
-il `<main>` e si aggiorna il link nel menu — nav, footer e le tendine di
-settore vanno aggiornati a mano su ogni pagina esistente. Dettagli nel
-README.
+Struttura piatta, senza build: si parte copiando una pagina esistente e si
+sostituisce il `<main>`. Header e footer arrivano da `assets/js/shell.js`
+tramite i due segnaposto `data-artes-header` / `data-artes-footer`: nav,
+footer e tendine di settore si modificano **solo lì**, una volta sola per
+tutte le pagine. La voce di menu attiva è calcolata dal nome del file.
+Dettagli nel README e in `CLAUDE.md`.
 
 ---
 
@@ -180,9 +181,9 @@ espansa dentro `brand-partner.html`.
 
 ## Ordine di costruzione consigliato
 
-1. ~~Guscio condiviso~~ — superato: il sito è ora completamente statico,
-   senza build step; `build.py` e `src/` sono stati rimossi (vedi
-   README).
+1. ~~Guscio condiviso~~ — fatto il 2026-09-22 senza reintrodurre una build:
+   header e footer stanno in `assets/js/shell.js` e le pagine li richiamano
+   con due segnaposto (vedi README).
 2. **`contatti.html` + `richiedi-preventivo.html`** — chiudono 7 CTA su 8
    della home; senza queste il template resta una vetrina cieca.
 3. ~~`settori.html` + le 5 landing di settore~~ — fatto: le 5 landing

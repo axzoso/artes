@@ -10,15 +10,33 @@ o CrocoBuilder di Crocoblock).
 ```
 *.html                Pagine del sito, file piatti — una per pagina
 assets/css/artes.css  Foglio di stile unico, organizzato per sezioni
+assets/js/shell.js    Header e footer: unica sorgente per tutte le pagine
 assets/js/artes.js    Tendine di settore in nav + filtri del portfolio
 assets/artes-logo.png Logo, 800×217px, ottimizzato per l'uso a schermo (28px/26px)
+CLAUDE.md             Contesto di progetto, architettura e regole
 PAGES.md              Mappa delle pagine ancora da creare
 ```
 
-Nessuna build: si modificano i file `.html` direttamente. Header (con le
-5 tendine indipendenti di settore) e footer sono duplicati in ogni
-pagina — un cambiamento a uno di questi blocchi va riportato a mano su
-tutte le pagine esistenti.
+Nessuna build: si modificano i file `.html` direttamente. Header (topbar,
+masthead, tendine di settore, nav mobile) e footer **non** sono copiati
+nelle pagine: stanno in `assets/js/shell.js` e ogni pagina li richiama con
+due segnaposto.
+
+```html
+<body>
+<div data-artes-header></div>
+<script src="assets/js/shell.js"></script>
+
+<main> … contenuto della pagina … </main>
+
+<div data-artes-footer></div>
+<script src="assets/js/artes.js"></script>
+</body>
+```
+
+Un cambiamento al menu o al footer si fa quindi in un punto solo. La voce
+di menu attiva viene calcolata a runtime dal nome del file: le pagine non
+devono dichiarare nulla.
 
 `realizzazione.html` non è una pagina ma il **layout della scheda
 progetto**, che in WordPress diventa un CPT gestito con JetEngine.
@@ -26,8 +44,11 @@ progetto**, che in WordPress diventa un CPT gestito con JetEngine.
 ## Anteprima
 
 ```
-python3 -m http.server     # anteprima su localhost:8000
+python3 -m http.server     # anteprima su localhost:8000  (su Windows: py -3 -m http.server)
 ```
+
+Lo shell è caricato come `<script src>`, non via `fetch`: header e footer
+compaiono anche aprendo i file con doppio clic (`file://`).
 
 ## Convenzioni del template
 
