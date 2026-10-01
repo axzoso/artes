@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Richiedi un preventivo — ARTES Contract</title>
+<meta name="description" content="Richiedi un preventivo per arredi contract su misura: uffici, negozi, negozi food, bar e ristoranti, hotel. Risposta di un tecnico entro due giorni lavorativi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/artes.css">
+</head>
+<body>
+
+<div data-artes-header></div>
+<script src="assets/js/shell.js"></script>
+<main>
+
+  <section class="page-intro">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <strong>Richiedi un preventivo</strong>
+    </div>
+    <div class="page-intro__row">
+      <div>
+        <div class="eyebrow">Richiedi un preventivo</div>
+        <h1 class="page-title">Un preventivo<br><strong>sul tuo progetto reale.</strong></h1>
+      </div>
+      <p class="lead">Più ci racconti dello spazio, più la prima risposta sarà concreta. Nessun listino generico: un tecnico legge la richiesta, ti richiama entro due giorni lavorativi e, se serve, fissa il sopralluogo.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="grid-1px grid-1px--3">
+      <div class="card">
+        <div class="card__n">Entro 48 ore</div>
+        <div class="card__t">Ti richiama un tecnico</div>
+        <div class="card__d">Non un call center: la persona che segue il settore del tuo progetto, con le prime domande su spazi, tempi e vincoli.</div>
+      </div>
+      <div class="card">
+        <div class="card__n">Sopralluogo</div>
+        <div class="card__t">Rilievo in cantiere</div>
+        <div class="card__d">Misure, quote impiantistiche e accessi verificati sul posto: il preventivo parte da dati reali, non da stime.</div>
+      </div>
+      <div class="card">
+        <div class="card__n">Offerta</div>
+        <div class="card__t">Un capitolato leggibile</div>
+        <div class="card__d">Voci separate per produzione su misura, brand a catalogo, logistica e montaggio, con i tempi di consegna.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contatti bg-alt" id="richiesta">
+    <div class="contatti__intro">
+      <div class="eyebrow">Il modulo</div>
+      <h2 class="h-section">Raccontaci<br>il progetto.</h2>
+      <p class="lead">Sono obbligatori solo i campi con l'asterisco. Se hai già planimetrie o un capitolato, allegali: accorciano i tempi della prima risposta.</p>
+      <dl class="contatti__diretti">
+        <div><dt>Preferisci parlarne?</dt><dd>+39 0000 000 000</dd></div>
+        <div><dt>Email</dt><dd>info@artesarredamenti.it</dd></div>
+        <div><dt>Solo una domanda</dt><dd><a href="contatti.html" class="link-rule">Scrivici dalla pagina contatti</a></dd></div>
+      </dl>
+    </div>
+
+    <div class="contatti__body">
+      <form class="form form--stack" data-contatti novalidate>
+        <fieldset class="form__group">
+          <legend class="form__legend">Chi sei</legend>
+          <div class="form__grid">
+            <div class="form__field">
+              <label for="p-nome">Nome e cognome *</label>
+              <input id="p-nome" name="nome" type="text" autocomplete="name" required>
+            </div>
+            <div class="form__field">
+              <label for="p-azienda">Azienda o ente</label>
+              <input id="p-azienda" name="azienda" type="text" autocomplete="organization">
+            </div>
+            <div class="form__field">
+              <label for="p-email">Email *</label>
+              <input id="p-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="form__field">
+              <label for="p-tel">Telefono *</label>
+              <input id="p-tel" name="telefono" type="tel" autocomplete="tel" required>
+            </div>
+            <div class="form__field form__field--wide">
+              <label for="p-profilo">Profilo</label>
+              <select id="p-profilo" name="profilo">
+                <option>Azienda o attività commerciale</option>
+                <option>Progettista o studio di architettura</option>
+                <option>Pubblica amministrazione</option>
+                <option>Impresa di costruzioni</option>
+                <option>Privato</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form__group">
+          <legend class="form__legend">Il progetto</legend>
+          <div class="form__grid">
+            <div class="form__field">
+              <label for="p-settore">Settore *</label>
+              <select id="p-settore" name="settore" required>
+                <option value="">Seleziona</option>
+                <option>Arredo uffici &amp; workspace</option>
+                <option>Arredo negozi &amp; retail</option>
+                <option>Arredo negozi food</option>
+                <option>Arredo bar &amp; ristoranti</option>
+                <option>Arredo hotel &amp; hospitality</option>
+                <option>Altro / più settori</option>
+              </select>
+            </div>
+            <div class="form__field">
+              <label for="p-intervento">Tipo di intervento</label>
+              <select id="p-intervento" name="intervento">
+                <option>Nuova apertura</option>
+                <option>Ristrutturazione completa</option>
+                <option>Rinnovo degli arredi</option>
+                <option>Ampliamento</option>
+                <option>Fornitura su capitolato</option>
+              </select>
+            </div>
+            <div class="form__field">
+              <label for="p-luogo">Località del cantiere *</label>
+              <input id="p-luogo" name="localita" type="text" placeholder="Città, provincia" required>
+            </div>
+            <div class="form__field">
+              <label for="p-mq">Superficie indicativa</label>
+              <input id="p-mq" name="superficie" type="text" inputmode="numeric" placeholder="m²">
+            </div>
+            <div class="form__field">
+              <label for="p-tempi">Apertura o consegna prevista</label>
+              <select id="p-tempi" name="tempi">
+                <option>Da definire</option>
+                <option>Entro 3 mesi</option>
+                <option>Da 3 a 6 mesi</option>
+                <option>Da 6 a 12 mesi</option>
+                <option>Oltre 12 mesi</option>
+              </select>
+            </div>
+            <div class="form__field">
+              <label for="p-budget">Budget indicativo</label>
+              <select id="p-budget" name="budget">
+                <option>Da definire</option>
+                <option>Fino a 25.000 €</option>
+                <option>25.000 – 75.000 €</option>
+                <option>75.000 – 150.000 €</option>
+                <option>Oltre 150.000 €</option>
+              </select>
+            </div>
+            <div class="form__field form__field--wide">
+              <span class="form__label" id="p-stato">A che punto è il progetto?</span>
+              <div class="form__options" role="radiogroup" aria-labelledby="p-stato">
+                <label class="form__check"><input type="radio" name="stato" value="idea" checked><span>È un'idea: serve anche la progettazione</span></label>
+                <label class="form__check"><input type="radio" name="stato" value="progettista"><span>C'è un progettista, il disegno è in corso</span></label>
+                <label class="form__check"><input type="radio" name="stato" value="esecutivo"><span>Il progetto esecutivo è pronto</span></label>
+                <label class="form__check"><input type="radio" name="stato" value="capitolato"><span>Ho un capitolato da quotare</span></label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form__group">
+          <legend class="form__legend">Cosa ti serve</legend>
+          <div class="form__options">
+            <label class="form__check"><input type="checkbox" name="servizi" value="rilievo" checked><span>Rilievo e sopralluogo</span></label>
+            <label class="form__check"><input type="checkbox" name="servizi" value="progettazione"><span>Progettazione e render</span></label>
+            <label class="form__check"><input type="checkbox" name="servizi" value="su-misura" checked><span>Arredi su misura</span></label>
+            <label class="form__check"><input type="checkbox" name="servizi" value="brand"><span>Arredi e sedute di brand partner</span></label>
+            <label class="form__check"><input type="checkbox" name="servizi" value="montaggio" checked><span>Consegna e montaggio</span></label>
+            <label class="form__check"><input type="checkbox" name="servizi" value="post-vendita"><span>Assistenza e manutenzione</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form__group">
+          <legend class="form__legend">Dettagli</legend>
+          <div class="form__grid">
+            <div class="form__field form__field--wide">
+              <label for="p-msg">Descrizione *</label>
+              <textarea id="p-msg" name="messaggio" rows="6" required placeholder="Ambienti da arredare, numero di postazioni, coperti o camere, materiali o riferimenti che ti piacciono…"></textarea>
+            </div>
+            <div class="form__field form__field--wide">
+              <label for="p-file">Allegati</label>
+              <input id="p-file" name="allegati" type="file" multiple accept=".pdf,.dwg,.dxf,.jpg,.png">
+              <span class="form__hint">Planimetrie, capitolato, render o foto dello stato attuale. PDF, DWG, DXF, JPG, PNG.</span>
+            </div>
+            <div class="form__field form__field--wide">
+              <label for="p-fonte">Come ci hai conosciuto</label>
+              <select id="p-fonte" name="fonte">
+                <option>Seleziona</option>
+                <option>Ricerca su Google</option>
+                <option>Passaparola</option>
+                <option>Un progettista</option>
+                <option>Social network</option>
+                <option>MEPA / Acquisti in Rete PA</option>
+                <option>Fiere ed eventi</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form__group">
+          <label class="form__check">
+            <input type="checkbox" name="privacy" required>
+            <span>Ho letto l'<a href="#" class="link-rule">informativa privacy</a> e acconsento al trattamento dei dati per ricevere il preventivo. *</span>
+          </label>
+          <div class="form__actions">
+            <button type="submit" class="btn btn--red">Invia la richiesta</button>
+            <span class="form__hint">* campi obbligatori</span>
+          </div>
+        </div>
+      </form>
+      <div class="form__ok" data-contatti-ok tabindex="-1" hidden>
+        <div class="eyebrow">Richiesta inviata</div>
+        <p class="lead">Grazie. Un tecnico Artes legge la richiesta e ti richiama entro due giorni lavorativi.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div data-artes-footer></div>
+
+<script src="assets/js/artes.js"></script>
+</body>
+</html>

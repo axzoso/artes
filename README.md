@@ -38,8 +38,9 @@ Un cambiamento al menu o al footer si fa quindi in un punto solo. La voce
 di menu attiva viene calcolata a runtime dal nome del file: le pagine non
 devono dichiarare nulla.
 
-`realizzazione.html` non è una pagina ma il **layout della scheda
-progetto**, che in WordPress diventa un CPT gestito con JetEngine.
+Le schede `realizzazione-*.html` condividono il **layout della scheda
+progetto**, che in WordPress diventa un unico template del CPT gestito con
+JetEngine.
 
 ## Anteprima
 

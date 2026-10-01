@@ -28,8 +28,8 @@
       <h1 class="hero__title">Artes:<br><strong>arredi contract</strong></h1>
       <p class="hero__lead">Progettiamo, produciamo e installiamo arredi su misura per uffici, hotel, retail e ristorazione. Un unico interlocutore dal rilievo al post-vendita.</p>
       <div class="hero__actions">
-        <a href="#" class="btn btn--red">Richiedi un progetto</a>
-        <a href="#" class="btn btn--ghost">Area progettisti</a>
+        <a href="richiedi-preventivo.html" class="btn btn--red">Richiedi un progetto</a>
+        <a href="area-progettisti.html" class="btn btn--ghost">Area progettisti</a>
       </div>
     </div>
     <div class="hero__stats">
@@ -50,13 +50,13 @@
         <a href="contract.html" class="link-rule">Scopri il servizio contract</a>
       </div>
       <div class="fasi">
-        <div class="fase"><span class="fase__n">01</span><h3>Rilievo</h3><p>Misure, vincoli impiantistici e verifica in cantiere.</p></div>
-        <div class="fase"><span class="fase__n">02</span><h3>Progettazione</h3><p>Layout, render e capitolato materiali con il progettista.</p></div>
-        <div class="fase"><span class="fase__n">03</span><h3>Produzione</h3><p>Arredi su misura in officina e presso partner selezionati.</p></div>
-        <div class="fase"><span class="fase__n">04</span><h3>Fornitura</h3><p>Coordinamento brand partner e prodotti a catalogo.</p></div>
-        <div class="fase"><span class="fase__n">05</span><h3>Logistica</h3><p>Programmazione consegne su fasi di cantiere.</p></div>
-        <div class="fase"><span class="fase__n">06</span><h3>Montaggio</h3><p>Squadre interne, posa e collaudo finale.</p></div>
-        <div class="fase"><span class="fase__n">07</span><h3>Post-vendita</h3><p>Assistenza, ricambi e manutenzione programmata.</p></div>
+        <div class="fase"><h3>Rilievo</h3><p>Misure, vincoli impiantistici e verifica in cantiere.</p></div>
+        <div class="fase"><h3>Progettazione</h3><p>Layout, render e capitolato materiali con il progettista.</p></div>
+        <div class="fase"><h3>Produzione</h3><p>Arredi su misura in officina e presso partner selezionati.</p></div>
+        <div class="fase"><h3>Fornitura</h3><p>Coordinamento brand partner e prodotti a catalogo.</p></div>
+        <div class="fase"><h3>Logistica</h3><p>Programmazione consegne su fasi di cantiere.</p></div>
+        <div class="fase"><h3>Montaggio</h3><p>Squadre interne, posa e collaudo finale.</p></div>
+        <div class="fase"><h3>Post-vendita</h3><p>Assistenza, ricambi e manutenzione programmata.</p></div>
         <div class="fase--dark">
           <span class="fase__n">—</span>
           <div>
@@ -80,35 +80,30 @@
       <a class="tile tile--tall" href="arredamento-ufficio.html">
         <img class="tile__texture" src="assets/img/progetti/bbc-tarsia/02.jpg" alt="Uffici open space"><div class="tile__scrim"></div>
         <div class="tile__body">
-          <span class="tile__num">01</span>
           <div><h3>Arredo uffici &amp; workspace</h3><p>Uffici direzionali, open space, coworking, sale conferenze, academy.</p></div>
         </div>
       </a>
       <a class="tile" href="arredo-negozi.html">
         <img class="tile__texture" src="assets/img/sfuse/arken-cage.jpg" alt="Showroom retail"><div class="tile__scrim"></div>
         <div class="tile__body">
-          <span class="tile__num">02</span>
           <div><h3>Arredo negozi &amp; retail</h3><p>Boutique, showroom, concept store, farmacie, retail tech.</p></div>
         </div>
       </a>
       <a class="tile" href="arredo-negozi-food.html">
         <img class="tile__texture" src="assets/img/sfuse/brugnotto-onstage.jpg" alt="Banco bakery"><div class="tile__scrim"></div>
         <div class="tile__body">
-          <span class="tile__num">03</span>
           <div><h3>Arredo negozi food</h3><p>Bakery, pasticcerie, gastronomie, market gourmet.</p></div>
         </div>
       </a>
       <a class="tile" href="arredamento-bar-ristoranti.html">
         <img class="tile__texture" src="assets/img/sfuse/the-cave.jpg" alt="Wine bar ed enoteca"><div class="tile__scrim"></div>
         <div class="tile__body">
-          <span class="tile__num">04</span>
           <div><h3>Arredo bar &amp; ristoranti</h3><p>Bar, bistrot, ristoranti, cocktail e wine bar, rooftop.</p></div>
         </div>
       </a>
       <a class="tile" href="arredamento-hotel.html">
         <img class="tile__texture" src="assets/img/progetti/royal/06.jpg" alt="Camera hotel"><div class="tile__scrim"></div>
         <div class="tile__body">
-          <span class="tile__num">05</span>
           <div><h3>Arredo hotel &amp; hospitality</h3><p>Hotel, resort, spa, lounge, aree breakfast.</p></div>
         </div>
       </a>
@@ -141,9 +136,20 @@
       </div>
       <a href="arredamento-su-misura.html" class="link-rule">Dentro la produzione</a>
     </div>
-    <div class="produzione__media">
-      <img src="assets/img/progetti/sakuralab/03.jpg" alt="Lavorazione su misura in laboratorio">
-      <div class="produzione__inset"><img src="assets/img/progetti/costruzioni-imbrogno/03.jpg" alt="Dettaglio lavorazione"></div>
+    <div class="produzione__media produzione-slider" data-produzione-slider>
+      <div class="produzione-slide is-active" aria-hidden="false">
+        <img src="assets/img/progetti/sakuralab/03.jpg" alt="Lavorazione su misura in laboratorio">
+        <span class="produzione-slide__label">Laboratorio · lavorazioni su misura</span>
+      </div>
+      <div class="produzione-slide" aria-hidden="true">
+        <img src="assets/img/progetti/costruzioni-imbrogno/03.jpg" alt="Arredo ufficio realizzato su misura">
+        <span class="produzione-slide__label">Progetto · dettaglio realizzato</span>
+      </div>
+      <div class="produzione-slider__controls" aria-label="Controlli galleria produzione">
+        <button type="button" data-slide-prev aria-label="Foto precedente">←</button>
+        <span class="produzione-slider__count" aria-live="polite">01 / 02</span>
+        <button type="button" data-slide-next aria-label="Foto successiva">→</button>
+      </div>
     </div>
   </section>
 
@@ -164,42 +170,42 @@
       </div>
     </div>
     <div class="progetti" data-progetti>
-      <a class="progetto progetto--w4" href="realizzazione.html" data-settore="Arredo hotel &amp; hospitality">
+      <a class="progetto progetto--w4" href="realizzazione-boutique-hotel-aurea.html" data-settore="Arredo hotel &amp; hospitality">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/royal/01.jpg" alt="Camera Boutique Hotel Aurea"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">Boutique Hotel Aurea</div><div class="progetto__luogo">Tropea (VV)</div></div>
           <div class="progetto__settore">Arredo hotel &amp; hospitality</div>
         </div>
       </a>
-      <a class="progetto progetto--w2" href="#" data-settore="Arredo uffici &amp; workspace">
+      <a class="progetto progetto--w2" href="realizzazione-bbc-tarsia.html" data-settore="Arredo uffici &amp; workspace">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/bbc-tarsia/01.jpg" alt="Uffici BBC di Tarsia"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">BBC di Tarsia</div><div class="progetto__luogo">Calabria</div></div>
           <div class="progetto__settore">Arredo uffici &amp; workspace</div>
         </div>
       </a>
-      <a class="progetto progetto--w2" href="#" data-settore="Arredo negozi food">
+      <a class="progetto progetto--w2" href="realizzazione-sakuralab.html" data-settore="Arredo negozi food">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/sakuralab/01.jpg" alt="Laboratorio Sakuralab"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">Sakuralab</div><div class="progetto__luogo">Calabria</div></div>
           <div class="progetto__settore">Arredo negozi food</div>
         </div>
       </a>
-      <a class="progetto progetto--w2" href="#" data-settore="Arredo negozi &amp; retail">
+      <a class="progetto progetto--w2" href="realizzazione-free-sport.html" data-settore="Arredo negozi &amp; retail">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/free-sport/01.jpg" alt="Store Free Sport"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">Free Sport</div><div class="progetto__luogo">Calabria</div></div>
           <div class="progetto__settore">Arredo negozi &amp; retail</div>
         </div>
       </a>
-      <a class="progetto progetto--w2" href="#" data-settore="Arredo bar &amp; ristoranti">
+      <a class="progetto progetto--w2" href="realizzazione-jumecitu.html" data-settore="Arredo bar &amp; ristoranti">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/jumecitu/01.jpg" alt="Sala Jumecitu"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">Jumecitu</div><div class="progetto__luogo">Calabria</div></div>
           <div class="progetto__settore">Arredo bar &amp; ristoranti</div>
         </div>
       </a>
-      <a class="progetto progetto--w6" href="#" data-settore="Arredo uffici &amp; workspace">
+      <a class="progetto progetto--w6" href="realizzazione-ingrediente-school.html" data-settore="Arredo uffici &amp; workspace">
         <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/ingrediente-school/01.jpg" alt="Aula Ingrediente School"></div>
         <div class="progetto__meta">
           <div><div class="progetto__nome">Ingrediente School</div><div class="progetto__luogo">Calabria</div></div>
@@ -207,6 +213,9 @@
         </div>
       </a>
       <p class="progetti__empty" hidden>Nessuna realizzazione pubblicata per questo settore.</p>
+    </div>
+    <div class="section__more">
+      <a href="realizzazioni.html" class="link-rule">Tutte le realizzazioni</a>
     </div>
   </section>
 
@@ -220,24 +229,24 @@
       <a href="brand-partner.html" class="link-rule">Tutti i brand</a>
     </div>
     <div class="brands">
-      <a class="brand" href="#"><span class="brand__n">Frezza</span><span class="brand__c">Ufficio</span></a>
-      <a class="brand" href="#"><span class="brand__n">Colombini Office</span><span class="brand__c">Ufficio</span></a>
-      <a class="brand" href="#"><span class="brand__n">LAS</span><span class="brand__c">Ufficio</span></a>
-      <a class="brand" href="#"><span class="brand__n">Della Rovere</span><span class="brand__c">Ufficio</span></a>
-      <a class="brand" href="#"><span class="brand__n">Martex</span><span class="brand__c">Ufficio</span></a>
-      <a class="brand" href="#"><span class="brand__n">Estel</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Frezza</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Colombini Office</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">LAS</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Della Rovere</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Martex</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Estel</span><span class="brand__c">Ufficio</span></a>
       <a class="brand" href="brand-pedrali.html"><span class="brand__n">Pedrali</span><span class="brand__c">Contract</span></a>
-      <a class="brand" href="#"><span class="brand__n">Gaber</span><span class="brand__c">Contract</span></a>
-      <a class="brand" href="#"><span class="brand__n">Et al.</span><span class="brand__c">Contract</span></a>
-      <a class="brand" href="#"><span class="brand__n">Caimi</span><span class="brand__c">Acustica</span></a>
-      <a class="brand" href="#"><span class="brand__n">Snowsound</span><span class="brand__c">Acustica</span></a>
-      <a class="brand" href="#"><span class="brand__n">Vetroin</span><span class="brand__c">Pareti / pod</span></a>
-      <a class="brand" href="#"><span class="brand__n">Kastel</span><span class="brand__c">Sedute</span></a>
-      <a class="brand" href="#"><span class="brand__n">Leyform</span><span class="brand__c">Sedute</span></a>
-      <a class="brand" href="#"><span class="brand__n">SM Milani</span><span class="brand__c">Sedute</span></a>
-      <a class="brand" href="#"><span class="brand__n">Arken</span><span class="brand__c">Retail</span></a>
-      <a class="brand" href="#"><span class="brand__n">Lainox</span><span class="brand__c">Food</span></a>
-      <a class="brand" href="#"><span class="brand__n">Nardi Outdoor</span><span class="brand__c">Outdoor</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Gaber</span><span class="brand__c">Contract</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Et al.</span><span class="brand__c">Contract</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Caimi</span><span class="brand__c">Acustica</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Snowsound</span><span class="brand__c">Acustica</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Vetroin</span><span class="brand__c">Pareti / pod</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Kastel</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Leyform</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">SM Milani</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Arken</span><span class="brand__c">Retail</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Lainox</span><span class="brand__c">Food</span></a>
+      <a class="brand" href="brand-partner.html"><span class="brand__n">Nardi Outdoor</span><span class="brand__c">Outdoor</span></a>
     </div>
   </section>
 
@@ -249,7 +258,7 @@
         <h2>Il vostro disegno,<br>la nostra officina.</h2>
         <p>Supporto tecnico in fase di progetto, campionature materiali, preventivazione su capitolato e fabbricazione su misura per i vostri cantieri.</p>
       </div>
-      <a href="#" class="btn btn--ghost-solid">Accedi all'area progettisti</a>
+      <a href="area-progettisti.html" class="btn btn--ghost-solid">Scopri l'area progettisti</a>
     </div>
     <div class="cta-panel cta-panel--red">
       <div>
@@ -257,7 +266,7 @@
         <h2>Raccontateci<br>lo spazio.</h2>
         <p>Rilievo, layout e stima economica entro dieci giorni lavorativi. Un referente unico per tutta la durata del cantiere.</p>
       </div>
-      <a href="#" class="btn btn--light">Richiedi un preventivo</a>
+      <a href="richiedi-preventivo.html" class="btn btn--light">Richiedi un preventivo</a>
     </div>
   </section>
 

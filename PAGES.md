@@ -10,9 +10,17 @@
 > Arredo bar & ristoranti · Arredo hotel & hospitality), tutti e 5 in nav.
 > Corretta l'inversione fra bar/ristoranti e negozi food: vedi `CLAUDE.md`
 > §3 e `docs/diario-sessioni.md`.
+>
+> **Nota (2026-09-28, riunione col cliente):** niente più tendine: i 5
+> settori in nav sono link diretti alle loro pagine, che diventano
+> descrittive (foto generiche, testo sul settore, ambiti, progetti del
+> settore). Nuova voce di nav **Realizzazioni** → `realizzazioni.html`,
+> archivio di tutti i progetti filtrabile per i 5 settori. Form contatti
+> completo in coda alla scheda realizzazione. Via le numerazioni annidate
+> dentro sezioni già numerate.
 
 Elenco di tutte le pagine citate dai link del template. Ricavato dai 110
-link distinti presenti in `index.html`, `realizzazione.html` e
+link distinti presenti in `index.html`, nella scheda realizzazione e
 `sistema-visivo.html`: ogni `href="#"` del prototipo corrisponde a una
 voce qui sotto.
 
@@ -39,7 +47,7 @@ un passaggio unico, quando il sito va in produzione su dominio proprio.
 Struttura piatta, senza build: si parte copiando una pagina esistente e si
 sostituisce il `<main>`. Header e footer arrivano da `assets/js/shell.js`
 tramite i due segnaposto `data-artes-header` / `data-artes-footer`: nav,
-footer e tendine di settore si modificano **solo lì**, una volta sola per
+footer si modificano **solo lì**, una volta sola per
 tutte le pagine. La voce di menu attiva è calcolata dal nome del file.
 Dettagli nel README e in `CLAUDE.md`.
 
@@ -50,7 +58,7 @@ Dettagli nel README e in `CLAUDE.md`.
 | Percorso | Pagina | Note |
 |---|---|---|
 | ✅ `index.html` | Home | |
-| ✅ `realizzazione.html` | **Template scheda progetto** | non è una pagina: è il layout del CPT |
+| ✅ `realizzazione-*.html` | **14 schede progetto** | stesso layout (in WordPress: template del CPT); dal 2026-09-30 una per ogni card, Aurea era `realizzazione.html` |
 | ✅ `sistema-visivo.html` | Sistema visivo | documento interno, fuori dalla nav pubblica |
 | ✅ `contract.html` | Contract — il servizio, le 7 fasi | |
 | — | ~~`produzione.html`~~ | rinominato in `arredamento-su-misura.html` (vedi sotto) |
@@ -64,30 +72,28 @@ Dettagli nel README e in `CLAUDE.md`.
 | ✅ `chi-siamo.html` | Chi siamo | prima pagina reale, era href="#" |
 | ✅ `brand-partner.html` | Brand Partner | archivio filtrabile per categoria |
 | ✅ `brand-pedrali.html` | Pedrali (scheda brand) | primo esempio di collegamento bidirezionale brand↔progetto |
+| ✅ `realizzazioni.html` | Realizzazioni — archivio con filtri | in nav dal 2026-09-28; `?settore=<nome>` preseleziona il filtro |
+| ✅ `contatti.html` | Contatti — recapiti, form, mappa | 2026-09-30; `?motivo=tecnico` preseleziona il motivo ("Parla con un tecnico") |
+| ✅ `richiedi-preventivo.html` | Richiesta preventivo — modulo completo a gruppi | 2026-09-30; `?settore=<nome>` preseleziona il settore (CTA delle pagine settore) |
+| ✅ `area-progettisti.html` | Area progettisti — pagina pubblica per gli studi | 2026-09-30; header, home, footer, contatti. Ha assorbito `architetti.html` |
 
 ## 2. Navigazione principale — priorità alta
 
-La nav principale ha 9 voci su una riga dedicata sotto logo e azioni: a
-sinistra i 5 settori, ciascuno con la propria tendina; a destra
-Arredamento su misura (ex `produzione.html`), Arredo Contract
-(`contract.html`), Blog (ancora `href="#"`) e Chi siamo. La Home non è in
-nav: ci porta il logo. `prodotti.html`, `realizzazioni.html` e
-`architetti.html` non sono in nav: restano linkate solo da footer e dalle
-CTA della home.
+La nav principale ha 10 voci su una riga dedicata sotto logo e azioni: a
+sinistra i 5 settori (link diretti, senza tendine dal 2026-09-28); a
+destra Realizzazioni, Arredamento su misura (ex `produzione.html`), Arredo
+Contract (`contract.html`), Blog (ancora `href="#"`) e Chi siamo. La Home
+non è in nav: ci porta il logo. `prodotti.html` non è in nav: resta
+linkata solo dal footer.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
 | ⬜ `prodotti.html` | Prodotti — catalogo per categoria | footer |
-| ⬜ `realizzazioni.html` | Realizzazioni — archivio con filtri | footer, CTA "Tutte le realizzazioni", "Archivio completo" |
-| ⬜ `architetti.html` | Architetti — servizi per studi | footer |
 
 ## 3. Utility e conversione — priorità alta
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `contatti.html` | Contatti — sedi, form, mappa | topbar, footer, "Contattaci", "Parla con un tecnico" |
-| ⬜ `richiedi-preventivo.html` | Richiesta progetto / preventivo | "Richiedi un progetto", "Richiedi un preventivo" (5 CTA) |
-| ⬜ `area-progettisti.html` | Area progettisti — accesso riservato | header, hero, "Accedi all'area progettisti" |
 | ⬜ `mepa.html` | MEPA / Acquisti in Rete PA | topbar, footer |
 | ⬜ `cataloghi.html` | Cataloghi PDF | footer |
 | ⬜ `privacy.html` | Privacy policy | footer |
@@ -96,7 +102,7 @@ CTA della home.
 ## 4. Settori — 5 landing
 
 Le 5 landing di settore esistono già come pagine standalone, linkate
-dalle tendine di nav, dal mosaico home, dal footer e dai breadcrumb —
+dalla nav, dal mosaico home, dal footer e dai breadcrumb —
 vedi sezione 1. I nomi di lavoro sotto sono superati: restano solo come
 mappa storica verso i nomi reali.
 
@@ -110,7 +116,9 @@ mappa storica verso i nomi reali.
 
 ## 5. Settori — 40 sotto-voci
 
-Le otto voci per settore elencate in ciascuna tendina di nav.
+Le otto voci per settore, elencate come "Ambiti" (testo, non link) in
+ciascuna pagina settore. Dal 2026-09-28 il cliente non le vuole nel menu:
+per ora nessuna pagina dedicata.
 
 > **Raccomandazione:** non farne 40 pagine separate, almeno all'inizio.
 > Con i contenuti attuali sarebbero quasi identiche fra loro e povere per
@@ -142,13 +150,14 @@ Le otto voci per settore elencate in ciascuna tendina di nav.
 
 ## 6. Realizzazioni — nessuna pagina da creare
 
-`realizzazione.html` **non è una pagina**: è il layout della scheda
+Le schede `realizzazione-*.html` condividono il layout della scheda
 progetto, che in WordPress diventa un Custom Post Type gestito con
 JetEngine (Crocoblock). Le singole realizzazioni sono record del CPT, non
 file statici — il template si costruisce una volta sola.
 
-Restano quindi da creare solo l'archivio (`realizzazioni.html`, sezione 2)
-e le tassonomie di settore che lo filtrano.
+L'archivio (`realizzazioni.html`) esiste dal 2026-09-28; in WordPress
+diventa l'archivio del CPT filtrato per la tassonomia dei 5 settori. In
+coda a ogni scheda c'è il form contatti completo (richiesta del cliente).
 
 I progetti citati nel template servono come dati di prova per il CPT:
 Boutique Hotel Aurea, Headquarter Mediterranea, Panificio Grani Antichi,
@@ -193,15 +202,16 @@ espansa dentro `brand-partner.html`.
 1. ~~Guscio condiviso~~ — fatto il 2026-09-22 senza reintrodurre una build:
    header e footer stanno in `assets/js/shell.js` e le pagine li richiamano
    con due segnaposto (vedi README).
-2. **`contatti.html` + `richiedi-preventivo.html`** — chiudono 7 CTA su 8
-   della home; senza queste il template resta una vetrina cieca.
+2. ~~`contatti.html` + `richiedi-preventivo.html`~~ — fatte il 2026-09-30;
+   tutte le CTA "Contattaci", "Richiedi un preventivo/progetto" e "Parla
+   con un tecnico" del sito puntano lì.
 3. ~~`settori.html` + le 5 landing di settore~~ — fatto: le 5 landing
    esistono come pagine standalone (sezione 1), `settori.html` è stato
    rimosso.
-4. **`realizzazioni.html`** — l'archivio; poi le 8 schede a seguire, che
-   riusano un impianto già pronto.
-5. **`architetti.html`** — pagina narrativa, `contract.html` e
-   `arredamento-su-misura.html` sono già fatte (sezione 1).
+4. ~~`realizzazioni.html`~~ — fatta il 2026-09-28. Le schede sono record
+   del CPT (sezione 6), non file da creare.
+5. ~~`architetti.html`~~ — fatta il 2026-09-30, poi unita in
+   `area-progettisti.html` (pagina pubblica, non riservata).
 6. **`prodotti.html`.** `brand-partner.html` e `chi-siamo.html` sono già
    fatte (sezione 1).
 7. **Utility e legali** — `mepa`, `cataloghi`, `privacy`, `cookie`.
@@ -232,9 +242,9 @@ inesistenti, che su Pages darebbero 404.
 
 ## Pagine live
 
-URL base: `https://axzoso.github.io/artes/`. Le 13 pagine esistenti
-(sezione 1) sono tutte pubblicate — tabella aggiornata a ogni push su
-`main`.
+URL base: `https://axzoso.github.io/artes/`. Tabella aggiornata a ogni
+push su `main`: le pagine create dopo l'ultimo push (sezione 1) non sono
+ancora online.
 
 | Pagina | Link |
 |---|---|
@@ -249,5 +259,5 @@ URL base: `https://axzoso.github.io/artes/`. Le 13 pagine esistenti
 | Chi siamo | https://axzoso.github.io/artes/chi-siamo.html |
 | Brand Partner | https://axzoso.github.io/artes/brand-partner.html |
 | Pedrali (scheda brand) | https://axzoso.github.io/artes/brand-pedrali.html |
-| Boutique Hotel Aurea (template scheda progetto) | https://axzoso.github.io/artes/realizzazione.html |
+| Boutique Hotel Aurea (scheda progetto) | https://axzoso.github.io/artes/realizzazione-boutique-hotel-aurea.html |
 | Sistema visivo (documento interno) | https://axzoso.github.io/artes/sistema-visivo.html |

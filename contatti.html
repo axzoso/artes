@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contatti — ARTES Contract</title>
+<meta name="description" content="Contatta ARTES Arredamenti, Rende (CS): sede e showroom, ufficio tecnico, pubblica amministrazione e MEPA. Arredi contract su misura in Calabria e in Italia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/artes.css">
+</head>
+<body>
+
+<div data-artes-header></div>
+<script src="assets/js/shell.js"></script>
+<main>
+
+  <section class="page-intro">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <strong>Contatti</strong>
+    </div>
+    <div class="page-intro__row">
+      <div>
+        <div class="eyebrow">Contatti</div>
+        <h1 class="page-title">Parliamo<br><strong>del tuo spazio.</strong></h1>
+      </div>
+      <p class="lead">Una domanda, un sopralluogo, una collaborazione su un progetto già avviato: scrivici o passa in sede. Ti risponde chi segue davvero il lavoro, non un centralino.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="grid-1px grid-1px--4">
+      <div class="card">
+        <div class="card__n">Sede e showroom</div>
+        <div class="card__t">Rende (CS)</div>
+        <div class="card__d">Via —, Rende (CS)<br>Visite in showroom su appuntamento.</div>
+      </div>
+      <div class="card">
+        <div class="card__n">Commerciale e ufficio tecnico</div>
+        <div class="card__t">+39 0000 000 000</div>
+        <div class="card__d">info@artesarredamenti.it<br>Richieste, sopralluoghi e assistenza.</div>
+      </div>
+      <div class="card">
+        <div class="card__n">Pubblica amministrazione</div>
+        <div class="card__t">Abilitati MEPA</div>
+        <div class="card__d">Forniture su Acquisti in Rete PA per scuole, uffici pubblici ed enti. PEC: —</div>
+      </div>
+      <div class="card">
+        <div class="card__n">Progettisti</div>
+        <div class="card__t">Studi e architetti</div>
+        <div class="card__d">Capitolati, campionature e schede tecniche per chi progetta. <a href="area-progettisti.html" class="link-rule">Area progettisti</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contatti bg-alt" id="scrivici">
+    <div class="contatti__intro">
+      <div class="eyebrow">Scrivici</div>
+      <h2 class="h-section">Una domanda,<br>una risposta vera.</h2>
+      <p class="lead">Rispondiamo entro due giorni lavorativi. Se hai già un progetto da quotare, il modulo di preventivo raccoglie subito tutte le informazioni utili.</p>
+      <div class="contatti__cta">
+        <a href="richiedi-preventivo.html" class="link-rule">Richiedi un preventivo</a>
+      </div>
+    </div>
+
+    <div class="contatti__body">
+      <form class="form" data-contatti novalidate>
+        <div class="form__field">
+          <label for="c-nome">Nome e cognome *</label>
+          <input id="c-nome" name="nome" type="text" autocomplete="name" required>
+        </div>
+        <div class="form__field">
+          <label for="c-azienda">Azienda o ente</label>
+          <input id="c-azienda" name="azienda" type="text" autocomplete="organization">
+        </div>
+        <div class="form__field">
+          <label for="c-email">Email *</label>
+          <input id="c-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="form__field">
+          <label for="c-tel">Telefono</label>
+          <input id="c-tel" name="telefono" type="tel" autocomplete="tel">
+        </div>
+        <div class="form__field form__field--wide">
+          <label for="c-motivo">Motivo del contatto</label>
+          <select id="c-motivo" name="motivo">
+            <option value="informazioni">Informazioni generali</option>
+            <option value="tecnico">Parlare con un tecnico</option>
+            <option value="progettisti">Collaborazione per studi e progettisti</option>
+            <option value="pa">Pubblica amministrazione e MEPA</option>
+            <option value="assistenza">Assistenza su una fornitura</option>
+            <option value="fornitori">Fornitori e partner</option>
+            <option value="lavoro">Lavora con noi</option>
+          </select>
+        </div>
+        <div class="form__field form__field--wide">
+          <label for="c-msg">Messaggio *</label>
+          <textarea id="c-msg" name="messaggio" rows="5" required></textarea>
+        </div>
+        <label class="form__check form__field--wide">
+          <input type="checkbox" name="privacy" required>
+          <span>Ho letto l'<a href="#" class="link-rule">informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta. *</span>
+        </label>
+        <div class="form__actions form__field--wide">
+          <button type="submit" class="btn btn--red">Invia il messaggio</button>
+          <span class="form__hint">* campi obbligatori</span>
+        </div>
+      </form>
+      <div class="form__ok" data-contatti-ok tabindex="-1" hidden>
+        <div class="eyebrow">Messaggio inviato</div>
+        <p class="lead">Grazie. Ti rispondiamo entro due giorni lavorativi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mappa" aria-label="Mappa della sede">
+    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=16.12%2C39.30%2C16.24%2C39.36&amp;layer=mapnik&amp;marker=39.330%2C16.183" title="Mappa: Rende (CS)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </section>
+
+</main>
+
+<div data-artes-footer></div>
+
+<script src="assets/js/artes.js"></script>
+</body>
+</html>

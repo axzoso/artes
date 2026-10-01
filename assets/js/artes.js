@@ -1,87 +1,10 @@
 /* ARTES Contract — interazioni del template.
-   Due comportamenti soltanto: le tendine di settore in header e i filtri
-   dei progetti/brand. Tutto il resto è markup statico: la pagina resta
+   Filtri dei progetti/brand, nav mobile, slider della home e invio del form
+   contatti (simulato). Tutto il resto è markup statico: la pagina resta
    leggibile senza JS. */
 
 (function () {
   'use strict';
-
-  /* --- Tendine di settore ------------------------------------------------ */
-  /* Ogni voce di nav con [data-drop-trigger] apre il proprio pannello
-     (aria-controls). Aprirne una chiude le altre. Stesso comportamento di
-     prima: hover con piccolo ritardo di chiusura, focus apre, Escape chiude,
-     un click fuori chiude. */
-
-  function initDrops() {
-    var triggers = document.querySelectorAll('[data-drop-trigger]');
-    if (!triggers.length) return;
-
-    var pairs = [];
-    triggers.forEach(function (trigger) {
-      var panel = document.getElementById(trigger.getAttribute('aria-controls'));
-      if (panel) pairs.push({ trigger: trigger, panel: panel });
-    });
-    if (!pairs.length) return;
-
-    var closeTimer = null;
-
-    function closeAll(exceptPanel) {
-      pairs.forEach(function (pair) {
-        if (pair.panel === exceptPanel) return;
-        pair.panel.hidden = true;
-        pair.trigger.setAttribute('aria-expanded', 'false');
-      });
-    }
-
-    /* Il contenuto della tendina parte sotto la propria voce: con 5 voci
-       distribuite su tutta la riga, allinearlo al margine sinistro lo
-       staccherebbe dalla voce che l'ha aperto. Vedi --drop-x in artes.css. */
-    function align(pair) {
-      var offset = pair.trigger.getBoundingClientRect().left -
-        pair.panel.parentNode.getBoundingClientRect().left;
-      pair.panel.style.setProperty('--drop-x', Math.round(offset) + 'px');
-    }
-
-    function open(pair) {
-      clearTimeout(closeTimer);
-      closeAll(pair.panel);
-      align(pair);
-      pair.panel.hidden = false;
-      pair.trigger.setAttribute('aria-expanded', 'true');
-    }
-
-    function scheduleCloseAll() {
-      clearTimeout(closeTimer);
-      closeTimer = setTimeout(function () { closeAll(null); }, 120);
-    }
-
-    pairs.forEach(function (pair) {
-      [pair.trigger, pair.panel].forEach(function (el) {
-        el.addEventListener('mouseenter', function () { open(pair); });
-        el.addEventListener('mouseleave', scheduleCloseAll);
-      });
-      // Il trigger è un link alla pagina di settore: il click naviga, non intercettiamo.
-      pair.trigger.addEventListener('focus', function () { open(pair); });
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      var openPair = pairs.filter(function (p) { return !p.panel.hidden; })[0];
-      if (!openPair) return;
-      closeAll(null);
-      openPair.trigger.focus();
-    });
-
-    document.addEventListener('focusin', function (e) {
-      pairs.forEach(function (pair) {
-        if (pair.panel.hidden) return;
-        if (!pair.panel.contains(e.target) && e.target !== pair.trigger) {
-          pair.panel.hidden = true;
-          pair.trigger.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-  }
 
   /* --- Filtri (progetti o brand) ----------------------------------------- */
   /* Generico: filtra qualunque figlio diretto con [data-settore] dentro
@@ -121,13 +44,51 @@
       if (btn) apply(btn.dataset.filtro);
     });
 
-    apply('Tutti');
+    /* ?settore=… preseleziona un filtro: le pagine settore linkano così
+       l'archivio Realizzazioni già filtrato sul proprio settore. */
+    var richiesto = new URLSearchParams(location.search).get('settore');
+    var esiste = Array.prototype.some.call(buttons, function (b) {
+      return b.dataset.filtro === richiesto;
+    });
+    apply(esiste ? richiesto : 'Tutti');
   }
 
-  /* --- Nav mobile (hamburger + accordion) -------------------------------- */
-  /* Sotto i 1024px la nav orizzontale e le tendine hover spariscono via CSS;
-     questo pannello a schermo intero le sostituisce. Le 5 voci di settore
-     diventano accordion: un pannello aperto alla volta. */
+  /* --- Form contatti ------------------------------------------------------ */
+  /* Nel mockup l'invio è simulato: se i campi obbligatori sono validi il
+     form lascia il posto al messaggio di conferma. In WordPress l'invio
+     sarà gestito dal plugin form scelto.
+     Un parametro nell'URL con lo stesso nome di una <select> la preseleziona
+     (valore o testo dell'opzione): richiedi-preventivo.html?settore=… dalle
+     pagine settore, contatti.html?motivo=tecnico da "Parla con un tecnico". */
+
+  function initForm() {
+    var params = new URLSearchParams(location.search);
+
+    document.querySelectorAll('[data-contatti]').forEach(function (form) {
+      params.forEach(function (valore, nome) {
+        var select = form.querySelector('select[name="' + nome + '"]');
+        if (!select) return;
+        Array.prototype.forEach.call(select.options, function (opt) {
+          if (opt.value === valore || opt.text === valore) opt.selected = true;
+        });
+      });
+
+      var ok = form.parentNode.querySelector('[data-contatti-ok]');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        form.hidden = true;
+        if (ok) {
+          ok.hidden = false;
+          ok.focus();
+        }
+      });
+    });
+  }
+
+  /* --- Nav mobile (hamburger) ------------------------------------------- */
+  /* Fino a 1365px la riga di navigazione sparisce via CSS; questo pannello
+     a schermo intero la sostituisce con le stesse voci. */
 
   function initMobileNav() {
     var toggle = document.querySelector('.nav-toggle');
@@ -155,34 +116,52 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !panel.hidden) close();
     });
+  }
 
-    var triggers = panel.querySelectorAll('.mobile-nav__trigger');
-    triggers.forEach(function (trigger) {
-      var sub = document.getElementById(trigger.getAttribute('aria-controls'));
-      if (!sub) return;
+  /* --- Slider produzione ------------------------------------------------- */
+  function initProduzioneSlider() {
+    var slider = document.querySelector('[data-produzione-slider]');
+    if (!slider) return;
 
-      trigger.addEventListener('click', function () {
-        var wasOpen = !sub.hidden;
+    var slides = Array.prototype.slice.call(slider.querySelectorAll('.produzione-slide'));
+    var prev = slider.querySelector('[data-slide-prev]');
+    var next = slider.querySelector('[data-slide-next]');
+    var count = slider.querySelector('.produzione-slider__count');
+    if (slides.length < 2 || !prev || !next) return;
 
-        triggers.forEach(function (t) {
-          var s = document.getElementById(t.getAttribute('aria-controls'));
-          if (!s) return;
-          s.hidden = true;
-          t.setAttribute('aria-expanded', 'false');
-        });
+    var current = 0;
+    var timer = null;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (!wasOpen) {
-          sub.hidden = false;
-          trigger.setAttribute('aria-expanded', 'true');
-        }
+    function show(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach(function (slide, i) {
+        var active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
       });
-    });
+      if (count) count.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+
+    function restart() {
+      if (reducedMotion) return;
+      clearInterval(timer);
+      timer = setInterval(function () { show(current + 1); }, 6000);
+    }
+
+    prev.addEventListener('click', function () { show(current - 1); restart(); });
+    next.addEventListener('click', function () { show(current + 1); restart(); });
+    slider.addEventListener('mouseenter', function () { clearInterval(timer); });
+    slider.addEventListener('mouseleave', restart);
+    show(0);
+    restart();
   }
 
   function init() {
-    initDrops();
     initFiltri();
     initMobileNav();
+    initProduzioneSlider();
+    initForm();
   }
 
   if (document.readyState === 'loading') {

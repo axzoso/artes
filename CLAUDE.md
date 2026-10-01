@@ -34,10 +34,10 @@ o CrocoBuilder/Crocoblock).
 ## 2. Architettura
 
 ```
-*.html                 13 pagine, file piatti in root (niente sottocartelle)
-assets/css/artes.css   foglio unico, sezioni numerate 1-13 in testa al file
+*.html                 30 pagine, file piatti in root (niente sottocartelle)
+assets/css/artes.css   foglio unico, sezioni numerate 1-16
 assets/js/shell.js     >>> UNICA SORGENTE di header e footer <<<
-assets/js/artes.js     tendine di settore, filtri progetti/brand, nav mobile
+assets/js/artes.js     filtri progetti/brand, nav mobile, slider home, form
 assets/img/            foto reali (progetti/ per cliente, sfuse/ per i blocchi)
 assets/artes-logo.png  logo 800×217, usato a 28px (header) e 26px (footer)
 ```
@@ -69,6 +69,8 @@ runtime dal nome del file corrente: non va scritta nelle pagine.
 
 Non reintrodurre header/footer copiati nelle pagine: prima del 2026-09-22 lo
 erano, e una modifica al menu costava 162 righe identiche × 13 file.
+La voce "Realizzazioni" resta attiva anche sulle schede `realizzazione-*.html`
+grazie a `data-nav-alias` (un alias che finisce con `*` vale come prefisso).
 
 Trade-off accettato: header e footer non sono nel sorgente HTML statico.
 Va bene per un mockup di approvazione che in WordPress diventerà
@@ -102,30 +104,41 @@ smentita. È stata risolta scambiando i nomi file, non i contenuti.
 
 ## 4. Struttura del menu
 
-Header a due righe (solo sopra i 1024px):
+Header a due righe (solo da 1366px in su):
 
 ```
-riga 1   [LOGO]                            [AREA PROGETTISTI] [CONTATTACI]
-riga 2   i 5 settori, ognuno con tendina │ Su misura · Contract · Blog · Chi siamo
+riga 1   [LOGO]                                   [AREA PROGETTISTI] [CONTATTACI]
+riga 2   i 5 settori │ Realizzazioni · Su misura · Contract · Blog · Chi siamo
 ```
 
-Sopra c'è la topbar (payoff, MEPA, contatti, lingua). Sotto i 1024px topbar
-e riga nav spariscono e subentra il pannello hamburger `.mobile-nav`, con i
-5 settori come accordion.
+**Nessuna tendina** (decisione della riunione del 2026-09-28): i 5 settori
+sono link diretti alle loro pagine. Le sotto-voci (ambiti) compaiono solo
+come testo dentro ciascuna pagina settore.
 
-La riga nav è calibrata sulla larghezza minima desktop (1320px): corpo
-13,5px per i settori e 13px per le voci aziendali, ~75px di stacco fra i
-due gruppi. **Aggiungere una voce o allungare un nome richiede di
-ricontrollare a 1320px** che la riga non sfori. Le tendine si aprono
-allineate sotto la propria voce (`--drop-x`, calcolata da `artes.js`).
+Sopra c'è la topbar (payoff, MEPA, contatti, lingua). Fino a 1365px topbar
+e riga nav spariscono e subentra il pannello hamburger `.mobile-nav`, con
+le stesse voci come link semplici (regole in sezione 14 di `artes.css`).
+
+La riga nav è calibrata su 1366px, la larghezza minima in cui appare:
+corpo 13px, ~60px di stacco fra i due gruppi (sotto ~1300px sfora).
+**Aggiungere una voce o allungare un nome richiede di ricontrollare a
+1366px** e, se serve, alzare il breakpoint. Le tre righe dell'header
+(topbar, logo, menu) condividono la stessa larghezza: sopra i 1600px il
+contenuto si centra su 1600px (regola `@media (min-width: 1600px)` in
+sezione 14).
 
 ## 5. Convenzioni di stile
 
 Vincolanti, definite in `sistema-visivo.html` e in `PAGES.md` §"Regole di
-stile":
+stile", **aggiornate dal restyling del 2026-09-30** (sezioni 14-15 di
+`artes.css`, vedi sotto):
 
-- nessun `box-shadow`, nessun angolo arrotondato: filetti 1px, fondi
-  alterni, spazio bianco; griglie con `gap: 1px` su fondo `--line`;
+- palette bianco / nero / rosso: fondo `--bone` #FFF, fasce scure
+  (`--sand`, footer, brand) #111, rosso `--accent` #D71920;
+- nessun `box-shadow`, nessun angolo arrotondato; le separazioni sono
+  soprattutto spazio: le griglie (`.fasi`, `.lavorazioni`, `.brands`,
+  `.grid-1px`) hanno gap di 18-34px su fondo trasparente, non più `gap: 1px`
+  su fondo `--line`;
 - lo stacco fra sezioni chiare consecutive si fa col fondo, non col
   filetto: classe `.bg-alt` (token `--stone`, #E8E8E8) sulla sezione. I
   filetti restano solo dentro i componenti (griglie, liste, colonne);
@@ -135,20 +148,68 @@ stile":
 - spazi verticali sulla scala 20 / 34 / 44 / 80 / 110px, sezioni 96-120px;
 - riusare le classi esistenti prima di scriverne di nuove: `.eyebrow`,
   `.h-section`, `.lead`, `.link-rule`, `.btn`, `.section__head`, `.ph`;
-- il CSS è desktop-first: `body { min-width: 1320px }` e due breakpoint di
-  adattamento (≤1024px tablet, ≤640px mobile) nella sezione 13.
+- numerazione solo a livello di sezione ("01 — Il metodo"): dentro una
+  sezione numerata gli elenchi non si numerano (richiesta del cliente,
+  2026-09-28). Se serve un'etichetta, una parola (`.card__n` "Officina
+  interna", "Acustica"), non un numero;
+- layout fluido (`body { min-width: 0 }` dal restyling) con breakpoint
+  ≤1365 (header hamburger), ≤1180, ≤1024, ≤780, ≤640, ≤460px. Le sezioni
+  13 (originale) e 14-15 (restyling) coesistono: le 14-15 vengono dopo e
+  vincono a parità di specificità.
+
+### Restyling del 2026-09-30
+
+Il titolare ha rifatto la grafica con ChatGPT partendo dal commit `0d21fa1`
+(prima di sfondi alternati e shell). Le sue modifiche erano tutte in coda al
+CSS e sono state riportate come sezioni 14 e 15, più lo slider della
+sezione Produzione in home (`initProduzioneSlider` in `artes.js`). Per
+confrontare di nuovo con la sua versione, fare il diff del suo
+`assets/css/artes.css` contro `git show 0d21fa1:assets/css/artes.css`.
 
 ## 6. Pagine
 
-13 pagine esistenti: home, i 5 settori, `arredamento-su-misura.html`,
+30 pagine: home, i 5 settori, `arredamento-su-misura.html`,
 `contract.html`, `chi-siamo.html`, `brand-partner.html`, `brand-pedrali.html`,
-`realizzazione.html`, `sistema-visivo.html`.
+`realizzazioni.html` + 14 schede `realizzazione-*.html`, `contatti.html`,
+`richiedi-preventivo.html`, `area-progettisti.html`, `sistema-visivo.html`.
 
-- `realizzazione.html` **non è una pagina**: è il layout della scheda
-  progetto, che in WordPress diventa un CPT gestito con JetEngine.
+- Le 5 pagine settore seguono tutte lo stesso schema: intro → foto
+  generica (`.page-band`) → "Il settore" (testo + 3 schede) → ambiti →
+  progetti del settore con filtro per ambito → link all'archivio già
+  filtrato (`realizzazioni.html?settore=<nome settore>`) → CTA.
+- `realizzazioni.html` è l'archivio di tutti i progetti, filtrabile per i
+  5 settori; il parametro `?settore=` preseleziona il filtro (`artes.js`).
+- I form (`[data-contatti]`: scheda realizzazione, contatti, richiedi
+  preventivo) condividono le classi `.contatti`/`.form` e l'invio simulato.
+  Un parametro URL con il nome di una `<select>` la preseleziona: le CTA
+  "Richiedi un preventivo" delle pagine settore passano `?settore=`,
+  "Parla con un tecnico" passa `contatti.html?motivo=tecnico#scrivici`.
+  Nuove CTA verso queste pagine vanno scritte allo stesso modo.
+
+- Le **schede realizzazione** sono 14 file `realizzazione-<slug>.html`, tutti
+  con la stessa struttura: intro, foto, dettagli tecnici (niente sezione
+  "Materiali e finiture", tolta su richiesta il 2026-09-30; solo Aurea ha
+  a fianco i brand coinvolti), altre realizzazioni, form contatti completo (`.contatti`/`.form`, sezione 16 del
+  CSS; invio simulato da `initForm` in `artes.js`). In WordPress diventano
+  un unico template del CPT gestito con JetEngine: qui sono file separati
+  solo perché il sito sia navigabile. Per aggiungere un progetto si copia
+  una scheda, si aggiunge la card in `realizzazioni.html` (e nella pagina
+  settore) con lo stesso nome in `.progetto__nome`.
+- Nelle schede di clienti reali non si inventano superfici, tempi, brand o
+  progettisti: solo ambienti e arredi visibili nelle foto. Cifre e brand
+  compaiono solo in Boutique Hotel Aurea, progetto fittizio con foto reali.
+  Anche Resort Capo Bianco, Spa Terme Luigiane e Business Hotel Fera sono
+  fittizi e hanno solo foto di repertorio: da sostituire con progetti veri.
+- `area-progettisti.html` è una pagina **pubblica** per attirare gli studi
+  che hanno già una commessa per un proprio cliente (non un'area riservata).
+  Ci portano il pulsante "Area Progettisti" dell'header, le CTA della home e
+  il footer.
 - `sistema-visivo.html` è un documento interno, fuori dalla nav pubblica.
 - Le pagine non ancora create restano `href="#"` (su Pages un link a un file
-  inesistente darebbe 404).
+  inesistente darebbe 404). Al 2026-09-30 restano solo: Blog, Prodotti,
+  MEPA / PA, Cataloghi PDF (footer) e l'informativa privacy dei form. Un
+  elemento senza destinazione è meglio non cliccabile (es. i brand senza
+  scheda in `brand-partner.html` sono `<div>`).
 
 Mappa completa delle pagine fatte e da fare, con priorità: **`PAGES.md`**.
 

@@ -213,7 +213,7 @@ img.tile__texture {
 .masthead__logo { display: flex; align-items: center; flex: 0 0 auto; margin-right: auto; }
 .masthead__logo img { height: 28px; width: auto; display: block; }
 
-/* Riga 2: i 5 settori (con tendina) a sinistra, le voci aziendali a destra.
+/* Riga 2: i 5 settori a sinistra, le voci aziendali a destra.
    Due righe perché i nomi dei settori, lunghi per scelta SEO del cliente,
    non stanno su una riga sola insieme a logo e azioni. */
 .navbar {
@@ -227,27 +227,15 @@ img.tile__texture {
   white-space: nowrap;
   font-size: 13.5px;
 }
-/* Corpo e spaziature calibrati sulla larghezza minima (1320px): lì le due
-   metà restano separate da ~70px. Allungare un nome significa ricontrollare. */
+/* Corpo e spaziature calibrati sulla larghezza minima (1366px, vedi sezione
+   14). Allungare o aggiungere una voce significa ricontrollare lì. */
 .nav, .nav__end { display: flex; align-items: center; gap: 20px; }
 .nav__end { gap: 18px; font-size: 13px; }
 .nav__end a { color: var(--muted-1); }
 .nav__end a:hover { color: var(--accent); }
-.nav a, .nav__trigger, .nav__end a { padding: 8px 0; }
+.nav a, .nav__end a { padding: 8px 0; }
 .nav a.is-active, .nav__end a.is-active { border-bottom: 1px solid var(--graphite); color: var(--graphite); }
-.nav__trigger {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: none;
-  border: 0;
-  font: inherit;
-  color: inherit;
-  letter-spacing: inherit;
-}
-.nav__trigger:hover { color: var(--accent); }
-.nav__count { font-family: var(--mono); font-size: 10px; color: var(--muted-4); }
+.nav a:hover { color: var(--accent); }
 
 .masthead__actions {
   display: flex;
@@ -269,19 +257,6 @@ img.tile__texture {
 .btn-sm--red { padding: 12px 17px; background: var(--accent); color: #fff; }
 .btn-sm--red:hover { background: var(--graphite); color: #fff; }
 
-/* Tendine di settore — un pannello per voce di nav. Il contenuto parte
-   sotto la propria voce: --drop-x viene impostata da artes.js all'apertura
-   (fallback: margine sinistro standard). */
-.drop {
-  border-top: 1px solid var(--line);
-  background: #fff;
-  padding: 30px var(--pad) 34px var(--drop-x, var(--pad));
-}
-.drop[hidden] { display: none; }
-.drop__inner { max-width: 300px; }
-.drop__ph { height: 76px; margin-bottom: 16px; background: var(--hatch-b-wide); }
-.drop__list { display: flex; flex-direction: column; gap: 6px; }
-.drop__list a { font-size: 14px; color: var(--muted-2); line-height: 1.35; }
 
 /* --- 6. Home ------------------------------------------------------------ */
 
@@ -332,7 +307,7 @@ img.tile__texture {
   color: rgba(255,255,255,.72);
   text-wrap: pretty;
 }
-.hero__actions { display: flex; gap: 12px; margin-top: 44px; }
+.hero__actions { display: flex; gap: 12px; margin-top: 44px; margin-bottom: 64px; }
 .hero__stats {
   position: absolute;
   left: 0;
@@ -382,7 +357,7 @@ img.tile__texture {
 }
 .fase:hover { background: #fff; }
 .fase__n { font-family: var(--mono); font-size: 11.5px; color: var(--accent); }
-.fase h3 { margin: 16px 0 10px; font-weight: 500; font-size: 22px; letter-spacing: -.015em; }
+.fase h3 { margin: 0 0 10px; font-weight: 500; font-size: 22px; letter-spacing: -.015em; }
 .fase p { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--muted-3); }
 .fase--dark {
   background: var(--graphite);
@@ -434,10 +409,9 @@ img.tile__texture {
   padding: 26px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   pointer-events: none;
 }
-.tile__num { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: rgba(255,255,255,.75); }
 .tile h3 { font-weight: 500; font-size: 33px; letter-spacing: -.02em; color: #fff; }
 .tile p { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.72); max-width: 340px; }
 
@@ -912,6 +886,7 @@ img.tile__texture {
   letter-spacing: -.015em;
   margin-top: 14px;
 }
+.card__t:first-child { margin-top: 0; }
 .card__d { font-size: 15px; line-height: 1.6; color: var(--muted-2); margin-top: 12px; }
 .card--dark .card__t { color: #fff; }
 .card--dark .card__d { color: rgba(255,255,255,.62); }
@@ -928,17 +903,17 @@ img.tile__texture {
 }
 .card__list li:last-child { border-bottom: 0; padding-bottom: 0; }
 
-/* Le sette fasi in versione estesa: numero, titolo, descrizione, output. */
+/* Le sette fasi in versione estesa: titolo, descrizione, output. Senza
+   numero: la sezione è già numerata (richiesta del cliente, 2026-09-28). */
 .fasi-list { border-top: 1px solid var(--line); }
 .fase-row {
   display: grid;
-  grid-template-columns: 72px 230px 1fr 230px;
+  grid-template-columns: 230px 1fr 230px;
   gap: 32px;
   padding: 30px 0;
   border-bottom: 1px solid var(--line);
   align-items: start;
 }
-.fase-row__n { font-family: var(--mono); font-size: 11.5px; color: var(--accent); padding-top: 5px; }
 .fase-row__t { font-family: var(--display); font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
 .fase-row__d { font-size: 16px; line-height: 1.6; color: var(--muted-2); }
 .fase-row__out { text-align: right; }
@@ -963,6 +938,10 @@ img.tile__texture {
 .lead--note { font-size: 15.5px; margin-top: 24px; }
 .link-rule--spaced { margin-top: 26px; }
 .scheda__specs--boxed { border: 1px solid var(--line); }
+/* Scheda realizzazione senza colonna destra (niente brand coinvolti): i
+   dettagli tecnici occupano la riga, con una misura di lettura. */
+.scheda__specs--solo { grid-template-columns: 1fr; }
+.scheda__specs--solo .specs { border-right: 0; max-width: 1040px; }
 .materiali--wide { grid-template-columns: repeat(8, 1fr); }
 
 /* --- 12. Indice settori -------------------------------------------------- */
@@ -1010,7 +989,8 @@ img.tile__texture {
   margin: 34px 0 0;
   padding: 0;
 }
-.ambiti a {
+/* Gli ambiti sono testo: dal 2026-09-28 i settori non hanno sotto-pagine. */
+.ambiti span {
   display: block;
   font-size: 15px;
   line-height: 1.4;
@@ -1018,7 +998,6 @@ img.tile__texture {
   padding: 11px 0;
   border-bottom: 1px solid var(--line-soft);
 }
-.ambiti a:hover { color: var(--accent); }
 
 .settore__links { display: flex; gap: 28px; margin-top: 34px; }
 
@@ -1061,56 +1040,7 @@ img.tile__texture {
   :root { --pad: 28px; --gutter: 16px; }
   body { min-width: 0; }
 
-  /* --- 4. Header --- */
-  .topbar, .navbar { display: none; }
-  .masthead { height: 64px; }
-  .masthead__actions .btn-sm--outline { display: none; }
-  .nav-toggle { display: flex; }
-  /* .header's backdrop-filter creates a new containing block for fixed-position
-     descendants, so .mobile-nav (position: fixed) would otherwise be confined to
-     .header's own (64px-tall) box instead of covering the viewport. Drop the
-     filter at this width, where the fullscreen mobile panel is what matters. */
-  .header { backdrop-filter: none; }
-
-  .mobile-nav:not([hidden]) {
-    display: block;
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 70;
-    background: var(--bone);
-    overflow-y: auto;
-    padding: 24px var(--pad) 40px;
-  }
-  .mobile-nav__list { display: flex; flex-direction: column; }
-  .mobile-nav__list > a {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--line-soft);
-    font-size: 17px;
-  }
-  .mobile-nav__item { border-bottom: 1px solid var(--line-soft); }
-  .mobile-nav__trigger {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-    border: 0;
-    background: none;
-    font: inherit;
-    font-size: 17px;
-    color: inherit;
-    cursor: pointer;
-  }
-  .mobile-nav__trigger::after { content: '+'; font-family: var(--mono); font-size: 16px; color: var(--muted-3); }
-  .mobile-nav__trigger[aria-expanded="true"]::after { content: '\2013'; }
-  .mobile-nav__panel[hidden] { display: none; }
-  .mobile-nav__panel { display: flex; flex-direction: column; padding: 0 0 16px; }
-  .mobile-nav__panel a { padding: 10px 0; font-size: 15px; color: var(--muted-2); }
-  .mobile-nav__panel a:first-child { color: var(--accent); font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; padding-bottom: 14px; }
-  .mobile-nav__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
+  /* --- 4. Header: vedi il breakpoint 1365px in sezione 14. --- */
 
   /* --- 6. Home --- */
   /* .hero__stats is absolutely positioned over the bottom of .hero on desktop;
@@ -1251,4 +1181,549 @@ img.tile__texture {
   .settore--flip .settore__media { min-height: 260px; }
   .settore__t { font-size: 26px; }
   .ambiti { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   14. Restyling 2026 — leggibilità, ritmo e navigazione
+   ========================================================================== */
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-width: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+p { max-width: 68ch; }
+
+a, button { outline-offset: 4px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); }
+
+.header { border-bottom-color: rgba(23,23,22,.18); }
+.masthead { min-height: 76px; height: auto; padding-top: 14px; padding-bottom: 14px; }
+.masthead__logo img { height: 31px; }
+.nav { gap: clamp(12px, 1.35vw, 24px); }
+.nav a, .nav__end a { font-size: 13px; line-height: 1.3; }
+.btn-sm { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+
+.hero { height: min(760px, calc(100svh - 160px)); min-height: 650px; }
+.hero__inner { max-width: 1600px; margin: 0 auto; padding-left: clamp(28px, 6vw, 96px); padding-right: clamp(28px, 6vw, 96px); }
+.hero__title { font-size: clamp(68px, 7vw, 116px); line-height: .9; max-width: 980px; }
+.hero__lead { max-width: 640px; font-size: clamp(18px, 1.35vw, 22px); line-height: 1.55; }
+.hero__scrim { background: linear-gradient(90deg, rgba(12,12,11,.9) 0%, rgba(12,12,11,.58) 48%, rgba(12,12,11,.12) 100%); }
+.hero__stats { backdrop-filter: blur(12px); background: rgba(20,20,19,.72); }
+.stat { padding-top: 22px; padding-bottom: 22px; }
+
+.section, .metodo, .produzione__text, .settore__text, .page-intro, .scheda__intro {
+  padding-top: clamp(72px, 8vw, 124px);
+  padding-bottom: clamp(78px, 9vw, 136px);
+}
+.h-section { font-size: clamp(42px, 4.2vw, 64px); line-height: 1.02; }
+.lead { font-size: clamp(17px, 1.25vw, 20px); line-height: 1.72; }
+.eyebrow { font-size: 12px; margin-bottom: 24px; }
+.section__head { gap: 32px; }
+
+.fase, .lavorazione, .card, .brand { transition: background .22s ease, transform .22s ease; }
+.fase:hover, .lavorazione:hover, .card:hover, .brand:hover { transform: translateY(-2px); }
+.fase p, .card p, .lavorazione__d { font-size: 15px; line-height: 1.6; }
+
+.tile { min-height: 330px; }
+.tile--tall { min-height: 680px; }
+.tile h3 { font-size: clamp(25px, 2.2vw, 38px); line-height: 1.05; }
+.tile p { font-size: 15px; line-height: 1.55; max-width: 42ch; }
+.tile__scrim { background: linear-gradient(180deg, rgba(20,20,19,.04) 0%, rgba(20,20,19,.78) 100%); }
+
+.progetto__media img, .tile__texture, .page-band img, .settore__media img,
+.produzione__media img, .scheda__hero img, .ph img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.progetto:hover .progetto__media img, .tile:hover .tile__texture,
+.correlate__item:hover .ph img { transform: scale(1.025); }
+
+.filtro { min-height: 40px; padding: 10px 16px; line-height: 1.25; }
+.progetto__meta { min-height: 104px; gap: 18px; }
+.progetto__nome { font-size: 18px; }
+
+.page-title, .scheda__title { font-size: clamp(56px, 6.4vw, 94px); line-height: .94; }
+.page-intro__lead, .scheda__lead { font-size: clamp(18px, 1.35vw, 21px); line-height: 1.65; }
+.page-band { height: clamp(360px, 48vw, 680px); }
+
+.footer__grid { gap: clamp(28px, 5vw, 76px); }
+.footer a { min-height: 28px; display: inline-flex; align-items: center; }
+
+@media (min-width: 1600px) {
+  .masthead, .topbar, .navbar, .section, .metodo, .brands-section, .page-intro,
+  .scheda__intro, .correlate, .footer__grid, .footer__bottom {
+    padding-left: max(var(--pad), calc((100vw - 1600px) / 2));
+    padding-right: max(var(--pad), calc((100vw - 1600px) / 2));
+  }
+}
+
+@media (max-width: 1180px) {
+  :root { --pad: 28px; }
+}
+
+/* Header compatto con hamburger. Il restyling lo attivava a 1180px, ma la
+   riga con i 5 settori e le 5 voci aziendali (con Realizzazioni, dal
+   2026-09-28) sta nella riga solo da ~1300px, e fino a ~1340px i due gruppi
+   si toccano. Da 1366px (portatili comuni) lo stacco è 60px: l'hamburger
+   copre tutto ciò che sta sotto. Aggiungere una voce = rimisurare a 1366px.
+   Il blocco sostituisce l'header del breakpoint 1024px di sezione 13. */
+@media (max-width: 1365px) {
+  .topbar, .navbar { display: none; }
+  .masthead { height: 68px; min-height: 0; padding-top: 0; padding-bottom: 0; }
+  .masthead__actions .btn-sm--outline { display: none; }
+  .nav-toggle { display: flex; }
+  /* .header's backdrop-filter creates a new containing block for fixed-position
+     descendants, so .mobile-nav (position: fixed) would otherwise be confined to
+     .header's own (68px-tall) box instead of covering the viewport. Drop the
+     filter at this width, where the fullscreen mobile panel is what matters. */
+  .header { backdrop-filter: none; }
+
+  .mobile-nav:not([hidden]) {
+    display: block;
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 70;
+    background: var(--bone);
+    overflow-y: auto;
+    padding: 24px var(--pad) 40px;
+  }
+  .mobile-nav__list { display: flex; flex-direction: column; }
+  .mobile-nav__list > a {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 17px;
+  }
+  .mobile-nav__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
+}
+
+@media (max-width: 780px) {
+  :root { --pad: 20px; }
+  .masthead__actions .btn-sm--red { display: none; }
+  .hero { min-height: 0; height: auto; }
+  .hero__inner { min-height: 590px; padding: 72px var(--pad) 48px; }
+  .hero__title { font-size: clamp(52px, 15vw, 76px); }
+  .hero__lead { font-size: 17px; }
+  .hero__actions { display: grid; width: 100%; max-width: 390px; }
+  .hero__actions .btn { text-align: center; }
+  .hero__stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .stat { min-height: 104px; border-bottom: 1px solid rgba(255,255,255,.16); }
+  .stat__k { font-size: 23px; }
+  .section__head { align-items: flex-start; flex-direction: column; }
+  .tiles, .progetti, .grid-1px--3, .grid-1px--4, .grid-1px--5 { grid-template-columns: 1fr; }
+  .tile, .tile--tall { min-height: 420px; grid-row: auto; }
+  .progetto, .progetto--w2, .progetto--w4, .progetto--w6 { grid-column: 1; min-height: 470px; }
+  .brands { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .page-title, .scheda__title { font-size: clamp(48px, 14vw, 68px); }
+  .page-band { height: 420px; }
+  .footer__grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 460px) {
+  .hero__stats { grid-template-columns: 1fr; }
+  .stat { min-height: 86px; }
+  .brands { grid-template-columns: 1fr; }
+  .tile, .tile--tall { min-height: 360px; }
+  .page-band { height: 320px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   15. Revisione cromatica e compositiva — bianco / nero / rosso
+   ========================================================================== */
+
+:root {
+  --bone: #FFFFFF;
+  --sand: #111111;
+  --line: #D9D9D9;
+  --line-soft: #EEEEEE;
+  --line-strong: #C9C9C9;
+  --line-btn: #BDBDBD;
+  --graphite: #111111;
+  --night: #080808;
+  --ink: #242424;
+  --muted-1: #3F3F3F;
+  --muted-2: #5E5E5E;
+  --muted-3: #747474;
+  --muted-4: #999999;
+  --accent: #D71920;
+  --sand-ink: #FFFFFF;
+  --sand-muted: #C8C8C8;
+  --hatch-a: #E9E9E9;
+  --hatch-b: #F2F2F2;
+  --hatch-a-wide: #E9E9E9;
+  --hatch-a-mid: #E9E9E9;
+  --hatch-b-wide: #F2F2F2;
+  --hatch-dark: #161616;
+}
+
+body, .header, .mobile-nav:not([hidden]) { background-color: #fff; }
+
+/* Le separazioni diventano soprattutto spazio, non cornici. */
+.section, .metodo, .produzione, .brands-section, .cta-duo, .settore,
+.footer, .scheda__specs, .scheda__specs--boxed {
+  border-color: transparent;
+}
+
+.section + .section, .metodo + .section, .produzione + .section {
+  border-top: 0;
+}
+
+.fasi, .lavorazioni, .brands, .grid-1px, .regole {
+  gap: clamp(18px, 2vw, 34px);
+  background: transparent;
+  border: 0;
+}
+
+.fase, .lavorazione, .card, .brand, .regola {
+  background: transparent;
+  padding-left: 0;
+  padding-right: clamp(12px, 1.5vw, 24px);
+}
+
+.fase:hover, .lavorazione:hover, .card:hover, .brand:hover,
+.grid-1px--hover .card:hover { background: transparent; }
+
+.fase--dark, .card--dark {
+  background: #111;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.brands-section, .footer { background: #111; }
+.brands-section { padding-top: 112px; padding-bottom: 116px; }
+.brands {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px 28px;
+}
+.brand {
+  height: 92px;
+  align-items: flex-start;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+.brand__n { color: #fff; }
+.brand__c { color: #aaa; }
+
+.tiles { gap: 12px; background: #fff; }
+@media (min-width: 1181px) {
+  .tiles {
+    height: 680px;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .tile, .tile--tall { min-height: 0; }
+}
+.progetti { gap: clamp(20px, 2vw, 34px); }
+.progetto__meta { padding-left: 0; padding-right: 0; border: 0; }
+
+.produzione__media, .produzione__inset, .settore__media, .settore__inset,
+.settore--flip .settore__media, .settore--flip .settore__inset {
+  border: 0;
+}
+
+.produzione { gap: clamp(32px, 5vw, 80px); }
+.settore { gap: clamp(36px, 6vw, 92px); padding-bottom: clamp(72px, 8vw, 120px); }
+.settore + .settore { padding-top: clamp(72px, 8vw, 120px); }
+.settore__text, .settore--flip .settore__text { padding-left: var(--pad); padding-right: var(--pad); }
+
+.fasi-list { border-top: 0; }
+.fase-row { border-bottom-color: var(--line-soft); }
+.card__list li, .ambiti span { border-bottom-color: #ececec; }
+.scheda__specs--boxed { box-shadow: none; }
+.gallery { gap: 12px; }
+.gallery .ph:hover { outline: 0; }
+
+/* Le sole linee rimaste hanno funzione di orientamento. */
+.link-rule { border-bottom-color: currentColor; }
+.topbar, .header, .mobile-nav__list > a,
+.footer__bottom { border-color: rgba(17,17,17,.12); }
+.footer__bottom { border-top-color: rgba(255,255,255,.16); }
+
+.ph:empty {
+  background: url('../img/sfuse/about-office.jpg') center / cover no-repeat;
+}
+
+@media (max-width: 1180px) {
+  .brands { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+@media (max-width: 780px) {
+  .fasi, .lavorazioni, .grid-1px, .regole { gap: 28px; }
+  .fase, .lavorazione, .card, .regola { padding-top: 0; padding-bottom: 22px; }
+  .fase--dark, .card--dark { padding: 28px 24px; }
+  .brands { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 22px; }
+  .settore { gap: 28px; }
+}
+
+@media (max-width: 460px) {
+  .brands { grid-template-columns: 1fr; }
+}
+
+/* Produzione: composizione editoriale. Le lavorazioni non sono numerate:
+   la sezione lo è già (richiesta del cliente, 2026-09-28). */
+.lavorazioni {
+  gap: 0 28px;
+}
+.lavorazione {
+  position: relative;
+  display: grid;
+  padding: 22px 0 26px;
+  border-top: 1px solid var(--line-soft);
+  align-content: start;
+}
+.lavorazione::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width .35s ease;
+}
+.lavorazione:hover { transform: none; }
+.lavorazione:hover::after { width: 100%; }
+.lavorazione__t { font-size: 19px; }
+.lavorazione__d { margin-top: 7px; }
+
+.produzione__media {
+  min-height: 700px;
+  background: #111;
+  overflow: hidden;
+}
+.produzione-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+.produzione-slide.is-active { opacity: 1; visibility: visible; }
+.produzione-slide img {
+  filter: saturate(.82) contrast(1.04);
+  transform: scale(1.035);
+  transition: transform 7s cubic-bezier(.2,.65,.2,1);
+}
+.produzione-slide.is-active img { transform: scale(1); }
+.produzione-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(0,0,0,.48) 100%);
+}
+.produzione-slide__label {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.82);
+}
+.produzione-slider__controls {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+  background: rgba(255,255,255,.94);
+}
+.produzione-slider__controls button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+.produzione-slider__controls button:hover,
+.produzione-slider__controls button:focus-visible { color: #fff; background: var(--accent); outline: 0; }
+.produzione-slider__count {
+  min-width: 48px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #555;
+}
+
+@media (max-width: 1024px) {
+  .produzione__media { min-height: 560px; }
+}
+
+@media (max-width: 640px) {
+  .lavorazioni { gap: 0; }
+  .produzione__media { min-height: 440px; }
+  .produzione-slide__label { left: 18px; bottom: 78px; }
+  .produzione-slider__controls { right: 14px; bottom: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .produzione-slide, .produzione-slide img { transition: none; }
+}
+
+/* ==========================================================================
+   16. Struttura del 2026-09-28 — archivio Realizzazioni, form, contatti
+   ========================================================================== */
+
+/* Link in coda a una griglia (es. "Tutte le realizzazioni" nelle pagine
+   settore). */
+.section__more { margin-top: 44px; }
+
+/* Form contatti: intro a sinistra, campi a destra. Usato in coda alla
+   scheda realizzazione, in contatti.html e in richiedi-preventivo.html.
+   Solo filetti inferiori, nessun riquadro. */
+.contatti {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 110px);
+  padding: clamp(72px, 8vw, 124px) var(--pad) clamp(78px, 9vw, 136px);
+}
+/* L'intro resta visibile mentre si scorre un modulo lungo; top = altezza
+   dell'header sticky + respiro. */
+.contatti__intro { position: sticky; top: 200px; align-self: start; }
+.contatti__intro .h-section { margin: 0; }
+.contatti__cta { margin-top: 34px; }
+.contatti__intro .lead { margin: 26px 0 0; }
+.contatti__diretti { margin: 44px 0 0; display: grid; gap: 18px; }
+.contatti__diretti dt {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted-3);
+}
+.contatti__diretti dd { margin: 4px 0 0; font-size: 17px; color: var(--ink); }
+
+.form, .form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px 28px;
+}
+.form__field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.form__field--wide { grid-column: 1 / -1; }
+.form label, .form__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  transition: border-color .2s;
+}
+.form select {
+  appearance: none;
+  padding-right: 24px;
+  background: linear-gradient(45deg, transparent 50%, var(--muted-2) 50%) calc(100% - 9px) 50% / 5px 5px no-repeat,
+              linear-gradient(-45deg, transparent 50%, var(--muted-2) 50%) calc(100% - 4px) 50% / 5px 5px no-repeat;
+  cursor: pointer;
+}
+.form textarea { resize: vertical; min-height: 120px; }
+.form input::placeholder, .form textarea::placeholder { color: var(--muted-4); }
+.form input:focus, .form select:focus, .form textarea:focus {
+  outline: 0;
+  border-bottom-color: var(--graphite);
+}
+.form input[type="file"] { font-size: 14px; color: var(--muted-2); }
+.form input[type="file"]::file-selector-button {
+  margin-right: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-btn);
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.form__hint { font-size: 13px; color: var(--muted-3); text-transform: none; letter-spacing: 0; }
+.form .form__check {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.5;
+  color: var(--muted-1);
+}
+.form__check input { margin: 3px 0 0; accent-color: var(--accent); width: 16px; height: 16px; flex: 0 0 auto; }
+.form__check .link-rule { font-family: inherit; font-size: inherit; letter-spacing: 0; text-transform: none; }
+.form__actions { display: flex; align-items: center; gap: 24px; }
+.form .btn { border: 0; cursor: pointer; }
+.form .btn--red:hover { background: var(--graphite); color: #fff; }
+/* Modulo lungo a gruppi (richiedi-preventivo.html): ogni fieldset ha un
+   titolo con filetto e la propria griglia di campi. */
+.form--stack { display: block; }
+.form__group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.form__group + .form__group { margin-top: 56px; }
+.form__legend {
+  float: left;           /* rende la legend un blocco normale a tutta larghezza */
+  width: 100%;
+  padding: 16px 0 0;
+  margin: 0 0 28px;
+  border-top: 1px solid var(--graphite);
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.form__legend + * { clear: both; }
+.form__options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+.form__field .form__options { margin-top: 6px; }
+.form__group > .form__check + .form__actions { margin-top: 34px; }
+
+.form__ok { padding: 34px 0; border-top: 2px solid var(--accent); }
+.form__ok:focus { outline: 0; }
+.form__ok .lead { margin: 0; }
+
+@media (min-width: 1600px) {
+  .contatti {
+    padding-left: max(var(--pad), calc((100vw - 1600px) / 2));
+    padding-right: max(var(--pad), calc((100vw - 1600px) / 2));
+  }
+}
+
+/* Mappa a tutta larghezza in contatti.html, in scala di grigi come le
+   foto del sito. */
+.mappa { height: clamp(320px, 36vw, 520px); background: var(--stone); }
+.mappa iframe { display: block; width: 100%; height: 100%; border: 0; filter: grayscale(1) contrast(1.05); }
+
+@media (max-width: 1024px) {
+  .contatti { grid-template-columns: 1fr; }
+  .contatti__intro { position: static; }
+}
+
+@media (max-width: 640px) {
+  .form, .form__grid, .form__options { grid-template-columns: 1fr; gap: 28px; }
+  .form__options { gap: 14px; }
+  .form__actions { flex-direction: column; align-items: flex-start; gap: 14px; }
 }
