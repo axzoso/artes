@@ -107,7 +107,7 @@
     <div>
       <div class="footer__t">Risorse</div>
       <div class="footer__list">
-        <a href="brand-partner.html">Brand Partner</a><a href="#">Prodotti</a><a href="area-progettisti.html">Area progettisti</a><a href="#">MEPA / PA</a><a href="#">Cataloghi PDF</a><a href="#">Blog</a>
+        <a href="brand-partner.html">Brand Partner</a><a href="prodotti.html">Prodotti</a><a href="area-progettisti.html">Area progettisti</a><a href="mepa.html">MEPA / PA</a><a href="#">Cataloghi PDF</a><a href="#">Blog</a>
       </div>
     </div>
     <div>

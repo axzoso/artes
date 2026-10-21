@@ -81,6 +81,9 @@ realizzazioni"; `setup/ordine-realizzazioni.php` imposta l'ordine del mockup.
 genera, compone, pubblica e svuota le cache. `setup/classi-brand.ps1` crea le 4 classi della
 griglia, `setup/menu-filtri-brand.php` il menu `filtri-brand`.
 
+`setup/campi-brand.php` aggiunge i campi della scheda completa; `setup/contenuti-pedrali.php` compila Pedrali (esempio per gli altri brand).
+`setup/pagine-prodotti-mepa.php` crea le pagine Prodotti e MEPA, `setup/menu-footer-prodotti-mepa.php` le mette nel menu footer.
+
 ## Pagine (settori, home, istituzionali, contatti, preventivo)
 
 `extract-settori.js`, `extract-home.js`, `extract-pagine.js` leggono il mockup con un piccolo parser

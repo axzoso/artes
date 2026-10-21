@@ -239,7 +239,7 @@ calibrata a 1366px (vedi `CLAUDE.md` §4): ricontrollare lì.
 9. [x] Pagina PoC settore hotel (2026-10-21).
 10. [x] Altre 4 pagine settore (stesso schema), 144–148.
 11. [x] Home (376), su misura, contract, chi siamo, area progettisti, contatti, preventivo (2026-10-21).
-11b. [x] Archivio Brand Partner (447) e singolo brand (448). [ ] Contenuti dei singoli brand (foto, specifiche) da avere dal cliente. [ ] Blog, Prodotti, MEPA/PA, Cataloghi PDF, informativa privacy, mappa Contatti, anti-spam e SMTP.
+11b. [x] Archivio Brand Partner (447) e singolo brand (448). [x] Scheda brand completa (campi, template) e Pedrali compilato; [ ] contenuti degli altri 18 brand dal cliente. [x] Prodotti e MEPA / PA (bozza testo). [ ] Blog, Cataloghi PDF, privacy e cookie policy (testi legali del cliente), mappa Contatti, anti-spam e SMTP.
 12. [ ] Verifica finale: confronto pagina per pagina con la preview, test del cliente.
 
 ## 8. Metodo di verifica

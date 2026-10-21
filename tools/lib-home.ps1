@@ -2,7 +2,7 @@
 # Va incluso dopo lib-blocchi.ps1:  . "$PSScriptRoot\lib-blocchi.ps1"; . "$PSScriptRoot\lib-home.ps1"
 
 # Pagine di destinazione (ID dei segnaposto): i link a queste usano l'oggetto nativo {id,label}, che WPML traduce.
-$script:PagineIds = @{ 'arredamento-ufficio' = 144; 'arredo-negozi' = 145; 'arredo-negozi-food' = 146; 'arredamento-bar-ristoranti' = 147; 'arredamento-hotel' = 148; 'arredamento-su-misura' = 149; 'contract' = 150; 'chi-siamo' = 151; 'contatti' = 152; 'area-progettisti' = 153; 'richiedi-preventivo' = 154 }
+$script:PagineIds = @{ 'arredamento-ufficio' = 144; 'arredo-negozi' = 145; 'arredo-negozi-food' = 146; 'arredamento-bar-ristoranti' = 147; 'arredamento-hotel' = 148; 'arredamento-su-misura' = 149; 'contract' = 150; 'chi-siamo' = 151; 'contatti' = 152; 'area-progettisti' = 153; 'richiedi-preventivo' = 154; 'prodotti' = 471; 'mepa' = 472 }
 function Link-Pagina([string]$href, [string]$label = '') {
   $name = ($href -replace '#.*$', '' -replace '\?.*$', '') -replace '\.html$', ''
   if ($href -notmatch '[?#]' -and $script:PagineIds.ContainsKey($name)) { return @{ destination = @{ id = $script:PagineIds[$name]; label = $(if ($label) { $label } else { $name }) }; tag = 'a' } }

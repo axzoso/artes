@@ -10,6 +10,24 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-10-21 (notte, 2) — Schede brand complete, Prodotti e MEPA
+
+**Richiesta**
+
+Completare le schede dei singoli brand; chiarire se le pagine delle sezioni 2 e 3 di `PAGES.md` vanno prima nel mockup o direttamente su WordPress; procedere per quanto possibile senza l'approvazione del cliente. Prodotti: versione "b" (la più semplice).
+
+**Fatto**
+
+- **Scheda brand completa**: 6 campi nuovi sul CPT, shortcode nel plugin, template 448 esteso (foto, galleria, specifiche, categorie prodotto, tutto nascosto se vuoto). Pedrali compilato come nel mockup; gli altri brand restano senza foto e specifiche.
+- **Mockup**: `prodotti.html` (categorie con rimando ai brand) e `mepa.html` (**testo di bozza**); footer dello shell aggiornato. Su WordPress pagine 471 e 472 e voci nel menu footer.
+- **Decisione sulle pagine mancanti**: mockup solo dove serve approvazione (Prodotti, MEPA); `cataloghi` aspetta i PDF; `privacy` e `cookie` sono testi legali del cliente, direttamente su WordPress.
+
+**Aperto**
+
+- Contenuti degli altri 18 brand; conferma del testo MEPA (abilitazione, categorie merceologiche); PDF per `cataloghi`; testi di privacy e cookie. Mockup nuovo non ancora pubblicato su GitHub Pages (push da chiedere).
+
+---
+
 ## 2026-10-21 (notte) — Pagine vere del sito e Brand Partner
 
 **Richiesta**

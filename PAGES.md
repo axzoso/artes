@@ -88,13 +88,13 @@ linkata solo dal footer.
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `prodotti.html` | Prodotti — catalogo per categoria | footer |
+| ✅ `prodotti.html` | Prodotti — categorie e rimando ai brand (versione "b", la più semplice) | footer; 2026-10-21 |
 
 ## 3. Utility e conversione — priorità alta
 
 | Percorso | Pagina | Linkata da |
 |---|---|---|
-| ⬜ `mepa.html` | MEPA / Acquisti in Rete PA | topbar, footer |
+| ✅ `mepa.html` | MEPA / PA — **testo di bozza da confermare con il cliente** | footer; 2026-10-21 |
 | ⬜ `cataloghi.html` | Cataloghi PDF | footer |
 | ⬜ `privacy.html` | Privacy policy | footer |
 | ⬜ `cookie.html` | Cookie policy | footer |
@@ -212,9 +212,8 @@ espansa dentro `brand-partner.html`.
    del CPT (sezione 6), non file da creare.
 5. ~~`architetti.html`~~ — fatta il 2026-09-30, poi unita in
    `area-progettisti.html` (pagina pubblica, non riservata).
-6. **`prodotti.html`.** `brand-partner.html` e `chi-siamo.html` sono già
-   fatte (sezione 1).
-7. **Utility e legali** — `mepa`, `cataloghi`, `privacy`, `cookie`.
+6. ~~`prodotti.html`~~ — fatta il 2026-10-21 (rimando a categorie e brand).
+7. **Utility e legali** — `mepa` fatta (bozza); restano `cataloghi` (servono i PDF), `privacy` e `cookie` (testi legali del cliente: si fanno direttamente su WordPress).
 8. **Schede brand e sotto-voci di settore**, solo dove servono davvero.
 
 ## Regole di stile da rispettare

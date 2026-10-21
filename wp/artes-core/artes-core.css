@@ -192,3 +192,19 @@ a:hover { color: var(--accent); }
 .card-list-item:last-child { border-bottom: 0; }/* --- Brand --------------------------------------------------------------------- */
 /* Scheda brand senza progetti collegati: Elementor nasconde il ciclo vuoto, qui anche titolo e fascia. */
 .correlate:has(.correlate-grid[style*="display: none"]) { display: none !important; }
+/* Categorie prodotto della scheda brand (shortcode [artes_categorie_prodotto]). Il widget Paragrafo toglie le
+   classi dall'HTML dello shortcode: si stila per struttura (ul > li > span). */
+.elementor .scheda-specs:has(.finiture-panel ul) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1024px) { .elementor .scheda-specs:has(.finiture-panel ul) { grid-template-columns: minmax(0, 1fr); } }
+.finiture-panel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px clamp(18px, 2vw, 34px); }
+.finiture-panel li { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid rgba(17, 17, 17, .18); }
+.finiture-panel li span:first-child { font-family: var(--font-display); font-size: 18.5px; font-weight: 500; letter-spacing: -.01em; color: #111; }
+.finiture-panel li span:last-child:not(:first-child) { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #777; }
+@media (max-width: 640px) { .finiture-panel ul { grid-template-columns: minmax(0, 1fr); } }
+/* Scheda brand senza immagine principale: niente riquadro vuoto (e niente galleria senza foto). */
+.scheda-media:has(img.scheda-hero:not([src])) { display: none !important; }
+/* Testata con filtri (home, progetti): sotto i 1025px i filtri vanno sotto il titolo, a tutta larghezza. */
+@media (max-width: 1024px) {
+  .section-head:has(> .filtri) { flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+  .section-head > .filtri { flex: 1 1 100%; width: 100%; }
+}

@@ -5,7 +5,7 @@ param([string[]]$Only = @())
 $d = $PSScriptRoot
 New-Item -ItemType Directory -Force (Join-Path $d 'out') | Out-Null
 $pagine = Get-Content "$d\out\pagine.json" -Raw -Encoding utf8 | ConvertFrom-Json
-$ids = [ordered]@{ 'chi-siamo' = 151; 'contract' = 150; 'arredamento-su-misura' = 149; 'area-progettisti' = 153 }
+$ids = [ordered]@{ 'chi-siamo' = 151; 'contract' = 150; 'arredamento-su-misura' = 149; 'area-progettisti' = 153; 'prodotti' = 471; 'mepa' = 472 }
 
 $chiavi = @($ids.Keys | Where-Object { (-not $Only.Count) -or ($Only -contains $_) })
 $imm = @()

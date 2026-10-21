@@ -331,6 +331,56 @@ add_shortcode(
 );
 
 /**
+ * Scheda brand: [artes_categoria_brand] -> "Contract — Sedute e sistemi operativi" (categoria
+ * più, se c'è, la categoria estesa del campo `sottotitolo_categoria`).
+ */
+add_shortcode(
+	'artes_categoria_brand',
+	function () {
+		$id    = artes_current_post_id();
+		$terms = wp_get_object_terms( $id, 'categoria_brand', array( 'fields' => 'names' ) );
+		$out   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : '';
+		$sub   = trim( (string) get_post_meta( $id, 'sottotitolo_categoria', true ) );
+
+		if ( '' !== $sub ) {
+			$out .= ( '' !== $out ? ' — ' : '' ) . $sub;
+		}
+
+		return esc_html( $out );
+	}
+);
+
+/**
+ * Scheda brand: [artes_categorie_prodotto] -> elenco delle categorie prodotto. Il campo
+ * `categorie_prodotto` ha una voce per riga, nel formato "Nome | Ambito".
+ */
+add_shortcode(
+	'artes_categorie_prodotto',
+	function () {
+		$righe = preg_split( '/\r\n|\r|\n/', (string) get_post_meta( artes_current_post_id(), 'categorie_prodotto', true ) );
+		$out   = '';
+
+		foreach ( (array) $righe as $riga ) {
+			$parti = array_map( 'trim', explode( '|', $riga, 2 ) );
+
+			if ( '' === $parti[0] ) {
+				continue;
+			}
+
+			$out .= '<li class="cat-prodotto"><span class="cat-prodotto-n">' . esc_html( $parti[0] ) . '</span>';
+
+			if ( ! empty( $parti[1] ) ) {
+				$out .= '<span class="cat-prodotto-c">' . esc_html( $parti[1] ) . '</span>';
+			}
+
+			$out .= '</li>';
+		}
+
+		return '' === $out ? '' : '<ul class="cat-prodotto-lista">' . $out . '</ul>';
+	}
+);
+
+/**
  * Voce di menu "Realizzazioni" attiva anche sulle schede e sull'archivio dei
  * settori, come in shell.js (data-nav-alias="realizzazione-*"). La voce è un
  * link personalizzato, quindi WordPress non la riconosce da solo.
