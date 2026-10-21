@@ -146,16 +146,21 @@ a:hover { color: var(--accent); }
   width: 100% !important; margin: 0 !important;
 }
 
+/* Hover delle voci: solo il colore (rosso del tema, come i link del sito), con la stessa
+   transizione morbida degli altri hover. Nessun movimento: il padding resta fissato sopra. */
+.hdr-navbar .elementor-nav-menu a.elementor-item,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item,
+.site-footer .elementor-nav-menu a.elementor-item { transition: color var(--artes-hover) !important; }
 .hdr-navbar .elementor-nav-menu a.elementor-item:hover,
-.hdr-navbar .elementor-nav-menu a.elementor-item:focus { color: var(--graphite); }
+.hdr-navbar .elementor-nav-menu a.elementor-item:focus,
 .hdr-navbar .elementor-nav-menu .nav-sep a.elementor-item:hover,
 .hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item:hover,
 .hdr-navbar .elementor-nav-menu .nav-sep a.elementor-item:focus,
-.hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item:focus { color: var(--muted-1); }
+.hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item:focus,
 .hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:hover,
-.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:focus { color: var(--graphite); background-color: transparent; }
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:focus,
 .site-footer .elementor-nav-menu a.elementor-item:hover,
-.site-footer .elementor-nav-menu a.elementor-item:focus { color: var(--sand-ink); }
+.site-footer .elementor-nav-menu a.elementor-item:focus { color: var(--accent); background-color: transparent; }
 
 /* --- Modulo di contatto ---------------------------------------------------- */
 /* Campo allegati e casella privacy come nel mockup (il widget lascia l'aspetto di sistema). */
@@ -168,10 +173,12 @@ a:hover { color: var(--accent); }
 .form-grid .form-field label:not(.form-label) { font-size: 14px; line-height: 1.5; color: var(--muted-1); }
 .form-grid ::placeholder { color: var(--muted-4); opacity: 1; }
 
-/* Voce corrente nei menu del footer: Elementor la colora di verde; resta come le altre (nessun hover/evidenza). */
+/* Voce corrente nei menu del footer: Elementor la colora di verde; resta come le altre (nessuna evidenza); in hover diventa rossa come le altre voci (regola sopra). */
 .site-footer .elementor-nav-menu li.current-menu-item > a.elementor-item,
 .site-footer .elementor-nav-menu li.current-menu-ancestor > a.elementor-item,
 .site-footer .elementor-nav-menu a.elementor-item.elementor-item-active { color: var(--sand-ink); }
+.site-footer .elementor-nav-menu li.current-menu-item > a.elementor-item:hover,
+.site-footer .elementor-nav-menu a.elementor-item.elementor-item-active:hover { color: var(--accent); }
 /* --- Home --------------------------------------------------------------------- */
 .hero-title strong { font-weight: 600; }
 /* Fascia brand su fondo scuro: link e colori chiari */
@@ -208,3 +215,29 @@ a:hover { color: var(--accent); }
   .section-head:has(> .filtri) { flex-wrap: wrap; align-items: flex-start; gap: 24px; }
   .section-head > .filtri { flex: 1 1 100%; width: 100%; }
 }
+/* Logo nel footer: il file è scuro su fondo nero. Il filtro inverte il nero e lascia il rosso rosso
+   (invert + hue-rotate 180°). Da sostituire con la versione chiara del logo quando il cliente la fornisce. */
+.footer-logo { filter: invert(1) hue-rotate(180deg); }
+
+/* --- Hover coerenti con il tema (solo colore, bordo, opacità: nessun movimento) ----------
+   Regola generale: testo cliccabile -> rosso; pulsanti e chip -> bordo/sfondo grafite;
+   card con immagine -> titolo rosso e immagine leggermente attenuata. */
+.filtri .elementor-nav-menu li a.elementor-item { transition: color var(--artes-hover), border-color var(--artes-hover), background-color var(--artes-hover) !important; }
+.filtri .elementor-nav-menu li:not(.current-menu-item) > a.elementor-item:hover { border-color: var(--graphite); color: var(--graphite); }
+.elementor .pag .pag-btn:hover, .elementor .pag .pag-btn:hover p { border-color: var(--graphite); color: var(--graphite); }
+
+.elementor .progetti-grid > *:hover .progetto-nome,
+.elementor .progetti-grid > *:hover .progetto-nome a,
+.elementor .correlate-grid > *:hover .correlate-name,
+.elementor .correlate-grid > *:hover .correlate-name a,
+.elementor .brand-card:hover .brand-card-n,
+.elementor .brand-item:hover .brand-item-n,
+.elementor .card-dark:hover .card-dark-t { color: var(--accent); }
+.progetto-img, .correlate-img { transition: opacity var(--artes-hover); }
+.elementor .progetti-grid > *:hover .progetto-img,
+.elementor .correlate-grid > *:hover .correlate-img { opacity: .88; }
+
+/* Mosaico dei settori in home: velo scuro appena più forte in hover (il mockup scuriva lo sfondo). */
+.tile .tile-body { z-index: 1; }
+.tile::after { content: ""; position: absolute; inset: 0; background: rgba(20, 20, 19, .2); opacity: 0; pointer-events: none; transition: opacity var(--artes-hover); }
+.tile:hover::after { opacity: 1; }

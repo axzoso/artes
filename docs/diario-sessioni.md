@@ -10,6 +10,39 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-10-21 (notte, 4) — Coerenza degli hover
+
+**Richiesta**
+
+Controllare che tutti gli hover siano coerenti con il tema grafico, i colori e gli stili del progetto.
+
+**Fatto**
+
+- Due comandi nuovi in `tools/cdp.js` (`hoverall`, `hovercard`) e audit su home, archivio, brand, scheda, settore, prodotti, contatti.
+- Già coerenti: pulsanti (rosso, ghost, chiaro, piccoli, footer, invio), link di testo e breadcrumb, voce Contatti della topbar.
+- Corretti: chip dei filtri e paginazione (ora bordo/testo grafite), titolo delle card in rosso su progetti, correlati, brand e Prodotti, immagini card a opacità .88, velo scuro sul mosaico della home.
+- Voci dei menu di header e footer: aggiunto in un secondo momento, su richiesta, un **cambio colore in rosso senza movimento** (prima non avevano hover per scelta del cliente).
+
+---
+
+## 2026-10-21 (notte, 3) — Giro di controllo del sito
+
+**Richiesta**
+
+Controllare tutto dev3 (desktop e mobile) in cerca di bug, e valutare la coerenza con l'obiettivo iniziale e le richieste del cliente.
+
+**Fatto**
+
+- Controllo automatico di 62 URL a 1440 e 390px e dei 123 link interni; controllo visivo di home (mobile), scheda brand, Prodotti, footer.
+- Corretti: un link rotto in Area progettisti, logo invisibile nel footer, filtri home su mobile (già in sessione).
+- Emersi (non risolti): nessun meta description né favicon; sito indicizzabile; "Hello world!" pubblico; manca SMTP, anti-spam, cookie banner; dati segnaposto (telefono, indirizzo, P.IVA).
+
+**Aperto**
+
+- Impostare noindex su dev3 e togliere "Hello world!" (impostazione del sito: da fare con conferma); SEO di base; link sensibili alla lingua prima della traduzione EN.
+
+---
+
 ## 2026-10-21 (notte, 2) — Schede brand complete, Prodotti e MEPA
 
 **Richiesta**

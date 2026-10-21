@@ -75,6 +75,10 @@ pubblica → svuota le cache. Serve sia `/realizzazioni/` sia le pagine dei sett
 `setup/mottura-e-menu-filtri.php` crea il brand Mottura e il menu "Filtri
 realizzazioni"; `setup/ordine-realizzazioni.php` imposta l'ordine del mockup.
 
+## Verifica degli hover
+
+`node tools/cdp.js hoverall <url>` forza l'hover (su elemento e genitori) su un elemento per tipo e mostra cosa cambia (colore, sfondo, bordo, opacità, spostamenti, testi interni). `node tools/cdp.js hovercard <url> "<card>" "<figlio>" ...` mostra come cambiano i figli di una card. Regola del progetto: solo colore, bordo e opacità, mai movimento.
+
 ## Brand Partner
 
 `gen-archive-brand.ps1` (site part 447) e `gen-single-brand.ps1` (448); `rebuild-brand.ps1` li

@@ -32,7 +32,11 @@ function Convert-Url([string]$href, [string]$settoreSlug = '') {
     'realizzazioni' { if ($settoreSlug) { return "/settore/$settoreSlug/" } else { return '/realizzazioni/' + $q + $frag } }
     'brand-partner' { return '/brand-partner/' + $q + $frag }
     'brand-pedrali' { return '/brand-partner/pedrali/' + $q + $frag }
-    default { return "/$name/" + $q + $frag }
+    default {
+      if ($name -match '^realizzazione-(.+)$') { return "/realizzazioni/$($Matches[1])/" + $q + $frag }
+      if ($name -match '^brand-(.+)$') { return "/brand-partner/$($Matches[1])/" + $q + $frag }
+      return "/$name/" + $q + $frag
+    }
   }
 }
 

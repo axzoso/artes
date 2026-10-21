@@ -101,5 +101,56 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       console.log(JSON.stringify({ sel, spostamento: move, stili_cambiati: diff }, null, 1));
     }
   }
+  if (cmd === 'hovercard') {
+    // node tools/cdp.js hovercard <url> "<selettore card>" "<selettore figlio>" ...: forza l'hover sulla card (e i suoi
+    // genitori) e mostra come cambiano colore, opacità e sfondo dei figli indicati.
+    const cardSel = rest.shift(); const kidSels = rest.slice();
+    await evalJs(`document.querySelector(${JSON.stringify(cardSel)}).scrollIntoView({ block: 'center' })`); await sleep(300);
+    const m = () => evalJs(`(() => { const card = document.querySelector(${JSON.stringify(cardSel)}); return ${JSON.stringify(kidSels)}.map((s) => { const el = card.querySelector(s) || document.querySelector(s); if (!el) return s + ': non trovato'; const c = getComputedStyle(el); return s + ' | color ' + c.color + ' | opacity ' + c.opacity + ' | bg ' + c.backgroundColor; }); })()`);
+    const before = await m();
+    await evalJs(`(() => { for (let e = document.querySelector(${JSON.stringify(cardSel)}); e; e = e.parentElement) e.setAttribute('data-hz', '1'); })()`);
+    const doc = await send('DOM.getDocument', { depth: 0 });
+    const chain = (await send('DOM.querySelectorAll', { nodeId: doc.result.root.nodeId, selector: '[data-hz]' })).result.nodeIds;
+    for (const nid of chain) await send('CSS.forcePseudoState', { nodeId: nid, forcedPseudoClasses: ['hover'] });
+    await sleep(600);
+    const after = await m();
+    before.forEach((b, i) => console.log(b === after[i] ? '(invariato) ' + b : b + String.fromCharCode(10) + '   --> ' + after[i]));
+  }
+  if (cmd === 'hoverall') {
+    // node tools/cdp.js hoverall <url> [--width ..]: per ogni tipo di elemento interattivo (link, pulsanti,
+    // campi) forza l'hover su di lui e sui genitori e riporta colore, sfondo, bordo, contorno, opacità,
+    // trasformazioni, spostamenti e colore dei testi interni. Un elemento per "firma" (tag + classi).
+    const picked = await evalJs(`(() => {
+      const seen = new Map();
+      const sel = 'a, button, input, select, textarea, [role=button]';
+      for (const el of document.querySelectorAll(sel)) {
+        const r = el.getBoundingClientRect(); if (!r.width || !r.height || getComputedStyle(el).visibility === 'hidden') continue;
+        const sig = el.tagName + '.' + String(el.className).replace(/elementor-element-\\S+|e-[0-9a-f]{6,}\\S*|e-con|e-atomic-element|e-default-\\S+|e-\\S+-base|data-\\S+/g, '').trim().replace(/\\s+/g, '.') + (el.closest('.elementor-location-header') ? '@header' : el.closest('.elementor-location-footer') ? '@footer' : '');
+        if (!seen.has(sig)) { seen.set(sig, el); el.setAttribute('data-ha', String(seen.size)); }
+      }
+      return [...seen.entries()].map(([sig, el], i) => ({ sig, n: el.getAttribute('data-ha'), txt: (el.innerText || el.value || '').trim().slice(0, 28) }));
+    })()`);
+    const props = ['color', 'background-color', 'border-top-color', 'border-bottom-color', 'border-left-color', 'outline-style', 'outline-color', 'opacity', 'transform', 'text-decoration-line', 'box-shadow', 'filter', 'padding-left', 'padding-top'];
+    const measure = (n) => `(() => { const el = document.querySelector('[data-ha="${n}"]'); const r = el.getBoundingClientRect(); const c = getComputedStyle(el); const st = {}; for (const p of ${JSON.stringify(props)}) st[p] = c.getPropertyValue(p); return { x: Math.round(r.x), y: Math.round(r.y + scrollY), w: Math.round(r.width), h: Math.round(r.height), st, tr: c.transitionProperty + ' ' + c.transitionDuration, kids: [...el.querySelectorAll('*')].filter((k) => [...k.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())).slice(0, 8).map((k) => ({ n: k.tagName + '.' + String(k.className).split(' ').filter((x) => x && !/^(e-|elementor)/.test(x)).join('.'), c: getComputedStyle(k).color, o: getComputedStyle(k).opacity })) }; })()`;
+    const doc = await send('DOM.getDocument', { depth: 0 });
+    for (const p of picked) {
+      await evalJs(`document.querySelector('[data-ha="${p.n}"]').scrollIntoView({ block: 'center' })`);
+      await sleep(150);
+      const before = await evalJs(measure(p.n));
+      // hover forzato sull'elemento e su tutti i genitori (come un mouse vero)
+      await evalJs(`(() => { for (let e = document.querySelector('[data-ha="${p.n}"]'); e; e = e.parentElement) e.setAttribute('data-hz', '1'); })()`);
+      const chain = (await send('DOM.querySelectorAll', { nodeId: doc.result.root.nodeId, selector: '[data-hz]' })).result.nodeIds;
+      for (const nid of chain) await send('CSS.forcePseudoState', { nodeId: nid, forcedPseudoClasses: ['hover'] });
+      await sleep(600);
+      const after = await evalJs(measure(p.n));
+      for (const nid of chain) await send('CSS.forcePseudoState', { nodeId: nid, forcedPseudoClasses: [] });
+      await evalJs(`document.querySelectorAll('[data-hz]').forEach((e) => e.removeAttribute('data-hz'))`);
+      const diff = []; for (const k of props) if (before.st[k] !== after.st[k]) diff.push(`${k}: ${before.st[k]} -> ${after.st[k]}`);
+      const mv = (after.x - before.x) || (after.y - before.y) || (after.w - before.w) || (after.h - before.h) ? ` SPOSTAMENTO dx${after.x - before.x} dy${after.y - before.y} dw${after.w - before.w} dh${after.h - before.h}` : '';
+      const kd = []; (before.kids || []).forEach((k, i) => { const a = (after.kids || [])[i]; if (a && (k.c !== a.c || k.o !== a.o)) kd.push(`↳ ${k.n}: ${k.c} -> ${a.c}${k.o !== a.o ? ' opacità ' + k.o + '->' + a.o : ''}`); });
+      if (kd.length) diff.push(...kd);
+      console.log(`${p.sig} "${p.txt}" [transizione ${before.tr}]${mv}\n    ` + (diff.length ? diff.join('\n    ') : '(nessun cambio)'));
+    }
+  }
   ws.close(); proc.kill(); process.exit(0);
 })().catch((e) => { console.error(e); proc.kill(); process.exit(1); });
