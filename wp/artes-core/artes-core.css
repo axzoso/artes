@@ -1,0 +1,194 @@
+/* ARTES — CSS del sito, caricato dal plugin artes-core (wp_enqueue_scripts, priorità 9999).
+   Contiene solo ciò che i widget non esprimono da soli: i menu WordPress (widget
+   nav-menu), l'header sticky, il passaggio al menu hamburger e i colori dei link.
+   Si modifica QUI e si rilascia con tools/install-plugin.ps1: non va messo nel CSS del kit.
+   Valori e breakpoint come nel mockup (assets/css/artes.css, sezioni 4, 9, 14). */
+
+/* --- Animazioni del tema (Hello Elementor 3.5.1) e hover ------------------------
+   Il tema animava `all .3s` su pulsanti e campi (reset.css) e il proprio menu
+   (header-footer.css, non usato: l'header è un site part Elementor). Il menu del tema
+   resta senza animazioni. Per tutto ciò che ha un hover vale UNA sola transizione,
+   breve e morbida, solo su colore, sfondo, bordo e opacità (mai `all`): così gli hover
+   non scattano e non animano proprietà di layout. La durata si cambia da --artes-hover.
+   !important: sovrascrive le transizioni delle singole classi e del tema. I menu hanno
+   la loro regola più sotto (specificità maggiore, `none`) e restano senza hover. */
+:root { --artes-hover: .25s ease; }
+
+a, button, [type=button], [type=submit], select, textarea,
+input[type=date], input[type=email], input[type=number], input[type=password], input[type=search],
+input[type=tel], input[type=text], input[type=time], input[type=url],
+.btn, .btn-sm, .footer-cta, .brand-chip, .link-rule {
+  transition: color var(--artes-hover), background-color var(--artes-hover), border-color var(--artes-hover), opacity var(--artes-hover) !important;
+}
+
+.site-navigation-toggle-holder .site-navigation-toggle-icon:after,
+.site-navigation-toggle-holder .site-navigation-toggle-icon:before,
+.site-navigation-dropdown,
+.site-navigation-dropdown ul.menu > li li { transition: none; }
+
+/* --- Base ----------------------------------------------------------------- */
+body { font-family: var(--font-body), "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--graphite); -webkit-font-smoothing: antialiased; }
+a { color: var(--graphite); text-decoration: none; }
+a:hover { color: var(--accent); }
+.breadcrumb a, .topbar-item a, .correlate-name a, .brand-chip a, .lang-switch a { color: inherit; }
+.breadcrumb a:hover, .topbar-item a:hover, .correlate-name a:hover, .brand-chip a:hover, .lang-switch a:hover { color: var(--accent); }
+
+/* Scheda realizzazione: l'ultima parola del titolo in semigrassetto ([artes_titolo]);
+   la voce corrente del breadcrumb vince sulla classe generale .breadcrumb. */
+.scheda-title strong { font-weight: 600; }
+.breadcrumb.breadcrumb-current { color: var(--graphite) !important; }
+
+/* --- Archivio realizzazioni ------------------------------------------------ */
+/* Titolo con ultima parola in semigrassetto (come .scheda-title). */
+.page-title strong { font-weight: 600; }
+
+/* Filtri per settore: un menu WordPress ("Filtri realizzazioni") mostrato come chip.
+   Come gli altri menu: nessuna animazione né hover, padding fisso in ogni stato. */
+.filtri .elementor-widget-nav-menu, .filtri .elementor-nav-menu--main { width: 100%; }
+.filtri .elementor-nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+.filtri .elementor-nav-menu a.elementor-item,
+.filtri .elementor-nav-menu a.elementor-item:hover,
+.filtri .elementor-nav-menu a.elementor-item:focus,
+.filtri .elementor-nav-menu a.elementor-item:active {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 10px 16px !important;
+  border: 1px solid var(--line-strong); background-color: transparent; color: var(--muted-3);
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; line-height: 1.25;
+  text-transform: uppercase; white-space: nowrap;
+}
+.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item,
+.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:hover,
+.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:focus {
+  border-color: var(--graphite); background-color: var(--graphite); color: #fff;
+}
+
+/* Paginazione dell'archivio: il pulsante disattivato (Precedente alla prima pagina,
+   Successiva all'ultima) non si mostra; con una sola pagina Elementor nasconde tutto. */
+.pag .pag-btn.e--disabled { display: none; }
+
+/* --- Header --------------------------------------------------------------- */
+/* Sticky sul contenitore della posizione, non sul site part: il genitore è il body. */
+.elementor-location-header { position: sticky; top: 0; z-index: 60; background-color: #fff; }
+.hdr-masthead .hdr-actions { margin-left: auto !important; }
+
+/* Menu principale (desktop): i 5 settori a sinistra, le voci aziendali a destra
+   (la voce con classe nav-sep apre il secondo gruppo). */
+.hdr-navbar .elementor-widget-nav-menu, .hdr-navbar .elementor-nav-menu--main { width: 100%; }
+.hdr-navbar .elementor-nav-menu { display: flex; flex-wrap: nowrap; align-items: center; gap: clamp(12px, 1.35vw, 24px); width: 100%; }
+.hdr-navbar .elementor-nav-menu a.elementor-item { font-family: var(--font-body); font-size: 13.5px; font-weight: 400; line-height: 1.3; padding: 8px 0; color: var(--graphite); white-space: nowrap; }
+.hdr-navbar .elementor-nav-menu .nav-sep { margin-left: auto; }
+.hdr-navbar .elementor-nav-menu .nav-sep, .hdr-navbar .elementor-nav-menu .nav-sep ~ li { }
+.hdr-navbar .elementor-nav-menu .nav-sep a.elementor-item, .hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item { font-size: 13px; color: var(--muted-1); }
+.hdr-navbar .elementor-nav-menu .nav-sep ~ li { margin-left: 0; }
+.hdr-navbar .elementor-nav-menu li.current-menu-item > a.elementor-item,
+.hdr-navbar .elementor-nav-menu li.current-menu-ancestor > a.elementor-item { color: var(--graphite); border-bottom: 1px solid var(--graphite); }
+
+/* Selettore lingua (shortcode [artes_lingue]). Elementor toglie gli attributi class
+   dal testo del widget: la lingua corrente è lo span interno, le altre sono link. */
+.hdr-topbar .topbar-item > span > span { color: var(--graphite); }
+.hdr-topbar .topbar-item > span > a { color: inherit; }
+
+/* Hamburger sotto i 1366px, come nel mockup: sparisce la topbar e la riga dei menu. */
+/* !important: le classi globali e i contenitori di Elementor impostano display. */
+@media (min-width: 1366px) { .hdr-masthead .elementor-widget-nav-menu { display: none !important; } }
+@media (max-width: 1365px) { .hdr-topbar, .hdr-navbar { display: none !important; } }
+@media (max-width: 1023px) { .hdr-actions .btn-sm-outline { display: none !important; } }
+@media (max-width: 640px) { .hdr-actions .btn-sm-red { display: none !important; } }
+
+.hdr-masthead .elementor-widget-nav-menu { position: static; flex: 0 0 44px; width: 44px; min-width: 44px; }
+.hdr-masthead .elementor-menu-toggle { background-color: transparent; color: var(--graphite); border-radius: 0; font-size: 26px; }
+.hdr-masthead .elementor-menu-toggle svg { fill: var(--graphite); }
+.hdr-masthead .elementor-nav-menu--dropdown { background-color: #fff; border-top: 1px solid rgba(17, 17, 17, .12); box-shadow: none; }
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item { font-family: var(--font-body); font-size: 16px; padding: 16px var(--pad); color: var(--graphite); border-bottom: 1px solid rgba(17, 17, 17, .12); }
+.hdr-masthead .elementor-nav-menu--dropdown li.nav-sep { margin-top: 16px; border-top: 1px solid rgba(17, 17, 17, .12); }
+
+/* --- Footer --------------------------------------------------------------- */
+.site-footer .elementor-nav-menu { display: flex; flex-direction: column; gap: 9px; }
+.site-footer .elementor-nav-menu a.elementor-item { font-family: var(--font-body); font-size: 15px; font-weight: 400; line-height: 1.4; padding: 0; min-height: 28px; display: inline-flex; align-items: center; color: var(--sand-ink); }
+.site-footer .elementor-widget-nav-menu, .site-footer .elementor-nav-menu--main { width: auto; }
+
+/* --- Menu senza animazioni né hover (header, hamburger, footer) -------------------
+   Tolte le transizioni e le animazioni di base del widget nav-menu (.4s sui link,
+   .3s sugli pseudo-elementi, apertura del pannello) e il cambio di colore al
+   passaggio del mouse: la voce resta com'è. Resta solo la voce attiva (sottolineata).
+   !important: gli stili del widget hanno specificità maggiore. */
+.elementor-nav-menu a, .elementor-nav-menu a.elementor-item,
+.elementor-nav-menu--main .elementor-nav-menu a,
+.elementor-item::before, .elementor-item::after,
+.elementor-nav-menu__container, .elementor-nav-menu--dropdown.elementor-nav-menu__container,
+.elementor-menu-toggle, .elementor-menu-toggle * { transition: none !important; animation: none !important; }
+
+/* Le voci non si muovono mai: Elementor al passaggio del mouse applica il suo padding
+   (13px 20px), che allarga la voce e sposta tutto (footer compreso). Il padding è
+   fissato in ogni stato (normale, hover, focus, attivo). */
+.hdr-navbar .elementor-nav-menu a.elementor-item,
+.hdr-navbar .elementor-nav-menu a.elementor-item:hover,
+.hdr-navbar .elementor-nav-menu a.elementor-item:focus,
+.hdr-navbar .elementor-nav-menu a.elementor-item:active,
+.hdr-navbar .elementor-nav-menu a.elementor-item.elementor-item-active { padding: 8px 0 !important; }
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:hover,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:focus,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:active,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item.elementor-item-active { padding: 16px var(--pad) !important; }
+.site-footer .elementor-nav-menu a.elementor-item,
+.site-footer .elementor-nav-menu a.elementor-item:hover,
+.site-footer .elementor-nav-menu a.elementor-item:focus,
+.site-footer .elementor-nav-menu a.elementor-item:active,
+.site-footer .elementor-nav-menu a.elementor-item.elementor-item-active { padding: 0 !important; }
+
+/* Pannello dell'hamburger: largo quanto la riga del logo, subito sotto. Elementor lo
+   posiziona con uno spostamento calcolato in JavaScript sul widget (che qui è largo
+   44px) e lo porta fuori schermo: lo ancoriamo noi alla riga, senza toccare max-height
+   e transform (sono lo stato aperto/chiuso). */
+.hdr-masthead { position: relative; }
+.hdr-masthead .elementor-nav-menu--dropdown.elementor-nav-menu__container {
+  position: absolute !important; top: 100% !important; left: 0 !important; right: auto !important;
+  width: 100% !important; margin: 0 !important;
+}
+
+.hdr-navbar .elementor-nav-menu a.elementor-item:hover,
+.hdr-navbar .elementor-nav-menu a.elementor-item:focus { color: var(--graphite); }
+.hdr-navbar .elementor-nav-menu .nav-sep a.elementor-item:hover,
+.hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item:hover,
+.hdr-navbar .elementor-nav-menu .nav-sep a.elementor-item:focus,
+.hdr-navbar .elementor-nav-menu .nav-sep ~ li a.elementor-item:focus { color: var(--muted-1); }
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:hover,
+.hdr-masthead .elementor-nav-menu--dropdown a.elementor-item:focus { color: var(--graphite); background-color: transparent; }
+.site-footer .elementor-nav-menu a.elementor-item:hover,
+.site-footer .elementor-nav-menu a.elementor-item:focus { color: var(--sand-ink); }
+
+/* --- Modulo di contatto ---------------------------------------------------- */
+/* Campo allegati e casella privacy come nel mockup (il widget lascia l'aspetto di sistema). */
+.form-grid input[type=file] { font-size: 14px; color: var(--muted-2); width: auto; }
+.form-grid input[type=file]::file-selector-button {
+  margin-right: 14px; padding: 10px 14px; border: 1px solid var(--line-btn); border-radius: 0; background: transparent;
+  color: var(--graphite); font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+}
+.form-grid input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; margin: 3px 0 0; flex: 0 0 auto; }
+.form-grid .form-field label:not(.form-label) { font-size: 14px; line-height: 1.5; color: var(--muted-1); }
+.form-grid ::placeholder { color: var(--muted-4); opacity: 1; }
+
+/* Voce corrente nei menu del footer: Elementor la colora di verde; resta come le altre (nessun hover/evidenza). */
+.site-footer .elementor-nav-menu li.current-menu-item > a.elementor-item,
+.site-footer .elementor-nav-menu li.current-menu-ancestor > a.elementor-item,
+.site-footer .elementor-nav-menu a.elementor-item.elementor-item-active { color: var(--sand-ink); }
+/* --- Home --------------------------------------------------------------------- */
+.hero-title strong { font-weight: 600; }
+/* Fascia brand su fondo scuro: link e colori chiari */
+.brands-sezione .link-rule { color: var(--sand-ink); border-bottom-color: var(--sand-ink); }
+.brands-sezione .link-rule:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.brands-sezione .brand-item { color: #fff; }
+/* Doppia CTA: colori del testo per variante */
+.cta-panel-dark .cta-panel-lbl { color: rgba(255, 255, 255, .45); }
+.cta-panel-red .cta-panel-lbl { color: rgba(255, 255, 255, .62); }
+.cta-panel-dark .cta-panel-p { color: rgba(255, 255, 255, .62); }
+.cta-panel-red .cta-panel-p { color: rgba(255, 255, 255, .78); }
+.cta-panel-dark .btn-ghost:hover { background-color: #fff; color: var(--graphite); border-color: #fff; }
+/* --- Pagine istituzionali ------------------------------------------------------ */
+/* Schede scure: i colori di testo prevalgono sulle classi generiche delle schede. */
+.card-dark .card-n { color: rgba(255, 255, 255, .45); }
+.card-dark .card-t { color: #fff; }
+.card-dark .card-d { color: rgba(255, 255, 255, .62); }
+.card-list-item:last-child { border-bottom: 0; }/* --- Brand --------------------------------------------------------------------- */
+/* Scheda brand senza progetti collegati: Elementor nasconde il ciclo vuoto, qui anche titolo e fascia. */
+.correlate:has(.correlate-grid[style*="display: none"]) { display: none !important; }

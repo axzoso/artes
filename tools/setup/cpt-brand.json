@@ -1,0 +1,26 @@
+{
+  "general_settings": { "name": "Brand partner", "slug": "brand", "show_edit_link": true },
+  "labels": {
+    "singular_name": "Brand partner",
+    "menu_name": "Brand partner",
+    "add_new": "Aggiungi brand",
+    "add_new_item": "Aggiungi nuovo brand",
+    "edit_item": "Modifica brand",
+    "new_item": "Nuovo brand",
+    "view_item": "Vedi brand",
+    "all_items": "Tutti i brand",
+    "search_items": "Cerca brand",
+    "not_found": "Nessun brand trovato"
+  },
+  "advanced_settings": {
+    "public": true,
+    "has_archive": true,
+    "show_in_rest": true,
+    "rewrite_slug": "brand-partner",
+    "menu_icon": "dashicons-awards",
+    "supports": ["title", "thumbnail", "excerpt", "revisions"]
+  },
+  "meta_fields": [
+    { "name": "introduzione", "title": "Introduzione", "type": "textarea" }
+  ]
+}

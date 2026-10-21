@@ -10,6 +10,279 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-10-21 (notte) — Pagine vere del sito e Brand Partner
+
+**Richiesta**
+
+"Iniziamo a costruire le vere pagine del sito, andiamo avanti con lo sviluppo per far vedere
+qualcosa di concreto al cliente."
+
+**Fatto**
+
+- Costruite e pubblicate su dev3: 5 pagine settore (144–148), home (376), 4 istituzionali
+  (149–151, 153), Contatti (152) e Richiedi preventivo (154, modulo con allegati e invio email
+  verificato con intercettazione poi rimossa). Contenuti estratti dal mockup con un parser HTML
+  e trasformati da librerie `lib-*.ps1`.
+- **Brand Partner**: archivio (site part 447, anche per le categorie) con filtri per categoria e
+  CTA; scheda brand (448) con intestazione, "Progetti con <brand>" via relazione, CTA. Menu
+  `filtri-brand`, 4 classi, plugin 0.3.5.
+- **Incidente risolto**: `Compress-Archive` produceva uno ZIP con percorsi a barra rovesciata e
+  il plugin è sparito per qualche minuto. Cartella ripulita, plugin reinstallato, script
+  corretto (ZIP con `System.IO.Compression`). Verificato: home, realizzazioni, brand, 200 OK.
+- Documentazione aggiornata (stato dev3, migrazione, README tools).
+
+**Decisioni e perché**
+
+- *Tutti i 19 brand cliccabili* (nel mockup solo Pedrali): la scheda si adatta ai campi vuoti e
+  nasconde "Progetti con…" se non ci sono progetti.
+- *Niente foto/specifiche brand*: il modello dati ha solo `introduzione`; non si inventano dati.
+
+**Aperto**
+
+- Contenuti dei singoli brand dal cliente; Blog, Prodotti, MEPA/PA, Cataloghi PDF, informativa
+  privacy; mappa Contatti; anti-spam e SMTP, destinatario email definitivo; filtro per ambito nelle
+  pagine settore; link sensibili alla lingua; logo chiaro nel footer; conferma categoria Mottura;
+  rigenerare le password applicazione; noindex e backup di dev3. File nuovi non ancora committati.
+
+---
+
+## 2026-10-21 (sera, 2) — Plugin definitivo e modulo di contatto
+
+**Richiesta**
+
+Procedere con il form. Domande dell'utente: il plugin `artes-core` può essere installato
+come plugin vero per renderlo definitivo? Oppure si possono usare i Listing di JetEngine al
+posto dei Loop di Elementor?
+
+**Fatto**
+
+- **Plugin installato come plugin vero** su dev3 (0.2.4): `tools/install-plugin.ps1`
+  impacchetta uno ZIP, lo carica con il link di upload di Novamira (i `.php` solo in
+  sandbox, gli ZIP no), lo installa con WP-CLI, rimuove la vecchia copia della sandbox.
+  Il CSS del sito ora lo carica il plugin e il CSS del kit è vuoto. Rifatte tutte le misure
+  (transizioni, hover, mobile): invariate. Script obsoleti eliminati.
+- **Listing JetEngine**: verificato che il widget `jet-listing-grid` non è costruibile con il
+  connettore (`Unknown widget type`): si resta sul Loop V4. Il plugin servirebbe comunque.
+- **Modulo di contatto** in fondo al template realizzazione (libreria `tools/lib-contatti.ps1`):
+  email a `info@artes.it` (temporaneo), allegati DWG, Reply-To a chi scrive, settore
+  preselezionato. Test di invio vero con intercettazione dell'email (poi rimossa).
+- Plugin: DWG ammessi, **cancellazione degli allegati dal server dopo l'invio** (Elementor li
+  lasciava pubblici con il nome originale), pulizia giornaliera, link nell'email.
+- Pagina di prova 28 nel cestino.
+
+**Decisioni e perché**
+
+- *Plugin vero e non sandbox*: la sandbox di Novamira non c'è in produzione.
+- *Loop V4 e non Listing Grid*: è costruibile dall'AI, verificato e funzionante.
+- *Cancellare gli allegati dopo l'invio*: planimetrie e capitolati dei clienti non devono
+  restare raggiungibili da un indirizzo indovinabile.
+
+**Scoperte da ricordare**
+
+- Pubblicare un documento copia i dati dalla bozza: le correzioni vanno dopo `publish`.
+- Il widget select raddoppia le `&`; un `_cssid` uguale a una variabile di query dà
+  etichette sbagliate; il Reply-To si scrive `[cssid]`.
+- L'anteprima di una bozza è una revisione: non rispecchia modifiche successive ai dati.
+
+**Aperto**
+
+- **Protezione anti-spam del modulo** (assente) e **invio email reale non verificato** (serve
+  un SMTP e il destinatario definitivo). Stesso modulo nelle pagine Contatti e Preventivo.
+- Link a pagine sensibili alla lingua; informativa privacy; il resto dell'elenco precedente.
+
+---
+
+## 2026-10-21 (sera) — Archivio realizzazioni, Mottura, form deciso
+
+**Richiesta**
+
+Decisioni dell'utente: il form usa temporaneamente `info@artes.it` (poi quello
+definitivo), allegati DWG ammessi, Mottura resta come brand. Poi: costruire l'archivio
+e spiegare a cosa serve il plugin `artes-core`.
+
+**Fatto**
+
+- Brand **Mottura** creato (ID 214, categoria Contract, ipotesi da confermare), collegato
+  ad Aurea e aggiunto a `brand-partner.html` del mockup (modifica locale, non
+  committata né pubblicata).
+- Archivio realizzazioni (site part 213) per `/realizzazioni/` e per le pagine dei
+  settori; menu "Filtri realizzazioni" come filtro; 16 classi nuove; 12 per pagina con
+  paginazione; ordine del mockup (`menu_order`); campo "Ordine" nell'admin del CPT.
+- Plugin: ordine e paginazione dell'archivio, voce "Tutti" del filtro.
+- Script nuovi: `gen-archive.ps1`, `rebuild-archive.ps1`,
+  `setup/mottura-e-menu-filtri.php`, `setup/ordine-realizzazioni.php`.
+
+**Decisioni e perché**
+
+- *Filtri come link ai settori, non JavaScript*: URL indicizzabili, WPML traduce il
+  menu, niente codice da portare.
+- *Un solo template per archivio e settori* (condizioni `realizzazione_archive` e
+  `settore`).
+- *Hover delle card del mockup non portati* (zoom e velo rosso): sono movimenti, in
+  linea con la richiesta di hover senza spostamenti.
+- *Progetti nuovi per primi*: ordine 0 → in cima; i 14 esistenti restano nell'ordine
+  del mockup.
+
+**Scoperte da ricordare**
+
+- Il widget Loop ha un suo `posts_per_page` (3) che prevale anche con `current_query`.
+- La paginazione del Loop ha solo Precedente/Successiva.
+- Un menu WordPress con voci di tassonomia ottiene `current-menu-item` da solo sulle
+  pagine del termine.
+
+**Aperto**
+
+- Il form di contatto (dati decisi sopra, da costruire) e la CTA nel template
+  realizzazione; la CTA dell'archivio ha già i due pulsanti verso pagine segnaposto.
+- Classificare Mottura con il cliente. Tutto il resto dell'elenco precedente.
+
+---
+
+## 2026-10-21 — Header e footer su dev3, rifiniture del template
+
+**Richiesta**
+
+Procedere con header e footer della versione WordPress.
+
+**Fatto** (lato WordPress su dev3; file nuovi nel repo non committati)
+
+- 11 pagine segnaposto (slug come i file del mockup), 4 menu WordPress (Header e
+  tre del footer), logo del sito.
+- Site part header (199) e footer (200) pubblicati, con 22 classi globali nuove.
+  Header a due righe con due gruppi di menu, topbar, selettore lingua "IT / EN",
+  hamburger sotto i 1366px; footer a 5 colonne con menu WordPress.
+- CSS personalizzato del kit applicato da file (`wp/artes-core/kit-custom.css` →
+  `tools/apply-kit-css.ps1`): stile dei menu, header sticky, responsive.
+- Plugin `artes-core`: shortcode `[artes_lingue]`, `[artes_titolo]`,
+  `[artes_settore_ambito]` e filtro per la voce di menu attiva.
+- Template realizzazione: titolo con ultima parola in grassetto, riga "Settore —
+  ambito", fondo grigio alternato su "Altre realizzazioni" (differenze trovate
+  confrontando lo screenshot col mockup).
+- Script nuovi in `tools/`: `gen-header-footer`, `rebuild-header-footer`,
+  `apply-kit-css`, `deploy-plugin`, `setup/menus-pagine-logo.php`.
+- Su richiesta: disattivate le animazioni predefinite del tema Hello Elementor
+  (transizioni di pulsanti, campi modulo e menu del tema) nel CSS del kit.
+- Poi, su richiesta: le voci dei menu (header, hamburger, footer) senza le
+  animazioni di base di Elementor e senza hover (colore invariato al passaggio
+  del mouse). Restano le transizioni di Elementor su contenitori e widget e gli
+  hover degli altri elementi (link, pulsanti, chip dei brand).
+- Infine gli hover rimasti scattavano (dopo aver tolto le transizioni del tema):
+  messa una transizione unica `--artes-hover` (.25s ease, solo colore, sfondo,
+  bordo, opacità) su tutto ciò che ha un hover; i menu restano senza. Verificato
+  con gli stili calcolati di Chrome (`tools/cdp.js style`).
+- Segnalati dall'utente con uno screenshot: menu mobile fuori schermo, footer con
+  hamburger su mobile, voci di menu che si spostano in hover. Cause e correzioni nel
+  dettaglio in `wp-stato-dev3.md` §5. Per verificarli è nato `tools/cdp.js`
+  (emulazione di un telefono vero, click, misura dell'hover): da usare sempre per il
+  mobile, al posto dello screenshot headless semplice.
+
+**Decisioni e perché**
+
+- *Menu WordPress veri* (widget `nav-menu`): il cliente li modifica e WPML li
+  traduce. Lo stile passa dal CSS del kit perché il widget accetta solo la parte
+  strutturale.
+- *Shortcode proprio per la lingua*: gli shortcode `wpml_language_*` non esistono
+  in WPML 5.1.
+- *Link con l'oggetto nativo `{id, label}`*: il tag `internal-url` non viene
+  applicato; l'oggetto nativo segue la lingua.
+- *Voci non ancora esistenti omesse dai menu* (Blog, Prodotti, MEPA/PA, Cataloghi
+  PDF): meglio niente che un link morto.
+
+**Scoperte da ricordare**
+
+- Gli URL inglesi sono già `/en/…`: non serve cambiare nulla (correzione di quanto
+  scritto il 20/10).
+- Le regole `display: none` nel CSS del kit vanno con `!important`.
+- A parità di specificità vince la classe globale più in alto nell'elenco, non
+  l'ultima applicata all'elemento.
+- Il logo scuro non si vede sul footer nero: succede anche nel mockup.
+- Confrontare lo screenshot con la preview del mockup fa emergere differenze che
+  l'ispezione del markup non mostra.
+
+**Aperto**
+
+- Apertura del menu hamburger e mobile da verificare (lo screenshot headless non
+  simula il click e non scende sotto ~500px).
+- Logo chiaro per il footer, link sensibili alla lingua nelle voci personalizzate
+  e nel breadcrumb, pagine vere al posto dei segnaposto.
+- Form di contatto e CTA nel template realizzazione; archivio con filtro;
+  singolo e archivio brand.
+- Tutto il resto dell'elenco del 20/10 (password, backup, `noindex`, Mottura,
+  commit dei file nuovi).
+
+---
+
+## 2026-10-20 — Inizio della versione WordPress su dev3
+
+**Richiesta**
+
+Tradurre il mockup in un sito WordPress da mettere in produzione, facendo
+costruire le pagine all'AI tramite connettori (Elementor MCP / Crocoblock) invece
+di rifare tutto a mano. Poi: sviluppare già pensando al multilingua (WPML,
+traduzione a fine lavori), creare il template delle realizzazioni, salvare gli
+script in `tools/` e tenere traccia di tutto nei file `.md`.
+
+**Fatto** (lato WordPress su dev3, più file nuovi nel repo non committati)
+
+- Scelto Elementor 4 + JetEngine (CrocoBuilder è beta e non installato su dev3).
+  Collegati i connettori MCP `artes-elementor` e `novamira-dev3-minimalstud`.
+  Il login OAuth di Novamira non funziona (scope non disponibile): si usa la
+  password applicazione.
+- Design system: 27 variabili globali e 41 classi globali (13 base + 28 per la
+  scheda) ricavate da `artes.css`, con i valori dopo il restyling del 30/09.
+- Modello dati JetEngine: CPT `realizzazione` e `brand`, tassonomie `settore` e
+  `categoria_brand`, relazione molti-a-molti. WPML configurato (CPT e campi
+  traducibili, ripiego sull'italiano). Permalink portati a `/%postname%/`.
+- Import da script: 14 realizzazioni, 18 brand, 47 immagini (scaricate da
+  GitHub Pages), tutto in lingua `it`. Aggiunti i campi `cliente` e `arredi`,
+  perché 13 schede su 14 non hanno superficie/servizi/tempi/progettista.
+- Template singolo realizzazione (site part 138) con intestazione, immagine e
+  galleria, dettagli tecnici, brand collegati, altre realizzazioni. Verificato a
+  1440px su Aurea e Arpacal.
+- Nel repo: `docs/wp-migration.md` (piano), `docs/wp-stato-dev3.md` (stato),
+  `tools/` (script), `wp/artes-core/` (plugin dei cicli). `CLAUDE.md` ha una
+  sezione 8 sulla versione WordPress.
+
+**Decisioni e perché**
+
+- *Elementor prima di CrocoBuilder*: è già collegato e funzionante; il lavoro
+  sul modello dati vale con entrambi.
+- *WPML prima del modello dati*: così CPT e tassonomie nascono traducibili e
+  l'import non va rifatto.
+- *Campi, non pagine*: le realizzazioni sono post con campi e un solo
+  template; il cliente le gestisce dall'admin.
+- *Filtri PHP per i cicli* (plugin `artes-core`): il widget Loop non usa il
+  Query Builder di JetEngine, ma `elementor/query/<id>`. Eliminate le tre
+  query JetEngine create per errore.
+- *Le righe vuote delle specifiche si nascondono in CSS* (`:has(:empty)`):
+  gli elementi V4 non hanno condizioni di visualizzazione.
+- *Backup saltato* su decisione del titolare.
+
+**Scoperte da ricordare**
+
+- WPML non assegna la lingua ai contenuti creati via PHP/REST.
+- Dopo una composizione su un documento pubblicato: ripubblicare e svuotare
+  le cache di Elementor, altrimenti il sito serve la versione vecchia.
+- JetEngine vuole un nonce `wp_rest` e payload `{"input": …}`.
+- Gli strumenti MCP nuovi non compaiono come tool nativi dopo il riavvio.
+- Lo screenshot headless di Chrome non scende sotto ~500px: il mobile non è
+  stato verificato.
+
+**Aperto**
+
+- Template realizzazione: sezione contatti con form, CTA, verifica mobile, link
+  sensibili alla lingua, ultima parola del titolo in grassetto.
+- Header e footer (site part + menu), archivio realizzazioni con filtro per
+  settore, singolo e archivio brand, pagine istituzionali e dei settori.
+- Portare il codice lingua `en-gb` a `/en/` prima di creare altre pagine.
+- Rigenerare le due password applicazione (passate in chiaro in chat).
+- Collegare Mottura ad Aurea o toglierla dalla scheda (non è un brand del mockup).
+- `noindex` e backup di dev3; il plugin `artes-core` va installato come plugin
+  vero in produzione (su dev3 gira dalla sandbox di Novamira).
+- Pagina di prova 28 e file `tools/`, `wp/`, `docs/` non ancora committati.
+
+---
+
 ## 2026-09-30 (4) — Area progettisti e schede di tutte le realizzazioni
 
 **Richiesta**

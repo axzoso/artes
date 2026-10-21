@@ -1,0 +1,5 @@
+{
+  "general_settings": { "name": "Settori", "slug": "settore", "object_type": ["realizzazione"], "show_edit_link": true },
+  "labels": { "singular_name": "Settore", "menu_name": "Settori", "all_items": "Tutti i settori", "edit_item": "Modifica settore", "add_new_item": "Aggiungi nuovo settore", "search_items": "Cerca settori", "not_found": "Nessun settore trovato" },
+  "advanced_settings": { "public": true, "show_ui": true, "show_in_rest": true, "hierarchical": false, "rewrite_slug": "settore" }
+}

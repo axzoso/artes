@@ -1,0 +1,34 @@
+{
+  "general_settings": { "name": "Realizzazioni", "slug": "realizzazione", "show_edit_link": true },
+  "labels": {
+    "singular_name": "Realizzazione",
+    "menu_name": "Realizzazioni",
+    "add_new": "Aggiungi realizzazione",
+    "add_new_item": "Aggiungi nuova realizzazione",
+    "edit_item": "Modifica realizzazione",
+    "new_item": "Nuova realizzazione",
+    "view_item": "Vedi realizzazione",
+    "all_items": "Tutte le realizzazioni",
+    "search_items": "Cerca realizzazioni",
+    "not_found": "Nessuna realizzazione trovata"
+  },
+  "advanced_settings": {
+    "public": true,
+    "has_archive": true,
+    "show_in_rest": true,
+    "rewrite_slug": "realizzazioni",
+    "menu_icon": "dashicons-building",
+    "supports": ["title", "thumbnail", "excerpt", "revisions"]
+  },
+  "meta_fields": [
+    { "name": "sottotitolo_ambito", "title": "Ambito (es. Boutique hotel)", "type": "text" },
+    { "name": "introduzione", "title": "Introduzione", "type": "textarea" },
+    { "name": "localita", "title": "Località", "type": "text" },
+    { "name": "superficie", "title": "Superficie", "type": "text" },
+    { "name": "ambienti", "title": "Ambienti", "type": "text" },
+    { "name": "servizi_artes", "title": "Servizi Artes", "type": "text" },
+    { "name": "tempi", "title": "Tempi", "type": "text" },
+    { "name": "progettista", "title": "Progettista", "type": "text" },
+    { "name": "galleria", "title": "Galleria", "type": "gallery", "value_format": "id" }
+  ]
+}

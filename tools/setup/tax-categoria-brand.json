@@ -1,0 +1,5 @@
+{
+  "general_settings": { "name": "Categorie brand", "slug": "categoria_brand", "object_type": ["brand"], "show_edit_link": true },
+  "labels": { "singular_name": "Categoria brand", "menu_name": "Categorie brand", "all_items": "Tutte le categorie", "edit_item": "Modifica categoria", "add_new_item": "Aggiungi nuova categoria", "search_items": "Cerca categorie", "not_found": "Nessuna categoria trovata" },
+  "advanced_settings": { "public": true, "show_ui": true, "show_in_rest": true, "hierarchical": false, "rewrite_slug": "categoria-brand" }
+}

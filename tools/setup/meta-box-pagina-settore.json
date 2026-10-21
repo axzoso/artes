@@ -1,0 +1,6 @@
+{
+  "general_settings": { "name": "Pagina settore", "object_type": "post", "allowed_post_type": ["page"], "show_edit_link": true },
+  "meta_fields": [
+    { "name": "settore_collegato", "title": "Settore collegato (per l'elenco dei progetti)", "type": "select", "options": ["::Nessuno", "arredo-uffici-workspace::Arredo uffici & workspace", "arredo-negozi-retail::Arredo negozi & retail", "arredo-negozi-food::Arredo negozi food", "arredo-bar-ristoranti::Arredo bar & ristoranti", "arredo-hotel-hospitality::Arredo hotel & hospitality"] }
+  ]
+}

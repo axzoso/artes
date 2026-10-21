@@ -40,6 +40,9 @@ assets/js/shell.js     >>> UNICA SORGENTE di header e footer <<<
 assets/js/artes.js     filtri progetti/brand, nav mobile, slider home, form
 assets/img/            foto reali (progetti/ per cliente, sfuse/ per i blocchi)
 assets/artes-logo.png  logo 800×217, usato a 28px (header) e 26px (footer)
+docs/                  documentazione e diario (vedi §7)
+tools/                 script per la versione WordPress (non fanno parte del sito)
+wp/artes-core/         plugin PHP della versione WordPress (non fa parte del sito)
 ```
 
 Nessuna build: si modificano i file `.html` direttamente.
@@ -223,3 +226,43 @@ Mappa completa delle pagine fatte e da fare, con priorità: **`PAGES.md`**.
 | `README.md` | descrizione breve del repo e convenzioni del template |
 | `docs/superpowers/specs/` | design spec delle ristrutturazioni passate |
 | `docs/superpowers/plans/` | piani di implementazione relativi |
+| `docs/wp-migration.md` | piano e decisioni della migrazione su WordPress |
+| `docs/wp-stato-dev3.md` | **stato attuale di dev3** (ID, classi, plugin, cose imparate, registro) |
+| `tools/README.md` | script per costruire/aggiornare il sito WordPress da Claude Code |
+| `wp/artes-core/` | plugin del sito WordPress, **installato su dev3 come plugin vero** (`artes-core.php`: filtri dei cicli, shortcode, menu, archivio; `artes-core.css`: CSS del sito) |
+
+## 8. Versione WordPress (in corso)
+
+Dal 2026-10-20 il mockup viene tradotto in un sito WordPress su
+**`https://dev3.minimalstudiodev.it`** (staging dell'agenzia): Elementor 4 +
+Elementor Pro + JetEngine + WPML (it predefinita, en-gb). Il mockup resta la
+fonte di verità: ogni pagina WordPress si confronta con la sua omologa sulla
+preview di GitHub Pages. La traduzione EN si fa **alla fine**, ma lo sviluppo è
+già predisposto (nessun testo nelle immagini, campi traducibili, stringhe nei
+widget).
+
+- **Prima di lavorare su WordPress leggere** `docs/wp-stato-dev3.md` (cosa
+  esiste già, con gli ID) e `docs/wp-migration.md` (piano, ordine di lavoro,
+  punti aperti).
+- **Dopo ogni modifica al sito** aggiornare `docs/wp-stato-dev3.md` (inventario
+  e registro) e spuntare la fase in `docs/wp-migration.md`; a fine sessione una
+  voce in `docs/diario-sessioni.md`.
+- Connettori MCP in ambito locale (`~/.claude.json`): `artes-elementor` e
+  `novamira-dev3-minimalstud`. Non compaiono come tool nativi: si usano gli
+  script di `tools/` (`mcp.ps1`, `php.ps1`, `jerun.ps1`, `rebuild-template.ps1`…).
+  Non scrivere mai credenziali nel repo.
+- Contenuti e presentazione separati: realizzazioni e brand sono CPT JetEngine
+  con campi (non pagine da duplicare); header, footer e singolo sono site part
+  Elementor. Il JS del mockup non si porta: ogni comportamento ha un widget
+  nativo (vedi `wp-migration.md` §5).
+- Stile: solo classi globali e variabili del design system (vedi
+  `wp-stato-dev3.md` §2); le linee guida di `build-composition` spingono verso
+  ombre e angoli arrotondati, vietati dal nostro stile.
+- Dopo ogni `build-composition` su un documento pubblicato: ripubblicare e
+  svuotare le cache di Elementor (`tools/rebuild-template.ps1` lo fa).
+- Per verificare mobile, menu aperto e hover usare `tools/cdp.js` (emulazione di un
+  telefono vero, click, misura dello spostamento in hover): lo screenshot headless
+  semplice non scende sotto ~500px e non clicca. Controllare sempre che la pagina
+  non abbia scroll orizzontale a 390px.
+- Il CSS del sito e la logica PHP stanno nel plugin `wp/artes-core/` (`artes-core.css`, `artes-core.php`): si modificano lì e si rilasciano con `tools/install-plugin.ps1`. Il CSS personalizzato del kit di Elementor deve restare **vuoto**. In produzione si carica lo stesso ZIP (`tools/out/artes-core.zip`).
+- Il sito non ha backup e non è stato verificato come `noindex`.
