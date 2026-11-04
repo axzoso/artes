@@ -122,7 +122,7 @@ in tutti i casi (i CPT si creano una volta sola).
 
 ## Plugin del sito
 
-`wp/artes-core/` contiene il plugin: `artes-core.php` (filtri `elementor/query/artes_*` per i
+`wp/artes-core/` contiene il plugin (`artes-core.js` = lightbox delle gallerie): `artes-core.php` (filtri `elementor/query/artes_*` per i
 cicli del template, shortcode `[artes_lingue]`, `[artes_titolo]`, `[artes_settore_ambito]`, voce
 di menu attiva, ordine e paginazione dell'archivio) e `artes-core.css` (CSS del sito, caricato
 dal plugin per ultimo). **È installato su dev3 come plugin vero.** Per aggiornarlo dopo una

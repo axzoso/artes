@@ -1,0 +1,131 @@
+{
+  "cataloghi": {
+    "id": 491,
+    "eyebrow": "Cataloghi PDF",
+    "h1": "Cataloghi<br><strong>e schede tecniche.</strong>",
+    "lead": "Cataloghi dei brand partner, schede tecniche e campionature dei materiali: li selezioniamo insieme a te in base al progetto.",
+    "corrente": "Cataloghi PDF",
+    "sezioni": [
+      {
+        "h": "Come richiederli",
+        "b": [
+          "In questa pagina non pubblichiamo un archivio unico di PDF: i cataloghi dei brand partner cambiano spesso e la scelta giusta dipende dal settore, dal capitolato e dal budget.",
+          "Scrivici indicando il progetto e i brand che ti interessano: ti inviamo i cataloghi aggiornati e le schede tecniche utili. Puoi anche partire dall'elenco dei brand partner e aprire la scheda di ciascun marchio."
+        ]
+      }
+    ],
+    "cta": {
+      "titolo": "Ti serve un catalogo<br>per il tuo progetto?",
+      "bottoni": [
+        { "testo": "Richiedi i cataloghi", "href": "contatti.html" },
+        { "testo": "Vedi i brand partner", "href": "brand-partner.html" }
+      ]
+    }
+  },
+  "privacy-policy": {
+    "id": 3,
+    "eyebrow": "Informativa",
+    "h1": "Privacy<br><strong>policy.</strong>",
+    "lead": "Come trattiamo i dati personali di chi visita questo sito e di chi ci scrive, ai sensi degli artt. 13 e 14 del Regolamento UE 2016/679 (GDPR).",
+    "corrente": "Privacy policy",
+    "sezioni": [
+      {
+        "h": "Titolare del trattamento",
+        "b": [
+          "Il titolare del trattamento è [ragione sociale], con sede in [indirizzo], partita IVA [partita IVA]. Per qualsiasi richiesta sui tuoi dati puoi scrivere a [indirizzo email per la privacy]."
+        ]
+      },
+      {
+        "h": "Quali dati trattiamo e perché",
+        "b": [
+          "<strong>Dati di navigazione.</strong> Il server del sito registra dati tecnici come l'indirizzo IP, il tipo di browser e le pagine richieste. Servono a far funzionare il sito e a garantirne la sicurezza; la base giuridica è il legittimo interesse del titolare (art. 6.1.f GDPR).",
+          "<strong>Moduli di contatto e di richiesta preventivo.</strong> Se compili un modulo ci comunichi nome e cognome, azienda o ente, email, telefono, tipo di richiedente, settore, località del progetto, tempistiche, il testo del messaggio ed eventuali allegati (PDF, DWG, DXF, JPG, PNG). Li usiamo per rispondere alla tua richiesta e preparare un preventivo; la base giuridica è l'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6.1.b GDPR).",
+          "I campi contrassegnati con l'asterisco sono necessari per poterti rispondere; gli altri sono facoltativi. I file allegati arrivano per email e vengono cancellati dal server del sito subito dopo l'invio."
+        ]
+      },
+      {
+        "h": "Caratteri tipografici di Google",
+        "b": [
+          "Il sito carica i caratteri tipografici dal servizio Google Fonts. Per scaricarli il tuo browser contatta i server di Google, che possono ricevere il tuo indirizzo IP. Non carichiamo altri contenuti di terze parti."
+        ]
+      },
+      {
+        "h": "Cookie",
+        "b": [
+          "Il sito non utilizza cookie di profilazione né di analisi. I dettagli sono nella <a href=\"/cookie-policy/\">cookie policy</a>."
+        ]
+      },
+      {
+        "h": "A chi comunichiamo i dati",
+        "b": [
+          "I dati sono trattati da personale autorizzato del titolare e dai fornitori che gestiscono hosting, posta elettronica e manutenzione del sito, nominati responsabili del trattamento. I dati non vengono diffusi né venduti."
+        ]
+      },
+      {
+        "h": "Per quanto tempo li conserviamo",
+        "b": [
+          "I dati dei moduli sono conservati per il tempo necessario a rispondere e a gestire la richiesta; se ne nasce un rapporto contrattuale, per la durata prevista dagli obblighi di legge. I dati di navigazione sono conservati per il tempo strettamente necessario alla sicurezza del sito."
+        ]
+      },
+      {
+        "h": "I tuoi diritti",
+        "b": [
+          "In ogni momento puoi chiedere:",
+          "- l'accesso ai tuoi dati e una copia;",
+          "- la rettifica dei dati inesatti;",
+          "- la cancellazione dei dati o la limitazione del trattamento;",
+          "- la portabilità dei dati che ci hai fornito;",
+          "- di opporti al trattamento basato sul legittimo interesse.",
+          "Per esercitare i diritti scrivi all'indirizzo indicato sopra. Hai anche il diritto di proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it)."
+        ]
+      },
+      {
+        "h": "Aggiornamenti",
+        "b": [
+          "Questa informativa può essere aggiornata, ad esempio se cambiano i servizi usati dal sito. Ultimo aggiornamento: novembre 2026."
+        ]
+      }
+    ]
+  },
+  "cookie-policy": {
+    "id": 493,
+    "eyebrow": "Informativa",
+    "h1": "Cookie<br><strong>policy.</strong>",
+    "lead": "Quali cookie usa questo sito e come puoi gestirli.",
+    "corrente": "Cookie policy",
+    "sezioni": [
+      {
+        "h": "Che cosa sono i cookie",
+        "b": [
+          "I cookie sono piccoli file di testo che un sito salva nel browser. Quelli tecnici servono al funzionamento del sito e non richiedono il tuo consenso; quelli di analisi e di profilazione sì."
+        ]
+      },
+      {
+        "h": "Cookie usati da questo sito",
+        "b": [
+          "Il sito utilizza solo strumenti tecnici. Durante la normale navigazione non imposta cookie di analisi, di marketing o di profilazione, né propri né di terze parti.",
+          "Può salvare nel browser una preferenza tecnica, come la lingua scelta con il selettore IT / EN, per mostrarti il sito nella lingua giusta. Le funzioni di amministrazione del sito, riservate a chi lo gestisce, usano i cookie di accesso di WordPress.",
+          "I moduli di contatto non usano cookie: i dati inseriti sono trattati come descritto nella <a href=\"/privacy-policy/\">privacy policy</a>."
+        ]
+      },
+      {
+        "h": "Contenuti di terze parti",
+        "b": [
+          "Il sito carica i caratteri tipografici dal servizio Google Fonts: non si tratta di un cookie, ma il browser contatta i server di Google. Se in futuro verranno aggiunti strumenti di analisi, mappe o video incorporati, questa pagina sarà aggiornata e ti verrà chiesto il consenso prima di attivarli."
+        ]
+      },
+      {
+        "h": "Come gestire i cookie dal browser",
+        "b": [
+          "Puoi cancellare o bloccare i cookie dalle impostazioni del tuo browser (Chrome, Firefox, Safari, Edge): la procedura cambia da un browser all'altro. Bloccare i cookie tecnici può impedire il funzionamento di alcune parti del sito."
+        ]
+      },
+      {
+        "h": "Titolare e contatti",
+        "b": [
+          "Titolare del trattamento: [ragione sociale], [indirizzo]. Per domande sui cookie scrivi a [indirizzo email per la privacy]. Ultimo aggiornamento: novembre 2026."
+        ]
+      }
+    ]
+  }
+}

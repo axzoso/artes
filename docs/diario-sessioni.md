@@ -10,6 +10,46 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-11-04 — Cataloghi, privacy e cookie policy
+
+**Richiesta**
+
+Completare su WordPress le pagine Cataloghi, Privacy policy e Cookie policy.
+
+**Fatto**
+
+- Tre pagine pubblicate (491, 3, 493) con testi in `tools/contenuti-pagine-legali.json`, costruite da `rebuild-pagine-legali.ps1`; 5 classi per la colonna di lettura.
+- Footer: link Privacy · Cookie · MEPA, "Cataloghi PDF" nel menu Risorse; consenso dei moduli con link all'informativa.
+- Controllati i cookie reali (nessuno per un visitatore anonimo) e le risorse esterne (solo Google Fonts).
+
+**Decisioni e perché**
+
+- *Testi legali di bozza con segnaposto*: i dati del titolare non li abbiamo e non vanno inventati; l'informativa descrive solo ciò che il sito fa davvero (moduli, allegati cancellati dopo l'invio, Google Fonts, nessun cookie di profilazione).
+- *Cataloghi senza PDF*: non ne abbiamo; la pagina spiega come richiederli e rimanda a contatti e brand.
+
+**Aperto**
+
+- Dati del titolare e revisione legale dei testi; PDF dei cataloghi, se il cliente li fornisce; caratteri in locale (niente Google Fonts); banner cookie solo se si aggiungono analytics o contenuti di terzi.
+
+---
+
+## 2026-10-28 — Lightbox delle gallerie
+
+**Richiesta**
+
+Le immagini delle realizzazioni e di tutte le gallery devono potersi aprire singolarmente, grandi a pieno schermo.
+
+**Fatto**
+
+- Verificata la connessione a Novamira (WordPress 7.1.3).
+- Lightbox nel plugin (0.4.0, `artes-core.js` + CSS): vale per realizzazioni e brand (`gallery-img`, `scheda-hero`); frecce, tastiera, swipe, contatore, didascalia. Verificata a 1440 e 390px, apertura a 1800×1200.
+
+**Decisioni**
+
+- *Script nel plugin e non widget Elementor*: i widget V4 non offrono la lightbox; il plugin è già il posto della logica del sito e viaggia in produzione.
+
+---
+
 ## 2026-10-21 (notte, 4) — Coerenza degli hover
 
 **Richiesta**

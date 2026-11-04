@@ -13,7 +13,7 @@ $profili = @('Azienda o attività commerciale', 'Progettista o studio di archite
 
 $moduli = @{
   'contatti' = New-Modulo -Prefix 'Fm' -Nome 'Contatti' -Oggetto 'Nuova richiesta di contatto dal sito ARTES' -Invia 'Invia il messaggio' `
-    -PrivacyTesto "Ho letto l'informativa privacy e acconsento al trattamento dei dati per ricevere una risposta. *" `
+    -PrivacyTesto "Ho letto l'<a href='/privacy-policy/' target='_blank'>informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta. *" `
     -OkTesto 'Messaggio inviato. Grazie: ti rispondiamo entro due giorni lavorativi.' `
     -Gruppi @(@{ legenda = $null; tipo = 'campi'; campi = @(
       @{ id = 'nome'; label = 'Nome e cognome *'; kind = 'input'; type = 'text'; required = $true; autocomplete = 'name' },
@@ -23,7 +23,7 @@ $moduli = @{
       @{ id = 'motivo'; label = 'Motivo del contatto'; kind = 'select'; wide = $true; options = @('Informazioni generali', 'Parlare con un tecnico', 'Collaborazione per studi e progettisti', 'Pubblica amministrazione e MEPA', 'Assistenza su una fornitura', 'Fornitori e partner', 'Lavora con noi') },
       @{ id = 'messaggio'; label = 'Messaggio *'; kind = 'textarea'; required = $true; wide = $true } ) })
   'richiedi-preventivo' = New-Modulo -Prefix 'Fm' -Nome 'Preventivo' -Oggetto 'Nuova richiesta di preventivo dal sito ARTES' -Invia 'Invia la richiesta' `
-    -PrivacyTesto "Ho letto l'informativa privacy e acconsento al trattamento dei dati per ricevere il preventivo. *" `
+    -PrivacyTesto "Ho letto l'<a href='/privacy-policy/' target='_blank'>informativa privacy</a> e acconsento al trattamento dei dati per ricevere il preventivo. *" `
     -OkTesto 'Richiesta inviata. Grazie: un tecnico Artes legge la richiesta e ti richiama entro due giorni lavorativi.' `
     -Gruppi @(
       @{ legenda = 'Chi sei'; tipo = 'campi'; campi = @(

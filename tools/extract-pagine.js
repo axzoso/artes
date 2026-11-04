@@ -3,7 +3,7 @@
 // Uso: node tools/extract-pagine.js <cartella-mockup> <out.json> [file.html ...]
 const fs = require('fs'); const path = require('path');
 const root = process.argv[2]; const out = process.argv[3];
-const files = process.argv.slice(4).length ? process.argv.slice(4) : ['chi-siamo.html', 'contract.html', 'arredamento-su-misura.html', 'area-progettisti.html'];
+const files = process.argv.slice(4).length ? process.argv.slice(4) : ['chi-siamo.html', 'contract.html', 'arredamento-su-misura.html', 'area-progettisti.html', 'contatti.html', 'richiedi-preventivo.html', 'prodotti.html', 'mepa.html'];
 
 // --- mini parser --------------------------------------------------------------------------------------
 const VOID = new Set(['img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'wbr']);

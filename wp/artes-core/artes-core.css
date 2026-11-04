@@ -241,3 +241,44 @@ a:hover { color: var(--accent); }
 .tile .tile-body { z-index: 1; }
 .tile::after { content: ""; position: absolute; inset: 0; background: rgba(20, 20, 19, .2); opacity: 0; pointer-events: none; transition: opacity var(--artes-hover); }
 .tile:hover::after { opacity: 1; }
+
+/* --- Lightbox delle gallerie (artes-core.js) --------------------------------------
+   Immagine a tutto schermo su fondo scuro. Stesso linguaggio dei pulsanti del sito:
+   mono maiuscolo, bordo sottile, niente ombre né angoli arrotondati; hover bianco su nero. */
+img.gallery-img, img.scheda-hero { cursor: zoom-in; }
+img.gallery-img:focus-visible, img.scheda-hero:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+html.artes-lb-open { overflow: hidden; }
+.artes-lb { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; background: #111; }
+.artes-lb[hidden] { display: none; }
+.artes-lb-fig { margin: 0; padding: 72px 96px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.artes-lb-img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; transition: opacity var(--artes-hover); }
+.artes-lb.is-loading .artes-lb-img { opacity: .55; }
+.artes-lb-cap { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .62); text-align: center; }
+.artes-lb-cap:empty { display: none; }
+.artes-lb-count { position: absolute; left: 40px; bottom: 28px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: rgba(255, 255, 255, .62); }
+.artes-lb-btn { position: absolute; z-index: 1; padding: 10px 16px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 0; background: transparent; color: #fff; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; line-height: 1.25; cursor: pointer; transition: color var(--artes-hover), background-color var(--artes-hover), border-color var(--artes-hover); }
+.artes-lb-btn:hover, .artes-lb-btn:focus-visible { background-color: #fff; border-color: #fff; color: var(--graphite); }
+.artes-lb-close { top: 24px; right: 40px; }
+.artes-lb-prev, .artes-lb-next { top: 50%; margin-top: -21px; font-size: 16px; padding: 10px 18px; }
+.artes-lb-prev { left: 40px; }
+.artes-lb-next { right: 40px; }
+.artes-lb.is-single .artes-lb-prev, .artes-lb.is-single .artes-lb-next { display: none; }
+@media (max-width: 780px) {
+  .artes-lb-fig { padding: 64px 16px 96px; }
+  .artes-lb-close { top: 16px; right: 16px; }
+  .artes-lb-prev, .artes-lb-next { top: auto; bottom: 20px; margin-top: 0; }
+  .artes-lb-prev { left: auto; right: 84px; }
+  .artes-lb-next { right: 16px; }
+  .artes-lb-count { left: 16px; bottom: 30px; }
+}
+
+/* Pagine di testo (privacy, cookie, cataloghi): link e parole in evidenza nei paragrafi. */
+.legale-p a { color: #111; border-bottom: 1px solid currentColor; transition: color var(--artes-hover), border-color var(--artes-hover); }
+.legale-p a:hover { color: var(--accent); }
+.legale-p strong { font-weight: 600; color: #111; }
+/* Link legali in fondo al footer (Privacy, Cookie, MEPA): come gli altri link, rossi in hover. */
+.elementor .footer-bottom a.footer-bottom-item { transition: color var(--artes-hover); }
+.elementor .footer-bottom a.footer-bottom-item:hover { color: var(--accent); }
+/* Link all'informativa privacy nella casella di consenso dei moduli. */
+.form-check-row a { color: #111; border-bottom: 1px solid currentColor; }
+.form-check-row a:hover { color: var(--accent); }

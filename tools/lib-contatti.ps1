@@ -86,7 +86,7 @@ function New-ContattiSection {
   # privacy e invio
   $form += & $T 'e-div-block' 'Riga privacy' ((& $T 'e-form-checkbox' 'Privacy') + (& $T 'e-form-label' 'Privacy testo'))
   $cfg[(& $k 'Privacy')] = @{ _cssid = 'privacy'; name = 'privacy'; value = 'accetto'; required = $true; 'has-default-value' = $false; checked = $false }
-  $cfg[(& $k 'Privacy testo')] = @{ tag = 'label'; 'input-id' = 'privacy'; text = "Ho letto l'informativa privacy e acconsento al trattamento dei dati per ricevere una risposta. *" }
+  $cfg[(& $k 'Privacy testo')] = @{ tag = 'label'; 'input-id' = 'privacy'; text = "Ho letto l'<a href='/privacy-policy/' target='_blank'>informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta. *" }
   $cls[(& $k 'Riga privacy')] = @('form-field', 'form-field-wide')
   $sty[(& $k 'Riga privacy')] = 'flex-direction: row; align-items: flex-start; gap: 12px;'
   $form += & $T 'e-div-block' 'Azioni' ((& $T 'e-form-submit-button' 'Invia') + (& $T 'e-paragraph' 'Obbligatori'))

@@ -45,7 +45,7 @@ else {
   $c4 = & $col 'Risorse' 'Risorse' (Tag 'nav-menu' 'Menu risorse')
   $c5 = Tag 'e-div-block' 'Col contatti' ((Tag 'e-paragraph' 'Titolo Contatti') + (Tag 'e-paragraph' 'Footer contatti') + (Tag 'e-button' 'Footer CTA'))
   $grid = Tag 'e-div-block' 'Footer grid' ($c1 + $c2 + $c3 + $c4 + $c5)
-  $bottom = Tag 'e-flexbox' 'Footer bottom' ((Tag 'e-paragraph' 'Bottom copyright') + (Tag 'e-paragraph' 'Bottom legale'))
+  $bottom = Tag 'e-flexbox' 'Footer bottom' ((Tag 'e-paragraph' 'Bottom copyright') + (Tag 'e-flexbox' 'Bottom legale' ((Tag 'e-paragraph' 'Legale privacy') + (Tag 'e-paragraph' 'Legale cookie') + (Tag 'e-paragraph' 'Legale mepa'))))
   $xml = Tag 'e-div-block' 'Footer ARTES' ($grid + $bottom)
 
   $cfg['Footer logo'] = @{ image = @{ src = (& $dyn 'site-logo' @{}); size = 'full' } }
@@ -57,16 +57,19 @@ else {
   $cfg['Footer contatti'] = @{ paragraph = 'Via —, Rende (CS)<br>T +39 0000 000 000<br>info@artesarredamenti.it' }
   $cfg['Footer CTA'] = @{ text = 'Richiedi un progetto'; link = (& $to $P.preventivo 'Richiedi un preventivo') }
   $cfg['Bottom copyright'] = @{ paragraph = '© 2026 Artes Arredamenti — P.IVA 00000000000' }
-  $cfg['Bottom legale'] = @{ paragraph = 'Privacy · Cookie · MEPA' }
+  $cfg['Legale privacy'] = @{ paragraph = 'Privacy'; link = (& $to 3 'Privacy policy') }
+  $cfg['Legale cookie'] = @{ paragraph = 'Cookie'; link = (& $to 493 'Cookie policy') }
+  $cfg['Legale mepa'] = @{ paragraph = 'MEPA'; link = (& $to 472 'MEPA / PA') }
 
   $cls['Footer ARTES'] = @('site-footer'); $cls['Footer grid'] = @('footer-grid')
   foreach ($k in 'Col logo', 'Col Azienda', 'Col Settori', 'Col Risorse', 'Col contatti') { $cls[$k] = @('footer-col') }
   $cls['Footer logo'] = @('footer-logo'); $cls['Footer about'] = @('footer-about')
   foreach ($k in 'Titolo Azienda', 'Titolo Settori', 'Titolo Risorse', 'Titolo Contatti') { $cls[$k] = @('footer-title') }
   $cls['Footer contatti'] = @('footer-contact'); $cls['Footer CTA'] = @('footer-cta')
-  $cls['Footer bottom'] = @('footer-bottom'); $cls['Bottom copyright'] = @('footer-bottom-item'); $cls['Bottom legale'] = @('footer-bottom-item')
+  $cls['Footer bottom'] = @('footer-bottom'); $cls['Bottom copyright'] = @('footer-bottom-item'); foreach ($k in 'Legale privacy', 'Legale cookie', 'Legale mepa') { $cls[$k] = @('footer-bottom-item') }
   $sty['Footer CTA'] = 'border-radius: 0; background-color: transparent; justify-content: center; align-self: flex-start;'
   $sty['Footer bottom'] = 'width: 100%;'
+  $sty['Bottom legale'] = 'padding: 0; gap: 18px; width: auto;'
 }
 
 $comp = [ordered]@{ post_id = $PostId; mode = 'replace_children'; parent_id = 'document'; xml_structure = $xml; element_config = $cfg; classes = $cls; style = $sty }

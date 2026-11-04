@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES: dati dei cicli Elementor (galleria, brand collegati, altre realizzazioni), shortcode (selettore lingua, titolo), voce di menu attiva, ordine dell'archivio e CSS del sito.
- * Version:     0.3.5
+ * Version:     0.4.0
  *
  * Elementor chiama `elementor/query/<query_id>` prima di eseguire la query di un
  * widget Loop: il "Query ID" del widget è il nome del filtro, non una query del
@@ -22,7 +22,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '0.3.5' );
+define( 'ARTES_CORE_VERSION', '0.4.0' );
 
 /**
  * CSS del sito (menu, header sticky, hover, archivio): vive nel plugin, non nel database
@@ -33,6 +33,13 @@ add_action(
 	'wp_enqueue_scripts',
 	function () {
 		$file = plugin_dir_path( __FILE__ ) . 'artes-core.css';
+
+		// Lightbox delle gallerie (clic sull'immagine -> schermo intero).
+		$js = plugin_dir_path( __FILE__ ) . 'artes-core.js';
+
+		if ( file_exists( $js ) ) {
+			wp_enqueue_script( 'artes-core', plugins_url( 'artes-core.js', __FILE__ ), array(), (string) filemtime( $js ), true );
+		}
 
 		if ( file_exists( $file ) ) {
 			wp_enqueue_style( 'artes-core', plugins_url( 'artes-core.css', __FILE__ ), array(), (string) filemtime( $file ) );
