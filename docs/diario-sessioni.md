@@ -10,6 +10,28 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-11-05 — Testi discorsivi nelle pagine settore
+
+**Richiesta**
+
+Le 5 pagine settore devono spiegare cosa Artes pensa di ogni tipo di arredo: dopo la foto principale almeno 3-4 paragrafi discorsivi, testo inventato (lo rivedrà il cliente), nello stile del sito ma senza il classico blocco di testo in alto a destra.
+
+**Fatto**
+
+- Nuovo blocco "Il nostro punto di vista" in tutte e 5 le pagine (mockup e WordPress): una frase d'apertura grande e quattro righe con titolo a sinistra e paragrafo a destra, separate da filetti. Testi scritti ex novo per ogni settore, senza cifre né dati su clienti.
+- Verificato a 1440 e 390px, nessuno scroll orizzontale, un solo H1 per pagina.
+
+**Decisioni e perché**
+
+- *Prima il mockup, poi WordPress*: il mockup resta la fonte di verità e la pipeline (estrazione → costruzione) rigenera la pagina WordPress dai suoi file.
+- *Layout a righe e non a colonne di testo*: è lungo da leggere ma resta ordinato, e si distingue dal riquadro di testo usato nel resto del sito.
+
+**Aperto**
+
+- I testi sono bozze: il cliente li riscriverà; alcune affermazioni (consegne fuori orario, camera campione, attrezzature dei brand partner) vanno confermate. Il mockup su GitHub Pages non è ancora aggiornato (push da chiedere).
+
+---
+
 ## 2026-11-04 — Cataloghi, privacy e cookie policy
 
 **Richiesta**

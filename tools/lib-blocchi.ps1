@@ -166,3 +166,22 @@ function Join-Blocks($Parts, [int]$PostId) {
   }
   [ordered]@{ post_id = $PostId; mode = 'replace_children'; parent_id = 'document'; xml_structure = $xml; element_config = $cfg; classes = $cls; style = $sty }
 }
+
+# --- Racconto: testo discorsivo (frase d'apertura + righe titolo / paragrafo) --------------------------
+# $R: { eyebrow, lead (può contenere <strong>), righe: [{ t, p }] }
+function Block-Racconto($R) {
+  $part = New-Part; $P = 'Racc'
+  $head = Tg 'e-div-block' "$P Testa" ((Tg 'e-paragraph' "$P Eyebrow") + (Tg 'e-paragraph' "$P Lead"))
+  $part.cfg["$P Eyebrow"] = @{ paragraph = $R.eyebrow }; $part.cfg["$P Lead"] = @{ paragraph = $R.lead }
+  $part.cls["$P Testa"] = @('racconto-head'); $part.cls["$P Eyebrow"] = @('eyebrow'); $part.cls["$P Lead"] = @('racconto-lead')
+  $rows = ''; $i = 0
+  foreach ($r in $R.righe) {
+    $i++
+    $rows += Tg 'e-div-block' "$P Riga $i" ((Tg 'e-heading' "$P Riga $i H") + (Tg 'e-paragraph' "$P Riga $i P"))
+    $part.cfg["$P Riga $i H"] = @{ tag = 'h3'; title = $r.t }; $part.cfg["$P Riga $i P"] = @{ paragraph = $r.p }
+    $part.cls["$P Riga $i"] = @('racconto-row'); $part.cls["$P Riga $i H"] = @('racconto-h'); $part.cls["$P Riga $i P"] = @('racconto-p')
+  }
+  $part.xml = Tg 'e-div-block' "$P Sezione" ($head + $rows)
+  $part.cls["$P Sezione"] = @('racconto')
+  return $part
+}

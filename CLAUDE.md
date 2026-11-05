@@ -177,7 +177,7 @@ confrontare di nuovo con la sua versione, fare il diff del suo
 `richiedi-preventivo.html`, `area-progettisti.html`, `sistema-visivo.html`.
 
 - Le 5 pagine settore seguono tutte lo stesso schema: intro → foto
-  generica (`.page-band`) → "Il settore" (testo + 3 schede) → ambiti →
+  generica (`.page-band`) → **"Il nostro punto di vista"** (`.racconto`: frase d'apertura + 4 righe titolo/paragrafo, testo discorsivo di bozza da rivedere con il cliente) → "Il settore" (testo + 3 schede) → ambiti →
   progetti del settore con filtro per ambito → link all'archivio già
   filtrato (`realizzazioni.html?settore=<nome settore>`) → CTA.
 - `realizzazioni.html` è l'archivio di tutti i progetti, filtrabile per i

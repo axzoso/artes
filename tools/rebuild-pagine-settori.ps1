@@ -15,6 +15,7 @@ foreach ($k in $ids.Keys) {
   $parts = @(
     (Block-Intro $s.intro.eyebrow $s.intro.h1 $s.intro.lead $nomi[$k]),
     (Block-Band $s.banda.src),
+    (Block-Racconto $s.racconto),
     (Block-Schede 'Sez' $s.settore.eyebrow $s.settore.titolo $s.settore.lead $s.settore.cards),
     (Block-Settore $s.ambiti -BgAlt:([bool]$s.ambiti.alt)),
     (Block-Progetti $s.progetti.eyebrow $s.progetti.titolo 'I cantieri che abbiamo consegnato in questo settore.' $s.progetti.piu.testo (Convert-Url $s.progetti.piu.href $s.termine)),

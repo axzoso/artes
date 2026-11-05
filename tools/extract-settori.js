@@ -25,11 +25,13 @@ for (const [key, [file, num, termSlug]] of Object.entries(files)) {
   const cards = [...secs[0].matchAll(/<div class="card">\s*<div class="card__n">([\s\S]*?)<\/div>\s*<div class="card__t">([\s\S]*?)<\/div>\s*<div class="card__d">([\s\S]*?)<\/div>/g)].map((c) => ({ n: text(c[1]), t: text(c[2]), d: text(c[3]) }));
   const set = main.match(/<section class="settore([^"]*)"[^>]*>([\s\S]*?)<\/section>/);
   const media = [...set[2].matchAll(/<img src="([^"]+)" alt="([^"]*)"/g)].map((i) => ({ src: i[1], alt: dec(i[2]) }));
+  const racconto = m1(main, /<section class="racconto">([\s\S]*?)<\/section>/);
   const cta = main.match(/<section class="cta-band">([\s\S]*?)<\/section>/)[1];
   res[key] = {
     file, numero: num, termine: termSlug,
     intro: { eyebrow: text(m1(intro, /<div class="eyebrow">([\s\S]*?)<\/div>/)), h1: inner(m1(intro, /<h1 class="page-title">([\s\S]*?)<\/h1>/)), lead: text(m1(intro, /<p class="lead">([\s\S]*?)<\/p>/)) },
     banda: { src: band[1], alt: dec(band[2]) },
+    racconto: racconto ? { eyebrow: text(m1(racconto, /<div class="eyebrow">([\s\S]*?)<\/div>/) || ''), lead: inner(m1(racconto, /<p class="racconto__lead">([\s\S]*?)<\/p>/) || ''), righe: [...racconto.matchAll(/<h3>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)].map((r) => ({ t: text(r[1]), p: text(r[2]) })) } : null,
     settore: { ...head(secs[0]), cards },
     ambiti: { flip: /settore--flip/.test(set[1]), alt: /bg-alt/.test(set[1]), eyebrow: text(m1(set[2], /<div class="eyebrow">([\s\S]*?)<\/div>/)), voci: [...set[2].matchAll(/<li><span>([\s\S]*?)<\/span><\/li>/g)].map((x) => text(x[1])), link: { testo: text(m1(set[2], /<a href="[^"]*" class="link-rule">([\s\S]*?)<\/a>/)), href: m1(set[2], /<a href="([^"]*)" class="link-rule">/) }, immagine: media[0], inset: media[1] },
     progetti: { ...head(secs[1]), piu: { testo: text(m1(secs[1], /<div class="section__more">\s*<a [^>]*>([\s\S]*?)<\/a>/)), href: m1(secs[1], /<div class="section__more">\s*<a href="([^"]*)"/) } },
