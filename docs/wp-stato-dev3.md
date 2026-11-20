@@ -116,11 +116,29 @@ transizione morbida descritta sopra.
 
 | Elemento | Dettagli |
 |---|---|
-| CPT `realizzazione` (id JetEngine 1) | archivio `/realizzazioni/`, supporta titolo, immagine in evidenza, riassunto, revisioni. Campi: `sottotitolo_ambito` `introduzione` (textarea) `cliente` `localita` `superficie` `ambienti` `arredi` `servizi_artes` `tempi` `progettista` `galleria` (gallery, ID separati da virgola) |
-| CPT `brand` (id 2) | archivio `/brand-partner/`, campo `introduzione` |
-| Tassonomia `settore` (id 1) | su `realizzazione`, non gerarchica; termini 3–7: Arredo uffici & workspace, negozi & retail, negozi food, bar & ristoranti, hotel & hospitality (slug `arredo-…`) |
-| Tassonomia `categoria_brand` (id 2) | su `brand`; termini 8–15: Ufficio, Contract, Acustica, Pareti / pod, Sedute, Retail, Food, Outdoor |
-| Relazione "Realizzazioni - Brand" (id 3) | molti-a-molti, selettore da entrambi i lati |
+**Dal 2026-11-20 il modello dati è quello della rev2** (fase 3 dell'adeguamento, `docs/piano-adeguamento-rev2.md`); la definizione
+sta in `tools/rev2/modello-dati.js`, il controllo in `tools/rev2/verifica-dati.js`.
+
+| Elemento | Dettagli |
+|---|---|
+| CPT `realizzazione` (id JetEngine 1) | archivio `/realizzazioni/`, supporta titolo, immagine in evidenza (= foto della card), riassunto, revisioni, attributi di pagina (`menu_order` = ordine dell'archivio rev2). **Campi rev2**: `kw` (riga parola chiave) `introduzione` `localita` `tipologia` `progettista` (solo 5 progetti) `brand_forniture` (HTML, link ai brand con scheda) `descrizione_lead` `descrizione_testo` `galleria` (gallery, ID separati da virgola) `home_ordine` e `home_larghezza` (solo i 6 della home). **Campi del vecchio modello tolti il 2026-11-20** (fine fase 4): `sottotitolo_ambito` `cliente` `superficie` `ambienti` `arredi` `servizi_artes` `tempi` (salvati in `tools/out/rev2/fase4-campi-rimossi.json`; `import-dati.js annulla-pulizia` li rimette) |
+| CPT `brand` (id 2) | archivio `/brand-partner/`, `menu_order` = ordine rev2. **Campi rev2**: `introduzione` `settori_artes` (HTML con link ai settori) `fornitura_artes` `assistenza` `come_lavoriamo` `dove_lo_usiamo`; immagine in evidenza = foto della scheda (7 brand). **Vecchi, tolti il 2026-11-20**: `sottotitolo_categoria` `ambiti_artes` `certificazioni` `categorie_prodotto` `galleria` (la galleria del vecchio Pedrali era negli allegati 274, 100, 466, 57: vedi elenco della fase 9) |
+| Tassonomia `settore` (id 1) | su `realizzazione`; 5 termini: **uffici** 3, **retail** 4, **food** 5, **bar-ristoranti** 6, **hospitality** 7 (nomi "Arredo uffici e workspace"…, slug = codici rev2; term meta `ordine` 1-5: uffici, retail, bar-ristoranti, food, hospitality; term meta `pagina` = ID della pagina settore). Le 5 pagine settore del design vecchio (144-148) hanno il campo `settore_collegato` = slug del termine (lo legge il filtro `artes_progetti_settore` per l'elenco progetti): dal 2026-11-20 è aggiornato agli slug rev2 e lo controlla `verifica-dati.js` |
+| Tassonomia `categoria` (id 3, **nuova**) | su `realizzazione`, piatta, 26 termini (ID 27-52): nome, slug e `descrizione` (le "tipologie") dalla pagina settore; term meta `settore` (codice), `ordine_pagina` (posizione nella pagina settore), `ordine_filtro` (posizione nei filtri dell'archivio, 0 = non compare: 22 sì, 4 no). Ogni progetto ha un settore **e** una categoria; 14 categorie hanno progetti, 12 sono vuote come nella rev2 |
+| Tassonomia `categoria_brand` (id 2) | su `brand`; 8 termini ID 8–15 con i nomi dei filtri rev2: Ufficio, Contract, Acustica, **Pareti e pod** (slug `pareti-e-pod`), Sedute, Retail, Food, Outdoor; term meta `ordine` |
+| Relazione "Realizzazioni - Brand" (id 3) | molti-a-molti, selettore da entrambi i lati; 8 coppie come la rev2 (Frezza → Ruffolo Group, BCC di Tarsia, Agricola Benincasa; Colombini Office → Costruzioni Imbrogno; Della Rovere → Ruffolo Group; Gaber → Ingrediente School, Agricola Benincasa; Pedrali → Jumecitu). Tabella `jet_rel_default`, `rel_id` 3 |
+
+**Cosa NON si memorizza (si calcola al rendering, formule verificate su tutte le 20 schede):** titolo SEO `"{kw}: {titolo} — Artes"`;
+descrizione SEO `"{titolo}, {località}: {introduzione}"`; didascalie della galleria `"{titolo} — foto N di M"` e conteggio "N foto"
+(le prime 5 sono visibili, le altre nella lightbox); "Altre realizzazioni" = le prime 3 dello stesso settore in ordine d'archivio,
+esclusa la corrente (vuote se il settore ha un solo progetto); righe "Settore", "Categoria" e link finale "Scopri l'arredo…" della scheda;
+per i brand: eyebrow, titoli "Come lavoriamo con X"/"Dove lo usiamo", "Realizzazioni con X", titolo del CTA e il paragrafo di chiusura
+("Il cliente ha un solo interlocutore…", identico in tutti i 18).
+
+**Immagini e testo alternativo.** Nella rev2 lo stesso file ha alt diversi a seconda del punto (card = nome del progetto; galleria =
+"Nome, tipologia a località: foto N"; foto del brand = "Arredi X nella realizzazione Y"), ma in WordPress l'alt sta sull'allegato. Regola: l'allegato
+"base" (`tools/out/rev2/media-rev2.json`) ha l'alt della galleria; per card e foto dei brand si usano **copie fisiche** con alt proprio
+(meta `_artes_src` = `rev2:<percorso>#card` o `#brand-<slug>`; 27 allegati). Le pagine statiche (fase 5) useranno lo stesso criterio: una copia per ogni coppia file + alt.
 
 Le tre query del Query Builder create il 20/10 sono state **eliminate**: non
 servono, perché il widget Loop di Elementor non usa il Query Builder
@@ -129,9 +147,10 @@ servono, perché il widget Loop di Elementor non usa il Query Builder
 ### WPML sul modello dati
 - CPT e tassonomie in modalità 2 (traducibili, ripiego sull'italiano se manca
   la traduzione).
-- Campi *tradotti*: `sottotitolo_ambito introduzione ambienti arredi
-  servizi_artes tempi progettista`. Campi *copiati*: `cliente localita
-  superficie galleria`.
+- Campi *tradotti* (modo 2): `kw introduzione tipologia progettista brand_forniture descrizione_lead descrizione_testo` (realizzazione),
+  `introduzione settori_artes fornitura_artes assistenza come_lavoriamo dove_lo_usiamo` (brand). Campi *copiati* (modo 1):
+  `localita galleria home_ordine home_larghezza`. Le regole dei campi del vecchio modello sono state tolte il 2026-11-20 (tranne `galleria`,
+  che il modello nuovo usa). La tassonomia `categoria` è traducibile (modo 2, come le altre).
 - **WPML non assegna da solo la lingua ai contenuti creati via PHP/REST.** Nei
   contenuti esistenti non era assegnata nemmeno a "Hello world!": assegnato `it`
   a tutto il 2026-10-20. Gli script di import la impostano
@@ -141,15 +160,25 @@ servono, perché il widget Loop di Elementor non usa il Query Builder
 
 | Cosa | Quanti | Note |
 |---|---|---|
-| Realizzazioni | 14, pubblicate, lingua `it` | importate da `realizzazione-*.html` |
-| Brand | 19, pubblicati | Pedrali con introduzione, gli altri senza. **Mottura** (ID 214) aggiunta il 2026-10-21 su richiesta, categoria *Contract* (**ipotesi mia, da confermare**); aggiunta anche a `brand-partner.html` del mockup |
-| Allegati | 47 | scaricati da GitHub Pages, tutti con alt, lingua `it` |
-| Collegamenti relazione | Aurea → Pedrali, Caimi, Frezza, Kastel, Nardi Outdoor, Mottura | gli altri progetti non hanno brand nel mockup |
+Stato dopo la fase 3 (2026-11-20): i contenuti sono quelli della rev2.
 
-ID dei post `realizzazione`: Aurea 49, Arpacal 55, BBC Tarsia 60, Business
-Hotel Fera 65, Costruzioni Imbrogno 67, Free Sport 71, Ingrediente School 76,
-Jumecitu 81, Lico 86, Quotidiano 91, Resort Capo Bianco 96, Ruffolo Group 98,
-Sakuralab 103, Spa Terme Luigiane 108. Brand: ID 31–48.
+| Cosa | Quanti | Note |
+|---|---|---|
+| Realizzazioni | **20** pubblicate, lingua `it` | le 10 già presenti sono state **aggiornate sul posto** (stessi ID) ai dati rev2, 10 nuove; la rev2 le chiama diversamente in due casi: `bbc-tarsia` → **`bcc-tarsia`** ("BCC di Tarsia") e `quotidiano` → **`il-quotidiano`** ("Il Quotidiano"), con redirect 301 dai vecchi indirizzi |
+| Brand | **18** pubblicati | gli stessi 18 di prima, ora con i campi rev2; **Mottura** (ID 214, aggiunta il 2026-10-21 su richiesta) non è nella rev2 → cestino |
+| Cestino (recuperabili) | 4 realizzazioni + 1 brand | Boutique Hotel Aurea 49, Business Hotel Fera 65, Resort Capo Bianco 96, Spa Terme Luigiane 108 (i 4 fittizi) e Mottura 214; i loro indirizzi diventano `…__trashed` |
+| Allegati | 238 | + 27 copie con alt dedicato (card e foto dei brand); alt della galleria allineati alla rev2. Restano nella libreria le immagini dei progetti cestinati e quelle sostituite: **non si cancellano finché non lo confermi** (cancellare un allegato elimina il file) |
+| Relazioni brand ↔ realizzazioni | 8 | vedi §3; le vecchie (Aurea → 6 brand) sono state rimosse |
+
+ID dei post `realizzazione` (ordine d'archivio rev2): ruffolo-group 98, costruzioni-imbrogno 67, bcc-tarsia 60, il-quotidiano 91,
+ingrediente-school 76, arpacal 55, free-sport 71, lico 86, tema-motori 1020, wellness-universe 1021, perfect-man 1022, morgana 1023,
+calzature-rao 1024, jumecitu 81, soft-bar 1025, lido-da-pietro 1026, sakuralab 103, agricola-benincasa 1027, bottega-del-vicinato 1028,
+royal-hotel 1029. Brand (ordine rev2): frezza 31, colombini-office 32, las 33, della-rovere 34, martex 35, estel 36, pedrali 37, gaber 38,
+et-al 39, caimi 40, snowsound 41, vetroin 42, kastel 43, leyform 44, sm-milani 45, arken 46, lainox 47, nardi-outdoor 48.
+
+**Verifica e rigenerazione.** `node tools/rev2/dati-rev2.js` estrae i dati dalla rev2; `node tools/rev2/verifica-dati.js` li confronta con dev3
+(1.094 controlli: termini, campi, 20+18 schede, foto e alt, cestino, relazioni, assenza dei campi del vecchio modello); `node tools/rev2/import-dati.js <passo>` li scrive
+(idempotente). Le vecchie pagine settore (144-148) avevano un link con lo slug vecchio dei termini (`/settore/arredo-…/`): aggiornato.
 
 **Pagine segnaposto** (pubblicate, vuote, lingua `it`, slug uguali ai file del
 mockup senza `.html`; servono come destinazione di menu e link e vanno riempite
@@ -179,13 +208,17 @@ il 2026-10-21 (conteneva il prototipo del modulo).
 
 | Cosa | ID | Stato |
 |---|---|---|
-| Site part `single` "Singolo Realizzazione" | 138 | **pubblicato**, condizione `include/singular/realizzazione`. Generato da `tools/gen-template.ps1` |
+| Site part `single` "Singolo Realizzazione (rev2)" | **1040** | **pubblicato** (fase 4, 2026-11-20), condizione `include/singular/realizzazione`: il template che vale oggi. Generato dal modello `tools/rev2/modelli/realizzazione.html` con `costruisci-modello.js` (vedi §9) |
+| Site part `single` "Singolo Brand (rev2)" | **1049** | **pubblicato**, condizione `include/singular/brand`. Modello `brand.html` |
+| Site part `archive` "Archivio Realizzazioni (rev2)" | **1050** | **pubblicato**, condizione `include/archive/realizzazione_archive`. Modello `archivio-realizzazioni.html`; i filtri a due livelli (settore → categoria) sono nel JavaScript del plugin |
+| Site part `archive` "Archivio Brand (rev2)" | **1051** | **pubblicato**, condizione `include/archive/brand_archive`. Modello `archivio-brand.html` |
+| *(vecchio)* Site part `single` "Singolo Realizzazione" | 138 | **in bozza dal 2026-11-20** (sostituito da 1040), condizione originale `include/singular/realizzazione` conservata per tornare indietro. Generato da `tools/gen-template.ps1`. Legge ancora i campi del vecchio modello (che dalla fine della fase 4 non esistono più: vedi §3) |
 | Site part `header` "Header ARTES" | 199 | **pubblicato**, `include/general`. Generato da `tools/gen-header-footer.ps1` |
 | Site part `footer` "Footer ARTES" | 200 | **pubblicato**, `include/general`. Stesso generatore |
-| Site part `archive` "Archivio Realizzazioni" | 213 | **pubblicato**, condizioni `include/archive/realizzazione_archive` e `include/archive/settore`: serve `/realizzazioni/` **e** le pagine dei settori (`/settore/<slug>/`). Generato da `tools/gen-archive.ps1` |
-| Menu "Filtri realizzazioni" | — | slug `filtri-realizzazioni`: Tutti + 5 settori, mostrato come chip dal CSS del kit |
-| Site part `archive` "Archivio Brand" | 447 | **pubblicato**, condizioni `include/archive/brand_archive` e `include/archive/categoria_brand`: serve `/brand-partner/` **e** le pagine delle categorie (`/categoria-brand/<slug>/`). Intestazione, filtri (menu `filtri-brand`: Tutti + 8 categorie, link alle categorie), griglia dei 19 brand su fondo alternato (tutti in una pagina, ordine del mockup), CTA "Vuoi diventare un brand partner?". Generato da `tools/gen-archive-brand.ps1` |
-| Site part `single` "Singolo Brand" | 448 | **pubblicato**, condizione `include/singular/brand`. Intestazione (breadcrumb, categoria, nome, introduzione), "Progetti con <brand>" (ciclo `artes_progetti_brand` via relazione; **sezione nascosta dal CSS se il brand non ha progetti**), CTA. Generato da `tools/gen-single-brand.ps1`. Tutti i 19 brand sono cliccabili (nel mockup solo Pedrali). Scheda completa dal 2026-10-21: immagine principale (in evidenza) e galleria, specifiche (categoria estesa, ambiti, certificazioni, fornitura) e categorie prodotto, tutti **nascosti se vuoti**. Compilato solo **Pedrali** (da `setup/contenuti-pedrali.php`); gli altri 18 aspettano i contenuti del cliente. Campi aggiunti da `setup/campi-brand.php` (`sottotitolo_categoria`, `ambiti_artes`, `certificazioni`, `fornitura_artes`, `categorie_prodotto` una per riga "Nome | Ambito", `galleria`; WPML: testi tradotti, galleria copiata) |
+| *(vecchio)* Site part `archive` "Archivio Realizzazioni" | 213 | **in bozza dal 2026-11-20** (sostituito da 1050), condizioni originali `include/archive/realizzazione_archive` e `include/archive/settore` conservate. Serviva `/realizzazioni/` **e** le pagine dei settori (`/settore/<slug>/`, oggi reindirizzate all'archivio filtrato). Generato da `tools/gen-archive.ps1` |
+| Menu "Filtri realizzazioni" | — | slug `filtri-realizzazioni`: Tutti + 5 settori, mostrato come chip dal CSS del kit. **Ancora usato dalla Home (376, design vecchio)**: si elimina quando la Home viene ricostruita con la rev2 (fase 5) |
+| *(vecchio)* Site part `archive` "Archivio Brand" | 447 | **in bozza dal 2026-11-20** (sostituito da 1051). Prima: **pubblicato**, condizioni `include/archive/brand_archive` e `include/archive/categoria_brand`: serve `/brand-partner/` **e** le pagine delle categorie (`/categoria-brand/<slug>/`). Intestazione, filtri (menu `filtri-brand`: Tutti + 8 categorie, link alle categorie), griglia dei 19 brand su fondo alternato (tutti in una pagina, ordine del mockup), CTA "Vuoi diventare un brand partner?". Generato da `tools/gen-archive-brand.ps1` |
+| *(vecchio)* Site part `single` "Singolo Brand" | 448 | **in bozza dal 2026-11-20** (sostituito da 1049). Prima: **pubblicato**, condizione `include/singular/brand`. Intestazione (breadcrumb, categoria, nome, introduzione), "Progetti con <brand>" (ciclo `artes_progetti_brand` via relazione; **sezione nascosta dal CSS se il brand non ha progetti**), CTA. Generato da `tools/gen-single-brand.ps1`. Tutti i 19 brand sono cliccabili (nel mockup solo Pedrali). Scheda completa dal 2026-10-21: immagine principale (in evidenza) e galleria, specifiche (categoria estesa, ambiti, certificazioni, fornitura) e categorie prodotto, tutti **nascosti se vuoti**. Compilato solo **Pedrali** (da `setup/contenuti-pedrali.php`); gli altri 18 aspettano i contenuti del cliente. Campi aggiunti da `setup/campi-brand.php` (`sottotitolo_categoria`, `ambiti_artes`, `certificazioni`, `fornitura_artes`, `categorie_prodotto` una per riga "Nome | Ambito", `galleria`; WPML: testi tradotti, galleria copiata) |
 | Home | 376 | **costruita e pubblicata**, impostata come pagina iniziale (`show_on_front=page`). Hero, metodo in 7 fasi, mosaico dei 5 settori, produzione, ultimi progetti con filtri, muro dei 19 brand, doppia CTA. Generata da `tools/rebuild-home.ps1` |
 | Pagine dei 5 settori | 144–148 | **costruite e pubblicate** (`arredamento-ufficio`, `arredo-negozi`, `arredo-negozi-food`, `arredamento-bar-ristoranti`, `arredamento-hotel`): intestazione, fascia immagine, "Il settore" con 3 schede, ambiti con immagini, progetti del settore, CTA. Generate da `tools/rebuild-pagine-settori.ps1` |
 | Cataloghi PDF 491, Privacy policy 3, Cookie policy 493 | 491, 3, 493 | **costruite e pubblicate** da `tools/rebuild-pagine-legali.ps1` con i testi di `tools/contenuti-pagine-legali.json` (una riga che inizia con "- " è una voce di elenco). Privacy = pagina 3 di WordPress, impostata come pagina privacy del sito. **Testi di bozza**: i dati del titolare sono segnaposto tra parentesi quadre (ragione sociale, indirizzo, P.IVA, email privacy) e vanno completati e fatti rivedere a chi cura gli aspetti legali; Cataloghi non ha PDF (rimanda a "Contatti" e ai brand). Nel footer: link Privacy · Cookie · MEPA in fondo, "Cataloghi PDF" nel menu Risorse; la casella di consenso dei moduli linka l'informativa |
@@ -427,6 +460,9 @@ per questo lo script la rimuove **prima** di attivare.
 
 | Data | Cosa |
 |---|---|
+| 2026-11-20 (seconda parte) | **Adeguamento alla rev2, fase 4 (template e archivi)**: site part **1040** (singolo realizzazione), **1049** (singolo brand), **1050** (archivio realizzazioni), **1051** (archivio brand) pubblicati con condizioni generali; header 557 e footer 971 rev2 sulle 4 condizioni dei contenuti; vecchi 138/448/213/447 in bozza (condizioni originali conservate); opzione `artes_rev2_cpt` = 1; plugin `artes-core` **0.6.2** (8 shortcode, filtri dei cicli, `window.ArtesRev2Dati`, redirect 301 dei termini, filtro `request` che toglie `settore`/`categoria` dalla query degli archivi); JavaScript rev2 con lightbox e filtri; **campi del vecchio modello tolti** (12 definizioni, 45 valori su 11 articoli, 11 regole WPML; salvati e annullabili). Verifica: parità su 40 pagine, salute 80/80, reindirizzamenti 17/17, `verifica-dati.js` 1094/1094. I menu `filtri-realizzazioni` e `filtri-brand` restano (la Home vecchia usa il primo) |
+| 2026-11-20 | **Adeguamento alla rev2, fase 3 (dati)**: `settore` rinominata e riordinata (slug `uffici`, `retail`, `bar-ristoranti`, `food`, `hospitality`); **nuova tassonomia `categoria`** (26 termini); `categoria_brand` con i nomi rev2 ("Pareti e pod"); 11 campi nuovi (7 su `realizzazione`, 4 su `brand`) con regole WPML; **20 realizzazioni e 18 brand** allineati alla rev2 (10 realizzazioni nuove, 2 rinominate con redirect); 27 allegati-copia con alt dedicato; 8 relazioni brand ↔ progetti; **nel cestino** i 4 progetti fittizi e Mottura; link vecchi delle pagine settore 144-148 aggiornati. Verifica: `tools/rev2/verifica-dati.js` 1028/1028 (prima 185/550) |
+| 2026-11-19 | **Adeguamento alla rev2, fasi 0-2** (dettagli in §9): backup/snapshot; 149 immagini nuove nella libreria; 246 classi globali nuove + 14 di appoggio, 23 vecchie rinominate `o-*` (le pagine vecchie restano pixel-identiche); plugin `artes-core` **0.5.0** (modalità `rev2`: `artes-rev2.css`/`.js`); header **557** e footer **971** rev2 con condizione solo sulla pagina di prova **542**; pagine di prova Chi siamo e Contract in parità con la rev2; modelli `[Riserva]` dei moduli (539-541) |
 | 2026-11-05 | **Testi discorsivi nelle 5 pagine settore** (blocco `racconto` dopo la foto principale: frase d'apertura grande + 4 righe titolo/paragrafo a tutta larghezza, niente riquadro in alto a destra). Testi **inventati come bozza**, il cliente li riscriverà. Aggiunto prima nel mockup (sezione 17 di `artes.css`, `extract-settori.js`) e poi su WordPress (`Block-Racconto` in `lib-blocchi.ps1`, 6 classi da `setup/classi-racconto.ps1`, `rebuild-pagine-settori.ps1`). Per cambiare i testi: si modifica l'HTML del mockup e si rilanciano estrazione e ricostruzione |
 | 2026-11-04 | Pagine **Cataloghi PDF (491), Privacy policy (3), Cookie policy (493)**: testi di bozza, 5 classi nuove (`legale`, `legale-col`, `legale-h`, `legale-p`, `legale-li`), footer con link legali, consenso dei moduli con link all'informativa. Verificato che il sito non imposta cookie a un visitatore anonimo; **i caratteri sono caricati da Google Fonts** (dichiarato nell'informativa; da scaricare in locale prima della produzione). `extract-pagine.js` ora estrae di default tutte e 8 le pagine (prima `rebuild-pagine-modulo` falliva se `pagine.json` era stato rigenerato con meno file) |
 | 2026-10-28 | **Lightbox delle gallerie** (plugin 0.4.0, nuovo file `artes-core.js`): clic su immagine di galleria o sull'immagine principale di realizzazioni e brand → schermo intero a piena risoluzione (URL senza suffisso -LxA), frecce, tastiera (← → Esc), swipe, contatore, didascalia dall'alt, scroll bloccato, focus gestito. Stile come i pulsanti del sito. `install-plugin.ps1` ora impacchetta anche il JS |
@@ -443,3 +479,51 @@ per questo lo script la rimuove **prima** di attivare.
 | 2026-10-21 (sera) | Disattivate le animazioni predefinite del tema Hello Elementor (CSS del kit): transizioni su pulsanti, campi modulo e menu del tema |
 | 2026-10-21 | Pagine segnaposto (11), 4 menu WordPress, logo. 22 classi di header/footer. Site part header (199) e footer (200) pubblicati. CSS del kit applicato da file. Plugin: shortcode `[artes_lingue]`, `[artes_titolo]`, `[artes_settore_ambito]` e filtro del menu attivo. Template 138: titolo con ultima parola in grassetto, riga Settore con ambito, fondo alternato. Confronto visivo con il mockup a 1440 e header a 1100/800px |
 | 2026-10-20 | Collegati i connettori MCP di dev3 (Elementor e Novamira). Variabili (27) e classi base (13). Modello dati JetEngine, WPML configurato, permalink. Import 14 realizzazioni, 18 brand, 47 immagini. Aggiunti campi `cliente` e `arredi`. Template singolo realizzazione (site part 138), 28 classi scheda, plugin `artes-core`. Eliminate 3 query JetEngine inutilizzate |
+
+## 9. Adeguamento alla rev2 (in corso dal 2026-11-19)
+
+Piano e decisioni: [`piano-adeguamento-rev2.md`](piano-adeguamento-rev2.md); regole di conversione: [`rev2-regole-di-conversione.md`](rev2-regole-di-conversione.md).
+**Convivenza di vecchio e nuovo design**: finché non si arriva al passaggio finale (fase 9) il sito mostra il design vecchio; il design rev2
+si accende solo dove richiesto (pagine con meta `_artes_rev2`, oppure URL con `?artes_rev2=1`).
+
+**Oggetti su dev3 legati alla rev2**
+
+| Oggetto | ID | Note |
+|---|---|---|
+| Plugin `artes-core` | — | **0.6.1** (0.5.0 fase 2, 0.6.0-0.6.1 fase 4): in modalità rev2 carica `artes-rev2.css`/`.js` al posto di `artes-core.css`/`.js`, aggiunge la classe `rev2` al `<body>`, toglie i fogli del tema Hello e i font di Elementor e carica i font della rev2. Fase 4: shortcode `artes_breadcrumb`, `artes_eyebrow`, `artes_settore_link`, `artes_categoria_link`, `artes_galleria_titolo`, `artes_scopri_testo`, `artes_url_pagina_settore`, `artes_cta_brand`; filtri dei cicli `artes_archivio_realizzazioni`, `artes_archivio_brand` e `artes_altre_realizzazioni` (ordine come la rev2); `window.ArtesRev2Dati` (settori e categorie dai termini, per i filtri); redirect 301 delle pagine dei termini all'archivio filtrato. Gli shortcode del vecchio modello (`artes_settore_ambito`, `artes_categoria_brand`, `artes_categorie_prodotto`) restano per i template vecchi in bozza |
+| Opzione `artes_rev2_cpt` | — | `1` dal 2026-11-20: la modalità rev2 vale per tutte le schede e gli archivi di realizzazioni e brand (e accende i redirect dei termini). Per tornare indietro: `0`, vedi "Tornare indietro" sotto |
+| Header rev2 | **557** | "Header ARTES (rev2)"; **condizioni dal 2026-11-20**: `include/singular/realizzazione`, `include/singular/brand`, `include/archive/realizzazione_archive`, `include/archive/brand_archive` (le altre pagine hanno ancora l'header vecchio 199, `include/general`) |
+| Footer rev2 | **971** | "Footer ARTES (rev2)"; stesse condizioni. Dati reali di Artes srl (rev2) |
+| Template dei contenuti rev2 | **1040**, **1049**, **1050**, **1051** | site part pubblicati: singolo realizzazione, singolo brand, archivio realizzazioni, archivio brand (§5). Sorgenti in `tools/rev2/modelli/`; si rigenerano con `node tools/rev2/costruisci-modello.js <nome> --invia <id> --pubblica` |
+| Pagina di prova | **542** | bozza "SPIKE rev2 - prova tecnica (da eliminare)": ospita via via le pagine in collaudo (oggi ha il modello dell'archivio brand, `_artes_rev2`=1); da eliminare con la fase 9 |
+| Modelli dei moduli | 539, 540, 541 | libreria Elementor, prefisso "[Riserva]": le 3 sezioni con modulo tolte dalla rev2, per rimetterle |
+| Header/footer vecchi | 199, 200 | restano finché non si accende la rev2 per tutto il sito |
+| Immagini rev2 | — | 180 allegati usati dalle pagine rev2: 149 nuovi (meta `_artes_src` = `rev2:<percorso>`, testo alternativo dalla rev2) e 31 riusati dal vecchio import (alt aggiornato); mappa percorso→ID in `tools/out/rev2/media-rev2.json` |
+| Classi globali | — | 473 totali: 213 del vecchio design (23 rinominate `o-<nome>` perché in collisione), 260 della rev2 (stesso nome della rev2; solo etichetta, `--a: 0;`, lo stile è nel CSS del plugin) |
+
+**Cose da sapere**
+
+- Il CSS della rev2 non si scrive a mano: `tools/rev2/port-css.js` lo genera da `artes-sito-rev2/assets/css/artes.css` (`wp/artes-core/artes-rev2.css`);
+  il JavaScript (`artes-rev2.js`) è scritto a mano e ripropone le interazioni della rev2 (tendina, menu mobile, voce attiva) più il rimettere gli attributi
+  che i widget non possono scrivere. Rilascio: `tools/install-plugin.ps1`; giro veloce durante il collaudo: `node tools/rev2/push-asset.js`.
+- Le pagine rev2 si generano dall'HTML con `node tools/rev2/costruisci.js pagina <nome> --invia <id>` (e `header`/`footer`); si guardano con
+  `node tools/rev2/anteprima.js <id>` e si misurano con `parita.js`, `geometria.js`, `collaudo-header.js` (vedi `tools/README.md`).
+- Il banner "development site" di WPML è sempre in fondo alle pagine di dev3: non fa parte del design.
+- Il kit di Elementor (variabili, tipografia) **non è stato toccato**: si aggiorna al passaggio finale.
+- **Dati (fase 3, 2026-11-20)**: modello, ID e regole al §3 e §4. I campi del vecchio modello sono stati tolti a fine fase 4 (vedi sotto); le immagini non più usate
+  si elencano per la fase 9 (la cancellazione dei file richiede conferma).
+- **Template e archivi (fase 4, 2026-11-20)**: le schede e gli archivi di realizzazioni e brand usano i site part 1040/1049/1050/1051, scritti come HTML con attributi
+  `data-dyn`/`data-loop` (`tools/rev2/modelli/`) e convertiti in widget con tag dinamici nativi di Elementor/JetEngine e shortcode del plugin per i valori calcolati.
+  Regole e cose imparate: [`rev2-regole-di-conversione.md`](rev2-regole-di-conversione.md) §8. Misurati su **tutte** le schede (20 + 18) e i 2 archivi con
+  `tools/rev2/parita-tutte.js`.
+- **Campi del vecchio modello tolti (fine fase 4)**: `realizzazione` → `sottotitolo_ambito`, `cliente`, `superficie`, `ambienti`, `arredi`, `servizi_artes`, `tempi`;
+  `brand` → `sottotitolo_categoria`, `ambiti_artes`, `certificazioni`, `categorie_prodotto`, `galleria` (la `galleria` delle realizzazioni resta). Tolti dalle definizioni
+  JetEngine, dalle regole WPML (tranne `galleria`, usata dal modello nuovo) e dagli articoli che restano; **gli articoli nel cestino non sono stati toccati**. Prima di
+  scrivere, `import-dati.js pulizia` ha salvato tutto in `tools/out/rev2/fase4-campi-rimossi.json` (definizioni complete, valori, regole WPML). I template vecchi in bozza
+  (138, 448) e gli shortcode del vecchio modello nel plugin li leggono ancora ma restano vuoti: si eliminano insieme ai template vecchi nella fase 9.
+- **Menu dei filtri** (`filtri-realizzazioni`, `filtri-brand`): **non eliminati**. Il primo serve ancora alla Home pubblicata (376, design vecchio), il secondo all'archivio brand
+  vecchio in bozza (447). Le voci sono di tipo tassonomia e seguono i termini. Si eliminano quando la Home viene ricostruita con la rev2 (fase 5) o al più tardi alla chiusura (fase 9);
+  l'istantanea con la loro struttura è in `tools/out/backup-2026-11-19/menu.json`.
+- **Tornare indietro** (se le schede o gli archivi nuovi dovessero dare problemi): 1) opzione `artes_rev2_cpt` a `0`; 2) rimettere in pubblicazione 138, 448, 213, 447 (le loro
+  condizioni originali sono conservate) e in bozza 1040, 1049, 1050, 1051; 3) condizioni di 557 e 971 solo `include/singular/page/542`; 4) se servono i campi vecchi:
+  `node tools/rev2/import-dati.js annulla-pulizia`; 5) svuotare le cache di Elementor (`tools/rebuild-template.ps1` lo fa). Il backup completo del titolare (2026-11-19) resta l'ultima rete.

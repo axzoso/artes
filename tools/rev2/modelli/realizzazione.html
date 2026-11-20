@@ -1,0 +1,80 @@
+<!-- Scheda realizzazione (rev2). Struttura identica a artes-sito-rev2/realizzazione-*.html; i dati arrivano da WordPress (alias in
+     tools/rev2/dinamici.js). Il testo dentro agli elementi dinamici è solo un segnaposto leggibile. -->
+<main>
+
+  <section class="scheda__intro">
+    <div class="breadcrumb" data-dyn="breadcrumb">Home / Realizzazioni / Settore / Titolo</div>
+    <div class="scheda__title-row">
+      <div>
+        <div class="eyebrow" data-dyn="eyebrow">Settore — Categoria</div>
+        <h1 class="scheda__title" data-dyn="titolo">Titolo</h1>
+        <p class="caso__kw" data-dyn="kw">Riga parola chiave</p>
+      </div>
+      <p class="lead" data-dyn="introduzione">Introduzione</p>
+    </div>
+    <dl class="caso-facts">
+      <div><dt>Località</dt><dd data-dyn="localita">Località</dd></div>
+      <div><dt>Settore</dt><dd data-dyn="settore_link">Settore</dd></div>
+      <div><dt>Tipologia</dt><dd data-dyn="tipologia">Tipologia</dd></div>
+      <div data-opz><dt>Progetto</dt><dd data-dyn="progettista">Progettista</dd></div>
+    </dl>
+  </section>
+
+  <section class="caso-media" aria-label="Galleria fotografica">
+    <div class="caso-gallery__head">
+      <span data-dyn="galleria_titolo">Galleria fotografica</span>
+      <button type="button" class="caso-gallery__open" data-lightbox-open="caso">Apri la galleria</button>
+    </div>
+    <div class="caso-gallery" data-loop="galleria">
+      <div class="caso-gallery__item"><img data-dyn-src="galleria_immagine" alt=""></div>
+    </div>
+  </section>
+
+  <section class="section caso">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Scheda del progetto</div>
+        <dl class="specs__list">
+          <div class="spec"><dt>Categoria</dt><dd data-dyn="categoria_link">Categoria</dd></div>
+          <div class="spec"><dt>Tipologia</dt><dd data-dyn="tipologia">Tipologia</dd></div>
+          <div class="spec"><dt>Località</dt><dd data-dyn="localita">Località</dd></div>
+          <div class="spec" data-opz><dt>Progettista</dt><dd data-dyn="progettista">Progettista</dd></div>
+          <div class="spec" data-opz><dt>Brand e forniture</dt><dd data-dyn="brand_forniture">Brand e forniture</dd></div>
+        </dl>
+      </div>
+      <div class="prose">
+        <p class="prose__lead" data-dyn="descrizione_lead">Descrizione</p>
+        <p data-dyn="descrizione_testo">Descrizione</p>
+        <p><a href="#" class="link-rule" data-dyn-href="url_pagina_settore" data-dyn="scopri_testo">Scopri l'arredo</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--accent">
+    <div>
+      <h2>Hai uno spazio simile<br>da arredare?</h2>
+      <p>Raccontaci la tua commessa: un nostro tecnico ti affiancherà nella valutazione di esigenze, spazi e soluzioni.</p>
+    </div>
+    <div class="cta-band__actions">
+      <a href="#contatti" class="btn btn--light">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un nostro tecnico</a>
+    </div>
+  </section>
+
+  <section class="correlate" data-opz>
+    <div class="section__head">
+      <h2 data-dyn="correlate_titolo">Altre realizzazioni</h2>
+      <a href="#" class="link-rule" data-dyn-href="url_archivio_settore">Tutte le realizzazioni del settore</a>
+    </div>
+    <div class="correlate__grid" data-loop="correlate">
+      <a href="#" data-dyn-href="url_post">
+        <div class="ph"><img data-dyn-src="card_immagine" alt=""></div>
+        <div class="correlate__meta">
+          <div class="correlate__n" data-dyn="card_nome">Nome</div>
+          <div class="correlate__s" data-dyn="card_categoria">Categoria</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>

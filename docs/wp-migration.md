@@ -7,6 +7,11 @@ pagina WordPress si confronta con la sua omologa su
 
 Creato il 2026-10-20. Aggiornare a ogni fase conclusa.
 
+> **Dal 2026-11-19 la fonte di verità diventa la rev2** (`artes-sito-rev2/`), non più il mockup in radice: il sito WordPress si
+> adegua alla rev2 in 9 fasi, descritte in [`piano-adeguamento-rev2.md`](piano-adeguamento-rev2.md) (decisioni e avanzamento al §8 e §10;
+> **fasi 0-4 fatte** — fondamenta, dati, template e archivi di realizzazioni e brand —, fase 5 in attesa del via). Dove questo documento e quel piano divergono (nomenclatura dei settori,
+> modello dati dei CPT, pagine che la rev2 non ha, moduli tolti) vale il piano.
+
 **Documenti collegati:** lo stato attuale di dev3 (ID, classi, plugin, cose
 imparate, registro modifiche) è in [`wp-stato-dev3.md`](wp-stato-dev3.md);
 gli script in [`../tools/README.md`](../tools/README.md); il codice del

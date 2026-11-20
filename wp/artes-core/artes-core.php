@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES: dati dei cicli Elementor (galleria, brand collegati, altre realizzazioni), shortcode (selettore lingua, titolo), voce di menu attiva, ordine dell'archivio e CSS del sito.
- * Version:     0.4.0
+ * Version:     0.7.0
  *
  * Elementor chiama `elementor/query/<query_id>` prima di eseguire la query di un
  * widget Loop: il "Query ID" del widget è il nome del filtro, non una query del
@@ -22,7 +22,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '0.4.0' );
+define( 'ARTES_CORE_VERSION', '0.7.0' );
 
 /**
  * CSS del sito (menu, header sticky, hover, archivio): vive nel plugin, non nel database
@@ -32,6 +32,13 @@ define( 'ARTES_CORE_VERSION', '0.4.0' );
 add_action(
 	'wp_enqueue_scripts',
 	function () {
+		// Pagine con il design nuovo (rev2): CSS e JavaScript propri al posto di quelli vecchi.
+		if ( artes_is_rev2() ) {
+			artes_enqueue_rev2();
+
+			return;
+		}
+
 		$file = plugin_dir_path( __FILE__ ) . 'artes-core.css';
 
 		// Lightbox delle gallerie (clic sull'immagine -> schermo intero).
@@ -637,6 +644,14 @@ add_action(
 		$query->set( 'post_type', 'realizzazione' );
 		$query->set( 'post__not_in', array( $current ) );
 		$query->set( 'posts_per_page', 3 );
+		// Come nella rev2: le prime 3 dello stesso settore nell'ordine dell'archivio.
+		$query->set(
+			'orderby',
+			array(
+				'menu_order' => 'ASC',
+				'ID'         => 'ASC',
+			)
+		);
 
 		if ( $terms && ! is_wp_error( $terms ) ) {
 			$query->set(
@@ -651,4 +666,441 @@ add_action(
 			);
 		}
 	}
+);
+/**
+ * ===== Schede e archivi della rev2 (fase 4, novembre 2026) =====================================================
+ *
+ * Valori calcolati che i widget di Elementor non possono produrre da soli, usati con il tag dinamico "Shortcode".
+ * Funzionano sulla scheda corrente (realizzazione o brand): gli indirizzi sono quelli della rev2
+ * (`/realizzazioni/?settore=<slug>&categoria=<slug>`), non le pagine dei termini.
+ */
+
+/**
+ * Primo termine di una tassonomia per un articolo (o null).
+ */
+function artes_primo_termine( $post_id, $taxonomy ) {
+	$terms = wp_get_object_terms( $post_id, $taxonomy );
+
+	return ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : null;
+}
+
+/**
+ * Indirizzo dell'archivio realizzazioni con filtri (settore, categoria), come `realizzazioni.html?settore=…` della rev2.
+ */
+function artes_url_archivio_filtrato( $settore = '', $categoria = '' ) {
+	$args = array();
+
+	if ( $settore ) {
+		$args['settore'] = $settore;
+	}
+
+	if ( $categoria ) {
+		$args['categoria'] = $categoria;
+	}
+
+	return add_query_arg( $args, get_post_type_archive_link( 'realizzazione' ) );
+}
+
+/**
+ * Indirizzo della pagina del settore (meta del termine `pagina` = ID della pagina; tradotto da WPML).
+ */
+function artes_url_pagina_settore( $term ) {
+	if ( ! $term ) {
+		return '';
+	}
+
+	$page_id = (int) get_term_meta( $term->term_id, 'pagina', true );
+
+	if ( $page_id ) {
+		$page_id = (int) apply_filters( 'wpml_object_id', $page_id, 'page', true );
+	}
+
+	return $page_id ? (string) get_permalink( $page_id ) : '';
+}
+
+/**
+ * Briciole di pane della scheda: "Home / Realizzazioni / Settore / Titolo" (realizzazione) o
+ * "Home / Brand partner / Titolo" (brand). Stesso HTML della rev2.
+ */
+add_shortcode(
+	'artes_breadcrumb',
+	function () {
+		$id    = artes_current_post_id();
+		$home  = '<a href="' . esc_url( home_url( '/' ) ) . '">Home</a>';
+		$title = '<strong>' . esc_html( wp_strip_all_tags( get_the_title( $id ) ) ) . '</strong>';
+
+		if ( 'brand' === get_post_type( $id ) ) {
+			return $home . ' / <a href="' . esc_url( get_post_type_archive_link( 'brand' ) ) . '">Brand partner</a> / ' . $title;
+		}
+
+		$settore = artes_primo_termine( $id, 'settore' );
+		$out     = $home . ' / <a href="' . esc_url( get_post_type_archive_link( 'realizzazione' ) ) . '">Realizzazioni</a> / ';
+
+		if ( $settore ) {
+			$out .= '<a href="' . esc_url( artes_url_archivio_filtrato( $settore->slug ) ) . '">' . esc_html( $settore->name ) . '</a> / ';
+		}
+
+		return $out . $title;
+	}
+);
+
+/**
+ * Riga sopra il titolo della scheda realizzazione: "Arredo uffici e workspace — Enti e istituzioni".
+ */
+add_shortcode(
+	'artes_eyebrow',
+	function () {
+		$id      = artes_current_post_id();
+		$settore = artes_primo_termine( $id, 'settore' );
+		$cat     = artes_primo_termine( $id, 'categoria' );
+		$parti   = array_filter( array( $settore ? $settore->name : '', $cat ? $cat->name : '' ) );
+
+		return esc_html( implode( ' — ', $parti ) );
+	}
+);
+
+/**
+ * "Settore" tra i dati della scheda: nome del settore con il link alla sua pagina.
+ */
+add_shortcode(
+	'artes_settore_link',
+	function () {
+		$settore = artes_primo_termine( artes_current_post_id(), 'settore' );
+
+		if ( ! $settore ) {
+			return '';
+		}
+
+		$url = artes_url_pagina_settore( $settore );
+
+		return $url ? '<a href="' . esc_url( $url ) . '">' . esc_html( $settore->name ) . '</a>' : esc_html( $settore->name );
+	}
+);
+
+/**
+ * "Categoria" nella scheda del progetto: nome con il link all'archivio filtrato per settore e categoria.
+ */
+add_shortcode(
+	'artes_categoria_link',
+	function () {
+		$id      = artes_current_post_id();
+		$settore = artes_primo_termine( $id, 'settore' );
+		$cat     = artes_primo_termine( $id, 'categoria' );
+
+		if ( ! $cat ) {
+			return '';
+		}
+
+		$url = artes_url_archivio_filtrato( $settore ? $settore->slug : '', $cat->slug );
+
+		return '<a href="' . esc_url( $url ) . '">' . esc_html( $cat->name ) . '</a>';
+	}
+);
+
+/**
+ * Testata della galleria: "Galleria fotografica · 7 foto".
+ */
+add_shortcode(
+	'artes_galleria_titolo',
+	function () {
+		$ids = array_filter( array_map( 'absint', explode( ',', (string) get_post_meta( artes_current_post_id(), 'galleria', true ) ) ) );
+
+		return esc_html( 'Galleria fotografica · ' . count( $ids ) . ' foto' );
+	}
+);
+
+/**
+ * Link in fondo alla descrizione: testo "Scopri l'arredo uffici e workspace" e indirizzo della pagina del settore.
+ */
+add_shortcode(
+	'artes_scopri_testo',
+	function () {
+		$settore = artes_primo_termine( artes_current_post_id(), 'settore' );
+
+		if ( ! $settore ) {
+			return '';
+		}
+
+		return esc_html( "Scopri l'arredo " . preg_replace( '/^Arredo\s+/u', '', $settore->name ) );
+	}
+);
+
+add_shortcode(
+	'artes_url_pagina_settore',
+	function () {
+		return esc_url( artes_url_pagina_settore( artes_primo_termine( artes_current_post_id(), 'settore' ) ) );
+	}
+);
+
+/**
+ * Titolo della fascia finale della scheda brand: "Arredi Pedrali<br>per il tuo spazio?".
+ */
+add_shortcode(
+	'artes_cta_brand',
+	function () {
+		return 'Arredi ' . esc_html( wp_strip_all_tags( get_the_title( artes_current_post_id() ) ) ) . '<br>per il tuo spazio?';
+	}
+);
+
+/**
+ * Cicli degli archivi rev2: tutte le realizzazioni (o tutti i brand) in una pagina, nell'ordine d'archivio. Non si usa la
+ * query della pagina: i filtri per settore e categoria sono lato browser (come nella rev2) e `?settore=` / `?categoria=`
+ * nell'indirizzo restringerebbero la query principale.
+ */
+add_action(
+	'elementor/query/artes_archivio_realizzazioni',
+	function ( $query ) {
+		$query->set( 'post_type', 'realizzazione' );
+		$query->set( 'post_status', 'publish' );
+		$query->set( 'posts_per_page', -1 );
+		$query->set(
+			'orderby',
+			array(
+				'menu_order' => 'ASC',
+				'ID'         => 'ASC',
+			)
+		);
+	}
+);
+
+add_action(
+	'elementor/query/artes_archivio_brand',
+	function ( $query ) {
+		$query->set( 'post_type', 'brand' );
+		$query->set( 'post_status', 'publish' );
+		$query->set( 'posts_per_page', -1 );
+		$query->set(
+			'orderby',
+			array(
+				'menu_order' => 'ASC',
+				'ID'         => 'ASC',
+			)
+		);
+	}
+);
+
+/**
+ * Home rev2 (sezione 04 Realizzazioni): le 6 realizzazioni in evidenza, ordinate per campo `home_ordine` (1–6).
+ */
+add_action(
+	'elementor/query/artes_progetti_home_rev2',
+	function ( $query ) {
+		$query->set( 'post_type', 'realizzazione' );
+		$query->set( 'post_status', 'publish' );
+		$query->set( 'posts_per_page', 6 );
+		$query->set( 'meta_key', 'home_ordine' ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		$query->set( 'orderby', 'meta_value_num' );
+		$query->set( 'order', 'ASC' );
+		$query->set(
+			'meta_query',
+			array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => 'home_ordine',
+					'value'   => 0,
+					'compare' => '>',
+					'type'    => 'NUMERIC',
+				),
+			)
+		);
+	}
+);
+
+/**
+ * I filtri degli archivi sono lato browser, come nella rev2: `/realizzazioni/?settore=uffici&categoria=…` è la pagina dell'archivio
+ * con un filtro nell'indirizzo, non una query di WordPress. Senza questa pulizia `settore` e `categoria` (parametri pubblici delle
+ * tassonomie) diventerebbero una query sull'archivio: `is_tax()` sarebbe vero (il reindirizzamento qui sotto punterebbe a sé stesso
+ * e il browser andrebbe in ciclo) e un filtro senza risultati o con un termine inesistente darebbe 404, mentre la rev2 risponde sempre.
+ */
+add_filter(
+	'request',
+	function ( $vars ) {
+		if ( get_option( 'artes_rev2_cpt' ) && isset( $vars['post_type'] ) && in_array( $vars['post_type'], array( 'realizzazione', 'brand' ), true ) && empty( $vars['name'] ) ) {
+			unset( $vars['settore'], $vars['categoria'], $vars['categoria_brand'] );
+		}
+
+		return $vars;
+	}
+);
+
+/**
+ * Le pagine dei termini (/settore/uffici/, /categoria-realizzazione/…, /categoria-brand/…) non esistono nella rev2: i filtri sono
+ * nell'archivio. Chi arriva da un vecchio link va all'archivio con lo stesso filtro.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		// Mai reindirizzare dall'archivio stesso (la destinazione è sempre un archivio): sarebbe un ciclo.
+		if ( ! get_option( 'artes_rev2_cpt' ) || is_post_type_archive() ) {
+			return;
+		}
+
+		$url = '';
+
+		if ( is_tax( 'settore' ) ) {
+			$url = artes_url_archivio_filtrato( get_queried_object()->slug );
+		} elseif ( is_tax( 'categoria' ) ) {
+			$term = get_queried_object();
+			$url  = artes_url_archivio_filtrato( (string) get_term_meta( $term->term_id, 'settore', true ), $term->slug );
+		} elseif ( is_tax( 'categoria_brand' ) ) {
+			$url = get_post_type_archive_link( 'brand' );
+		}
+
+		if ( $url ) {
+			wp_safe_redirect( $url, 301 );
+			exit;
+		}
+	}
+);
+
+/**
+ * Modalità rev2 (adeguamento alla versione 2 del sito, novembre 2026).
+ *
+ * Il design nuovo convive con quello vecchio finché il sito non passa del tutto alla rev2. Una pagina è "rev2" se ha il
+ * meta `_artes_rev2` oppure se l'URL contiene `?artes_rev2=1` (anteprima di una pagina ancora in lavorazione). Le pagine
+ * rev2 caricano artes-rev2.css e artes-rev2.js (generati da tools/rev2/) al posto di artes-core.css e artes-core.js e il
+ * <body> riceve la classe `rev2`, a cui si aggancia tutto il CSS portato. Il filtro `artes_is_rev2` permette di
+ * accenderla per interi gruppi di pagine (template dei contenuti, archivi) quando serve.
+ */
+function artes_is_rev2() {
+	static $rev2 = null;
+
+	if ( null !== $rev2 ) {
+		return $rev2;
+	}
+
+	$rev2 = false;
+
+	if ( isset( $_GET['artes_rev2'] ) && '1' === $_GET['artes_rev2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$rev2 = true;
+	} elseif ( is_singular() ) {
+		$rev2 = (bool) get_post_meta( get_queried_object_id(), '_artes_rev2', true );
+	}
+
+	// Schede e archivi di realizzazioni e brand: i template rev2 (fase 4) valgono per tutte le schede quando l'opzione
+	// "artes_rev2_cpt" è accesa (tools/rev2/condizioni.js --attiva); prima si provano con ?artes_rev2=1.
+	if ( ! $rev2 && get_option( 'artes_rev2_cpt' ) ) {
+		$rev2 = is_singular( array( 'realizzazione', 'brand' ) ) || is_post_type_archive( array( 'realizzazione', 'brand' ) );
+	}
+
+	$rev2 = (bool) apply_filters( 'artes_is_rev2', $rev2 );
+
+	return $rev2;
+}
+
+/**
+ * Carica CSS e JavaScript della rev2 (se i file esistono).
+ */
+function artes_enqueue_rev2() {
+	$dir = plugin_dir_path( __FILE__ );
+
+	// La rev2 è un design completo e autonomo: gli stili di base del tema (reset, theme e header-footer di Hello Elementor)
+	// ne cambierebbero i valori di partenza (colore dei link e dei bottoni, interlinee, margini), che nella rev2 sono quelli
+	// del browser. Il design resta governato da Elementor (frontend + kit) e dal CSS del plugin.
+	foreach ( array( 'hello-elementor', 'hello-elementor-theme-style', 'hello-elementor-header-footer' ) as $handle ) {
+		wp_dequeue_style( $handle );
+	}
+
+	// I font li carica il plugin (sotto, con i soli pesi usati): non quelli, completi, delle impostazioni del kit di Elementor.
+	add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
+
+	// Stessi font della rev2 (Archivo, Instrument Sans, IBM Plex Mono): non dipendono dalle impostazioni di Elementor.
+	wp_enqueue_style( 'artes-rev2-fonts', 'https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
+	if ( file_exists( $dir . 'artes-rev2.css' ) ) {
+		wp_enqueue_style( 'artes-rev2', plugins_url( 'artes-rev2.css', __FILE__ ), array(), (string) filemtime( $dir . 'artes-rev2.css' ) );
+	}
+
+	if ( file_exists( $dir . 'artes-rev2.js' ) ) {
+		wp_enqueue_script( 'artes-rev2', plugins_url( 'artes-rev2.js', __FILE__ ), array(), (string) filemtime( $dir . 'artes-rev2.js' ), true );
+		wp_add_inline_script( 'artes-rev2', 'window.ArtesRev2Dati = ' . wp_json_encode( artes_dati_filtri() ) . ';', 'before' );
+	}
+}
+
+/**
+ * Dati dei filtri dell'archivio realizzazioni per il JavaScript: settori e categorie (nome, slug, settore) nell'ordine della rev2.
+ * I bottoni dei filtri sono widget senza attributi: il JavaScript abbina il loro testo agli slug con questa tabella.
+ */
+function artes_dati_filtri() {
+	$dati = array(
+		'settori'   => array(),
+		'categorie' => array(),
+	);
+
+	if ( ! taxonomy_exists( 'settore' ) ) {
+		return $dati;
+	}
+
+	$settori = get_terms(
+		array(
+			'taxonomy'   => 'settore',
+			'hide_empty' => false,
+			'meta_key'   => 'ordine', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'    => 'meta_value_num',
+		)
+	);
+
+	foreach ( (array) $settori as $s ) {
+		$dati['settori'][] = array(
+			'slug' => $s->slug,
+			'nome' => $s->name,
+		);
+	}
+
+	if ( taxonomy_exists( 'categoria' ) ) {
+		$categorie = get_terms(
+			array(
+				'taxonomy'   => 'categoria',
+				'hide_empty' => false,
+				'meta_key'   => 'ordine_filtro', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'orderby'    => 'meta_value_num',
+				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+					array(
+						'key'     => 'ordine_filtro',
+						'value'   => 0,
+						'compare' => '>',
+						'type'    => 'NUMERIC',
+					),
+				),
+			)
+		);
+
+		foreach ( (array) $categorie as $c ) {
+			$dati['categorie'][] = array(
+				'slug'    => $c->slug,
+				'nome'    => $c->name,
+				'settore' => (string) get_term_meta( $c->term_id, 'settore', true ),
+			);
+		}
+	}
+
+	return $dati;
+}
+
+add_filter(
+	'body_class',
+	function ( $classes ) {
+		if ( artes_is_rev2() ) {
+			$classes[] = 'rev2';
+		}
+
+		return $classes;
+	}
+);
+
+// Collegamento anticipato ai server dei font nelle pagine rev2.
+add_filter(
+	'wp_resource_hints',
+	function ( $urls, $relation_type ) {
+		if ( 'preconnect' === $relation_type && artes_is_rev2() ) {
+			$urls[] = 'https://fonts.googleapis.com';
+			$urls[] = array(
+				'href'        => 'https://fonts.gstatic.com',
+				'crossorigin' => 'anonymous',
+			);
+		}
+
+		return $urls;
+	},
+	10,
+	2
 );

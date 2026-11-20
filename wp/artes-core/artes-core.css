@@ -17,7 +17,7 @@
 a, button, [type=button], [type=submit], select, textarea,
 input[type=date], input[type=email], input[type=number], input[type=password], input[type=search],
 input[type=tel], input[type=text], input[type=time], input[type=url],
-.btn, .btn-sm, .footer-cta, .brand-chip, .link-rule {
+.o-btn, .btn-sm, .footer-cta, .brand-chip, .o-link-rule {
   transition: color var(--artes-hover), background-color var(--artes-hover), border-color var(--artes-hover), opacity var(--artes-hover) !important;
 }
 
@@ -30,34 +30,34 @@ input[type=tel], input[type=text], input[type=time], input[type=url],
 body { font-family: var(--font-body), "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--graphite); -webkit-font-smoothing: antialiased; }
 a { color: var(--graphite); text-decoration: none; }
 a:hover { color: var(--accent); }
-.breadcrumb a, .topbar-item a, .correlate-name a, .brand-chip a, .lang-switch a { color: inherit; }
-.breadcrumb a:hover, .topbar-item a:hover, .correlate-name a:hover, .brand-chip a:hover, .lang-switch a:hover { color: var(--accent); }
+.o-breadcrumb a, .topbar-item a, .correlate-name a, .brand-chip a, .lang-switch a { color: inherit; }
+.o-breadcrumb a:hover, .topbar-item a:hover, .correlate-name a:hover, .brand-chip a:hover, .lang-switch a:hover { color: var(--accent); }
 
 /* Scheda realizzazione: l'ultima parola del titolo in semigrassetto ([artes_titolo]);
-   la voce corrente del breadcrumb vince sulla classe generale .breadcrumb. */
+   la voce corrente del breadcrumb vince sulla classe generale .o-breadcrumb. */
 .scheda-title strong { font-weight: 600; }
-.breadcrumb.breadcrumb-current { color: var(--graphite) !important; }
+.o-breadcrumb.breadcrumb-current { color: var(--graphite) !important; }
 
 /* --- Archivio realizzazioni ------------------------------------------------ */
 /* Titolo con ultima parola in semigrassetto (come .scheda-title). */
-.page-title strong { font-weight: 600; }
+.o-page-title strong { font-weight: 600; }
 
 /* Filtri per settore: un menu WordPress ("Filtri realizzazioni") mostrato come chip.
    Come gli altri menu: nessuna animazione né hover, padding fisso in ogni stato. */
-.filtri .elementor-widget-nav-menu, .filtri .elementor-nav-menu--main { width: 100%; }
-.filtri .elementor-nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
-.filtri .elementor-nav-menu a.elementor-item,
-.filtri .elementor-nav-menu a.elementor-item:hover,
-.filtri .elementor-nav-menu a.elementor-item:focus,
-.filtri .elementor-nav-menu a.elementor-item:active {
+.o-filtri .elementor-widget-nav-menu, .o-filtri .elementor-nav-menu--main { width: 100%; }
+.o-filtri .elementor-nav-menu { display: flex; flex-wrap: wrap; gap: 8px; }
+.o-filtri .elementor-nav-menu a.elementor-item,
+.o-filtri .elementor-nav-menu a.elementor-item:hover,
+.o-filtri .elementor-nav-menu a.elementor-item:focus,
+.o-filtri .elementor-nav-menu a.elementor-item:active {
   display: inline-flex; align-items: center; min-height: 40px; padding: 10px 16px !important;
   border: 1px solid var(--line-strong); background-color: transparent; color: var(--muted-3);
   font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; line-height: 1.25;
   text-transform: uppercase; white-space: nowrap;
 }
-.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item,
-.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:hover,
-.filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:focus {
+.o-filtri .elementor-nav-menu li.current-menu-item > a.elementor-item,
+.o-filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:hover,
+.o-filtri .elementor-nav-menu li.current-menu-item > a.elementor-item:focus {
   border-color: var(--graphite); background-color: var(--graphite); color: #fff;
 }
 
@@ -182,8 +182,8 @@ a:hover { color: var(--accent); }
 /* --- Home --------------------------------------------------------------------- */
 .hero-title strong { font-weight: 600; }
 /* Fascia brand su fondo scuro: link e colori chiari */
-.brands-sezione .link-rule { color: var(--sand-ink); border-bottom-color: var(--sand-ink); }
-.brands-sezione .link-rule:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.brands-sezione .o-link-rule { color: var(--sand-ink); border-bottom-color: var(--sand-ink); }
+.brands-sezione .o-link-rule:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .brands-sezione .brand-item { color: #fff; }
 /* Doppia CTA: colori del testo per variante */
 .cta-panel-dark .cta-panel-lbl { color: rgba(255, 255, 255, .45); }
@@ -198,7 +198,7 @@ a:hover { color: var(--accent); }
 .card-dark .card-d { color: rgba(255, 255, 255, .62); }
 .card-list-item:last-child { border-bottom: 0; }/* --- Brand --------------------------------------------------------------------- */
 /* Scheda brand senza progetti collegati: Elementor nasconde il ciclo vuoto, qui anche titolo e fascia. */
-.correlate:has(.correlate-grid[style*="display: none"]) { display: none !important; }
+.o-correlate:has(.correlate-grid[style*="display: none"]) { display: none !important; }
 /* Categorie prodotto della scheda brand (shortcode [artes_categorie_prodotto]). Il widget Paragrafo toglie le
    classi dall'HTML dello shortcode: si stila per struttura (ul > li > span). */
 .elementor .scheda-specs:has(.finiture-panel ul) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -212,8 +212,8 @@ a:hover { color: var(--accent); }
 .scheda-media:has(img.scheda-hero:not([src])) { display: none !important; }
 /* Testata con filtri (home, progetti): sotto i 1025px i filtri vanno sotto il titolo, a tutta larghezza. */
 @media (max-width: 1024px) {
-  .section-head:has(> .filtri) { flex-wrap: wrap; align-items: flex-start; gap: 24px; }
-  .section-head > .filtri { flex: 1 1 100%; width: 100%; }
+  .section-head:has(> .o-filtri) { flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+  .section-head > .o-filtri { flex: 1 1 100%; width: 100%; }
 }
 /* Logo nel footer: il file è scuro su fondo nero. Il filtro inverte il nero e lascia il rosso rosso
    (invert + hue-rotate 180°). Da sostituire con la versione chiara del logo quando il cliente la fornisce. */
@@ -222,8 +222,8 @@ a:hover { color: var(--accent); }
 /* --- Hover coerenti con il tema (solo colore, bordo, opacità: nessun movimento) ----------
    Regola generale: testo cliccabile -> rosso; pulsanti e chip -> bordo/sfondo grafite;
    card con immagine -> titolo rosso e immagine leggermente attenuata. */
-.filtri .elementor-nav-menu li a.elementor-item { transition: color var(--artes-hover), border-color var(--artes-hover), background-color var(--artes-hover) !important; }
-.filtri .elementor-nav-menu li:not(.current-menu-item) > a.elementor-item:hover { border-color: var(--graphite); color: var(--graphite); }
+.o-filtri .elementor-nav-menu li a.elementor-item { transition: color var(--artes-hover), border-color var(--artes-hover), background-color var(--artes-hover) !important; }
+.o-filtri .elementor-nav-menu li:not(.current-menu-item) > a.elementor-item:hover { border-color: var(--graphite); color: var(--graphite); }
 .elementor .pag .pag-btn:hover, .elementor .pag .pag-btn:hover p { border-color: var(--graphite); color: var(--graphite); }
 
 .elementor .progetti-grid > *:hover .progetto-nome,
@@ -238,9 +238,9 @@ a:hover { color: var(--accent); }
 .elementor .correlate-grid > *:hover .correlate-img { opacity: .88; }
 
 /* Mosaico dei settori in home: velo scuro appena più forte in hover (il mockup scuriva lo sfondo). */
-.tile .tile-body { z-index: 1; }
-.tile::after { content: ""; position: absolute; inset: 0; background: rgba(20, 20, 19, .2); opacity: 0; pointer-events: none; transition: opacity var(--artes-hover); }
-.tile:hover::after { opacity: 1; }
+.o-tile .tile-body { z-index: 1; }
+.o-tile::after { content: ""; position: absolute; inset: 0; background: rgba(20, 20, 19, .2); opacity: 0; pointer-events: none; transition: opacity var(--artes-hover); }
+.o-tile:hover::after { opacity: 1; }
 
 /* --- Lightbox delle gallerie (artes-core.js) --------------------------------------
    Immagine a tutto schermo su fondo scuro. Stesso linguaggio dei pulsanti del sito:

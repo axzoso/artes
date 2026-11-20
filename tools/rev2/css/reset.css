@@ -1,0 +1,25 @@
+/* ===== 1. Reset degli stili base di Elementor (misurati su Elementor 4.4.1) =====================
+   Gli elementi atomici arrivano con padding, bottoni blu, liste flex, transizioni ecc.: qui tornano al comportamento
+   di un normale elemento HTML ("revert"), perché la rev2 è scritta per HTML semplice.
+   La specificità (0,2,1) è volutamente più alta della base di Elementor (0,2,0) e più bassa di ogni regola
+   della rev2 portata (almeno (0,2,2)): in caso di conflitto vince sempre la rev2. */
+body.rev2 .e-con {
+  position: revert; padding: revert; min-width: revert; display: revert; gap: revert;
+  width: revert; height: revert; min-height: revert; overflow: revert; border-radius: revert; margin: revert;   /* .e-con ha width:100% (--width) e overflow/radius propri */
+  flex-direction: revert; flex-grow: revert; justify-content: revert; align-items: revert;
+  list-style: revert; cursor: revert; transition: revert;
+}
+body.rev2 .e-heading-base,
+body.rev2 .e-paragraph-base { margin: revert; }
+body.rev2 .e-button-base {
+  padding: revert; border: revert; border-radius: revert; background: revert; text-align: revert; display: revert;
+}
+body.rev2 .e-image-base { display: revert; height: auto; }
+body.rev2 .e-accordion-base,
+body.rev2 .e-accordion-item-base,
+body.rev2 .e-accordion-item-header-base,
+body.rev2 .e-accordion-item-title-base,
+body.rev2 .e-accordion-item-content-base {
+  position: revert; width: revert; min-width: revert; padding: revert; margin: revert;
+  display: revert; flex-direction: revert; gap: revert; justify-content: revert; align-items: revert;
+}

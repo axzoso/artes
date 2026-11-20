@@ -1,0 +1,70 @@
+/* Differenze di markup tra la rev2 (HTML semplice) e le composizioni di Elementor.
+   Qui solo ciò che non si può ottenere dal CSS portato. Prefisso e specificità come il resto del file. */
+
+/* Tag sostituiti da un elemento con classe "rev2-<tag>" (vedi html2elementor.js): tornano agli stili di partenza del browser
+   per quel tag, che nella rev2 si applicavano da soli. :where() = nessuna specificità in più. */
+body.rev2 .elementor :where(.rev2-strong, .rev2-b) { font-weight: bolder; }
+body.rev2 .elementor :where(.rev2-em, .rev2-i) { font-style: italic; }
+body.rev2 .elementor :where(.rev2-small) { font-size: smaller; }
+body.rev2 .elementor :where(.rev2-dt, .rev2-dd, .rev2-dl, .rev2-ul, .rev2-ol) { display: block; }
+body.rev2 .elementor :where(.rev2-li) { display: list-item; }
+/* margini e rientri di partenza del browser: la rev2 li usa dove non li azzera (es. dl.specs__list ha 16px sopra e sotto) */
+body.rev2 .elementor :where(.rev2-dl, .rev2-ul, .rev2-ol, .rev2-p) { margin-block: 1em; }
+body.rev2 .elementor :where(.rev2-ul, .rev2-ol) { padding-inline-start: 40px; }
+body.rev2 .elementor :where(.rev2-dd) { margin-inline-start: 40px; }
+
+/* Stato iniziale dei pannelli che nella rev2 hanno l'attributo hidden: finché il JavaScript del plugin non li ha preparati
+   (data-ready) restano chiusi. Poi valgono le regole [hidden] portate dalla rev2. */
+body.rev2 .elementor .drop:not([data-ready]),
+body.rev2 .elementor .mobile-nav:not([data-ready]),
+body.rev2 .elementor .mobile-nav__panel:not([data-ready]) { display: none; }
+
+/* Attributo hidden: Chrome lo applica come "suggerimento di presentazione" (specificità 0, origine autore), quindi il display
+   che Elementor dà ai contenitori lo annulla e anche "revert" non lo ripristina. Qui torna a valere, lasciando che le regole
+   della rev2 (specificità maggiore) possano ancora scavalcarlo, come nel browser. */
+body.rev2 .elementor :where([hidden]) { display: none; }
+
+/* ===== Modelli dinamici: schede e archivi (fase 4) =================================================================== */
+
+/* Involucro esterno dei cicli e link dell'intera card: non hanno un box proprio (la rev2 non li ha). Così la griglia vede
+   direttamente gli elementi ripetuti e le card restano flex/blocchi con i loro figli. */
+body.rev2 .elementor .rev2-loop,
+body.rev2 .elementor .rev2-a { display: contents; }
+
+/* Il widget ciclo di Elementor dà alla griglia grid-auto-rows: 1fr (tutte le righe alte quanto la più alta). Nella rev2 le righe sono
+   automatiche: a una colonna (mobile) ogni card ha la propria altezza, e il titolo che va a capo in una non allunga le altre.
+   :where() = specificità 0,2,1: batte la regola di Elementor (0,2,0) ma non quelle della rev2 che fissano le righe (0,3,1), come
+   la galleria (.caso-gallery { grid-auto-rows: 250px }): un selettore generico con la stessa specificità, essendo dopo, le annullerebbe. */
+body.rev2 .elementor :where(.e-collection-loop-layout-base) { grid-auto-rows: auto; }
+
+/* Righe e blocchi facoltativi (progettista, brand e forniture, altre realizzazioni): nella rev2 semplicemente non esistono quando
+   non c'è il dato; qui il widget c'è ma è vuoto, quindi si nasconde la riga (valore vuoto) o il blocco (ciclo senza risultati). */
+body.rev2 .elementor .rev2-opz:has(.rev2-v:empty),
+body.rev2 .elementor .rev2-opz:has(.rev2-loop > [style*="display: none"]) { display: none; }
+
+/* Foto oltre la quinta della galleria: nella rev2 hanno l'attributo hidden e si vedono solo nella lightbox. */
+body.rev2 .elementor .caso-gallery__item:nth-child(n+6) { display: none !important; }
+
+/* Dati che servono solo al JavaScript (filtri dell'archivio): presenti nel DOM, mai visibili. */
+body.rev2 .elementor .rev2-dato { display: none; }
+
+/* Foto della scheda brand: nella rev2 la slide ha is-active scritto a mano; qui la prima (e unica) è sempre visibile. */
+body.rev2 .elementor .produzione-slide:only-child { opacity: 1; visibility: visible; }
+body.rev2 .elementor .produzione-slide:only-child img { transform: scale(1); }
+
+/* Blocco con foto facoltativa (scheda brand): senza immagine in evidenza il widget produce un <img> vuoto, senza src. */
+body.rev2 .elementor .rev2-opzimg:not(:has(img[src])) { display: none; }
+
+/* Filtri dell'archivio: finché il JavaScript non li ha preparati (data-ready) restano nascosti i gruppi di categorie e il messaggio
+   "nessuna realizzazione/brand", come l'attributo hidden nella rev2. */
+body.rev2 .elementor .filtri--categorie:not([data-ready]),
+body.rev2 .elementor .progetti__empty:not([data-ready]) { display: none; }
+
+/* ===== Pagine statiche (fase 5) ======================================================================================= */
+
+/* Home, sezione 05 ("05 — Brand partner"): unico style="margin-bottom:0" inline della rev2. */
+body.rev2 .elementor .rev2-mb0 { margin-bottom: 0; }
+
+/* Slider produzione della home: prima che il JS imposti is-active, la prima slide è già visibile (niente flash). */
+body.rev2 .elementor .produzione-slider:not([data-ready]) .produzione-slide:first-child { opacity: 1; visibility: visible; }
+body.rev2 .elementor .produzione-slider:not([data-ready]) .produzione-slide:first-child img { transform: scale(1); }

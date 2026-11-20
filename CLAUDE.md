@@ -265,4 +265,25 @@ widget).
   semplice non scende sotto ~500px e non clicca. Controllare sempre che la pagina
   non abbia scroll orizzontale a 390px.
 - Il CSS del sito e la logica PHP stanno nel plugin `wp/artes-core/` (`artes-core.css`, `artes-core.php`): si modificano lì e si rilasciano con `tools/install-plugin.ps1`. Il CSS personalizzato del kit di Elementor deve restare **vuoto**. In produzione si carica lo stesso ZIP (`tools/out/artes-core.zip`).
-- Il sito non ha backup e non è stato verificato come `noindex`.
+- Backup: il 2026-11-19 il titolare ha scaricato un backup completo di dev3 (in più snapshot JSON in
+  `tools/out/backup-2026-11-19/` e tag git `pre-rev2`). Il sito non è stato verificato come `noindex`.
+- **Dal 2026-11-19 dev3 si adegua alla rev2** (`artes-sito-rev2/`: revisione del titolare con le modifiche del cliente,
+  pubblicata su Pages in `/artes-sito-rev2/`). Piano approvato; **fasi 0-4 fatte** (fondamenta: immagini, classi, CSS portato,
+  header/footer, convertitore, strumenti di parità; dati: tassonomie, campi, 20 realizzazioni e 18 brand dalla rev2, il resto nel
+  cestino; **template e archivi** di realizzazioni e brand, site part 1040/1049/1050/1051, già attivi su tutte le schede con header e
+  footer rev2), la **fase 5 (pagine statiche) parte solo dopo il via dell'utente**. Prima di lavorare su
+  WordPress leggere `docs/piano-adeguamento-rev2.md` (decisioni §8, avanzamento §10) e `docs/rev2-regole-di-conversione.md`:
+  **la rev2 prevale** sulle regole di stile e sulla nomenclatura di questo file, che descrive ancora il mockup in radice.
+  Vecchio e nuovo design convivono fino al passaggio finale: il design rev2 si accende per pagina (meta `_artes_rev2` o
+  `?artes_rev2=1`). Il CSS rev2 si **genera** (`tools/rev2/port-css.js` → `wp/artes-core/artes-rev2.css`, mai a mano); le pagine
+  rev2 si generano dall'HTML (`tools/rev2/costruisci.js`) e si collaudano con gli strumenti di parità (`tools/README.md`, sezione
+  "Adeguamento alla rev2"; pagina di prova: 542). Pagine che la rev2 non ha: in bozza (Privacy e Cookie policy restano pubblicate);
+  moduli tolti e salvati come template `[Riserva]` (539-541). Dati dei tipi di contenuto: il modello è in `tools/rev2/modello-dati.js` e
+  `node tools/rev2/verifica-dati.js` deve dare 0 controlli falliti (la rev2 è la fonte; tutto ciò che non c'è nella rev2 sta nel cestino, e i
+  campi del vecchio modello sono stati tolti a fine fase 4). Schede e archivi si misurano tutti insieme con `node tools/rev2/parita-tutte.js`:
+  **dopo ogni modifica a `tools/rev2/css/adattamenti.css` rilanciarlo su tutte le pagine** (un selettore generico annulla le regole della rev2
+  con la stessa specificità: usare `:where()`). Prima di chiudere una fase: `verifica-dati.js`, `parita-tutte.js`, `salute-pagine.js --cpt`,
+  `collaudo-redirect.js` e il confronto delle pagine vecchie con la misura precedente (`shots.js` + `diff-dirs.js`, baseline in `tools/out/regress/`):
+  la fase 4 ha trovato così due difetti che le misure di parità da sole non vedevano (ciclo di redirect su `?settore=`, elenchi vuoti nelle pagine
+  settore vecchie dopo il cambio degli slug). Non toccare, finché la Home (376) è nel design vecchio, i menu `filtri-realizzazioni` e
+  `filtri-brand`. Per tornare indietro dalla fase 4: `docs/wp-stato-dev3.md` §9, "Tornare indietro".

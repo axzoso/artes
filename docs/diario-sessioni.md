@@ -10,6 +10,227 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-11-20 (seconda parte) — Adeguamento alla rev2: fase 4 (template e archivi)
+
+**Richiesta**
+
+"Procedi con la fase 4." (Resta valida l'indicazione della fase 3: tutto ciò che non è nella rev2 deve andare via.)
+
+**Fatto**
+
+- *Template nuovi* (site part pubblicati, condizione generale per tipo): **1040** Singolo Realizzazione (rev2), **1049** Singolo Brand (rev2), **1050** Archivio
+  Realizzazioni (rev2), **1051** Archivio Brand (rev2). Non si disegnano in Elementor: la sorgente è un HTML scritto a mano con attributi che dicono da dove viene ogni
+  dato (`tools/rev2/modelli/`), il convertitore (`html2elementor.js`, esteso con `data-dyn`, `data-dyn-href`, `data-dyn-src`, `data-opz`, `data-loop`) lo trasforma in
+  widget con tag dinamici nativi di Elementor/JetEngine; i valori calcolati (briciole di pane, riga "Settore — Categoria", numero di foto…) sono shortcode del plugin.
+  Strumenti: `dinamici.js` (alias), `costruisci-modello.js`, `genera-modelli.js` (i due archivi si ricavano dalle pagine statiche), `condizioni.js`.
+- *Plugin `artes-core` 0.6.2*: 8 shortcode nuovi, filtri dei cicli degli archivi (ordine della rev2), `window.ArtesRev2Dati` (settori e categorie dai termini), opzione
+  `artes_rev2_cpt` (accende il design rev2 su schede e archivi), redirect 301 delle pagine dei termini, pulizia dei parametri `?settore=`. JavaScript rev2: lightbox,
+  filtri a due livelli dell'archivio, filtro dei brand. CSS: adattamenti per i cicli, la galleria (`:has()`), le righe e i blocchi facoltativi.
+- *Attivazione*: header 557 e footer 971 sui 4 contesti (scheda e archivio di realizzazioni e brand); i vecchi 138, 448, 213, 447 sono **in bozza con le condizioni
+  originali** (si torna indietro in 5 passi, vedi `wp-stato-dev3.md` §9); le pagine dei termini reindirizzano all'archivio filtrato.
+- *Parità misurata su tutte le pagine* (`tools/rev2/parita-tutte.js`): **20 realizzazioni, 18 brand e 2 archivi** a 1440 e 390 px: **altezze identiche**, nessuno scroll
+  orizzontale, **contenuti identici** (testi, titoli, link, immagini e alt), pixel diversi al massimo 2,2% sulle realizzazioni, 1,2% sui brand, 2,6% sugli archivi (solo
+  ricampionamento delle foto). A 1024 e 768 px su un campione di 9 pagine (gallerie da 3, 4, 5 e 19 foto, brand con e senza foto, i due archivi): altezze identiche
+  (18 misure su 18). Interazioni, provate sugli **indirizzi veri** di dev3: lightbox (4 scenari, 0% di differenza), filtri dell'archivio realizzazioni (6 scenari, compreso
+  `?settore=retail&categoria=moda-e-sport`) e dei brand (4 scenari) con lo stesso stato e lo stesso aspetto della rev2, header (tendina, menu mobile a 390 e 1024 px, accordion,
+  voce attiva).
+- *Salute* (`tools/rev2/salute-pagine.js --cpt`, nuovo): 40 pagine × 2 larghezze = **80/80** senza problemi (un solo H1, nessuna immagine rotta, nessun errore in console,
+  nessuna richiesta fallita, nessuno scroll orizzontale).
+- *Campi del vecchio modello tolti* (7 su `realizzazione`, 5 su `brand`): prima il test (`verifica-dati.js`, gruppo "10 campi vecchi tolti": 34 falliti), poi il passo
+  `import-dati.js pulizia`, che **salva prima** definizioni, valori e regole WPML in `tools/out/rev2/fase4-campi-rimossi.json`; `annulla-pulizia` li rimette.
+  Eseguita: 12 definizioni, 45 valori su 11 articoli (10 realizzazioni e Pedrali) e 11 regole WPML (`galleria` resta: la usa il modello nuovo delle realizzazioni);
+  **1.094/1.094** controlli superati. Provata anche l'andata e ritorno: `annulla-pulizia` ha riportato i 34 controlli in rosso, la seconda `pulizia` ha prodotto un prelievo
+  identico al primo (il file `-2` è il risultato di questa prova). Gli articoli nel cestino non sono stati toccati.
+- *Non regressione delle pagine vecchie* (misura precedente = fine fase 2, 24 screenshot): le 6 pagine statiche (Su misura, Contract, Chi siamo, Contatti, Prodotti, Privacy) sono
+  **pixel-identiche** a 1440 e 390 px; Home e Hotel cambiano soltanto per i dati nuovi della fase 3 (card dei progetti: stesso layout); le 4 pagine dei contenuti (archivi e schede)
+  ora sono rev2. **Link check**: 20 pagine, 78 indirizzi interni distinti, nessun link rotto. Nuova misura di riferimento in `tools/out/regress/fase4` (e `settori`).
+- Documentazione aggiornata: `wp-stato-dev3.md` (§3, §5, §8, §9), piano (§10), regole di conversione (nuovo §8), `tools/README.md`, `CLAUDE.md`, ledger della fase.
+
+**Errori miei trovati e corretti lungo la strada**
+
+- *Pubblicazione per errore*: `costruisci-modello.js` pubblicava sempre e la pagina di prova (bozza) è stata pubblica per pochi minuti; rimessa in bozza (404 verificato).
+  Ora la pubblicazione è opt-in (`--pubblica`).
+- *Regola CSS troppo generica*: per riportare le righe automatiche dei cicli a una colonna (le "altre realizzazioni" erano 35 px più alte su 5 schede a 390 px) avevo scritto
+  un selettore con la stessa specificità delle regole della galleria, e veniva dopo: le annullava su tutte le schede. L'ha mostrato subito la parità completa (altezze
+  sbagliate, 20-50% di pixel diversi); corretta con `:where()`. Lezione scritta nei documenti: dopo ogni modifica a `adattamenti.css` si rilancia la parità su **tutte** le pagine.
+- *Ciclo di reindirizzamenti*: il redirect delle pagine dei termini scattava anche su `/realizzazioni/?settore=uffici` (WordPress legge il parametro come query sulla
+  tassonomia) e rimandava a sé stesso. Non era emerso perché i collaudi dei filtri giravano sulla pagina di prova e non sull'archivio vero. Trovato con un controllo dei
+  codici di risposta; test scritto prima (`tools/rev2/collaudo-redirect.js`, 8 controlli rossi), poi correzione nel plugin (0.6.2: un filtro `request` toglie `settore` e
+  `categoria` dalla query dell'archivio e il redirect non parte mai dall'archivio stesso). Ora **17/17**, compresi `?settore=inesistente` e una categoria senza progetti
+  (200, come la rev2) e gli articoli nel cestino (404).
+- *Elenchi vuoti nelle pagine settore vecchie (effetto della fase 3, trovato qui)*: confrontando le pagine vecchie con la misura precedente, la pagina Hotel aveva perso le card
+  dei progetti. Le 5 pagine settore del design vecchio scelgono i progetti dal proprio campo `settore_collegato` (slug del termine) e la fase 3, rinominando gli slug dei
+  termini, non l'aveva aggiornato: da allora tutte e 5 mostravano un elenco vuoto senza alcun errore. Test prima (`verifica-dati.js`, gruppo "1 settore": 5 falliti), poi
+  correzione nel passo `tassonomie` (il legame termine ↔ pagina ora è scritto in entrambi i sensi): **1.099/1.099**; le pagine mostrano di nuovo 6, 6, 3, 3 e 1 progetto
+  (Royal Hotel è l'unico di Hospitality nella rev2).
+
+**Decisioni e perché**
+
+- *Template come site part nuovi*, vecchi in bozza e non cancellati (ritorno indietro); attivazione solo a parità raggiunta.
+- *Dati nei widget con tag dinamici nativi*, shortcode del plugin solo per i valori calcolati: il contenuto resta modificabile da chi gestisce il sito.
+- *Il difetto della rev2 sul filtro dei brand è stato replicato*, non corretto: la rev2 prevale (vedi "Aperto").
+- *Menu `Filtri realizzazioni` e `Filtri brand` non eliminati* (il piano parlava di allinearli): il primo serve ancora alla Home pubblicata (376, design vecchio) e il secondo
+  al template vecchio in bozza; si eliminano quando la Home passa alla rev2.
+- *Campi vecchi tolti ora* (come previsto dal piano a fine fase 4 e dalla tua indicazione): solo dopo aver verificato che nessun documento pubblicato li legga (li leggono
+  solo i template vecchi in bozza 138 e 448) e con il salvataggio annullabile. Gli articoli nel cestino non sono stati toccati.
+- *Revisione finale*: autoverifica (lettura del codice PHP e JS della fase per escaping, query e redirect); non ho lanciato un revisore separato perché lo strumento per
+  farlo parte solo su richiesta dell'utente.
+
+**Aperto**
+
+- **Fase 5** (pagine: Home, 5 settori, Su misura, Contract, Chi siamo) in attesa del via.
+- **Difetto della rev2 da segnalare al titolare**: nella pagina Brand Partner i filtri per categoria non nascondono le card (`.brand { display: flex }` vince sull'attributo
+  `hidden`); cambia solo il pulsante attivo. Replicato com'è; in rev2 basta `.brand[hidden] { display: none }`.
+- Menu dei filtri da eliminare con la Home rinnovata; template vecchi (138, 448, 213, 447) e shortcode del vecchio modello nel plugin da eliminare alla chiusura (fase 9).
+- Allegati non più usati (foto dei 4 progetti fittizi, immagini sostituite, galleria del vecchio Pedrali: allegati 274, 100, 466, 57, da verificare se servono ancora altrove):
+  elenco per la fase 9, **cancellazione solo con il tuo OK**.
+- Strumento di misura da sistemare prima della Home (che ha animazioni): lo script iniettato da `cdp-session.js` per spegnere transizioni e animazioni viene eseguito prima
+  che esista `<html>` e non si applica mai (verificato). Le misure della fase 4 sono valide (stesso strumento su entrambi i lati, attese di assestamento), ma con
+  sliders e caroselli serve un'iniezione che parta a `DOMContentLoaded`.
+- Header e footer sono rev2 sulle schede e sugli archivi e ancora quelli vecchi sulle altre pagine: chi naviga dev3 vedrà due stili finché non si passa alla fase 5.
+- Nessuna icona del sito (`/favicon.ico` dà 404): è così anche nella rev2, da decidere a fine lavoro.
+- Inglese (fase 8): i filtri dell'archivio abbinano il testo dei pulsanti ai termini; con le pagine tradotte va riverificato. Il selettore di lingua nell'header rev2 è solo il testo
+  "IT / EN" non cliccabile (come nella rev2): in fase 8 va collegato allo shortcode `[artes_lingue]`. Titoli e descrizioni SEO delle schede: fase 7.
+- **Nessun commit né push**: modifiche locali non committate.
+
+---
+
+## 2026-11-20 — Adeguamento alla rev2: fase 3 (dati)
+
+**Richiesta**
+
+"Va nel cestino tutto quello che non è presente in rev2: se in rev2 ci sono brand partner o realizzazioni già presenti in dev3 lasciamole, ma in generale
+tutto ciò che non è presente in rev2 deve andare via. Procedi con la fase 3."
+
+**Fatto** (il test viene prima: `tools/rev2/verifica-dati.js` era a **185/550**, dopo l'import è a **1.028/1.028**)
+
+- *Estrazione*: `tools/rev2/dati-rev2.js` ricava dalla rev2 5 settori, 26 categorie (22 nei filtri), 20 realizzazioni, 18 brand, 8 relazioni, 6 card della
+  home, e verifica le regole derivate (titolo e descrizione SEO, didascalie, "altre realizzazioni", testi uniformi dei brand): nessuno scostamento.
+- *Tassonomie*: `settore` rinominata e riordinata con gli slug rev2; **nuova `categoria`** (26 termini con tipologie, settore e ordini); `categoria_brand` con i
+  nomi della rev2 ("Pareti e pod").
+- *Campi*: 7 nuovi su `realizzazione`, 4 su `brand`, con regole WPML. Definizione in `tools/rev2/modello-dati.js`.
+- *Immagini*: alt della galleria allineati alla rev2 (171 foto) e 27 **copie** con alt proprio per card e foto dei brand (nella rev2 lo stesso file ha testi diversi
+  a seconda del punto, in WordPress l'alt è dell'allegato).
+- *Articoli*: **20 realizzazioni** (10 aggiornate sul posto, 10 nuove) e **18 brand**; `bbc-tarsia` → `bcc-tarsia` e `quotidiano` → `il-quotidiano` come nella rev2
+  (redirect 301 dai vecchi indirizzi); 8 relazioni brand ↔ progetti riscritte.
+- *Cestino* (recuperabile): Boutique Hotel Aurea, Business Hotel Fera, Resort Capo Bianco, Spa Terme Luigiane (fittizi) e il brand Mottura.
+- *Controlli oltre al test*: rilancio completo dell'import = nessun duplicato (allegati 238 → 238); lingua `it` su termini, articoli e allegati; redirect 301 e 404
+  verificati; **link check** delle 16 pagine vecchie interessate (`tools/rev2/controllo-link.js`): trovati e corretti 5 link rotti (le pagine settore 144-148
+  puntavano ai vecchi slug dei termini); le pagine vecchie mostrano i dati nuovi con il layout vecchio (provato su Royal Hotel).
+- Documentazione aggiornata: `wp-stato-dev3.md` (§3, §4, §9, registro), piano (§10), regole di conversione (§5), `tools/README.md`, `CLAUDE.md`.
+
+**Decisioni e perché**
+
+- *Cestino = solo articoli dei due tipi di contenuto* (recuperabile). Le pagine che la rev2 non ha restano alla fase 6 (bozza, come deciso il 19/11); gli **allegati non più
+  usati non si cancellano**: eliminare un allegato elimina il file, non c'è ritorno. Elenco e conferma alla fase 9.
+- *Campi del vecchio modello* (cliente, ambienti, arredi… e, sui brand, certificazioni, categorie prodotto…) **non ancora tolti**: i template vecchi li leggono
+  ancora. Si tolgono a fine fase 4, quando i template vengono sostituiti.
+- *Si memorizzano solo i dati*; titolo/descrizione SEO, didascalie, "altre realizzazioni", titoli di sezione dei brand si calcolano (formule verificate).
+- *`categoria` piatta* con meta `settore`, `ordine_pagina`, `ordine_filtro` (invece di un albero): coerente con il piano e con i filtri a due livelli della rev2.
+- *Copie fisiche* delle foto per avere gli alt esatti della rev2 (+27 allegati, 9 MB di originali e altrettanti di miniature): un allegato non può condividere
+  il file di un altro senza rischiare di perderlo cancellandolo.
+- *"Fornitura" e "Assistenza" dei brand* sono identiche nei 18: restano campi precompilati, modificabili brand per brand.
+- *Slug `pareti-e-pod`* (la rev2 non ha slug per le categorie dei brand: derivato dal nome come per le altre).
+- *Verifica*: il test era troppo stretto sull'origine dei file (le 31 foto riusate dal vecchio import non hanno il prefisso `rev2:`): corretto il test, non i dati.
+- *Revisione finale*: fatta da me (autoverifica); non ho lanciato un revisore separato perché lo strumento per farlo parte solo su richiesta dell'utente.
+
+**Aperto**
+
+- **Fase 4** (template singolo realizzazione e brand, archivi, menu dei filtri con bar prima di food) e, a fine fase, tolta dei campi vecchi: in attesa del via.
+- Allegati orfani (foto dei 4 progetti fittizi, immagini sostituite): elenco per la fase 9, cancellazione solo con il tuo OK.
+- Le pagine vecchie sul sito mostrano già i dati rev2 col layout vecchio: provvisorio fino alla fase 4.
+- **Nessun commit né push**: modifiche locali non committate.
+
+---
+
+## 2026-11-19 (seconda sessione) — Adeguamento alla rev2: fasi 0, 1 e 2
+
+**Richiesta**
+
+Il titolare ha approvato il piano ([`piano-adeguamento-rev2.md`](piano-adeguamento-rev2.md)) rispondendo alle decisioni aperte (pagine che la
+rev2 non ha in bozza, Privacy e Cookie policy pubblicate; moduli tolti ma salvati; link `#` sistemati con la logica più immediata; segnaposto
+e slug dei termini replicati; CPT `realizzazione` e `brand` replicati dalla rev2; backup di dev3 fatto in locale) e ha chiesto di partire dalle
+**fasi 0, 1 e 2**, poi fermarsi.
+
+**Fatto**
+
+- *Fase 0*: snapshot JSON di kit, classi, template, pagine, CPT e termini, menu, media, JetEngine/WPML (`tools/snapshot-dev3.ps1`); tag git
+  `pre-rev2`; i 3 moduli (contatti, preventivo, scheda realizzazione) salvati come template di libreria `[Riserva]` 539-541
+  (`tools/riserva-moduli.ps1`); annullamento delle scritture con `undo_revision_id` provato.
+- *Fase 1 (spike)*: ogni dubbio del piano verificato su dev3 → [`rev2-regole-di-conversione.md`](rev2-regole-di-conversione.md). Via libera.
+- *Fase 2 (fondamenta)*:
+  - 23 classi del vecchio design in collisione coi nomi della rev2 rinominate `o-*` (12 pagine vecchie × 2 larghezze **pixel-identiche** prima e dopo);
+    246 classi nuove + 14 di appoggio create come classi globali "solo nome" (totale 473; limite 1000).
+  - 149 immagini caricate nella libreria da Pages (31 riusate perché identiche), alt dalla rev2, mappa in `tools/out/rev2/media-rev2.json`.
+  - **CSS della rev2 portato in modo automatico** (`tools/rev2/port-css.js` → `wp/artes-core/artes-rev2.css`): selettori con prefisso, tag sostituiti
+    gestiti con `:is(tag, :where(.rev2-tag))`, reset degli stili base di Elementor, CSS morto escluso. Plugin `artes-core` **0.5.0**: modalità `rev2`
+    (meta `_artes_rev2` o `?artes_rev2=1`), tolti i fogli del tema Hello e i font di Elementor, font della rev2.
+  - **Convertitore HTML → Elementor** (`tools/rev2/html2elementor.js`, `costruisci.js`): header, footer e pagine dalla rev2, link risolti con
+    `tools/rev2/mappa-link.json`. Tutte le 49 pagine si convertono (5.291 elementi); avvisi espliciti per ciò che manca (`ul`/`ol`, `details`/FAQ, `ol.steps`).
+  - **Header 557 e footer 971 rev2** (dati reali) + JavaScript `artes-rev2.js` (tendina, menu mobile con accordion, voce attiva calcolata dal percorso,
+    attributi `aria-*`/`data-*`/`hidden` rimessi dalle classi). Condizione: solo la pagina di prova 542.
+  - **Strumenti di parità** (rev2 locale contro dev3): screenshot + differenza pixel, confronto per classi di geometria e stili calcolati, ispezione delle
+    regole CSS, collaudo delle interazioni, regressione sulle pagine vecchie. Risultato sulla pagina di prova: **Chi siamo e Contract identiche alla rev2**
+    a 1440/1024/768/390 px (stesse altezze; 0,1-0,4% di pixel diversi, solo ricampionamento delle foto); tendina e menu mobile identici.
+- Documentazione aggiornata: piano (§8 decisioni, §10 avanzamento), regole di conversione (§7), `wp-stato-dev3.md` (§9 e registro), `wp-migration.md`,
+  `tools/README.md`, `CLAUDE.md`.
+- Pulizia: eliminate le 4 classi di prova `spk-*` (referenziate solo da revisioni della pagina di prova di cui sono l'autore).
+
+**Decisioni e perché**
+
+- *Convivenza vecchio/nuovo* invece di sostituire subito: si verifica pagina per pagina e il sito pubblico non cambia finché non si accende la rev2
+  (fase 9). La regressione sulle 12 pagine vecchie lo dimostra.
+- *CSS portato, non riscritto*: un solo gesto rigenera il CSS se la rev2 cambia; le classi globali servono solo a dare il nome alle classi.
+- *Tag fedeli*: dove Elementor non può riprodurre un tag (`strong` da solo, `dl/dt/dd`, `p` con link) si usa un elemento con classe `rev2-<tag>` e il CSS
+  portato li riconosce senza cambiare le specificità; gli `span` fabbricati dal convertitore non prendono le regole degli span veri.
+- *Tema Hello fuori dalle pagine rev2*: i suoi fogli cambiavano colori di link e bottoni, interlinee e margini; senza di loro la pagina è identica alla rev2.
+- *JavaScript*: ora solo header e footer; lightbox, filtri, slider e pallini del metodo si portano con le pagine che li usano (fasi 4-5), perché
+  richiedono markup e dati che oggi non esistono e non sarebbero collaudabili.
+- *Variabili del kit* non toccate: il CSS rev2 ha la sua tavolozza; si aggiornano al passaggio finale (fase 9).
+- *Link `#`*: Blog → Realizzazioni, Prodotti e Cataloghi → Brand Partner, Area progettisti → Contract (`#interlocutori`), MEPA → Arredo uffici e workspace
+  (ne parla), Diventa partner di produzione → `#contatti`. Tutto in `tools/rev2/mappa-link.json`: si cambia lì e si rigenera.
+
+**Aperto**
+
+- **Fase 3 (dati)** in attesa del via: prima di toccare i contenuti chiedo conferma sull'elenco preciso (Mottura e i 4 progetti fittizi nel cestino, ecc.).
+- Convertitore da completare con le pagine (fase 5): `ul`/`ol` (8 casi), `details`/FAQ (5 pagine settore), `ol.steps` della home, uno `style=""` in home.
+- Interazioni rimaste (lightbox, filtri a due livelli, slider produzione, pallini del metodo): fasi 4-5.
+- Chiedere al titolare conferma della mappa dei link `#` e dei segnaposto del team ("Nome Cognome") prima della pubblicazione.
+- Da eliminare a fine lavoro: pagina di prova 542 (ospita le pagine in collaudo).
+- **Nessun commit né push** (non richiesti): modifiche locali non committate in `CLAUDE.md`, `docs/`, `tools/`, `wp/artes-core/`.
+
+---
+
+## 2026-11-19 — Analisi della rev2 e piano di adeguamento
+
+**Richiesta**
+
+Il titolare ha sviluppato a parte, dopo le modifiche del cliente, una nuova versione del sito nella cartella
+`artes-sito-rev2/`. Verificare che i connettori Novamira ed Elementor funzionino, analizzare la rev2 e proporre un
+piano perché WordPress corrisponda esattamente alla rev2 (veste grafica, pagine, testi).
+
+**Fatto**
+
+- Connettori verificati. Elementor MCP era cambiato (protocollo 2025-11-25, 36 strumenti): `tools/mcp.ps1` ora
+  manda l'intestazione `MCP-Protocol-Version` e legge `~/.claude.json` anche con due voci della cartella che
+  differiscono per le maiuscole (`C:/…` con i connettori, `c:/…` senza: le sessioni aperte con la minuscola non
+  caricano i connettori come strumenti nativi). Configurazione dell'utente non toccata.
+- Analisi della rev2 (49 pagine, CSS di 2.444 righe, 179 immagini, 20 realizzazioni, 18 brand) e confronto con il
+  mockup attuale e con dev3. Piano completo in [`piano-adeguamento-rev2.md`](piano-adeguamento-rev2.md).
+- dev3 è stato aggiornato dall'ultima volta (WordPress 7.1.5, Elementor e Pro 4.4.1, WPML 5.2.0).
+
+**Decisioni e perché**
+
+- *Nessuna modifica a dev3 in questa sessione*: la rev2 stravolge pagine, dati e regole di stile già approvate;
+  prima serve l'approvazione del piano e le risposte alle decisioni aperte (§8 del piano).
+
+**Aperto**
+
+- Pagine che la rev2 non ha (Contatti, Preventivo, Area progettisti, Prodotti, MEPA, Cataloghi, Privacy, Cookie),
+  moduli sì/no, link `#`, segnaposto del team, slug dei termini, dove vive la rev2, backup di dev3.
+
+---
+
 ## 2026-11-05 — Testi discorsivi nelle pagine settore
 
 **Richiesta**

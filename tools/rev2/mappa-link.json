@@ -1,0 +1,29 @@
+{
+  "_nota": "Come i link della rev2 diventano link di dev3. 'pagine': file della rev2 -> percorso WordPress (permalink relativi, così funzionano anche in produzione). 'prefissi': pagine generate dai dati (CPT). 'segnaposto': i link '#' o vuoti della rev2, risolti per testo del link con la logica più immediata del sito (decisione del 2026-11-19: replicare i link come nella rev2 e sistemare quelli rotti o vuoti). Modificare qui, poi rigenerare le pagine.",
+  "pagine": {
+    "index.html": "/",
+    "arredamento-ufficio.html": "/arredamento-ufficio/",
+    "arredo-negozi.html": "/arredo-negozi/",
+    "arredamento-bar-ristoranti.html": "/arredamento-bar-ristoranti/",
+    "arredo-negozi-food.html": "/arredo-negozi-food/",
+    "arredamento-hotel.html": "/arredamento-hotel/",
+    "arredamento-su-misura.html": "/arredamento-su-misura/",
+    "contract.html": "/contract/",
+    "chi-siamo.html": "/chi-siamo/",
+    "realizzazioni.html": "/realizzazioni/",
+    "brand-partner.html": "/brand-partner/"
+  },
+  "prefissi": {
+    "realizzazione-": "/realizzazioni/{slug}/",
+    "brand-": "/brand-partner/{slug}/"
+  },
+  "segnaposto": {
+    "Blog": "/realizzazioni/",
+    "Prodotti": "/brand-partner/",
+    "Cataloghi PDF": "/brand-partner/",
+    "Area progettisti": "/contract/#interlocutori",
+    "Accedi all'area progettisti": "/contract/#interlocutori",
+    "MEPA · Acquisti in Rete PA": "/arredamento-ufficio/",
+    "Diventa partner di produzione": "#contatti"
+  }
+}

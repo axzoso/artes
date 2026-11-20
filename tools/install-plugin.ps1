@@ -20,6 +20,8 @@ $stage = Join-Path $out 'pkg'
 Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force (Join-Path $stage 'artes-core') | Out-Null
 Copy-Item (Join-Path $src 'artes-core.php'), (Join-Path $src 'artes-core.css'), (Join-Path $src 'artes-core.js') (Join-Path $stage 'artes-core')
+# file della rev2 (generati da tools/rev2/port-css.js e scritti a mano nel caso del JavaScript), se presenti
+foreach ($f in 'artes-rev2.css', 'artes-rev2.js') { $p = Join-Path $src $f; if (Test-Path $p) { Copy-Item $p (Join-Path $stage 'artes-core') } }
 $zip = Join-Path $out 'artes-core.zip'
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 # ZIP con barre normali nei percorsi: Compress-Archive (PowerShell 7 su Windows) scrive "artes-core\file.php"

@@ -1,0 +1,67 @@
+<!-- Scheda brand (rev2). Struttura identica a artes-sito-rev2/brand-*.html; i dati arrivano da WordPress (alias in
+     tools/rev2/dinamici.js). Il testo dentro agli elementi dinamici è solo un segnaposto leggibile. -->
+<main>
+
+  <section class="scheda__intro">
+    <div class="breadcrumb" data-dyn="breadcrumb">Home / Brand partner / Titolo</div>
+    <div class="scheda__title-row">
+      <div>
+        <div class="eyebrow" data-dyn="eyebrow_brand">Brand partner — Categoria</div>
+        <h1 class="scheda__title" data-dyn="titolo">Titolo</h1>
+      </div>
+      <p class="lead" data-dyn="introduzione">Introduzione</p>
+    </div>
+  </section>
+
+  <section class="scheda__media" data-opzimg>
+    <div class="produzione__media scheda__slider scheda__slider--short">
+      <div class="produzione-slide is-active"><img data-dyn-src="foto" alt=""></div>
+    </div>
+  </section>
+
+  <section class="section caso">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Scheda brand</div>
+        <dl class="specs__list">
+          <div class="spec"><dt>Categoria</dt><dd data-dyn="categoria_brand_nome">Categoria</dd></div>
+          <div class="spec"><dt>Settori Artes</dt><dd data-dyn="settori_artes">Settori</dd></div>
+          <div class="spec"><dt>Fornitura Artes</dt><dd data-dyn="fornitura_artes">Fornitura</dd></div>
+          <div class="spec"><dt>Assistenza</dt><dd data-dyn="assistenza">Assistenza</dd></div>
+        </dl>
+      </div>
+      <div class="prose">
+        <h2 data-dyn="come_titolo">Come lavoriamo con</h2>
+        <p data-dyn="come_lavoriamo">Testo</p>
+        <h2>Dove lo usiamo</h2>
+        <p data-dyn="dove_lo_usiamo">Testo</p>
+        <p>Il cliente ha un solo interlocutore: noi rispondiamo di tempi, consegna e montaggio anche per i prodotti dei brand partner.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="correlate" data-opz>
+    <div class="section__head">
+      <h2 data-dyn="correlate_brand_titolo">Realizzazioni con</h2>
+      <a href="brand-partner.html" class="link-rule">Tutti i brand</a>
+    </div>
+    <div class="correlate__grid" data-loop="progetti_brand">
+      <a href="#" data-dyn-href="url_post">
+        <div class="ph"><img data-dyn-src="card_immagine" alt=""></div>
+        <div class="correlate__meta">
+          <div class="correlate__n" data-dyn="card_nome">Nome</div>
+          <div class="correlate__s" data-dyn="card_categoria">Categoria</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2 data-dyn="cta_brand">Arredi<br>per il tuo spazio?</h2>
+    <div class="cta-band__actions">
+      <a href="#contatti" class="btn btn--red">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un tecnico</a>
+    </div>
+  </section>
+
+</main>
