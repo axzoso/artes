@@ -78,17 +78,26 @@
   function normalizza(p) { return p.replace(/\/+$/, '') || '/'; }
   function marcaAttivo(percorso) {
     var corrente = normalizza(percorso || window.location.pathname);
-    /* Nella barra in alto può essere attiva solo la prima voce ("Chi siamo"): Blog e Contatti non sono pagine attive e Blog, finché
-       non esiste, punta a una pagina già presente nel menu (mappa dei link: tools/rev2/mappa-link.json). */
-    var voci = $$('.topbar__right > a:first-child, .nav > a, .nav__trigger');
+    /* Nella barra in alto e nella sezione secondaria mobile possono essere attive "Chi siamo" (/chi-siamo/) e "Contatti"
+       (/contatti/). "Blog", finché non esiste come pagina dedicata, punta a /realizzazioni/ (mappa-link.json) e va escluso
+       per non duplicare la voce attiva di .nav__trigger quando si è su /realizzazioni/. */
+    var voci = $$('.topbar__right > a, .nav > a, .nav__trigger, .mobile-nav__list > a');
     voci.forEach(function (a) {
       var href = a.getAttribute('href');
       if (!href || href.charAt(0) === '#') return;
       var u;
       try { u = new URL(href, window.location.href); } catch (e) { return; }
       var p = normalizza(u.pathname);
+      var isSec = Boolean((a.closest && a.closest('.topbar__right')) || a.classList.contains('mobile-nav__sec'));
+      if (isSec && p === '/realizzazioni') {
+        a.classList.remove('is-active');
+        a.removeAttribute('aria-current');
+        return;
+      }
       var attivo = !u.search && p !== '/' && (p === corrente || (a.classList.contains('nav__trigger') && corrente.indexOf(p + '/') === 0));
       a.classList.toggle('is-active', attivo);
+      if (attivo) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
     });
   }
 
@@ -321,47 +330,86 @@
     var chiaveCategoria = {};
     dati.categorie.forEach(function (c) { chiaveCategoria[c.settore + '|' + c.nome] = c.slug; });
 
+    var conteggioSettore = {};
+    var conteggioCategoria = {};
+    items.forEach(function (it) {
+      var d = $$('.rev2-dato', it);
+      var k = d[0] ? d[0].textContent.trim() : '';
+      var c = d[1] ? d[1].textContent.trim() : '';
+      it.setAttribute('data-key', k);
+      it.setAttribute('data-cat', c);
+      if (k) {
+        conteggioSettore[k] = (conteggioSettore[k] || 0) + 1;
+        if (c) {
+          var pair = k + '|' + c;
+          conteggioCategoria[pair] = (conteggioCategoria[pair] || 0) + 1;
+        }
+      }
+    });
+
+    var settoriDisponibili = {};
     tabs.forEach(function (t, i) {
-      t.setAttribute('data-settore-key', i === 0 ? '' : (chiaveSettore[t.textContent.replace(/\s+/g, ' ').trim()] || ''));
+      var key = i === 0 ? '' : (chiaveSettore[t.textContent.replace(/\s+/g, ' ').trim()] || '');
+      t.setAttribute('data-settore-key', key);
       set(t, { type: 'button', 'aria-pressed': 'false' });
+      var vuoto = Boolean(key) && !conteggioSettore[key];
+      t.hidden = vuoto;
+      if (key && !vuoto) settoriDisponibili[key] = true;
     });
     if (tabs[0] && tabs[0].parentNode) set(tabs[0].parentNode, { role: 'group', 'aria-label': 'Filtra per settore' });
+
+    var categorieDisponibili = {};
     groups.forEach(function (g, i) {
       var tab = tabs[i + 1];
       var key = tab ? tab.getAttribute('data-settore-key') : '';
       g.setAttribute('data-categorie', key);
       set(g, { role: 'group', 'aria-label': 'Filtra ' + (tab ? tab.textContent.replace(/\s+/g, ' ').trim() : '') + ' per categoria' });
+      var catVisibili = 0;
       $$('.filtro', g).forEach(function (b, k) {
-        b.setAttribute('data-categoria', k === 0 ? '' : (chiaveCategoria[key + '|' + b.textContent.replace(/\s+/g, ' ').trim()] || ''));
+        var cat = k === 0 ? '' : (chiaveCategoria[key + '|' + b.textContent.replace(/\s+/g, ' ').trim()] || '');
+        b.setAttribute('data-categoria', cat);
         set(b, { type: 'button', 'aria-pressed': 'false' });
+        if (cat) {
+          var vuota = !conteggioCategoria[key + '|' + cat];
+          b.hidden = vuota;
+          if (!vuota) {
+            catVisibili++;
+            categorieDisponibili[key + '|' + cat] = true;
+          }
+        } else {
+          b.hidden = false;
+        }
       });
+      g.setAttribute('data-has-categorie', catVisibili > 0 ? '1' : '0');
       g.hidden = true;
       g.setAttribute('data-ready', '');
-    });
-    items.forEach(function (it) {
-      var d = $$('.rev2-dato', it);
-      it.setAttribute('data-key', d[0] ? d[0].textContent.trim() : '');
-      it.setAttribute('data-cat', d[1] ? d[1].textContent.trim() : '');
     });
     if (count) set(count, { 'aria-live': 'polite' });
     if (empty) { empty.hidden = true; empty.setAttribute('data-ready', ''); }
 
     var params = new URLSearchParams(window.location.search);
     var state = { settore: params.get('settore') || '', categoria: params.get('categoria') || '' };
+    /* Se l'URL punta a un settore o a una categoria senza realizzazioni (filtro nascosto), ripiega su "Tutti i settori" o su "Tutte" del settore. */
+    if (state.settore && !settoriDisponibili[state.settore]) {
+      state.settore = '';
+      state.categoria = '';
+    } else if (state.categoria && (!state.settore || !categorieDisponibili[state.settore + '|' + state.categoria])) {
+      state.categoria = '';
+    }
 
     function apply(updateUrl) {
       var visibili = 0;
 
       tabs.forEach(function (t) {
-        var active = t.getAttribute('data-settore-key') === state.settore;
+        var active = !t.hidden && t.getAttribute('data-settore-key') === state.settore;
         t.classList.toggle('is-active', active);
         t.setAttribute('aria-pressed', String(active));
       });
 
       groups.forEach(function (g) {
-        g.hidden = g.getAttribute('data-categorie') !== state.settore;
+        g.hidden = !state.settore || g.getAttribute('data-categorie') !== state.settore || g.getAttribute('data-has-categorie') !== '1';
         $$('.filtro', g).forEach(function (b) {
-          var active = b.getAttribute('data-categoria') === state.categoria;
+          var active = !b.hidden && b.getAttribute('data-categoria') === state.categoria;
           b.classList.toggle('is-active', active);
           b.setAttribute('aria-pressed', String(active));
         });
@@ -388,14 +436,14 @@
 
     root.addEventListener('click', function (e) {
       var tab = e.target.closest('.settori-tabs__btn');
-      if (tab) {
+      if (tab && !tab.hidden) {
         state.settore = tab.getAttribute('data-settore-key');
         state.categoria = '';
         apply(true);
         return;
       }
       var btn = e.target.closest('.filtri--categorie .filtro');
-      if (btn) {
+      if (btn && !btn.hidden) {
         state.categoria = btn.getAttribute('data-categoria');
         apply(true);
       }
@@ -417,9 +465,20 @@
     var empty = $('.progetti__empty', section);
 
     function etichetta(el) { return el.textContent.replace(/\s+/g, ' ').trim(); }
-    buttons.forEach(function (b) { b.setAttribute('data-filtro', etichetta(b)); set(b, { type: 'button', 'aria-pressed': 'false' }); });
+    var conteggio = {};
+    items.forEach(function (it) {
+      var c = $('.brand__c', it);
+      var cat = c ? etichetta(c) : '';
+      it.setAttribute('data-settore', cat);
+      if (cat) conteggio[cat] = (conteggio[cat] || 0) + 1;
+    });
+    buttons.forEach(function (b) {
+      var val = etichetta(b);
+      b.setAttribute('data-filtro', val);
+      set(b, { type: 'button', 'aria-pressed': 'false' });
+      b.hidden = val !== 'Tutti' && !conteggio[val];
+    });
     set(bar, { role: 'group', 'aria-label': 'Filtra per categoria' });
-    items.forEach(function (it) { var c = $('.brand__c', it); it.setAttribute('data-settore', c ? etichetta(c) : ''); });
     if (empty) { empty.hidden = true; empty.setAttribute('data-ready', ''); }
 
     function apply(valore) {
@@ -430,7 +489,7 @@
         if (match) visibili++;
       });
       buttons.forEach(function (b) {
-        var active = b.getAttribute('data-filtro') === valore;
+        var active = !b.hidden && b.getAttribute('data-filtro') === valore;
         b.classList.toggle('is-active', active);
         b.setAttribute('aria-pressed', String(active));
       });
@@ -439,7 +498,7 @@
 
     bar.addEventListener('click', function (e) {
       var btn = e.target.closest('.filtro');
-      if (btn) apply(btn.getAttribute('data-filtro'));
+      if (btn && !btn.hidden) apply(btn.getAttribute('data-filtro'));
     });
 
     apply('Tutti');
@@ -510,23 +569,26 @@
       slugDaTesto[n.replace(/^arredo\s+/, '')] = s.slug;
     });
 
+    var conteggio = {};
+    items.forEach(function (it) {
+      var d = $$('.rev2-dato', it);
+      var slug = d[0] ? d[0].textContent.trim() : '';
+      var largh = d[1] ? d[1].textContent.trim() : '';
+      it.setAttribute('data-settore', slug);
+      if (slug) conteggio[slug] = (conteggio[slug] || 0) + 1;
+      if (largh && /^w[246]$/.test(largh)) {
+        it.classList.remove('progetto--w2', 'progetto--w4', 'progetto--w6');
+        it.classList.add('progetto--' + largh);
+      }
+    });
+
     set(bar, { role: 'group', 'aria-label': 'Filtra per settore' });
     buttons.forEach(function (b, i) {
       var lbl = etichetta(b);
       var key = i === 0 ? '' : (slugDaTesto[lbl.toLowerCase()] || lbl.toLowerCase());
       b.setAttribute('data-filtro', key);
       set(b, { type: 'button', 'aria-pressed': 'false' });
-    });
-
-    items.forEach(function (it) {
-      var d = $$('.rev2-dato', it);
-      var slug = d[0] ? d[0].textContent.trim() : '';
-      var largh = d[1] ? d[1].textContent.trim() : '';
-      it.setAttribute('data-settore', slug);
-      if (largh && /^w[246]$/.test(largh)) {
-        it.classList.remove('progetto--w2', 'progetto--w4', 'progetto--w6');
-        it.classList.add('progetto--' + largh);
-      }
+      b.hidden = Boolean(key) && !conteggio[key];
     });
     if (empty) { empty.hidden = true; empty.setAttribute('data-ready', ''); }
 
@@ -537,8 +599,11 @@
         item.hidden = !match;
         if (match) visibili++;
       });
+      var filtrato = Boolean(valore);
+      grid.classList.toggle('progetti--filtrati', filtrato);
+      grid.classList.toggle('progetti--filtrati-3plus', filtrato && visibili >= 3);
       buttons.forEach(function (b) {
-        var active = b.getAttribute('data-filtro') === valore;
+        var active = !b.hidden && b.getAttribute('data-filtro') === valore;
         b.classList.toggle('is-active', active);
         b.setAttribute('aria-pressed', String(active));
       });
@@ -547,7 +612,7 @@
 
     bar.addEventListener('click', function (e) {
       var btn = e.target.closest('.filtro');
-      if (btn) apply(btn.getAttribute('data-filtro'));
+      if (btn && !btn.hidden) apply(btn.getAttribute('data-filtro'));
     });
 
     apply('');

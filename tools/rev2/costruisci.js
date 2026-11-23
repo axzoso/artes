@@ -29,7 +29,10 @@ if (cosa === 'header') {
   const dom = carica('index.html'); const h = trova(dom, (n) => n.tag === 'header')[0];
   r = converti(h, { file: 'header (index.html)' }); etichetta = 'header';
 } else if (cosa === 'footer') {
-  const dom = carica('index.html'); const f = trova(dom, (n) => n.tag === 'footer')[0];
+  const html = fs.readFileSync(path.join(rev2, 'index.html'), 'utf8')
+    .replace('<span>Privacy · Cookie · MEPA</span>', '<span><a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a> · <a href="/arredamento-ufficio/">MEPA</a></span>');
+  const { radice, avvisi } = parse(html); if (avvisi.length) console.log('AVVISI parser footer', avvisi);
+  const f = trova(radice, (n) => n.tag === 'footer')[0];
   r = converti(f, { file: 'footer (index.html)' }); etichetta = 'footer';
 } else if (cosa === 'pagina') {
   const file = nome.endsWith('.html') ? nome : nome + '.html';

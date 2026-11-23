@@ -28,25 +28,26 @@
     "h1": "Privacy<br><strong>policy.</strong>",
     "lead": "Come trattiamo i dati personali di chi visita questo sito e di chi ci scrive, ai sensi degli artt. 13 e 14 del Regolamento UE 2016/679 (GDPR).",
     "corrente": "Privacy policy",
+    "asideEyebrow": "Art. 13–14 GDPR",
+    "asideTitolo": "Trattamento<br>dei dati.",
     "sezioni": [
       {
         "h": "Titolare del trattamento",
         "b": [
-          "Il titolare del trattamento è [ragione sociale], con sede in [indirizzo], partita IVA [partita IVA]. Per qualsiasi richiesta sui tuoi dati puoi scrivere a [indirizzo email per la privacy]."
+          "Il titolare del trattamento è <strong>Artes srl</strong>, con sede in Via A. Nervoso 1, 87036 Rende (CS), partita IVA 02343330789, tel. <a href=\"tel:+390984462039\">+39 0984 462039</a>. Per qualsiasi richiesta sui tuoi dati personali puoi scrivere a <a href=\"mailto:info@artessrl.it\">info@artessrl.it</a>."
         ]
       },
       {
         "h": "Quali dati trattiamo e perché",
         "b": [
           "<strong>Dati di navigazione.</strong> Il server del sito registra dati tecnici come l'indirizzo IP, il tipo di browser e le pagine richieste. Servono a far funzionare il sito e a garantirne la sicurezza; la base giuridica è il legittimo interesse del titolare (art. 6.1.f GDPR).",
-          "<strong>Moduli di contatto e di richiesta preventivo.</strong> Se compili un modulo ci comunichi nome e cognome, azienda o ente, email, telefono, tipo di richiedente, settore, località del progetto, tempistiche, il testo del messaggio ed eventuali allegati (PDF, DWG, DXF, JPG, PNG). Li usiamo per rispondere alla tua richiesta e preparare un preventivo; la base giuridica è l'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6.1.b GDPR).",
-          "I campi contrassegnati con l'asterisco sono necessari per poterti rispondere; gli altri sono facoltativi. I file allegati arrivano per email e vengono cancellati dal server del sito subito dopo l'invio."
+          "<strong>Richieste di contatto e preventivo.</strong> Se ci scrivi via email a <a href=\"mailto:info@artessrl.it\">info@artessrl.it</a> o ci contatti telefonicamente (o tramite eventuali moduli di contatto attivati sul sito), trattiamo i dati che ci fornisci — come nome, azienda o ente, recapiti, descrizione del progetto ed eventuali allegati tecnici (planimetrie, capitolati, file PDF, DWG, DXF, immagini) — per rispondere alla tua richiesta e preparare una proposta o un preventivo. La base giuridica è l'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6.1.b GDPR)."
         ]
       },
       {
         "h": "Caratteri tipografici di Google",
         "b": [
-          "Il sito carica i caratteri tipografici dal servizio Google Fonts. Per scaricarli il tuo browser contatta i server di Google, che possono ricevere il tuo indirizzo IP. Non carichiamo altri contenuti di terze parti."
+          "Il sito carica i caratteri tipografici dal servizio Google Fonts. Per scaricarli il tuo browser contatta i server di Google, che possono ricevere il tuo indirizzo IP. Non carichiamo altri contenuti o tracker di terze parti."
         ]
       },
       {
@@ -58,13 +59,13 @@
       {
         "h": "A chi comunichiamo i dati",
         "b": [
-          "I dati sono trattati da personale autorizzato del titolare e dai fornitori che gestiscono hosting, posta elettronica e manutenzione del sito, nominati responsabili del trattamento. I dati non vengono diffusi né venduti."
+          "I dati sono trattati da personale autorizzato di Artes srl e dai fornitori che gestiscono hosting, posta elettronica e manutenzione del sito, nominati responsabili del trattamento. I dati non vengono diffusi né ceduti a terzi per finalità promozionali."
         ]
       },
       {
         "h": "Per quanto tempo li conserviamo",
         "b": [
-          "I dati dei moduli sono conservati per il tempo necessario a rispondere e a gestire la richiesta; se ne nasce un rapporto contrattuale, per la durata prevista dagli obblighi di legge. I dati di navigazione sono conservati per il tempo strettamente necessario alla sicurezza del sito."
+          "I dati relativi alle richieste di contatto o preventivo sono conservati per il tempo necessario a rispondere e a gestire la trattativa; se ne nasce un rapporto contrattuale, per la durata prevista dagli obblighi civili e fiscali di legge. I dati di navigazione sono conservati per il tempo strettamente necessario alla sicurezza del sito."
         ]
       },
       {
@@ -76,13 +77,13 @@
           "- la cancellazione dei dati o la limitazione del trattamento;",
           "- la portabilità dei dati che ci hai fornito;",
           "- di opporti al trattamento basato sul legittimo interesse.",
-          "Per esercitare i diritti scrivi all'indirizzo indicato sopra. Hai anche il diritto di proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it)."
+          "Per esercitare i diritti scrivi a <a href=\"mailto:info@artessrl.it\">info@artessrl.it</a>. Hai anche il diritto di proporre reclamo al Garante per la protezione dei dati personali (<a href=\"https://www.garanteprivacy.it/\">www.garanteprivacy.it</a>)."
         ]
       },
       {
         "h": "Aggiornamenti",
         "b": [
-          "Questa informativa può essere aggiornata, ad esempio se cambiano i servizi usati dal sito. Ultimo aggiornamento: novembre 2026."
+          "Questa informativa può essere aggiornata se cambiano i servizi usati dal sito. Ultimo aggiornamento: novembre 2026."
         ]
       }
     ]
@@ -91,8 +92,10 @@
     "id": 493,
     "eyebrow": "Informativa",
     "h1": "Cookie<br><strong>policy.</strong>",
-    "lead": "Quali cookie usa questo sito e come puoi gestirli.",
+    "lead": "Quali cookie usa questo sito e come puoi gestirli dal browser.",
     "corrente": "Cookie policy",
+    "asideEyebrow": "Cookie tecnici",
+    "asideTitolo": "Nessun tracciamento<br>di profilazione.",
     "sezioni": [
       {
         "h": "Che cosa sono i cookie",
@@ -103,9 +106,9 @@
       {
         "h": "Cookie usati da questo sito",
         "b": [
-          "Il sito utilizza solo strumenti tecnici. Durante la normale navigazione non imposta cookie di analisi, di marketing o di profilazione, né propri né di terze parti.",
-          "Può salvare nel browser una preferenza tecnica, come la lingua scelta con il selettore IT / EN, per mostrarti il sito nella lingua giusta. Le funzioni di amministrazione del sito, riservate a chi lo gestisce, usano i cookie di accesso di WordPress.",
-          "I moduli di contatto non usano cookie: i dati inseriti sono trattati come descritto nella <a href=\"/privacy-policy/\">privacy policy</a>."
+          "Il sito utilizza esclusivamente strumenti tecnici. Durante la normale navigazione non imposta cookie di analisi, di marketing o di profilazione, né propri né di terze parti.",
+          "Può salvare nel browser una preferenza tecnica di lingua (IT / EN) per mostrarti il sito nella lingua scelta. Le funzioni di amministrazione del sito, riservate a chi lo gestisce, usano i cookie di sessione di WordPress.",
+          "I dati inviati tramite email o eventuali richieste di contatto sono trattati come descritto nella <a href=\"/privacy-policy/\">privacy policy</a>."
         ]
       },
       {
@@ -123,7 +126,7 @@
       {
         "h": "Titolare e contatti",
         "b": [
-          "Titolare del trattamento: [ragione sociale], [indirizzo]. Per domande sui cookie scrivi a [indirizzo email per la privacy]. Ultimo aggiornamento: novembre 2026."
+          "Titolare del trattamento: <strong>Artes srl</strong>, Via A. Nervoso 1, 87036 Rende (CS), P.IVA 02343330789. Per domande sui cookie scrivi a <a href=\"mailto:info@artessrl.it\">info@artessrl.it</a>. Ultimo aggiornamento: novembre 2026."
         ]
       }
     ]

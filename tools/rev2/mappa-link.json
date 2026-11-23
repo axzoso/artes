@@ -1,5 +1,5 @@
 {
-  "_nota": "Come i link della rev2 diventano link di dev3. 'pagine': file della rev2 -> percorso WordPress (permalink relativi, così funzionano anche in produzione). 'prefissi': pagine generate dai dati (CPT). 'segnaposto': i link '#' o vuoti della rev2, risolti per testo del link con la logica più immediata del sito (decisione del 2026-11-19: replicare i link come nella rev2 e sistemare quelli rotti o vuoti). Modificare qui, poi rigenerare le pagine.",
+  "_nota": "Come i link della rev2 diventano link di dev3. 'pagine': file della rev2 -> percorso WordPress (permalink relativi, così funzionano anche in produzione). 'prefissi': pagine generate dai dati (CPT). 'ancore': ancore #... della rev2 rimappate su pagine dedicate (es. #contatti -> /contatti/). 'mailto_cta': link mailto: usati nella rev2 statica come pulsanti CTA (non indirizzi email espliciti) rimappati su /contatti/. 'segnaposto': i link '#' o vuoti della rev2, risolti per testo del link con la logica più immediata del sito. Modificare qui, poi rigenerare le pagine.",
   "pagine": {
     "index.html": "/",
     "arredamento-ufficio.html": "/arredamento-ufficio/",
@@ -11,11 +11,23 @@
     "contract.html": "/contract/",
     "chi-siamo.html": "/chi-siamo/",
     "realizzazioni.html": "/realizzazioni/",
-    "brand-partner.html": "/brand-partner/"
+    "brand-partner.html": "/brand-partner/",
+    "contatti.html": "/contatti/"
   },
   "prefissi": {
     "realizzazione-": "/realizzazioni/{slug}/",
     "brand-": "/brand-partner/{slug}/"
+  },
+  "ancore": {
+    "#contatti": "/contatti/"
+  },
+  "mailto_cta": {
+    "mailto:info@artessrl.it": "/contatti/",
+    "mailto:info@artessrl.it?subject=Richiesta%20arredamento%20su%20misura": "/contatti/",
+    "mailto:info@artessrl.it?subject=Richiesta%20preventivo%20contract": "/contatti/",
+    "mailto:info@artessrl.it?subject=Valutazione%20progetto%20contract": "/contatti/",
+    "mailto:info@artessrl.it?subject=Parliamo%20della%20mia%20commessa": "/contatti/",
+    "mailto:info@artessrl.it?subject=Parlare%20con%20un%20tecnico%20contract": "/contatti/"
   },
   "segnaposto": {
     "Blog": "/realizzazioni/",
@@ -24,6 +36,6 @@
     "Area progettisti": "/contract/#interlocutori",
     "Accedi all'area progettisti": "/contract/#interlocutori",
     "MEPA · Acquisti in Rete PA": "/arredamento-ufficio/",
-    "Diventa partner di produzione": "#contatti"
+    "Diventa partner di produzione": "/contatti/"
   }
 }

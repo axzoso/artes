@@ -1,6 +1,9 @@
 'use strict';
 // Collaudo dei filtri degli archivi (realizzazioni a due livelli, brand per categoria): stesso gesto su rev2 e dev3, confronto dello
 // stato (conteggio, schede visibili, filtro attivo, indirizzo) e screenshot del viewport.
+// Nota (2026-11-23): su dev3 i filtri di categoria/settore con 0 realizzazioni (o 0 brand) vengono nascosti dinamicamente da
+// artes-rev2.js (es. "Student housing e co-living" in hospitality, "Sanità" in uffici, ecc.), quindi il caso `tab-hospitality-vuota`
+// differisce intenzionalmente rispetto alla rev2 statica (dove i bottoni vuoti restano visibili).
 //   node tools/rev2/collaudo-archivi.js realizzazioni <url-rev2> <@id|url-dev3>
 //   node tools/rev2/collaudo-archivi.js brand <url-rev2> <@id|url-dev3>
 const fs = require('fs');

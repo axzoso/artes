@@ -167,9 +167,7 @@ La rev2 (`artes-sito-rev2/`) è in sola lettura. Ciò che dipende dallo stato di
 | `node tools/rev2/converti-tutte.js [--dettagli]` | prova di conversione di tutte le 49 pagine rev2 (nessuna scrittura): avvisi raggruppati |
 
 Altri: `mcp-client.js` (client MCP in Node: `connetti('elementor'\|'novamira')`, `.call/.callJson/.php`), `html-parse.js` (parser HTML minimo), `cdp-session.js`
-(Chrome headless riusabile; `b.on(evento, fn)` ascolta gli eventi del protocollo. **Limite noto**: lo script che spegne transizioni e animazioni viene eseguito prima che esista
-`<html>` e non si applica mai, quindi le misure si affidano ai tempi di attesa; da sistemare — iniezione a `DOMContentLoaded` — prima di misurare pagine con slider e
-caroselli, come la Home), `png-diff.js`. Sicurezza: `snapshot-dev3.ps1` (snapshot JSON di kit, classi, template, pagine, CPT, menu, media in
+(Chrome headless riusabile; `b.on(evento, fn)` ascolta gli eventi del protocollo; `noMotion` iniettato a `DOMContentLoaded` dal 2026-11-20), `png-diff.js`. Sicurezza: `snapshot-dev3.ps1` (snapshot JSON di kit, classi, template, pagine, CPT, menu, media in
 `tools/out/backup-<data>/`) e `riserva-moduli.ps1` (salva i moduli come template di libreria `[Riserva]`, vedi `tools/riserva-moduli/README.md`).
 
 **Dati (fase 3, dal 2026-11-20)** — stesso metodo "prima il test": si scrive il controllo, si vede fallire, si importa, si vede passare.
@@ -200,6 +198,43 @@ attributi che dicono da dove viene ogni dato, e un convertitore lo trasforma in 
 | `node tools/rev2/collaudo-redirect.js [https://dev3…]` | codici di risposta e reindirizzamenti degli indirizzi dei contenuti: pagine dei termini → archivio filtrato, vecchi slug rinominati, **indirizzi filtrati `/realizzazioni/?settore=…` (devono dare 200, mai reindirizzare a sé stessi)**, articoli nel cestino (404). Esce con 1 se qualcosa non va |
 | `node tools/rev2/collaudo-schede.js <url-rev2> <url-dev3> [--percorso /realizzazioni/arpacal/]` | lightbox della galleria: stesso gesto su rev2 e dev3 (apertura, frecce, tastiera, chiusura), screenshot del viewport, conteggio e didascalia |
 | `node tools/rev2/collaudo-archivi.js realizzazioni\|brand <url-rev2> <url-dev3>` | filtri degli archivi con gesti reali (tab dei settori, categorie, `?settore=&categoria=`, filtro dei brand, mobile): stesso stato (conteggio, schede visibili, filtro attivo, indirizzo) e stesso aspetto |
+
+**Pagine statiche (fase 5, dal 2026-11-20)** — Home (dinamica per progetti e brand), 5 settori, Su misura, Contract, Chi siamo.
+
+| Comando | A cosa serve |
+|---|---|
+| `node tools/rev2/import-media-pagine.js [--prova]` | crea su dev3 le 17 copie fisiche degli allegati con alt dedicato per le pagine statiche (lingua WPML `it`, `_artes_src = rev2:<src>#p-<hash>`) → `out/rev2/media-pagine.json` |
+| `node tools/rev2/fase5-pagine.js --costruisci\|--parita\|--stato [--solo …]` | costruisce/pubblica le 9 pagine della fase 5 (Home da `modelli/home.html`), accende `_artes_rev2=1`, aggiorna le condizioni di 557/971, salva `out/rev2/fase5-revisions.json`; `--parita` verifica aspetto e contenuti su tutte le 9 pagine |
+| `node tools/rev2/collaudo-fase5.js faq\|home <url-rev2> <@id\|url-dev3>` | interazioni live: FAQ `e-accordion` (apertura multipla, mobile, `FAQPage` JSON-LD) e Home (slider produzione, filtri progetti, pallini metodo mobile) |
+
+**Pagine fuori rev2, SEO e collaudo finale IT (fasi 6–8, dal 2026-11-20)**
+
+| Comando | A cosa serve |
+|---|---|
+| `node tools/rev2/fase6-pagine.js --esegui\|--stato` | mette in bozza reversibile le 6 pagine fuori rev2 (`152, 153, 154, 471, 472, 491`), ricostruisce Privacy (`3`) e Cookie (`493`) in rev2 con i dati reali di Artes srl, aggiorna Footer `971` (link `Privacy · Cookie · MEPA`) e le condizioni di `557`/`971` (15 contesti), salva `out/rev2/fase6-revisions.json`; `--stato` verifica status, `_artes_rev2` e HTTP pubblico |
+| `node tools/rev2/fase7-seo.js --verifica-estrazione\|--applica\|--stato\|--rollback [file]` | gestisce SEO on-page (`<title>` e `<meta name="description">`): `--verifica-estrazione` controlla offline le 49 pagine rev2 + 2 legali e le formule CPT (0 scostamenti); `--applica` scrive in modo idempotente meta `_artes_seo_*` (11 pagine), opzione `artes_seo_archives` (2 archivi) e WPML modo 2 con backup in `out/rev2/fase7-backup.json`; `--stato` legge lo stato live; `--rollback` ripristina dal backup |
+| `node tools/rev2/verifica-seo.js [--base <url>] [--parallelo 5] [--solo /,/contract/]` | verifica live in sola lettura su tutte le 51 pagine pubblicate: HTTP 200, `<title>` e `<meta name="description">` unici e identici 100% senza entità residue, singolo `<h1>`, attributi `alt` immagini → `out/rev2/fase7-seo-report.json` |
+| `node tools/rev2/fase8-collaudo.js [--step tutto\|parita\|geometria\|salute\|interazioni\|link\|report] [--parallelo 3] [--porta 8769] [--w 1440,1024,768,390] [--riprendi]` | orchestratore di collaudo completo IT in sola lettura (server HTTP locale interno su `127.0.0.1:8769`): parità 49×4 viewport + contenuti, geometria 9×2, salute 51×2, tutte le interazioni live, link 51/51, redirect e 404 bozze → `out/rev2/fase8/report-fase8.json` e `riepilogo.md` |
+
+**Chiusura (fase 9, dal 2026-11-23)**
+
+| Comando / File | A cosa serve |
+|---|---|
+| `node tools/rev2/fase9-chiusura.js --piano [--offline]` | mostra il piano di chiusura leggendo gli audit locali (`out/rev2/fase9-audit-*.json`) e `:root` di `artes-sito-rev2/assets/css/artes.css`, senza scrivere su dev3 |
+| `node tools/rev2/fase9-chiusura.js --esegui [--forza-backup]` | salva prima il backup integrale in `out/rev2/fase9-backup.json` (preservato sui re-run salvo `--forza-backup`), poi esegue in modo sicuro: (a) aggiorna variabili Kit `7` (`sand #393E42`, `night #2F3438`) via `elementor-manage-global-variable`; (b) svuota le condizioni dei 6 vecchi template via `Conditions_Manager::save_conditions($id, [])` e porta Header `557` / Footer `971` a `include/general`; (c) sposta nel **cestino reversibile** (`wp_trash_post`, mai `force_delete`) `542, 199, 200, 138, 448, 213, 447` con guardia su `[Riserva]` (`539–541`) e 6 bozze (`152–154, 471, 472, 491`); (d) elimina i menu `filtri-realizzazioni` e `filtri-brand`; (e) elimina in lotti da 25 solo le 144 classi orfane (`classi_sicure_da_rimuovere_legacy`) con guardia live; (f) imposta `artes_rev2_globale = '1'` e svuota le cache Elementor + WP. **Non tocca mai gli allegati media** |
+| `node tools/rev2/fase9-chiusura.js --stato` | verifica in sola lettura lo stato live post-chiusura (variabili Kit `7`, condizioni `557`/`971`, cestino `7/7`, menu residui, conteggio classi `336`, opzioni `artes_rev2_globale`/`blog_public`, integrità `[Riserva]`/bozze/media `256/256`) |
+| `node tools/rev2/fase9-chiusura.js --rollback [file]` | ripristina integralmente da `out/rev2/fase9-backup.json` (opzione `artes_rev2_globale`, 144 classi + post/meta, `_elementor_data` raw dei 7 elementi cestinati, restore dal cestino, condizioni site part, 2 menu filtri, variabili Kit `7`, flush cache) |
+| `tools/out/rev2/fase9-allegati-orfani.json` | audit in sola lettura dei **256 allegati media**: 224 attivi, 1 solo in bozza (`417`), **31 orfani recuperabili** (`10,654 MB` file principali / `19,464 MB` su disco, non cancellati in attesa di conferma) |
+| `tools/out/rev2/fase9-audit-classi.json` e `fase9-audit-kit-menu.json` | audit live delle 480 → 336 classi globali (incrociate su `_elementor_data` dei 33 documenti), delle 27 variabili Kit `7`, dei 6 menu WP e dei site part |
+| `tools/out/rev2/fase9-backup.json` | backup integrale pre-esecuzione Fase 9 (`610.649 byte`) usato da `--rollback` |
+
+**Pagine bozza in rev2, pubblicazione Contatti e collegamento link (post-fase 9, dal 2026-11-23)**
+
+| Comando / File | A cosa serve |
+|---|---|
+| `node tools/rev2/pagine-bozze-rev2.js --piano\|--esegui\|--stato\|--rollback [file] [--solo …]` | ricostruisce in grafica **rev2** le 6 pagine fuori rev2 (`152` Contatti, `153` Area progettisti, `154` Richiedi preventivo, `471` Prodotti, `472` MEPA, `491` Cataloghi PDF): crea idempotente le `22` classi stub `rev2-*` nel Kit `7`, costruisce sezioni rev2 + moduli nativi Elementor Pro `e-form` (`152`, `154`) con dati reali Artes srl e SEO `_artes_seo_*`, pubblica **SOLO `152`** (`publish`) lasciando le altre 5 in **`draft`** (con guardia temporale sull'autosave sync), salva backup/undo in `out/rev2/bozze-rev2-revisions.json` e svuota le cache; `--rollback` ripristina pagine e rimuove le 22 classi stub |
+| `node tools/rev2/aggiorna-link-contatti.js --piano\|--esegui\|--stato\|--rollback [file] [--solo …] [--salva-comp]` | rigenera e ripubblica i **15 documenti rev2** (Header `557`, Footer `971` con `Privacy · Cookie · MEPA` e `tel:` preservati, 9 pagine statiche `376, 144–151`, 4 template CPT `1040, 1049, 1050, 1051`) applicando `mappa-link.json` (`#contatti`, segnaposto `Diventa partner di produzione` e CTA `mailto:` senza `@` → `/contatti/`): **38** link sorgente, **`0` `#contatti` residui**, condizioni Theme Builder/loop/FAQ intatti; `--stato` e post-verifica di `--esegui` usano un walker JSON Atomic V4 su `_elementor_data` live; backup e rollback integrale in `out/rev2/link-contatti-revisions.json` |
+| `tools/out/rev2/bozze-rev2-revisions.json` e `link-contatti-revisions.json` | snapshot pre-modifica (`_elementor_data` raw, `undo_revision_id`, 22 classi stub create) usati dai rispettivi `--rollback` |
 
 Il rilascio di una modifica al CSS è sempre lo stesso: si cambia `tools/rev2/css/adattamenti.css` (mai `artes-rev2.css`, che è generato), si lancia
 `node tools/rev2/port-css.js` e `node tools/rev2/push-asset.js artes-rev2.css`, si rimisura. Lezione della fase 4: un selettore generico in

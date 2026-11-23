@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: ARTES Core
- * Description: Logica su misura del sito ARTES: dati dei cicli Elementor (galleria, brand collegati, altre realizzazioni), shortcode (selettore lingua, titolo), voce di menu attiva, ordine dell'archivio e CSS del sito.
- * Version:     0.7.0
+ * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, gestione allegati moduli e asset CSS/JS del sito.
+ * Version:     0.9.0
  *
  * Elementor chiama `elementor/query/<query_id>` prima di eseguire la query di un
  * widget Loop: il "Query ID" del widget è il nome del filtro, non una query del
  * Query Builder di JetEngine. Qui sta la logica che il builder non offre di serie.
  *
- * Si installa come plugin (cartella artes-core con questo file e artes-core.css):
+ * Si installa come plugin (cartella artes-core con questo file e gli asset):
  * tools/install-plugin.ps1 su dev3, upload dello ZIP in produzione.
  */
 
@@ -22,7 +22,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '0.7.0' );
+define( 'ARTES_CORE_VERSION', '0.9.0' );
 
 /**
  * CSS del sito (menu, header sticky, hover, archivio): vive nel plugin, non nel database
@@ -231,7 +231,7 @@ register_deactivation_hook(
 );
 
 /**
- * ID del post della pagina corrente (la scheda realizzazione mostrata).
+ * ID del post della pagina corrente (la scheda realizzazione/brand mostrata).
  */
 function artes_current_post_id() {
 	$id = get_queried_object_id();
@@ -240,34 +240,11 @@ function artes_current_post_id() {
 }
 
 /**
- * ID dei brand collegati a una realizzazione tramite la relazione JetEngine
- * realizzazione -> brand. Array vuoto se non ce ne sono.
- */
-function artes_related_brand_ids( $post_id ) {
-	if ( ! function_exists( 'jet_engine' ) || empty( jet_engine()->relations ) ) {
-		return array();
-	}
-
-	foreach ( (array) jet_engine()->relations->get_active_relations() as $relation ) {
-		if (
-			'posts::realizzazione' === $relation->get_args( 'parent_object' )
-			&& 'posts::brand' === $relation->get_args( 'child_object' )
-		) {
-			// get_children() restituisce le righe della tabella della relazione.
-			$rows = (array) $relation->get_children( $post_id );
-
-			return array_filter( array_map( 'absint', wp_list_pluck( $rows, 'child_object_id' ) ) );
-		}
-	}
-
-	return array();
-}
-
-/**
  * Selettore lingua per la topbar: [artes_lingue] -> "IT / EN".
  *
  * Usa il filtro `wpml_active_languages`. Il codice mostrato è il prefisso a due
  * lettere della lingua (en-gb -> EN); la lingua corrente non è un link.
+ * Mantenuto per la fase finale di traduzione WPML / EN.
  */
 add_shortcode(
 	'artes_lingue',
@@ -304,139 +281,8 @@ add_shortcode(
 );
 
 /**
- * Titolo della scheda con l'ultima parola in grassetto, come nel mockup:
- * "Boutique Hotel <strong>Aurea</strong>". Si usa nel widget titolo tramite il
- * tag dinamico "Shortcode": [artes_titolo].
- */
-add_shortcode(
-	'artes_titolo',
-	function () {
-		$title = trim( wp_strip_all_tags( get_the_title( artes_current_post_id() ) ) );
-		$words = preg_split( '/\s+/', $title );
-
-		if ( ! $words || '' === $words[0] ) {
-			return '';
-		}
-
-		$last = array_pop( $words );
-
-		return ( $words ? esc_html( implode( ' ', $words ) ) . ' ' : '' ) . '<strong>' . esc_html( $last ) . '</strong>';
-	}
-);
-
-/**
- * "Settore — ambito" della realizzazione corrente, per la riga "Settore" dei
- * dettagli tecnici: [artes_settore_ambito]. L'ambito si omette se è vuoto.
- */
-add_shortcode(
-	'artes_settore_ambito',
-	function () {
-		$id    = artes_current_post_id();
-		$terms = wp_get_object_terms( $id, 'settore', array( 'fields' => 'names' ) );
-		$out   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : '';
-		$sub   = (string) get_post_meta( $id, 'sottotitolo_ambito', true );
-
-		if ( '' !== $sub ) {
-			$out .= ( '' !== $out ? ' — ' : '' ) . $sub;
-		}
-
-		return esc_html( $out );
-	}
-);
-
-/**
- * Scheda brand: [artes_categoria_brand] -> "Contract — Sedute e sistemi operativi" (categoria
- * più, se c'è, la categoria estesa del campo `sottotitolo_categoria`).
- */
-add_shortcode(
-	'artes_categoria_brand',
-	function () {
-		$id    = artes_current_post_id();
-		$terms = wp_get_object_terms( $id, 'categoria_brand', array( 'fields' => 'names' ) );
-		$out   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : '';
-		$sub   = trim( (string) get_post_meta( $id, 'sottotitolo_categoria', true ) );
-
-		if ( '' !== $sub ) {
-			$out .= ( '' !== $out ? ' — ' : '' ) . $sub;
-		}
-
-		return esc_html( $out );
-	}
-);
-
-/**
- * Scheda brand: [artes_categorie_prodotto] -> elenco delle categorie prodotto. Il campo
- * `categorie_prodotto` ha una voce per riga, nel formato "Nome | Ambito".
- */
-add_shortcode(
-	'artes_categorie_prodotto',
-	function () {
-		$righe = preg_split( '/\r\n|\r|\n/', (string) get_post_meta( artes_current_post_id(), 'categorie_prodotto', true ) );
-		$out   = '';
-
-		foreach ( (array) $righe as $riga ) {
-			$parti = array_map( 'trim', explode( '|', $riga, 2 ) );
-
-			if ( '' === $parti[0] ) {
-				continue;
-			}
-
-			$out .= '<li class="cat-prodotto"><span class="cat-prodotto-n">' . esc_html( $parti[0] ) . '</span>';
-
-			if ( ! empty( $parti[1] ) ) {
-				$out .= '<span class="cat-prodotto-c">' . esc_html( $parti[1] ) . '</span>';
-			}
-
-			$out .= '</li>';
-		}
-
-		return '' === $out ? '' : '<ul class="cat-prodotto-lista">' . $out . '</ul>';
-	}
-);
-
-/**
- * Voce di menu "Realizzazioni" attiva anche sulle schede e sull'archivio dei
- * settori, come in shell.js (data-nav-alias="realizzazione-*"). La voce è un
- * link personalizzato, quindi WordPress non la riconosce da solo.
- */
-add_filter(
-	'nav_menu_css_class',
-	function ( $classes, $item ) {
-		// "Tutti" nel filtro dei brand: attiva solo sull'archivio completo, non sulle categorie.
-		if ( 'custom' === $item->type && in_array( 'filtro-tutti-brand', (array) $classes, true ) ) {
-			if ( is_post_type_archive( 'brand' ) ) {
-				$classes[] = 'current-menu-item';
-			}
-
-			return $classes;
-		}
-
-		if ( 'custom' !== $item->type || false === strpos( (string) $item->url, '/realizzazioni' ) ) {
-			return $classes;
-		}
-
-		// "Tutti" nel filtro dell'archivio: attiva solo sull'archivio completo, non sui settori.
-		if ( in_array( 'filtro-tutti', (array) $classes, true ) ) {
-			if ( is_post_type_archive( 'realizzazione' ) ) {
-				$classes[] = 'current-menu-item';
-			}
-
-			return $classes;
-		}
-
-		if ( is_singular( 'realizzazione' ) || is_post_type_archive( 'realizzazione' ) || is_tax( 'settore' ) ) {
-			$classes[] = 'current-menu-item';
-		}
-
-		return $classes;
-	},
-	10,
-	2
-);
-
-/**
- * Archivio realizzazioni e pagine dei settori: 12 progetti per pagina (il default di
- * WordPress è 10 e va bene per gli articoli, non per questa griglia a 3 colonne).
+ * Archivio realizzazioni e pagine dei settori: in rev2 tutti i progetti in una pagina (filtri lato client),
+ * con fallback a 12 per pagina in caso di kill-switch completo (`artes_rev2_globale = 0` e `artes_rev2_cpt = 0`).
  */
 add_action(
 	'pre_get_posts',
@@ -446,7 +292,7 @@ add_action(
 		}
 
 		if ( $query->is_post_type_archive( 'realizzazione' ) || $query->is_tax( 'settore' ) ) {
-			$query->set( 'posts_per_page', 12 );
+			$query->set( 'posts_per_page', ( artes_rev2_globale_attiva() || get_option( 'artes_rev2_cpt' ) ) ? -1 : 12 );
 			// Prima l'ordine scelto (campo "Ordine" nell'admin), poi i più recenti: un progetto
 			// nuovo ha ordine 0 e compare per primo.
 			$query->set(
@@ -538,97 +384,18 @@ add_action(
 );
 
 /**
- * Elenco progetti di una pagina settore: le realizzazioni del settore indicato nel campo
- * "Settore collegato" della pagina (meta `settore_collegato`, slug del termine). Il termine si
- * cerca nella lingua corrente (WPML). Senza settore valido non mostra nulla.
+ * Le pagine costruite con Elementor hanno già il proprio titolo (h1): si toglie quello che il tema
+ * Hello Elementor aggiunge sopra il contenuto, ma lo si mantiene sulle pagine di sistema (404 e ricerca)
+ * che usano i template del tema tra Header 557 e Footer 971.
  */
-add_action(
-	'elementor/query/artes_progetti_settore',
-	function ( $query ) {
-		$slug = (string) get_post_meta( artes_current_post_id(), 'settore_collegato', true );
-		$term = $slug ? get_term_by( 'slug', $slug, 'settore' ) : false;
-
-		$query->set( 'post_type', 'realizzazione' );
-		$query->set( 'posts_per_page', 6 );
-		$query->set(
-			'orderby',
-			array(
-				'menu_order' => 'ASC',
-				'date'       => 'DESC',
-			)
-		);
-
-		if ( ! $term ) {
-			$query->set( 'post__in', array( 0 ) );
-
-			return;
+add_filter(
+	'hello_elementor_page_title',
+	function ( $show ) {
+		if ( is_404() || is_search() ) {
+			return true;
 		}
 
-		$term_id = (int) apply_filters( 'wpml_object_id', $term->term_id, 'settore', true );
-		$query->set(
-			'tax_query',
-			array(
-				array(
-					'taxonomy' => 'settore',
-					'field'    => 'term_id',
-					'terms'    => array( $term_id ),
-				),
-			)
-		);
-	}
-);
-
-/**
- * Home: gli ultimi progetti (6, nell'ordine dell'archivio) e il muro dei brand (tutti, nell'ordine
- * di inserimento).
- */
-add_action(
-	'elementor/query/artes_progetti_home',
-	function ( $query ) {
-		$query->set( 'post_type', 'realizzazione' );
-		$query->set( 'posts_per_page', 6 );
-		$query->set(
-			'orderby',
-			array(
-				'menu_order' => 'ASC',
-				'date'       => 'DESC',
-			)
-		);
-	}
-);
-
-add_action(
-	'elementor/query/artes_brand_home',
-	function ( $query ) {
-		$query->set( 'post_type', 'brand' );
-		$query->set( 'posts_per_page', -1 );
-		$query->set(
-			'orderby',
-			array(
-				'menu_order' => 'ASC',
-				'ID'         => 'ASC',
-			)
-		);
-	}
-);
-/**
- * Le pagine costruite con Elementor hanno già il proprio titolo (h1): si toglie quello che il tema
- * Hello Elementor aggiunge sopra il contenuto.
- */
-add_filter( 'hello_elementor_page_title', '__return_false' );
-
-/**
- * Brand collegati alla realizzazione corrente.
- */
-add_action(
-	'elementor/query/artes_brand_collegati',
-	function ( $query ) {
-		$ids = artes_related_brand_ids( artes_current_post_id() );
-
-		$query->set( 'post_type', 'brand' );
-		$query->set( 'post__in', $ids ? $ids : array( 0 ) );
-		$query->set( 'orderby', 'post__in' );
-		$query->set( 'posts_per_page', -1 );
+		return false;
 	}
 );
 
@@ -688,6 +455,12 @@ function artes_primo_termine( $post_id, $taxonomy ) {
  * Indirizzo dell'archivio realizzazioni con filtri (settore, categoria), come `realizzazioni.html?settore=…` della rev2.
  */
 function artes_url_archivio_filtrato( $settore = '', $categoria = '' ) {
+	$base = get_post_type_archive_link( 'realizzazione' );
+
+	if ( ! $base ) {
+		return '';
+	}
+
 	$args = array();
 
 	if ( $settore ) {
@@ -698,7 +471,7 @@ function artes_url_archivio_filtrato( $settore = '', $categoria = '' ) {
 		$args['categoria'] = $categoria;
 	}
 
-	return add_query_arg( $args, get_post_type_archive_link( 'realizzazione' ) );
+	return add_query_arg( $args, $base );
 }
 
 /**
@@ -914,7 +687,7 @@ add_action(
 add_filter(
 	'request',
 	function ( $vars ) {
-		if ( get_option( 'artes_rev2_cpt' ) && isset( $vars['post_type'] ) && in_array( $vars['post_type'], array( 'realizzazione', 'brand' ), true ) && empty( $vars['name'] ) ) {
+		if ( ( artes_rev2_globale_attiva() || get_option( 'artes_rev2_cpt' ) ) && isset( $vars['post_type'] ) && in_array( $vars['post_type'], array( 'realizzazione', 'brand' ), true ) && empty( $vars['name'] ) ) {
 			unset( $vars['settore'], $vars['categoria'], $vars['categoria_brand'] );
 		}
 
@@ -923,26 +696,49 @@ add_filter(
 );
 
 /**
- * Le pagine dei termini (/settore/uffici/, /categoria-realizzazione/…, /categoria-brand/…) non esistono nella rev2: i filtri sono
- * nell'archivio. Chi arriva da un vecchio link va all'archivio con lo stesso filtro.
+ * Le pagine dei termini (/settore/uffici/, /categoria-realizzazione/…, /categoria-brand/…) e la paginazione
+ * degli archivi (/realizzazioni/page/2/, /brand-partner/page/2/) non esistono nella rev2: tutti gli elementi
+ * sono in un'unica pagina con filtri lato browser. Chi arriva da un vecchio link viene reindirizzato con 301.
  */
 add_action(
 	'template_redirect',
 	function () {
-		// Mai reindirizzare dall'archivio stesso (la destinazione è sempre un archivio): sarebbe un ciclo.
-		if ( ! get_option( 'artes_rev2_cpt' ) || is_post_type_archive() ) {
+		if ( ! artes_rev2_globale_attiva() && ! get_option( 'artes_rev2_cpt' ) ) {
+			return;
+		}
+
+		// Con posts_per_page = -1 WordPress risponderebbe 200 anche su /page/2/ con contenuto duplicato: 301 all'archivio.
+		if ( is_post_type_archive() ) {
+			if ( is_paged() && is_post_type_archive( array( 'realizzazione', 'brand' ) ) ) {
+				$post_type = is_post_type_archive( 'realizzazione' ) ? 'realizzazione' : 'brand';
+				$url       = (string) get_post_type_archive_link( $post_type );
+
+				if ( $url ) {
+					wp_safe_redirect( $url, 301 );
+					exit;
+				}
+			}
+
+			// Mai reindirizzare dalla pagina principale dell'archivio stesso: sarebbe un ciclo.
 			return;
 		}
 
 		$url = '';
 
 		if ( is_tax( 'settore' ) ) {
-			$url = artes_url_archivio_filtrato( get_queried_object()->slug );
+			$term = get_queried_object();
+
+			if ( $term instanceof WP_Term ) {
+				$url = artes_url_archivio_filtrato( $term->slug );
+			}
 		} elseif ( is_tax( 'categoria' ) ) {
 			$term = get_queried_object();
-			$url  = artes_url_archivio_filtrato( (string) get_term_meta( $term->term_id, 'settore', true ), $term->slug );
+
+			if ( $term instanceof WP_Term ) {
+				$url = artes_url_archivio_filtrato( (string) get_term_meta( $term->term_id, 'settore', true ), $term->slug );
+			}
 		} elseif ( is_tax( 'categoria_brand' ) ) {
-			$url = get_post_type_archive_link( 'brand' );
+			$url = (string) get_post_type_archive_link( 'brand' );
 		}
 
 		if ( $url ) {
@@ -953,38 +749,78 @@ add_action(
 );
 
 /**
- * Modalità rev2 (adeguamento alla versione 2 del sito, novembre 2026).
+ * Modalità rev2 (adeguamento alla versione 2 del sito, novembre 2026 — accensione globale fase 9).
  *
- * Il design nuovo convive con quello vecchio finché il sito non passa del tutto alla rev2. Una pagina è "rev2" se ha il
- * meta `_artes_rev2` oppure se l'URL contiene `?artes_rev2=1` (anteprima di una pagina ancora in lavorazione). Le pagine
- * rev2 caricano artes-rev2.css e artes-rev2.js (generati da tools/rev2/) al posto di artes-core.css e artes-core.js e il
- * <body> riceve la classe `rev2`, a cui si aggancia tutto il CSS portato. Il filtro `artes_is_rev2` permette di
- * accenderla per interi gruppi di pagine (template dei contenuti, archivi) quando serve.
+ * Dalla versione 0.9.0 la rev2 è attiva globalmente su tutto il frontend (pagine, CPT, archivi, 404, ricerca,
+ * anteprime frontend) tramite l'opzione `artes_rev2_globale` (default attivo: `'1'`).
+ * Kill-switch reversibile: impostare l'opzione `artes_rev2_globale` a `'0'` riporta alla modalità selettiva
+ * (`?artes_rev2=1`, meta `_artes_rev2` e opzione `artes_rev2_cpt`). In area admin (`is_admin()`) restituisce sempre `false`.
+ */
+function artes_rev2_globale_attiva() {
+	$opt = get_option( 'artes_rev2_globale', '1' );
+
+	if ( is_bool( $opt ) ) {
+		return $opt;
+	}
+
+	$val = strtolower( trim( (string) $opt ) );
+
+	return ! in_array( $val, array( '', '0', 'false', 'off', 'no' ), true );
+}
+
+/**
+ * Indica se la richiesta corrente deve essere renderizzata con il design rev2.
  */
 function artes_is_rev2() {
 	static $rev2 = null;
 
-	if ( null !== $rev2 ) {
+	if ( is_admin() ) {
+		return false;
+	}
+
+	if ( null !== $rev2 && did_action( 'wp' ) ) {
 		return $rev2;
 	}
 
-	$rev2 = false;
+	$flag = false;
 
-	if ( isset( $_GET['artes_rev2'] ) && '1' === $_GET['artes_rev2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$rev2 = true;
+	if ( artes_rev2_globale_attiva() ) {
+		$flag = true;
+	} elseif ( isset( $_GET['artes_rev2'] ) && '1' === $_GET['artes_rev2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$flag = true;
 	} elseif ( is_singular() ) {
-		$rev2 = (bool) get_post_meta( get_queried_object_id(), '_artes_rev2', true );
+		$flag = (bool) get_post_meta( get_queried_object_id(), '_artes_rev2', true );
 	}
 
-	// Schede e archivi di realizzazioni e brand: i template rev2 (fase 4) valgono per tutte le schede quando l'opzione
-	// "artes_rev2_cpt" è accesa (tools/rev2/condizioni.js --attiva); prima si provano con ?artes_rev2=1.
-	if ( ! $rev2 && get_option( 'artes_rev2_cpt' ) ) {
-		$rev2 = is_singular( array( 'realizzazione', 'brand' ) ) || is_post_type_archive( array( 'realizzazione', 'brand' ) );
+	// Schede e archivi di realizzazioni e brand: i template rev2 (fase 4) restano attivi se `artes_rev2_cpt` è acceso
+	// anche quando il kill-switch `artes_rev2_globale = '0'` è impostato.
+	if ( ! $flag && get_option( 'artes_rev2_cpt' ) ) {
+		$flag = is_singular( array( 'realizzazione', 'brand' ) ) || is_post_type_archive( array( 'realizzazione', 'brand' ) );
 	}
 
-	$rev2 = (bool) apply_filters( 'artes_is_rev2', $rev2 );
+	$flag = (bool) apply_filters( 'artes_is_rev2', $flag );
 
-	return $rev2;
+	if ( did_action( 'wp' ) ) {
+		$rev2 = $flag;
+	}
+
+	return $flag;
+}
+
+/**
+ * Stili minimi per le pagine di sistema (404 e ricerca) renderizzate con Hello Elementor tra Header 557 e Footer 971.
+ * Caricati solo quando `is_404() || is_search()`: nessun impatto sulle 51 pagine Elementor rev2.
+ */
+function artes_rev2_system_pages_css() {
+	return 'body.rev2.error404 .site-main,body.rev2.search .site-main{width:100%;max-width:960px;margin:0 auto;padding:96px var(--pad,40px) 120px;}'
+		. 'body.rev2.error404 .site-main .page-header,body.rev2.search .site-main .page-header{margin-bottom:24px;}'
+		. 'body.rev2.error404 .site-main .entry-title,body.rev2.search .site-main .entry-title{font-family:var(--display);font-weight:400;font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-.025em;color:var(--graphite);margin:0 0 16px;}'
+		. 'body.rev2.search .site-main article{padding:24px 0;border-top:1px solid var(--line-soft,#EEEEEE);}'
+		. 'body.rev2.search .site-main article .entry-title{font-size:clamp(20px,2vw,26px);margin-bottom:8px;}'
+		. 'body.rev2.search .site-main article img{max-width:100%;height:auto;display:block;}'
+		. 'body.rev2.error404 .site-main p,body.rev2.search .site-main p{font-size:16px;line-height:1.65;color:var(--muted-2,#5E5E5E);margin:0 0 16px;}'
+		. 'body.rev2.error404 .site-main a,body.rev2.search .site-main a{color:var(--graphite);text-decoration:underline;text-underline-offset:3px;}'
+		. 'body.rev2.error404 .site-main a:hover,body.rev2.search .site-main a:hover{color:var(--accent);}';
 }
 
 /**
@@ -1008,6 +844,10 @@ function artes_enqueue_rev2() {
 
 	if ( file_exists( $dir . 'artes-rev2.css' ) ) {
 		wp_enqueue_style( 'artes-rev2', plugins_url( 'artes-rev2.css', __FILE__ ), array(), (string) filemtime( $dir . 'artes-rev2.css' ) );
+
+		if ( is_404() || is_search() ) {
+			wp_add_inline_style( 'artes-rev2', artes_rev2_system_pages_css() );
+		}
 	}
 
 	if ( file_exists( $dir . 'artes-rev2.js' ) ) {
@@ -1039,11 +879,13 @@ function artes_dati_filtri() {
 		)
 	);
 
-	foreach ( (array) $settori as $s ) {
-		$dati['settori'][] = array(
-			'slug' => $s->slug,
-			'nome' => $s->name,
-		);
+	if ( ! is_wp_error( $settori ) ) {
+		foreach ( (array) $settori as $s ) {
+			$dati['settori'][] = array(
+				'slug' => $s->slug,
+				'nome' => $s->name,
+			);
+		}
 	}
 
 	if ( taxonomy_exists( 'categoria' ) ) {
@@ -1064,12 +906,14 @@ function artes_dati_filtri() {
 			)
 		);
 
-		foreach ( (array) $categorie as $c ) {
-			$dati['categorie'][] = array(
-				'slug'    => $c->slug,
-				'nome'    => $c->name,
-				'settore' => (string) get_term_meta( $c->term_id, 'settore', true ),
-			);
+		if ( ! is_wp_error( $categorie ) ) {
+			foreach ( (array) $categorie as $c ) {
+				$dati['categorie'][] = array(
+					'slug'    => $c->slug,
+					'nome'    => $c->name,
+					'settore' => (string) get_term_meta( $c->term_id, 'settore', true ),
+				);
+			}
 		}
 	}
 
@@ -1102,5 +946,264 @@ add_filter(
 		return $urls;
 	},
 	10,
+	2
+);
+
+/**
+ * ===== SEO on-page (fase 7, novembre 2026) ====================================================================
+ *
+ * Gestione integrata di <title> e <meta name="description"> senza plugin SEO esterni:
+ * - Pagine statiche (Home, 5 settori, Su misura, Contract, Chi siamo, Privacy, Cookie): meta `_artes_seo_title`
+ *   e `_artes_seo_description` (registrati e compatibili con WPML modo 2).
+ * - Schede CPT `realizzazione` e `brand`: formule verificate al 100% rispetto alla rev2, con override opzionale
+ *   tramite gli stessi meta `_artes_seo_title` e `_artes_seo_description`.
+ * - Archivi CPT (`realizzazione`, `brand`): opzione `artes_seo_archives` (con fallback ai valori della rev2 e
+ *   filtro `artes_seo_archive_meta`).
+ */
+
+/**
+ * Normalizza un testo SEO in testo semplice UTF-8 senza tag HTML né entità residue.
+ */
+function artes_seo_clean_text( $text ) {
+	$text = wp_strip_all_tags( (string) $text );
+	$text = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	$text = preg_replace( '/\s+/u', ' ', $text );
+
+	return trim( (string) $text );
+}
+
+/**
+ * Valori predefiniti per gli archivi CPT (allineati alla rev2).
+ */
+function artes_seo_archive_defaults() {
+	return array(
+		'realizzazione' => array(
+			'title'       => 'Realizzazioni di arredi su misura — Artes',
+			'description' => 'Le realizzazioni Artes per uffici, negozi, bar e ristoranti, negozi food e hotel: case history di arredi su misura progettati, prodotti e montati, filtrabili per settore e categoria.',
+		),
+		'brand'         => array(
+			'title'       => 'Brand Partner — ARTES Contract',
+			'description' => 'I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato.',
+		),
+	);
+}
+
+/**
+ * Titolo e descrizione per un archivio CPT (`realizzazione` o `brand`): legge l'opzione `artes_seo_archives`
+ * con fallback ai valori predefiniti e filtro `artes_seo_archive_meta`.
+ */
+function artes_seo_get_archive_meta( $post_type ) {
+	$defaults = artes_seo_archive_defaults();
+	$saved    = get_option( 'artes_seo_archives', array() );
+	$saved    = is_array( $saved ) ? $saved : array();
+	$entry    = array(
+		'title'       => '',
+		'description' => '',
+	);
+
+	if ( isset( $defaults[ $post_type ] ) && is_array( $defaults[ $post_type ] ) ) {
+		$entry = array_merge( $entry, $defaults[ $post_type ] );
+	}
+
+	if ( isset( $saved[ $post_type ] ) && is_array( $saved[ $post_type ] ) ) {
+		if ( isset( $saved[ $post_type ]['title'] ) && '' !== trim( (string) $saved[ $post_type ]['title'] ) ) {
+			$entry['title'] = (string) $saved[ $post_type ]['title'];
+		}
+
+		if ( isset( $saved[ $post_type ]['description'] ) && '' !== trim( (string) $saved[ $post_type ]['description'] ) ) {
+			$entry['description'] = (string) $saved[ $post_type ]['description'];
+		}
+	}
+
+	$entry = apply_filters( 'artes_seo_archive_meta', $entry, $post_type );
+
+	return array(
+		'title'       => artes_seo_clean_text( isset( $entry['title'] ) ? $entry['title'] : '' ),
+		'description' => artes_seo_clean_text( isset( $entry['description'] ) ? $entry['description'] : '' ),
+	);
+}
+
+/**
+ * Registra i meta SEO dedicati su pagine e CPT (priorità 20 per eseguirsi dopo la registrazione dei CPT JetEngine).
+ */
+add_action(
+	'init',
+	function () {
+		$args = array(
+			'single'            => true,
+			'type'              => 'string',
+			'sanitize_callback' => 'artes_seo_clean_text',
+			'show_in_rest'      => false,
+			'auth_callback'     => function () {
+				return current_user_can( 'edit_posts' );
+			},
+		);
+
+		foreach ( array( 'page', 'realizzazione', 'brand' ) as $post_type ) {
+			register_post_meta( $post_type, '_artes_seo_title', $args );
+			register_post_meta( $post_type, '_artes_seo_description', $args );
+		}
+	},
+	20
+);
+
+/**
+ * Calcola titolo e descrizione SEO per un singolo contenuto (pagina, realizzazione o brand).
+ * I campi meta `_artes_seo_title` e `_artes_seo_description` hanno sempre precedenza come override.
+ */
+function artes_seo_for_post( $post_id ) {
+	$post_id = (int) $post_id;
+
+	if ( $post_id <= 0 ) {
+		return array(
+			'title'       => '',
+			'description' => '',
+		);
+	}
+
+	$title = artes_seo_clean_text( get_post_meta( $post_id, '_artes_seo_title', true ) );
+	$desc  = artes_seo_clean_text( get_post_meta( $post_id, '_artes_seo_description', true ) );
+	$type  = get_post_type( $post_id );
+
+	if ( 'realizzazione' === $type ) {
+		$post_title = artes_seo_clean_text( get_post_field( 'post_title', $post_id, 'raw' ) );
+
+		if ( '' === $title && '' !== $post_title ) {
+			$kw    = artes_seo_clean_text( get_post_meta( $post_id, 'kw', true ) );
+			$title = '' !== $kw ? $kw . ': ' . $post_title . ' — Artes' : $post_title . ' — Artes';
+		}
+
+		if ( '' === $desc ) {
+			$localita = artes_seo_clean_text( get_post_meta( $post_id, 'localita', true ) );
+			$intro    = artes_seo_clean_text( get_post_meta( $post_id, 'introduzione', true ) );
+
+			if ( '' !== $post_title && '' !== $localita && '' !== $intro ) {
+				$desc = $post_title . ', ' . $localita . ': ' . $intro;
+			} elseif ( '' !== $post_title && '' !== $intro ) {
+				$desc = $post_title . ': ' . $intro;
+			} elseif ( '' !== $intro ) {
+				$desc = $intro;
+			}
+		}
+	} elseif ( 'brand' === $type ) {
+		$post_title = artes_seo_clean_text( get_post_field( 'post_title', $post_id, 'raw' ) );
+
+		if ( '' === $title && '' !== $post_title ) {
+			$title = $post_title . ' — Brand partner Artes';
+		}
+
+		if ( '' === $desc && '' !== $post_title ) {
+			$cat_term = artes_primo_termine( $post_id, 'categoria_brand' );
+			$cat_name = $cat_term ? artes_seo_clean_text( $cat_term->name ) : '';
+
+			if ( '' !== $cat_name ) {
+				$desc = $post_title . ', brand partner Artes per la categoria ' . $cat_name . ': dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate.';
+			} else {
+				$desc = $post_title . ', brand partner Artes: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate.';
+			}
+		}
+	}
+
+	return array(
+		'title'       => $title,
+		'description' => $desc,
+	);
+}
+
+/**
+ * Risolve titolo e meta description per la richiesta corrente (con cache solo dopo l'azione `wp`).
+ */
+function artes_seo_data() {
+	static $cache = null;
+
+	if ( null !== $cache && did_action( 'wp' ) ) {
+		return $cache;
+	}
+
+	$data    = array(
+		'title'       => '',
+		'description' => '',
+	);
+	$context = 'other';
+
+	if ( ! is_admin() && ! is_feed() && ! is_404() && ! is_search() ) {
+		if ( is_front_page() ) {
+			$context = 'front_page';
+			$post_id = (int) get_queried_object_id();
+
+			if ( $post_id <= 0 && 'page' === get_option( 'show_on_front' ) ) {
+				$post_id = (int) get_option( 'page_on_front' );
+
+				if ( $post_id > 0 ) {
+					$post_id = (int) apply_filters( 'wpml_object_id', $post_id, 'page', true );
+				}
+			}
+
+			if ( $post_id > 0 ) {
+				$data = artes_seo_for_post( $post_id );
+			}
+		} elseif ( is_singular() ) {
+			$post_id = (int) get_queried_object_id();
+			$context = 'singular:' . (string) get_post_type( $post_id );
+			$data    = artes_seo_for_post( $post_id );
+		} elseif ( is_post_type_archive( array( 'realizzazione', 'brand' ) ) ) {
+			$post_type = is_post_type_archive( 'realizzazione' ) ? 'realizzazione' : 'brand';
+			$context   = 'archive:' . $post_type;
+			$data      = artes_seo_get_archive_meta( $post_type );
+		}
+	}
+
+	$data['title']       = artes_seo_clean_text( apply_filters( 'artes_seo_title', $data['title'], $context ) );
+	$data['description'] = artes_seo_clean_text( apply_filters( 'artes_seo_description', $data['description'], $context ) );
+
+	if ( did_action( 'wp' ) ) {
+		$cache = $data;
+	}
+
+	return $data;
+}
+
+/**
+ * Titolo del documento via `pre_get_document_title` (usato da `_wp_render_title_tag()` di WordPress + Hello Elementor:
+ * evita `<title>` duplicati e bypassa `wptexturize`, mantenendo i testi identici alla rev2).
+ */
+add_filter(
+	'pre_get_document_title',
+	function ( $title ) {
+		$seo = artes_seo_data();
+
+		if ( '' !== $seo['title'] ) {
+			return esc_html( $seo['title'] );
+		}
+
+		return $title;
+	},
+	20
+);
+
+/**
+ * Evita un `<meta name="description">` duplicato dal tema Hello Elementor (che lo stampa dall'estratto sulle pagine singole).
+ */
+add_filter(
+	'hello_elementor_description_meta_tag',
+	function ( $enabled ) {
+		$seo = artes_seo_data();
+
+		return '' !== $seo['description'] ? false : $enabled;
+	}
+);
+
+/**
+ * Stampa `<meta name="description">` in `wp_head` subito dopo `<title>`.
+ */
+add_action(
+	'wp_head',
+	function () {
+		$seo = artes_seo_data();
+
+		if ( '' !== $seo['description'] ) {
+			echo '<meta name="description" content="' . esc_attr( $seo['description'] ) . '">' . "\n";
+		}
+	},
 	2
 );

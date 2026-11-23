@@ -10,6 +10,231 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-11-23 (quinta parte) — Controllo generale di dev3 (sola lettura)
+
+**Richiesta**: controllo generale del passaggio alla rev2 per trovare pezzi in sospeso o parti rotte. Nessuna scrittura su dev3.
+
+**Esito**: nessuna parte rotta. Parità 49 pagine × 4 larghezze **196/196** (altezze identiche, contenuti 49/49, unico scroll orizzontale `contract@768` già presente nella rev2);
+salute **102/102** + Contatti, 404 e ricerca 6/6; link **51 pagine, 71 indirizzi, 0 rotti**; redirect **17/17**; SEO **51/51**; dati **1.099/1.099**; nessun `debug.log`,
+plugin 0.9.0, CSS del kit vuoto. Le differenze di `fase8-collaudo.js` sono **volute** (griglia filtrata della Home, filtri vuoti nascosti, Contatti pubblicata): lo script di
+collaudo va aggiornato (si ferma sullo scenario "Student housing e co-living", pulsante ora nascosto, e conta `/contatti/` come bozza).
+
+**In sospeso trovato**: modulo Contatti senza anti-spam e senza SMTP (invio con `mail()` del server di staging); nome del campo allegati scritto come
+`allegati&#x5B;&#x5D;` (con più file potrebbe arrivarne solo uno: da provare con un invio reale); `?settore=` sul modulo accetta il nome del settore, non lo slug (nessun link
+lo usa); staging indicizzabile (`blog_public` = 1, sitemap pubblica); 31 allegati orfani, mockup in radice, 18 file modificati non committati, versione inglese: come da voce precedente.
+
+---
+
+## 2026-11-23 (quarta parte) — Fix griglia filtrata Home e occultamento dinamico filtri vuoti su `dev3`
+
+**Richiesta**
+
+Risolvere 2 comportamenti segnalati nel controllo manuale su `dev3`:
+1. In Home (`04 — REALIZZAZIONI`, *"Spazi realizzati."*), filtrando per `UFFICI E WORKSPACE`, la card *"Il Quotidiano"* (`progetto--w6`) restava a tutta larghezza su una seconda riga invece di affiancarsi a *"Ruffolo Group"*, mentre in vista `TUTTI` deve restare a tutta larghezza.
+2. Nascondere dinamicamente da tutte le barre filtri del sito le categorie/settori senza realizzazioni (o brand) associate, così che ricompaiano automaticamente se in futuro vengono aggiunti contenuti.
+
+**Fatto**
+
+- **Griglia filtrata Home (`tools/rev2/css/adattamenti.css` → `wp/artes-core/artes-rev2.css`, `wp/artes-core/artes-rev2.js`)**:
+  - In `initHomeProgetti()` aggiunte le classi di stato `.progetti--filtrati` (attiva con qualunque filtro diverso da `Tutti`) e `.progetti--filtrati-3plus` (se ≥3 card visibili).
+  - In vista `Tutti` le classi vengono rimosse e il mosaico asimmetrico originale (`w4`, `w2`, `w6`) resta intatto (`"Il Quotidiano"` full-width `1360 px`, `parita.js` a `Δ 0 px`).
+  - Con filtro attivo: su desktop (`>1024 px`) `span 3` (`min-height: 460 px`, 2 colonne uguali da `666 px` fianco a fianco; `span 2` / `380 px` se ≥3 card); su tablet (`≤1024 px`) 2 colonne regolari (`span 1`); su mobile (`≤780 px`) colonna singola (`470 px`).
+- **Occultamento dinamico filtri vuoti (`wp/artes-core/artes-rev2.js`, `tools/rev2/css/adattamenti.css`)**:
+  - Aggiunto `body.rev2 .elementor .filtro[hidden], .settori-tabs__btn[hidden], .filtri--categorie[hidden] { display: none !important; }` così gli stili di Elementor non possono riaprire i bottoni nascosti.
+  - **`initArchivio()` (`/realizzazioni/`)**: conta dinamicamente le card per settore e `(settore, categoria)` e nasconde tab/bottoni a 0 realizzazioni (e il gruppo `.filtri--categorie` se un settore non ha categorie popolate). Gestisce con ripiego grazioso gli URL diretti verso filtri vuoti o inesistenti (`?settore=hospitality&categoria=student-housing-e-co-living` → `Tutte` del settore; `?settore=inesistente` → `Tutti i settori`). **8 filtri categoria vuoti nascosti**: `uffici` → *Sanità* (1); `retail` → *Salute, bellezza e lusso*, *Cultura e tempo libero*, *Negozi specializzati* (3); `bar-ristoranti` → nessuno (0); `food` → *Gastronomia*, *Vino e bevande* (2); `hospitality` → *Student housing e co-living*, *Sale ricevimenti e location per eventi* (2).
+  - **`initHomeProgetti()` (Home sez. 04)** e **`initFiltriBrand()` (`/brand-partner/`)**: nascondono dinamicamente eventuali settori/categorie con 0 elementi (attualmente 0 nascosti perché tutti i 5 settori Home e tutte le 8 categorie brand hanno ≥1 elemento; verificate anche le 5 pagine settore `144–148`: nessuna barra filtri presente).
+- **Deploy e verifica live su `dev3`** (`port-css.js`, `node --check`, `tools/install-plugin.ps1`, ZIP rimosso e cache svuotate; annotate le divergenze intenzionali in `tools/rev2/collaudo-archivi.js` e `tools/rev2/collaudo-fase5.js`):
+  - Screenshot ispezionati visivamente in `tools/out/rev2/fix-filtri-grid/`: Home `Tutti` (`Il Quotidiano` `1360×460` full-width) e ritorno da filtro OK; Home `Uffici e workspace` (`Ruffolo Group` e `Il Quotidiano` affiancate `666×460` a `y=4201`, mobile `@390` singola colonna `scrollX=0`); `/realizzazioni/` tutti e 5 i settori `@1440` + `uffici`/`retail` `@390` (ogni filtro visibile cliccato produce `≥1` card, 0 filtri vuoti, URL diretti con ripiego OK); `/brand-partner/` tutti gli 8 filtri (`≥1` brand ciascuno).
+  - `salute-pagine.js` su `/`, `/realizzazioni/`, `/brand-partner/` (`1440, 390`): **6/6 OK** (`0` errori console/overflow); `parita.js` Home (`Tutti` @`1440` e @`390`): **`Δ 0 px`**, `0,705%` / `1,304%` pixel diff, `scrollX = 0 px`.
+
+---
+
+## 2026-11-23 (terza parte) — Fix header sticky e barra indice `/contract/` su `dev3`
+
+**Richiesta**
+
+Risolvere il comportamento anomalo segnalato nel controllo manuale su `/contract/`: la barra indice (`01 PROCESSO · 02 PERIMETRO · 03 COLLABORAZIONE · 04 IMPEGNI`) rimaneva fluttuante a mezz'aria (~116 px dal bordo superiore) durante lo scroll, senza ancorarsi a nulla sopra di sé.
+
+**Diagnosi e fix**
+
+- **Causa principale**: nella rev2 `<header class="header">` è figlio diretto di `<body>` (`position: sticky; top: 0; z-index: 60`), mentre in WordPress Elementor lo incapsula dentro `.elementor-location-header` (alto quanto l'header: `111 px` >1180 px, `77 px` ≤1180 px, `position: static`). Allo scroll l'intero header usciva dallo schermo, lasciando `.contract-index` (figlia di `.page-root`) appesa a `top: 116 px` / `82 px` nel vuoto.
+- **Disallineamenti secondari corretti**:
+  - `artes.css` impostava `.contract-index` a `top: 116 px` (>1024 px) e `82 px` (≤1024 px), creando comunque uno spiraglio di `5 px` / `39 px` / `5 px` rispetto all'altezza reale dell'header (`111 px` >1180 px, `77 px` ≤1180 px);
+  - `scroll-margin-top: 0` sulle sezioni con ancora (`#processo`, `#perimetro`, `#interlocutori`, `#garanzie`) faceva finire occhiello e titolo sotto header + barra indice al click;
+  - `body.admin-bar` non era gestito (`32 px` >782 px, `46 px` 601–782 px, `0` ≤600 px dove `#wpadminbar` è `absolute`); `overflow-x: clip` su `body.rev2` evita conflitti con `position: sticky`.
+- **Intervento** (`tools/rev2/css/adattamenti.css` → rigenerato `wp/artes-core/artes-rev2.css` con `node tools/rev2/port-css.js`, deployato con `tools/install-plugin.ps1`, versione `0.9.0`, ZIP rimosso e cache svuotate):
+  - Reso sticky `body.rev2:not(.elementor-editor-active) .elementor-location-header` (`top: var(--artes-admin-bar); z-index: 60; background-color: #fff`), con `.header` interno `position: relative; top: auto`.
+  - Allineati via variabili `--artes-admin-bar` / `--artes-header-h` (`111px`/`77px`) / `--artes-contract-index-h` (`52px`/`64px`): `.contract-index`, `.split__aside`, `.contract-page .split__aside`, `.rev2-form-intro`, `.mobile-nav:not([hidden])` (con `admin-bar`) e `scroll-margin-top` su `.page-root [id]` e `.contract-page [id]`.
+- **Verifica live su `dev3`**:
+  - Screenshot scrollati (`y = 0, 700, 1600`, click sulle 4 ancore, `admin-bar` simulata `32/46/0 px`, Home `/`, Chi siamo `/chi-siamo/`, Contatti `/contatti/`) salvati e ispezionati visivamente in `tools/out/rev2/fix-sticky/`: `gap = 0 px` tra header e `.contract-index` su tutti i breakpoint (`1440, 1180, 1024, 768, 390`), atterraggio pulito su tutte e 4 le ancore (`clearance` `109–120 px` @1440, `72–79 px` @390), `.split__aside` e `.rev2-form-intro` sticky OK.
+  - `collaudo-header.js`: tutto in parità (`tendina-1440 0%`, `menu-mobile-1024 0%`, `menu-mobile-390 0.144%`, `8/8` voci attive); `parita.js` (`contract`, `home`, `chi-siamo` @`1440/390`): **6/6 a `Δ 0 px` e `scrollX = 0 px`**; `salute-pagine.js` (10 pagine × 2): **20/20 OK**.
+
+---
+
+## 2026-11-23 (seconda parte) — 6 pagine bozza aggiornate in rev2, pubblicazione Contatti e collegamento link
+
+**Richiesta**
+
+Aggiornare in grafica **rev2** tutte e 6 le pagine rimaste in bozza dalla versione precedente (`152` Contatti, `153` Area progettisti, `154` Richiedi preventivo, `471` Prodotti, `472` MEPA, `491` Cataloghi PDF), pubblicando **solo Contatti (`152`)** (le altre 5 restano in `draft`), e collegare a `/contatti/` tutti i pulsanti CTA e le voci di menu già presenti nella rev2 su `dev3`. Nessun `git commit` né `git push`, WPML/EN invariato.
+
+**Fatto**
+
+- *Stile CSS rev2 per form `e-form` e pagine bozza* (`tools/rev2/css/adattamenti.css` → `wp/artes-core/artes-rev2.css` rigenerato con `port-css.js`, deployato con `tools/install-plugin.ps1`):
+  - Regole strettamente scoped (`body.rev2 .elementor` + `.rev2-surface-white`, `.rev2-grid-4`, `.rev2-form-wrap`, `.rev2-form-*`, `.rev2-contact-dl`), 0 impatto sulle 51 pagine già pubblicate, palette rev2 (`#393E42`/`#2F3438`/`#efefef`/`#D71920`), 0 ombre, 0 border-radius, responsive `1440/390`.
+  - **2 fix CSS reali trovati in ispezione visiva live degli screenshot `/contatti/` @1440/@390 e corretti subito**:
+    1. `body.rev2 .e-con { display: revert; }` (`(0,2,1)`) sovrascriveva `display: none` di Elementor sui box esito (`Esito ok` / `Esito errore` entrambi visibili al caricamento): aggiunte regole esplicite su `.rev2-form:not(.form-state-success) .rev2-form-ok` / `:not(.form-state-error) .rev2-form-err` (`display: none`), ripristino `display: block` sugli stati attivi e `text-align: left`.
+    2. Elementor Pro Atomic V4 rende il `<form>` con `.e-form-base` / `.rev2-form` (senza classe `.e-form`): sostituito `.e-form` con `.rev2-form` su tutte le regole dentro `.rev2-form-wrap` (incluso `input[type="file"]` / `::file-selector-button` `SCEGLI FILE`, `:hover`, `:focus`, `::placeholder`, submit).
+- *Ricostruzione 6 pagine bozza in rev2 e pubblicazione della sola Contatti `152`* (`tools/rev2/pagine-bozze-rev2.js --esegui` + `--stato`, backup in `tools/out/rev2/bozze-rev2-revisions.json`):
+  - Create nel Kit `7` le **`22` classi stub `rev2-*`** mancanti (`336 → 358` classi globali, reversibili con `--rollback`).
+  - **`152` Contatti (`/contatti/`) — `publish` (HTTP 200)**: dati reali Artes srl (`Via A. Nervoso 1, 87036 Rende (CS)`, `+39 0984 462039`, `info@artessrl.it`, P.IVA `02343330789`), modulo nativo Elementor Pro **`e-form`** (`to: info@artessrl.it`, `reply-to: [email]`, 7 motivi allineati ad `artes-core.php`, 5 settori rev2 con `"e"`, allegati `.pdf/.dwg/.dxf/.jpg/.jpeg/.png` max 3×10 MB `attach`, privacy `/privacy-policy/`), `_artes_rev2 = 1`, SEO `_artes_seo_*`.
+  - **5 bozze aggiornate in grafica rev2 ma lasciate in `draft` (HTTP 404 pubblico, `_artes_rev2 = 1`, SEO OK, `_elementor_data` rev2 salvato)**: `154` Richiedi preventivo (`e-form` completo + fix `apos=4`), `153` Area progettisti (immagini rev2 `#417`, `#1081`; rimossi riferimenti Aurea/fittizi), `471` Prodotti, `472` MEPA, `491` Cataloghi PDF.
+- *Collegamento di tutti i pulsanti e voci di menu Contatti verso `/contatti/`*:
+  - Aggiornati `tools/rev2/mappa-link.json` (`pagine.contatti.html`, `ancore.#contatti`, `mailto_cta`, segnaposto `Diventa partner di produzione` → `/contatti/`), `tools/rev2/html2elementor.js` (`risolviLink` preserva link email espliciti con `@` nel testo e `tel:`), `wp/artes-core/artes-rev2.js` (`marcaAttivo` attiva `Contatti` su desktop `.topbar__right` e mobile `.mobile-nav__list` con `is-active` + `aria-current="page"`, escludendo il segnaposto `Blog` su `/realizzazioni/`), `tools/rev2/collaudo-header.js`.
+  - Creato ed eseguito `tools/rev2/aggiorna-link-contatti.js --esegui` + `--stato` (backup in `tools/out/rev2/link-contatti-revisions.json`, undo `1152–1180`, walker JSON Atomic V4 per verifica live): rigenerati e pubblicati **15/15 documenti** (`557` Header `2`, `971` Footer `2` preservando `tel:` e `Privacy · Cookie · MEPA`, 9 pagine statiche `376, 144–151` = `26`, 4 template CPT `1040, 1049, 1050, 1051` = `8`): **`38/38` link collegati a `/contatti/`** (`30` `#contatti` + `1` `#` segnaposto + `7` `mailto:` CTA), **`0` residui `#contatti`**, condizioni Theme Builder e FAQ/loop intatti.
+- *Verifica live completa su `dev3`* (**100% OK, 0 fallimenti**):
+  - Screenshot `/contatti/` @1440 (`2668px`) e @390 (`4777px`) ispezionati in `tools/out/rev2/contatti/`: esiti `display:none` in default + toggle ok/err verificato, `SCEGLI FILE` stilato rev2, `scrollX=0`, preselezione `?motivo=pa#scrivici` e `?motivo=progettisti&settore=...` OK, voce attiva `Contatti` desktop+mobile OK, `<title>Contatti — Artes</title>`, `H1: 1`, `0` errori console.
+  - 5 bozze `5/5` `draft` + HTTP 404 pubblico; `collaudo-header.js` tutto in parità (`8/8` voci attive incluso `/contatti/`); parità campione `7 × 2 = 14/14` a **`Δ 0 px`** + `contenuti identici`; `controllo-link.js` **52/52 pagine pubblicate** = **0 rotti** (`71` distinti, `1.199` letti; `314` occorrenze live `href="/contatti/"`, `0` residui `#contatti`; `mailto:`/`tel:` preservati su Privacy/Cookie/Contatti); `salute-pagine.js` **20/20**; `verifica-seo.js` **51/51** + `/contatti/` = **52/52**; `collaudo-redirect.js` **17/17**; `verifica-dati.js` **1.099/1.099**.
+
+**Decisioni e perché**
+
+- *Distinzione tra CTA `mailto:` e indirizzi email espliciti*: i 7 pulsanti/link CTA della rev2 statica che usavano `mailto:info@artessrl.it` come fallback (`footer__cta`, `149` Su misura, 5 CTA in `150` Contract) puntano ora a `/contatti/`, mentre i link con indirizzo email esplicito nel testo (`info@artessrl.it` su Privacy, Cookie e Contatti — guardia `!testo.includes('@')`) e `tel:+390984462039` restano link diretti `mailto:`/`tel:`.
+- *Stato delle 5 bozze*: ricostruite in grafica rev2 senza mai pubblicarle (`post_status = 'draft'` con guardia temporale sull'autosave sync), pronte per eventuale futura attivazione selettiva; `[Riserva]` `539–541` preservati.
+
+**Aperto**
+
+- Invariato rispetto alla Fase 9: controllo manuale del sito IT su `dev3` (incl. `/contatti/`), conferme esplicite per i **31 allegati orfani** (`fase9-allegati-orfani.json`), `blog_public = '1'`, eventuale sostituzione mockup in radice + **`git commit` / `git push`**, e come ultimo passo traduzione **WPML / EN** + selettore `IT / EN`.
+
+---
+
+## 2026-11-23 — Adeguamento alla rev2: fase 9 (chiusura, senza WPML/EN)
+
+**Richiesta**
+
+Chiudere l'adeguamento di `dev3` alla **rev2** (fase 9): accensione globale del design rev2, allineamento variabili del Kit Elementor, pulizia dei residui del vecchio design (template, pagina di prova, menu filtri, classi globali orfane), audit in sola lettura degli allegati orfani senza eliminarli, verifica live post-chiusura e aggiornamento della documentazione. Traduzione EN/WPML e collegamento selettore `IT / EN` restano esplicitamente come ultimo passo dopo il controllo manuale. Nessun `git commit` né `git push`.
+
+**Fatto**
+
+- *Audit preliminare in sola lettura su `dev3`* (salvati 3 JSON in `tools/out/rev2/`):
+  - **`fase9-allegati-orfani.json`**: censiti **256 allegati totali** (`73,365 MB` file principali / `158,844 MB` su disco incluse miniature): **224 attivi** in rev2, **1 usato solo in bozza** (`417` `las-jera.jpg` in `153` Area progettisti), **31 orfani recuperabili** (`10,654 MB` file principali / `19,464 MB` su disco: 28 completamente orfani + 3 screenshot automatici Elementor `209, 210, 487` dei vecchi template `199, 200, 213`). **Scoperta critica:** tutte le 8 foto dei 4 progetti fittizi cestinati (`50–54, 66, 97, 109`) e 3 su 4 della vecchia galleria Pedrali (`100, 466, 57`) sono **attivamente usate in rev2** (da non cancellare; solo `274` è orfano). **Nessun file/allegato è stato cancellato.**
+  - **`fase9-audit-classi.json`**: incrociate tutte le **480** classi globali di Kit `7` direttamente sull'albero JSON `_elementor_data` dei 33 documenti Elementor (l'indice cache interno di Elementor era obsoleto su 158 classi): **245** rev2 attive + **69** usate da `[Riserva]` (`539–541`) e 6 bozze (`152–154, 471, 472, 491`, inclusi 13 `o-*` protetti) + **22** stub rev2 (`crea-classi.js`/JS) + **144** `classi_sicure_da_rimuovere_legacy` (inclusi 10 `o-*` e 4 test spike).
+  - **`fase9-audit-kit-menu.json`**: verificate le 27 variabili globali di Kit `7` (19 già allineate, 2 da aggiornare: `sand` e `night`, 6 non mappate `stone`/`space-*`), i 6 menu WP e le condizioni dei site part.
+- *Plugin `artes-core` **`0.9.0`*** (`wp/artes-core/artes-core.php`, deployato con `tools/install-plugin.ps1`, CSS del kit vuoto):
+  - Introdotta `artes_rev2_globale_attiva()` + accensione globale in `artes_is_rev2()` tramite opzione `artes_rev2_globale` (default `'1'` su tutto il frontend inclusi 404, ricerca e anteprime; `false` in `is_admin()`; kill-switch reversibile con `'0'`), estesa a `pre_get_posts`, `request` e `template_redirect`.
+  - Supporto pulito per **404** e **ricerca** (`/?s=…`) in rev2: `hello_elementor_page_title` attivo su `is_404() || is_search()` (preserva l'`<h1>`) + CSS inline minimale scoped solo a `body.rev2.error404 .site-main` e `body.rev2.search .site-main` (zero impatto sulle 51 pagine).
+  - Rimosso codice legacy verificato morto (`artes_related_brand_ids`, `artes_brand_collegati`, `[artes_titolo]`, `[artes_settore_ambito]`, `[artes_categoria_brand]`, `[artes_categorie_prodotto]`, `artes_progetti_settore`, `artes_progetti_home`, `artes_brand_home`, `nav_menu_css_class`).
+  - Preservati intatti: SEO on-page `0.8.0`, redirect 301 (tassonomie + `/page/N/`), 8 shortcode e 6 query rev2, `[artes_lingue]` (per WPML finale), gestione DWG/DXF + pulizia upload + preselezione `#richiesta_settore`/`#motivo` (senza blocco `if (artes_is_rev2()) return` così resta pronta per `[Riserva]`/`152`/`154`), `artes-core.css` e `artes-core.js`.
+- *Esecuzione Fase 9 su `dev3`* (`tools/rev2/fase9-chiusura.js --esegui` + `--stato`):
+  - Salvato backup integrale reversibile in **`tools/out/rev2/fase9-backup.json`** (`610.649 byte`: 144 classi con post/meta completi, `_elementor_data` raw dei 7 elementi cestinati, 2 menu filtri, variabili Kit `7`, condizioni site part, opzione).
+  - **(a) Variabili Kit `7`**: aggiornate via `elementor-manage-global-variable` (`sand` `#111111` → **`#393E42`**, `night` `#080808` → **`#2F3438`**); `19` già allineate e `6` non mappate intatte.
+  - **(b) Theme Builder**: condizioni dei 6 vecchi template (`138, 199, 200, 213, 447, 448`) svuotate via `Conditions_Manager::save_conditions($id, [])` (`6/6`, aggirando la normalizzazione di `elementor-manage-site-parts` che converte `[]` in `include/general`); **Header `557`** e **Footer `971`** portati a **`include/general`** (`0` conflitti); `1040, 1049, 1050, 1051` intatti.
+  - **(c) Cestino reversibile (`wp_trash_post`, mai `force_delete`)**: **`7/7`** in `trash` — pagina di prova `542`, vecchi Header/Footer `199, 200`, vecchi template `138, 448, 213, 447`.
+  - **(d) Menu filtri**: eliminati `filtri-realizzazioni` e `filtri-brand` (restano `header`, `footer-azienda`, `footer-settori`, `footer-risorse`).
+  - **(e) Classi globali Elementor**: eliminate **`144/144`** classi sicure/orfane in 6 lotti da 25 (`0` errori); **`336`** classi residue su Kit `7` (`480 − 144 = 336`).
+  - **(f) Opzioni e integrità**: `artes_rev2_globale = '1'`, `artes_rev2_cpt = '1'`, `blog_public = '1'` (invariato), cache Elementor + WP svuotate; `256/256` allegati media intatti; `[Riserva]` `539–541` (`publish`) e 6 bozze `152, 153, 154, 471, 472, 491` (`draft`) intatti; WPML (`it`, `en-gb`) e `[artes_lingue]` intatti.
+- *Verifica live post-Fase 9 in sola lettura* (**0 fallimenti su tutta la suite**):
+  - **Parità campione (`16/16` viewport, `1440` e `390` px)**: `home`, `chi-siamo`, `contract`, `arredamento-ufficio`, `archivio-realizzazioni`, `archivio-brand`, `r-arpacal`, `b-pedrali` — **16/16 a `Δ 0 px` e `scrollX = 0 px`** (max diff `2,626%` su `archivio-realizzazioni @390`).
+  - **Pagine di sistema (`4/4` @`1440` e @`390` px)**: **404** (`/pagina-inesistente-fase9-check/`, HTTP 404) e **ricerca** (`/?s=ufficio`, HTTP 200) entrambe con `body.rev2 = true`, Header `557` + Footer `971` rev2 attivi, singolo `<h1>`, `scrollX = 0 px`, `0` errori console/JS/asset.
+  - **`verifica-seo.js`**: **51/51 OK** · **`salute-pagine.js`**: **102/102 OK** (`51 × 2`) · **`controllo-link.js`**: **51/51 OK** (`70` distinti, `1.129` collegamenti, `0` rotti) · **`collaudo-redirect.js` + paginazione + bozze**: **17/17** + **2/2** 301 `/page/2/` + **6/6** bozze 404 · **`verifica-dati.js`**: **1.099/1.099 OK**.
+- *Documentazione allineata alla rev2*: aggiornati `CLAUDE.md` (ora fonte di verità rev2 senza vecchie contraddizioni), `docs/piano-adeguamento-rev2.md`, `docs/wp-stato-dev3.md`, `docs/diario-sessioni.md` e `tools/README.md`.
+
+**Decisioni e perché**
+
+- *Pulizia conservativa delle classi globali (`144` eliminate, `336` mantenute)*: preservate tutte le 69 classi (inclusi 13 `o-*`) usate da `[Riserva]` (`539–541`) e dalle 6 bozze (`152–154, 471, 472, 491`), più i 22 stub rev2 per mantenere idempotente `crea-classi.js`.
+- *Nessuna eliminazione di allegati media senza conferma*: i 31 orfani (`10,654 MB` / `19,464 MB` su disco) sono elencati con ID e percorsi in `tools/out/rev2/fase9-allegati-orfani.json`; la cancellazione di file su disco è irreversibile.
+- *Rollback integrale*: in `fase9-backup.json` è salvato anche il `_elementor_data` raw dei 7 documenti cestinati (perché `elementor-manage-classes delete` innesca il cleanup Elementor anche sui post nel cestino), così `node tools/rev2/fase9-chiusura.js --rollback` può ripristinare tutto integralmente.
+
+**Aperto**
+
+- **Controllo manuale dell'utente** sul sito italiano su `dev3` (e eventuali ritocchi).
+- **Conferme esplicite richieste prima di procedere**:
+  1. eventuale eliminazione dei **31 allegati orfani** (`tools/out/rev2/fase9-allegati-orfani.json`, `10,654 MB` / `19,464 MB` su disco);
+  2. impostazione indicizzazione staging (`blog_public` è attualmente `1`, nessun `noindex`);
+  3. eventuale sostituzione del mockup congelato in radice con `artes-sito-rev2/` e autorizzazione a **`git commit`** e **`git push`**.
+- **Ultimo passo finale (dopo il controllo manuale)**: traduzione in inglese con **WPML** e collegamento del selettore **`IT / EN`** nella topbar (`[artes_lingue]` già pronto in `artes-core 0.9.0`).
+
+---
+
+## 2026-11-20 (quarta parte) — Adeguamento alla rev2: fasi 6, 7 e 8 (pagine fuori rev2, SEO on-page, collaudo completo IT)
+
+**Richiesta**
+
+Chiudere e verificare la **fase 6** (pagine fuori rev2 e legali), implementare e verificare la **fase 7** (SEO on-page per tutte le 49 pagine rev2 + Privacy/Cookie, senza plugin esterni) e completare il collaudo della **fase 8** su tutto il sito italiano (senza toccare traduzioni EN/WPML né selettore `IT / EN`, che restano come ultimo passo finale).
+
+**Fatto**
+
+- *Fase 6 — Pagine fuori rev2, Privacy/Cookie e fix regressioni*:
+  - Spostate in **bozza** reversibile (`tools/rev2/fase6-pagine.js`) le 6 pagine non presenti nella rev2: **Contatti (`152`)**, **Area progettisti (`153`)**, **Richiedi preventivo (`154`)**, **Prodotti (`471`)**, **MEPA (`472`)**, **Cataloghi PDF (`491`)** — verificate tutte **HTTP 404** pubblicamente.
+  - Ricostruite in design rev2 (`_artes_rev2 = 1`, HTTP 200) **Privacy policy (`3`)** e **Cookie policy (`493`)** con i dati reali di Artes srl (`Artes srl`, `Via A. Nervoso 1`, `87036 Rende (CS)`, `P.IVA 02343330789`, `info@artessrl.it`, **0 segnaposto `[...]`**); aggiunte entrambe alle condizioni di Header `557` e Footer `971` (15 contesti ciascuno: 4 CPT + 9 statiche + 2 legali). Revisioni pre-fase 6 salvate in `tools/out/rev2/fase6-revisions.json`.
+  - Aggiornato Footer `971` con i link cliccabili `Privacy · Cookie · MEPA` (`/privacy-policy/`, `/cookie-policy/`, `/arredamento-ufficio/`).
+  - Verificato `artes-core 0.7.1` su `dev3` (rimosso script legacy `richiesta_settore` su rev2 e `posts_per_page = -1` su archivio `realizzazione`), quindi emersi e corretti due difetti (vedi sotto) rilasciati nel deploy atomico **`0.8.0`**.
+- *Fase 7 — SEO on-page (`artes-core 0.8.0` + `fase7-seo.js` + `verifica-seo.js`)*:
+  - Esteso `wp/artes-core/artes-core.php` alla versione **`0.8.0`** (con gestione `<title>` via `pre_get_document_title` + `esc_html`, `<meta name="description">` in `wp_head` priorità 2 + `esc_attr` e soppressione duplicati Hello Elementor tramite `hello_elementor_description_meta_tag`; esclusioni esplicite su `404`/`search`/`feed`/`admin`; aggiunti anche i redirect 301 per archivi CPT paginati `/page/N/`).
+  - Scritto `tools/rev2/fase7-seo.js` (`--verifica-estrazione`, `--applica`, `--stato`, `--rollback`) ed eseguito `--applica` su `dev3` con backup in `tools/out/rev2/fase7-backup.json`: meta `_artes_seo_title` e `_artes_seo_description` sulle 11 pagine statiche/legali (`376, 144–151, 3, 493`), opzione `artes_seo_archives` per i 2 archivi CPT, formule dinamiche su `20/20` realizzazioni e `18/18` brand (**0 eccezioni**), registrazione WPML `custom_fields_translation = 2` per entrambi i meta (senza toccare IT/EN).
+  - Deploy atomico su `dev3` di `artes-core 0.8.0` (incluso `artes-rev2.css` rigenerato con il fix `.footer__bottom a` e i redirect 301 `/page/N/`).
+  - Verifica live con `tools/rev2/verifica-seo.js` (`tools/out/rev2/fase7-seo-report.json`): **51/51 pagine OK** (49 rev2 + Privacy `3` + Cookie `493`: HTTP 200, `<title>` e `<meta name="description">` identici al 100% senza duplicati né entità HTML residue, singolo `<h1>`, attributi `alt` conformi al 100%).
+- *Fase 8 — Collaudo completo IT post-deploy (`tools/rev2/fase8-collaudo.js`)*:
+  - Report completo in `tools/out/rev2/fase8/report-fase8.json` e sintesi in `tools/out/rev2/fase8/riepilogo.md` (**0 difetti residui**):
+  - **Parità 49/49 pagine rev2 × 4 breakpoint (`1440, 1024, 768, 390` px) = `196/196` viewport**: **0/196** scostamenti di altezza (`Δ 0 px` ovunque; scomparso il `+10 px` del Footer `971`), **49/49** contenuti normalizzati identici, scroll orizzontale `0 px` su `195/196` (unico noto `contract @768`: `20 px` identici alla rev2 originale), `194/196` `< 2,7%` pixel diff (unici 2 `≥ 3%`: `archivio-realizzazioni @768` `3,619%` e `@1024` `3,232%`, puro ricampionamento JPEG con `Δ 0 px`).
+  - **Geometria (`geometria.js`, tol ±2 px)**: 9 tipologie × 2 breakpoint = `18` controlli (`14/18` a 0 differenze; sui 4 controlli CPT singoli `1` sola diff `y(rel)` di `page-root#1` per il wrapper Elementor, posizione assoluta identica).
+  - **Salute (`salute-pagine.js`)**: **51/51 pagine × 2 (`1440, 390`) = `102/102` OK** (`0` errori console, `0` richieste fallite escluso `/favicon.ico`, `0` immagini rotte o senza `alt`, `H1` unico, `0` overflow).
+  - **Verifica post-deploy Footer `971` e legali**: `4/4` OK su `/privacy-policy/` e `/cookie-policy/` (`1440, 390`), link `Privacy · Cookie · MEPA` con `color: rgb(200, 200, 200)`, `display: inline`, `min-height: 0px`; screenshot aggiornati in `tools/out/rev2/fase6/`.
+  - **Interazioni live**: Header `4/4` visivi + `7/7` voci attive; Home `5/5`; Settori FAQ `4/4` accordion + `5/5` `FAQPage` JSON-LD; Archivi Realizzazioni `6/6` + Brand `4/4`; Schede Lightbox `6/6`.
+  - **Link, redirect, bozze e dati**: `controllo-link.js` **51/51** (`70` link interni distinti, `1.129` collegamenti, **0 rotti**, 0 verso le 6 bozze); `collaudo-redirect.js` **17/17** + **2/2** redirect 301 archivi paginati (`/realizzazioni/page/2/`, `/brand-partner/page/2/`); 6 bozze **6/6 HTTP 404**; `verifica-dati.js` **1.099/1.099**.
+
+**Errori trovati e corretti lungo la strada**
+
+- *Regressione visiva su `.footer__bottom a` (Fase 6)*: la sostituzione di `<span>Privacy · Cookie · MEPA</span>` con tre `<a>` aveva fatto ereditare `color: var(--graphite)` (testo scuro illeggibile su antracite `#393E42`) e `min-height: 28px` da `.footer a` (gonfiando il footer di `+10 px` su tutte le pagine). Corretto in `tools/rev2/css/adattamenti.css` (`color: inherit; display: inline; min-height: 0;` + `:hover`/`:focus-visible` in `var(--sand-ink)`), rigenerato `wp/artes-core/artes-rev2.css` e verificato `Δ 0 px` su tutti i 196 viewport.
+- *Archivi CPT paginati `/realizzazioni/page/2/` e `/brand-partner/page/2/`*: con `posts_per_page = -1` (WP `nopaging = true`), rispondevano HTTP 200 duplicando l'archivio. Aggiunto redirect **301** su `template_redirect` in `artes-core 0.8.0` verso l'URL canonico dell'archivio.
+
+**Aperto**
+
+- **Fase 9 (chiusura)** in attesa del via: accensione globale della modalità rev2, aggiornamento variabili del kit Elementor, rimozione dei residui vecchi (menu `filtri-realizzazioni`/`filtri-brand`, classi `o-*`, template vecchi in bozza `138/448/213/447`, header/footer vecchi `199/200`, pagina di prova `542`) e valutazione degli allegati orfani con conferma esplicita del titolare.
+- **Traduzione EN/WPML e selettore `IT / EN`**: da fare per ultimo, dopo la chiusura della fase 9 (decisione confermata dal titolare).
+- **Segnalazione minore rev2** (invariata): `contract.html` a `768 px` presenta `20 px` di scroll orizzontale su `.contract-scope__card` (identico nella `rev2` originale e su `dev3`).
+- **Nessun commit né push**: tutte le modifiche locali (`artes-core 0.8.0`, `adattamenti.css`/`artes-rev2.css`, script fasi 6–8, documentazione) sono non committate in attesa del via.
+
+---
+
+## 2026-11-20 (terza parte) — Fix filtro Brand Partner + Adeguamento alla rev2: fase 5 (pagine statiche)
+
+**Richiesta**
+
+Correggere il bug dei filtri Brand Partner direttamente nella rev2 e su dev3, poi procedere con la **fase 5** (Home, 5 pagine settore, Arredo su misura, Contract, Chi siamo).
+
+**Fatto**
+
+- *Fix filtro Brand Partner (rev2 + dev3)*: aggiunta `.brand[hidden] { display: none; }` in `artes-sito-rev2/assets/css/artes.css`, rigenerato `wp/artes-core/artes-rev2.css` (`port-css.js`) e caricato su dev3. Verificato con `collaudo-archivi.js brand`: le card si nascondono davvero (`18/18` → `3/3` Sedute, `2/2` Acustica, `1/1` Outdoor; pixel diversi `0–0,1%`, stato identico).
+- *Fix strumento di misura (`tools/rev2/cdp-session.js`)*: lo script `noMotion` (che disattiva transizioni/animazioni prima degli screenshot) viene ora iniettato su `DOMContentLoaded` anziché prima che esista `<html>`, rendendo stabili anche le misure di pagine con slider e caroselli come la Home.
+- *Estensione convertitore e modelli*:
+  - `tools/rev2/html2elementor.js`: conversione di `<div class="faq">` / `<details class="faq__item">` nel widget nativo **`e-accordion`** (`default_state: all_collapsed`, `max_expanded: multiple`, `show_icon: false`, `faq_schema: true` → `<details>/<summary>` nativi + JSON-LD `FAQPage`); gestione di `style="margin-bottom:0"` tramite classe d'appoggio `rev2-mb0` (creata su dev3 con `crea-classi.js`, totale 480 classi globali); risoluzione automatica delle copie immagine con alt dedicato da `media-pagine.json`. `converti-tutte.js` scende a **0 avvisi** di tag/attributi non gestiti su tutte le 49 pagine.
+  - `tools/rev2/css/reset.css` e `adattamenti.css`: reset degli stili base dei widget `e-accordion-*`, regola `.rev2-mb0` e visibilità immediata della prima slide dello slider produzione prima dell'avvio JS (zero flash).
+  - `tools/rev2/import-media-pagine.js`: create le **17 copie fisiche** con alt dedicato per le immagini usate sulle pagine statiche con alt diverso dall'allegato base (stessa regola della fase 3, lingua WPML `it`, mappa in `tools/out/rev2/media-pagine.json`).
+  - `tools/rev2/genera-modelli.js` + `dinamici.js`: generato `tools/rev2/modelli/home.html` da `index.html` rendendo **dinamiche dai CPT** la sezione 04 Realizzazioni (ciclo `progetti_home_rev2` ordinato per `home_ordine` 1–6, larghezze `w4/w2/w6` e filtri settore) e la sezione 05 Brand Partner (ciclo `archivio_brand`).
+- *Plugin `artes-core` **0.7.0***: aggiunta query `elementor/query/artes_progetti_home_rev2`; in `artes-rev2.js` fissato lo scope di `initFiltriBrand()` (solo nella stessa `<section>` di `.brands`, evitando conflitti con i filtri progetti della Home), aggiunte `initProduzioneSlider()`, `initHomeProgetti()`, `initStepsDots()` e attributi di accessibilità (`role="list"/"listitem"`, `aria-label`, `aria-hidden`).
+- *Costruzione e attivazione delle 9 pagine* (`tools/rev2/fase5-pagine.js --costruisci`): pubblicate e attivate con `_artes_rev2 = 1` e condizioni di Header `557` e Footer `971` su tutte e 9: **Home (`376`)**, **Arredo uffici (`144`)**, **Arredo negozi (`145`)**, **Arredo negozi food (`146`)**, **Arredo bar e ristoranti (`147`)**, **Arredo hotel (`148`)**, **Arredo su misura (`149`)**, **Contract (`150`)**, **Chi siamo (`151`)**. Revisioni pre-fase 5 salvate in `tools/out/rev2/fase5-revisions.json` per eventuale rollback.
+- *Collaudo completo*:
+  - **Parità 9/9 pagine fase 5** a `1440` e `390` px (`fase5-pagine.js --parita`, e campione `1024/768` su 6 pagine): **tutte `Δ 0` di altezza**, `0 px` di scroll orizzontale (eccetto `contract @768`: `20 px` identici alla `rev2` originale su `.contract-scope__card`), **contenuti 100% identici** (testi, titoli, link, alt), pixel diversi al massimo `1,303%` (Home `@390`, solo ricampionamento foto).
+  - **Interazioni live su `dev3`**: FAQ (`collaudo-fase5.js faq`, 4/4 scenari `0%` diff + `FAQPage` JSON-LD attivo), Home (`collaudo-fase5.js home`, 5/5 scenari: slider next/prev, filtri uffici/hospitality, pallini metodo mobile `0%–1,198%` diff), Header (`collaudo-header.js`, 11/11 controlli).
+  - **Salute**: 9 pagine fase 5 (`18/18`) + 40 pagine CPT (`80/80`) = **98/98 controlli ok**.
+  - **Non-regressione 40 pagine CPT** (`parita-tutte.js`): **40/40** (`0` altezze diverse, `0` scroll orizzontale, `0` contenuti diversi, max `2,625%` foto).
+  - **Dati, redirect, link, pagine vecchie**: `verifica-dati.js` **1.099/1.099**, `collaudo-redirect.js` **17/17**, `controllo-link.js` **11 pagine / 68 link interni / 0 rotti**, pagine residue vecchio design (`privacy-policy`, `contatti`, `prodotti`) **6/6 pixel-identiche (0%)** rispetto alla baseline di fine fase 4.
+
+**Decisioni e perché**
+
+- *Home con cicli dinamici per Realizzazioni (sez. 04) e Brand Partner (sez. 05)*: sfrutta i campi `home_ordine`/`home_larghezza` importati in fase 3 e il ciclo brand della fase 4, mantenendo la separazione contenuti/presentazione e riusando le 6 immagini `#card` senza ulteriori duplicati.
+- *Elenchi `ul`/`ol` convertiti come `rev2-ul`/`rev2-ol`/`rev2-li` + `role="list"/"listitem"`*: evita il wrapper aggiuntivo di `e-list` che avrebbe rotto `grid-template-rows: subgrid` in `ol.steps` della Home; tutti gli elenchi della rev2 hanno `list-style: none`.
+- *Menu `filtri-realizzazioni` e `filtri-brand` non ancora eliminati*: ora non servono più a nessuna pagina pubblicata, ma lasciarli fino alla fase 9 mantiene intatto il rollback della fase 5 senza dover ricreare i menu.
+- *Bug minore in `contenuti.js` corretto*: usava `innerText` (maiuscolo per `text-transform: uppercase`) per risolvere i link `#` in `mappa-link.json`; ora usa `textContent` grezzo.
+
+**Aperto**
+
+- **Fase 6** (pagine fuori rev2: mettere in bozza Contatti 152, Preventivo 154, Area progettisti 153, Prodotti 471, MEPA 472, Cataloghi 491; aggiornare Privacy 3 e Cookie 493 con i dati reali di Artes srl) in attesa del via.
+- **Segnalazione minore rev2**: `contract.html` a `768 px` ha uno scroll orizzontale di `20 px` su `.contract-scope__card` (presente identico in `artes-sito-rev2` e replicato su `dev3`).
+- Restano per le fasi 7–9: SEO on-page (`title`/`meta description`, fase 7), collaudo finale e traduzione EN/WPML (fase 8), accensione globale rev2 + variabili kit + rimozione menu filtri, classi `o-*`, template vecchi, pagina prova `542` e valutazione allegati orfani con tuo OK (fase 9).
+- **Nessun commit né push**: modifiche locali non committate (incluso il fix in `artes-sito-rev2/assets/css/artes.css`).
+
+---
+
 ## 2026-11-20 (seconda parte) — Adeguamento alla rev2: fase 4 (template e archivi)
 
 **Richiesta**

@@ -49,7 +49,7 @@ const casi = [
   const b = await openBrowser({ width: 1440, height: 700 });
   try {
     await b.navigate(urlB);
-    for (const [percorso, atteso] of [['/chi-siamo/', 'Chi siamo'], ['/arredamento-ufficio/', 'Arredo uffici e workspace'], ['/contract/', 'Arredo Contract'], ['/realizzazioni/', 'Realizzazioni'], ['/realizzazioni/royal-hotel/', 'Realizzazioni'], ['/brand-partner/frezza/', ''], ['/', '']]) {
+    for (const [percorso, atteso] of [['/chi-siamo/', 'Chi siamo'], ['/contatti/', 'Contatti'], ['/arredamento-ufficio/', 'Arredo uffici e workspace'], ['/contract/', 'Arredo Contract'], ['/realizzazioni/', 'Realizzazioni'], ['/realizzazioni/royal-hotel/', 'Realizzazioni'], ['/brand-partner/frezza/', ''], ['/', '']]) {
       const attive = JSON.parse(await b.evalJs('(' + leggiAttive.toString() + ')(' + JSON.stringify(percorso) + ')'));
       const ok = (atteso === '' ? attive.length === 0 : attive.length === 1 && attive[0] === atteso); tutto = tutto && ok;
       console.log(`${ok ? 'OK  ' : 'DIFF'} voce attiva su ${percorso}: ${JSON.stringify(attive)} (atteso ${JSON.stringify(atteso)})`);

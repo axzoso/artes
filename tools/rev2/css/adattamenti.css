@@ -24,6 +24,63 @@ body.rev2 .elementor .mobile-nav__panel:not([data-ready]) { display: none; }
    della rev2 (specificità maggiore) possano ancora scavalcarlo, come nel browser. */
 body.rev2 .elementor :where([hidden]) { display: none; }
 
+/* ===== Header sticky e ancoraggi (differenza di wrapper Elementor + admin bar WordPress) ============================ */
+/* Nella rev2 <header class="header"> è figlio diretto di <body> (position: sticky; top: 0). In WordPress Elementor lo
+   avvolge in .elementor-location-header, che finisce subito sotto l'header (alto 111px desktop / 77px <=1180px) e quindi
+   scorre via portandosi dietro .header, lasciando .contract-index fluttuante a mezz'aria. Si rende sticky il contenitore
+   della posizione, allineando gli offset di .contract-index, .split__aside, .rev2-form-intro e scroll-margin-top
+   all'altezza reale dell'header (111px >1180px, 77px <=1180px) e alla WP admin bar (32px >782px, 46px 601-782px, 0 <=600px). */
+body.rev2 {
+  --artes-admin-bar: 0px;
+  --artes-header-h: 111px;
+  --artes-contract-index-h: 52px;
+  overflow-x: clip;
+}
+body.rev2.admin-bar { --artes-admin-bar: 32px; }
+@media (max-width: 1180px) {
+  body.rev2 { --artes-header-h: 77px; }
+}
+@media (max-width: 782px) {
+  body.rev2.admin-bar { --artes-admin-bar: 46px; }
+}
+@media (max-width: 640px) {
+  body.rev2 { --artes-contract-index-h: 64px; }
+}
+@media (max-width: 600px) {
+  body.rev2.admin-bar { --artes-admin-bar: 0px; }
+}
+
+body.rev2:not(.elementor-editor-active) .elementor-location-header {
+  position: sticky;
+  top: var(--artes-admin-bar);
+  z-index: 60;
+  background-color: #fff;
+}
+body.rev2:not(.elementor-editor-active) .elementor-location-header > .header {
+  position: relative;
+  top: auto;
+}
+body.rev2 .elementor .contract-index {
+  top: calc(var(--artes-admin-bar) + var(--artes-header-h));
+}
+body.rev2 .elementor .split__aside {
+  top: calc(var(--artes-admin-bar) + var(--artes-header-h) + 39px);
+}
+body.rev2 .elementor .contract-page .split__aside {
+  top: calc(var(--artes-admin-bar) + var(--artes-header-h) + var(--artes-contract-index-h) + 32px);
+}
+body.rev2 .elementor .page-root [id] {
+  scroll-margin-top: calc(var(--artes-admin-bar) + var(--artes-header-h));
+}
+body.rev2 .elementor .contract-page [id] {
+  scroll-margin-top: calc(var(--artes-admin-bar) + var(--artes-header-h) + var(--artes-contract-index-h));
+}
+@media (max-width: 1180px) {
+  body.rev2.admin-bar .elementor .mobile-nav:not([hidden]) {
+    top: calc(var(--artes-admin-bar) + 68px);
+  }
+}
+
 /* ===== Modelli dinamici: schede e archivi (fase 4) =================================================================== */
 
 /* Involucro esterno dei cicli e link dell'intera card: non hanno un box proprio (la rev2 non li ha). Così la griglia vede
@@ -60,6 +117,40 @@ body.rev2 .elementor .rev2-opzimg:not(:has(img[src])) { display: none; }
 body.rev2 .elementor .filtri--categorie:not([data-ready]),
 body.rev2 .elementor .progetti__empty:not([data-ready]) { display: none; }
 
+/* Filtri di settore/categoria senza elementi associati: nascosti dinamicamente dal JS con attributo hidden.
+   !important garantisce che gli stili display dei widget Elementor non possano mai riaprirli. */
+body.rev2 .elementor .filtro[hidden],
+body.rev2 .elementor .settori-tabs__btn[hidden],
+body.rev2 .elementor .filtri--categorie[hidden] { display: none !important; }
+
+/* Home (sez. 04 Realizzazioni): in vista "Tutti" resta intatto il mosaico asimmetrico originale (w4/w2/w6).
+   Quando è attivo un filtro di settore (.progetti--filtrati), le card visibili passano a griglia uniforme affiancata:
+   - 1–2 card su desktop (>1024px): 2 colonne uguali (span 3 su griglia 6 col, altezza uniforme 460px);
+   - 3+ card su desktop (.progetti--filtrati-3plus): 3 colonne uguali (span 2, altezza 380px come l'archivio);
+   - tablet (<=1024px): 2 colonne regolari; mobile (<=780px): colonna singola. */
+body.rev2 .elementor .progetti.progetti--filtrati .progetto {
+  grid-column: span 3;
+  min-height: 460px;
+}
+body.rev2 .elementor .progetti.progetti--filtrati.progetti--filtrati-3plus .progetto {
+  grid-column: span 2;
+  min-height: 380px;
+}
+@media (max-width: 1024px) {
+  body.rev2 .elementor .progetti.progetti--filtrati .progetto,
+  body.rev2 .elementor .progetti.progetti--filtrati.progetti--filtrati-3plus .progetto {
+    grid-column: span 1;
+    min-height: 380px;
+  }
+}
+@media (max-width: 780px) {
+  body.rev2 .elementor .progetti.progetti--filtrati .progetto,
+  body.rev2 .elementor .progetti.progetti--filtrati.progetti--filtrati-3plus .progetto {
+    grid-column: 1;
+    min-height: 470px;
+  }
+}
+
 /* ===== Pagine statiche (fase 5) ======================================================================================= */
 
 /* Home, sezione 05 ("05 — Brand partner"): unico style="margin-bottom:0" inline della rev2. */
@@ -68,3 +159,422 @@ body.rev2 .elementor .rev2-mb0 { margin-bottom: 0; }
 /* Slider produzione della home: prima che il JS imposti is-active, la prima slide è già visibile (niente flash). */
 body.rev2 .elementor .produzione-slider:not([data-ready]) .produzione-slide:first-child { opacity: 1; visibility: visible; }
 body.rev2 .elementor .produzione-slider:not([data-ready]) .produzione-slide:first-child img { transform: scale(1); }
+
+/* ===== Pagine fuori rev2 (fase 6) ===================================================================================== */
+
+/* Footer 971: i link legali (Privacy · Cookie · MEPA) in .footer__bottom devono restare visivamente identici al testo
+   della rev2 (nessun colore scuro da "a", nessun min-height:28px da ".footer a" che gonfia il footer di +10 px). */
+body.rev2 .elementor .footer__bottom a { color: inherit; display: inline; min-height: 0; }
+body.rev2 .elementor .footer__bottom a:hover,
+body.rev2 .elementor .footer__bottom a:focus-visible { color: var(--sand-ink); }
+
+/* ===== Pagine Contatti e bozze in grafica rev2 (moduli e-form e griglie dedicate) ===================================== */
+/* Tutte le regole seguenti sono confinate alle classi dedicate .rev2-form-wrap / .rev2-grid-4 / .rev2-surface-white:
+   zero impatto sulle 51 pagine rev2 già pubblicate. Palette antracite #393E42 / --night #2F3438 / #efefef / --accent #D71920,
+   tipografia Archivo / Instrument Sans / IBM Plex Mono, 0 ombre, 0 border-radius. */
+
+body.rev2 .elementor .page-root > section.rev2-surface-white {
+  background-color: #fff !important;
+}
+
+/* Griglia a 4 colonne coerente con .grid-1px della rev2 (4 col desktop, 2 col <=1024px, 1 col <=780px). */
+body.rev2 .elementor .grid-1px.rev2-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 1024px) {
+  body.rev2 .elementor .grid-1px.rev2-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 780px) {
+  body.rev2 .elementor .grid-1px.rev2-grid-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Sezione modulo (Contatti 152 e Richiedi preventivo 154): intro sticky a sinistra, modulo e-form a destra. */
+body.rev2 .elementor .page-root > section.rev2-form-wrap,
+body.rev2 .elementor .rev2-form-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 108px);
+  padding: clamp(72px, 8vw, 120px) var(--pad) clamp(84px, 9vw, 132px);
+  background-color: #efefef !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+@media (min-width: 1600px) {
+  body.rev2 .elementor .page-root > section.rev2-form-wrap,
+  body.rev2 .elementor .rev2-form-wrap {
+    padding-left: max(var(--pad), calc((100vw - 1600px) / 2));
+    padding-right: max(var(--pad), calc((100vw - 1600px) / 2));
+  }
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-intro {
+  position: sticky;
+  top: calc(var(--artes-admin-bar) + var(--artes-header-h) + 39px);
+  align-self: start;
+  min-width: 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-intro .h-section {
+  margin: 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-intro .lead {
+  margin: 24px 0 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-col {
+  min-width: 0;
+}
+
+/* Elenco contatti diretti (Artes srl) nella colonna intro del modulo. */
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl {
+  margin: 40px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl > div {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl :is(dt, :where(.rev2-dt)) {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted-3);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl :is(dd, :where(.rev2-dd)) {
+  margin: 4px 0 0;
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl a:not(.link-rule) {
+  color: var(--graphite);
+  border-bottom: 1px solid var(--line-strong);
+  transition: color .2s ease, border-color .2s ease;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl a:not(.link-rule):hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-contact-dl a:not(.link-rule):focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* Struttura nativa e-form di Elementor Pro V4 vestita in 100% stile rev2. */
+body.rev2 .elementor .rev2-form-wrap .rev2-form {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-group {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-group + .rev2-form-group {
+  margin-top: 48px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-legend {
+  margin: 0 0 28px;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--antracite);
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+  color: var(--graphite);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 28px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 28px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-field-wide {
+  grid-column: 1 / -1;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+/* Controlli testuali, select e textarea: 0 ombre, 0 border-radius, solo filetto inferiore rev2. */
+body.rev2 .elementor .rev2-form-wrap .rev2-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="submit"]),
+body.rev2 .elementor .rev2-form-wrap .rev2-form select,
+body.rev2 .elementor .rev2-form-wrap .rev2-form textarea,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  font-family: var(--body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink);
+  transition: border-color .2s ease, background-color .2s ease;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form select,
+body.rev2 .elementor .rev2-form-wrap select.rev2-form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 26px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--antracite) 50%),
+    linear-gradient(-45deg, transparent 50%, var(--antracite) 50%);
+  background-position: calc(100% - 9px) 50%, calc(100% - 4px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form textarea,
+body.rev2 .elementor .rev2-form-wrap textarea.rev2-form-control {
+  min-height: 128px;
+  resize: vertical;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form input::placeholder,
+body.rev2 .elementor .rev2-form-wrap .rev2-form textarea::placeholder {
+  color: var(--muted-4);
+  opacity: 1;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-form select:hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-form textarea:hover {
+  border-bottom-color: var(--muted-2);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+body.rev2 .elementor .rev2-form-wrap .rev2-form select:focus,
+body.rev2 .elementor .rev2-form-wrap .rev2-form textarea:focus {
+  outline: 0;
+  border-bottom: 2px solid var(--night);
+  padding-bottom: 11px;
+  box-shadow: none;
+}
+
+/* Upload allegati (PDF, DWG, DXF, JPG, PNG): stile sobrio senza raggi né ombre. */
+body.rev2 .elementor .rev2-form-wrap .rev2-form input[type="file"] {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 8px 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--muted-2);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form input[type="file"]::file-selector-button {
+  margin-right: 14px;
+  padding: 10px 16px;
+  border: 1px solid var(--line-btn);
+  border-radius: 0;
+  box-shadow: none;
+  background: #fff;
+  color: var(--graphite);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form input[type="file"]::file-selector-button:hover {
+  border-color: var(--antracite);
+  background: var(--antracite);
+  color: #fff;
+}
+
+/* Caselle di controllo (servizi + consenso privacy). */
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 0;
+  flex: 0 0 auto;
+  border-radius: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check label {
+  margin: 0;
+  padding: 0;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted-1);
+  cursor: pointer;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check a {
+  color: var(--graphite);
+  border-bottom: 1px solid currentColor;
+  transition: color .2s ease, border-color .2s ease;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check a:hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-check a:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* Chiusura modulo: privacy + pulsante invio rosso pieno rev2 + nota campi obbligatori. */
+body.rev2 .elementor .rev2-form-wrap .rev2-form-final {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form button[type="submit"],
+body.rev2 .elementor .rev2-form-wrap .rev2-form-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 18px 32px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form button[type="submit"]:hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-form button[type="submit"]:focus-visible,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-submit:hover,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-submit:focus-visible {
+  background-color: var(--antracite);
+  color: #fff;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form button[type="submit"]:disabled,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-submit:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-hint {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted-3);
+}
+
+/* Messaggi di conferma / errore Elementor Atomic V4: nascosti nello stato iniziale (body.rev2 .e-con resetterebbe display:none),
+   mostrati solo quando Elementor Pro applica .form-state-success / .form-state-error sul <form>. */
+body.rev2:not(.elementor-editor-active) .elementor .rev2-form-wrap .rev2-form:not(.form-state-success) .rev2-form-ok,
+body.rev2:not(.elementor-editor-active) .elementor .rev2-form-wrap .rev2-form:not(.form-state-error) .rev2-form-err {
+  display: none;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form.form-state-success .rev2-form-ok,
+body.rev2 .elementor .rev2-form-wrap .rev2-form.form-state-error .rev2-form-err {
+  display: block;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-ok,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-err {
+  margin-top: 28px;
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: #fff;
+  text-align: left;
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-err {
+  border-color: var(--accent);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-ok .lead,
+body.rev2 .elementor .rev2-form-wrap .rev2-form-err .lead {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--graphite);
+}
+body.rev2 .elementor .rev2-form-wrap .rev2-form-err .lead {
+  color: var(--accent);
+}
+
+@media (max-width: 1024px) {
+  body.rev2 .elementor .page-root > section.rev2-form-wrap,
+  body.rev2 .elementor .rev2-form-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-intro {
+    position: static;
+  }
+}
+@media (max-width: 768px) {
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-fields,
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-options {
+    gap: 14px;
+  }
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  body.rev2 .elementor .rev2-form-wrap .rev2-form button[type="submit"],
+  body.rev2 .elementor .rev2-form-wrap .rev2-form-submit {
+    width: 100%;
+  }
+}

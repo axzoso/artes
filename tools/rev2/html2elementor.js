@@ -56,14 +56,27 @@ const frazione = (s) => s.replace(/"/g, '&quot;');
 function risolviLink(href, testoLink, file, avvisi) {
   if (href === undefined) return null;
   let h = decodifica(href).trim();
+  const testoPulito = sp(testoLink || '').trim();
   if (h === '' || h === '#') {
-    const dest = MAPPA_LINK.segnaposto[sp(testoLink).trim()];
+    const dest = MAPPA_LINK.segnaposto[testoPulito];
     if (dest) return dest;
-    avvisi.push(`${file}: link vuoto senza destinazione in mappa-link.json: "${sp(testoLink).trim()}"`);
+    avvisi.push(`${file}: link vuoto senza destinazione in mappa-link.json: "${testoPulito}"`);
     return '#';
   }
-  if (/^(https?:|mailto:|tel:)/i.test(h)) return h;
-  if (h.startsWith('#')) return h;
+  if (/^mailto:/i.test(h)) {
+    const mailtoCta = MAPPA_LINK.mailto_cta || {};
+    // I link diretti con indirizzo email esplicito nel testo (es. "info@artessrl.it" in Privacy/Cookie/Contatti) restano mailto:;
+    // i pulsanti/CTA della rev2 statica che usavano mailto: come fallback prima della pagina Contatti puntano a /contatti/.
+    if (!testoPulito.includes('@') && mailtoCta[h]) return mailtoCta[h];
+    return h;
+  }
+  if (/^(https?:|tel:)/i.test(h)) return h;
+  if (h.startsWith('#')) {
+    const ancore = MAPPA_LINK.ancore || {};
+    if (ancore[h]) return ancore[h];
+    return h;
+  }
+  if (h.startsWith('/')) return h;
   const m = /^([^?#]*)(\?[^#]*)?(#.*)?$/.exec(h);
   const base = m[1].replace(/^\.\//, ''); const q = m[2] || ''; const frag = m[3] || '';
   if (MAPPA_LINK.pagine[base]) return MAPPA_LINK.pagine[base] + q + frag;

@@ -1,5 +1,8 @@
 'use strict';
 // Collaudo delle interazioni della fase 5 (Home e pagine settore): stesso gesto su rev2 e dev3, confronto di stato e screenshot.
+// Nota (2026-11-23): su dev3, quando in Home (sez. 04) è attivo un filtro di settore (.progetti--filtrati), le card passano a
+// griglia affiancata uniforme (es. Ruffolo Group + Il Quotidiano fianco a fianco in `filtri-uffici`), mentre la vista "Tutti"
+// conserva il mosaico asimmetrico originale (w4/w2/w6): `filtri-uffici` e `filtri-hospitality` differiscono intenzionalmente dalla rev2 statica.
 //   node tools/rev2/collaudo-fase5.js faq <url-rev2> <@id|url-dev3>
 //   node tools/rev2/collaudo-fase5.js home <url-rev2> <@id|url-dev3>
 const fs = require('fs');

@@ -202,6 +202,16 @@ stesso stato e lo stesso aspetto. I risultati sono nel diario (2026-11-20, fase 
   rinominare uno slug cercare chi lo legge (campi delle pagine, query dei cicli nel plugin, link nei contenuti); ora `verifica-dati.js` controlla anche questo campo.
 - *Il Bash di Git su Windows converte gli argomenti che iniziano con `/`* ("/realizzazioni/" diventa "C:/Program Files/Git/realizzazioni/"): nei comandi con percorsi dell'URL
   usare indirizzi completi o `MSYS_NO_PATHCONV=1` (`salute-pagine.js` lo corregge da sé).
-- **Difetto della rev2 (da segnalare al titolare)**: nella pagina Brand Partner i filtri per categoria **non nascondono le card**. Il JavaScript imposta `hidden` sulle card che non
-  corrispondono, ma `.brand { display: flex }` (CSS) vince sull'attributo `hidden` del browser, quindi restano tutte visibili e cambia solo il pulsante attivo. È stato
-  **replicato com'è** (la rev2 prevale); si sistema in rev2 con `.brand[hidden] { display: none }` (una riga) e poi si riporta qui rigenerando il CSS.
+- **Difetto della rev2 (corretto il 2026-11-20)**: nella pagina Brand Partner `.brand { display: flex }` vinceva su `[hidden]`; aggiunta `.brand[hidden] { display: none; }` in `artes-sito-rev2/assets/css/artes.css` e rigenerato `artes-rev2.css`. Verificato in parità (`collaudo-archivi.js brand`: `18/18` → `3/3`, `2/2`, `1/1`).
+
+## 9. Fase 5 (2026-11-20): pagine statiche, FAQ native e Home dinamica
+
+Tutte e 9 le pagine statiche (`376` Home, `144–148` 5 settori, `149` Su misura, `150` Contract, `151` Chi siamo) sono pubblicate e attive in modalità rev2 con parità misurata (`Δ 0` di altezza a 1440/1024/768/390 px, contenuti identici, max `1,3%` pixel su 1440/390, salute `18/18`, non-regressione `40/40` CPT e `6/6` pagine vecchie residue).
+
+- *FAQ (`e-accordion`)*: `<div class="faq">` con `<details class="faq__item">` si converte in `e-accordion` (`default_state: all_collapsed`, `max_expanded: multiple`, `show_icon: false`, `faq_schema: true`), che genera `<details>/<summary>` nativi + JSON-LD `FAQPage`. In `reset.css` gli stili base `.e-accordion-*` sono riportati a `revert` (specificità `0,2,1` > Elementor `0,2,0`, < rev2 `0,3,2`). Risultato: `0%` di differenza pixel su tutti i 4 scenari di apertura/chiusura.
+- *Elenchi (`ul`/`ol`/`li`)*: restano contenitori con classi `rev2-ul`/`rev2-ol`/`rev2-li` + `role="list"/"listitem"` in `artes-rev2.js` (tutti gli elenchi della rev2 hanno `list-style: none` e `ol.steps` usa `grid-template-rows: subgrid`, che un wrapper `e-list` romperebbe).
+- *Home (`modelli/home.html`)*: generata da `genera-modelli.js` da `index.html`, con cicli dinamici per Realizzazioni (`artes_progetti_home_rev2`, `home_ordine` 1–6, larghezze `w4/w2/w6` e filtro settore in `initHomeProgetti`) e Brand (`archivio_brand`). L'unico stile inline della rev2 (`style="margin-bottom:0"` in sez. 05) diventa classe d'appoggio `rev2-mb0`.
+- *Scoping dei filtri JS*: `initFiltriBrand()` ora cerca `.filtri` solo dentro la stessa `<section>` di `.brands`, così sulla Home (che ha `.filtri` in sez. 04 e `.brands` in sez. 05) non interferisce con i progetti.
+- *Copie immagini con alt dedicato*: `import-media-pagine.js` crea 17 copie fisiche (`media-pagine.json`, lingua `it`), usate automaticamente da `html2elementor.js` quando `src|alt` differisce dall'allegato base; le 6 card progetti della Home riusano le copie `#card` della fase 3.
+- *Strumenti*: `cdp-session.js` inietta `noMotion` su `DOMContentLoaded` (prima girava prima di `<html>` e falliva); `contenuti.js` usa `textContent` (non `innerText` trasformato in maiuscolo dal CSS) per abbinare i link `#` in `mappa-link.json`.
+- *Nota rev2*: `contract.html` a `768 px` presenta uno scroll orizzontale di `20 px` su `.contract-scope__card` sia nella rev2 che su dev3.
