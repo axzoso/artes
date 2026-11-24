@@ -1,0 +1,179 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ARTES Core 0.10.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: artes-core\n"
+
+msgid "(in allegato)"
+msgstr ""
+
+msgid "Informazioni generali"
+msgstr ""
+
+msgid "Parlare con un tecnico"
+msgstr ""
+
+msgid "Collaborazione per studi e progettisti"
+msgstr ""
+
+msgid "Pubblica amministrazione e MEPA"
+msgstr ""
+
+msgid "Assistenza su una fornitura"
+msgstr ""
+
+msgid "Fornitori e partner"
+msgstr ""
+
+msgid "Lavora con noi"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgctxt "breadcrumb"
+msgid "Brand partner"
+msgstr ""
+
+msgctxt "eyebrow singular"
+msgid "Brand partner"
+msgstr ""
+
+msgid "Realizzazioni"
+msgstr ""
+
+msgctxt "singular"
+msgid "Galleria fotografica · %d foto"
+msgstr ""
+
+msgctxt "plural"
+msgid "Galleria fotografica · %d foto"
+msgstr ""
+
+msgid "Scopri l'arredo %s"
+msgstr ""
+
+msgid "Arredi %s<br>per il tuo spazio?"
+msgstr ""
+
+msgid "Altre realizzazioni %s"
+msgstr ""
+
+msgid "Altre realizzazioni"
+msgstr ""
+
+msgid "Brand partner — %s"
+msgstr ""
+
+msgid "Come lavoriamo con %s"
+msgstr ""
+
+msgid "Realizzazioni con %s"
+msgstr ""
+
+msgid "Realizzazioni di arredi su misura — Artes"
+msgstr ""
+
+msgid "Le realizzazioni Artes per uffici, negozi, bar e ristoranti, negozi food e hotel: case history di arredi su misura progettati, prodotti e montati, filtrabili per settore e categoria."
+msgstr ""
+
+msgid "Brand Partner — ARTES Contract"
+msgstr ""
+
+msgid "I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato."
+msgstr ""
+
+msgid "%s — Brand partner Artes"
+msgstr ""
+
+msgid "%1$s, brand partner Artes per la categoria %2$s: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate."
+msgstr ""
+
+msgid "%s, brand partner Artes: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate."
+msgstr ""
+
+msgid "Tutti"
+msgstr ""
+
+msgid "Tutte"
+msgstr ""
+
+msgid "Tutti i settori"
+msgstr ""
+
+msgid "Navigazione principale"
+msgstr ""
+
+msgid "Navigazione mobile"
+msgstr ""
+
+msgid "Apri il menu"
+msgstr ""
+
+msgid "Chiudi il menu"
+msgstr ""
+
+msgid "Foto in arrivo"
+msgstr ""
+
+msgid "Dati principali del servizio"
+msgstr ""
+
+msgid "Indice della pagina"
+msgstr ""
+
+msgid "Controlli galleria produzione"
+msgstr ""
+
+msgid "Galleria fotografica"
+msgstr ""
+
+msgid "Chiudi"
+msgstr ""
+
+msgid "Foto precedente"
+msgstr ""
+
+msgid "Foto successiva"
+msgstr ""
+
+msgid "{titolo} — foto {n} di {tot}"
+msgstr ""
+
+msgid "Apri la foto {n} di {tot}"
+msgstr ""
+
+msgid "Filtra per settore"
+msgstr ""
+
+msgid "Filtra {settore} per categoria"
+msgstr ""
+
+msgid "Filtra per categoria"
+msgstr ""
+
+msgid "1 realizzazione"
+msgstr ""
+
+msgid "{n} realizzazioni"
+msgstr ""
+
+msgid "Nessuna realizzazione pubblicata per questa categoria."
+msgstr ""
+
+msgid "Galleria immagini"
+msgstr ""
+
+msgid "Immagine precedente"
+msgstr ""
+
+msgid "Immagine successiva"
+msgstr ""
+
+msgid "Ingrandisci: "
+msgstr ""
+
+msgid "immagine"
+msgstr ""

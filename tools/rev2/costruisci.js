@@ -11,6 +11,12 @@ const fs = require('fs');
 const path = require('path');
 const { parse, trova, classi } = require('./html-parse');
 const { converti } = require('./html2elementor');
+const dinamici = require('./dinamici');
+
+const HEADER_LANG_DESKTOP_SRC = '<span class="topbar__lang">IT / EN</span>';
+const HEADER_LANG_DESKTOP_DST = '<span class="topbar__lang" data-dyn="lingue">IT / EN</span>';
+const HEADER_CONTATTI_MOBILE_SRC = '<a href="#contatti" class="mobile-nav__sec">Contatti</a>';
+const HEADER_CONTATTI_MOBILE_DST = '<a href="#contatti" class="mobile-nav__sec">Contatti</a>\n      <span class="mobile-nav__sec topbar__lang" data-dyn="lingue">IT / EN</span>';
 
 const root = path.resolve(__dirname, '..', '..');
 const rev2 = path.join(root, 'artes-sito-rev2');
@@ -26,8 +32,16 @@ function carica(file) { const { radice, avvisi } = parse(fs.readFileSync(path.jo
 
 let r; let etichetta;
 if (cosa === 'header') {
-  const dom = carica('index.html'); const h = trova(dom, (n) => n.tag === 'header')[0];
-  r = converti(h, { file: 'header (index.html)' }); etichetta = 'header';
+  const raw = fs.readFileSync(path.join(rev2, 'index.html'), 'utf8');
+  if (!raw.includes(HEADER_LANG_DESKTOP_SRC) || !raw.includes(HEADER_CONTATTI_MOBILE_SRC)) {
+    throw new Error('Header sorgente (index.html) senza marcatori attesi per [artes_lingue]');
+  }
+  const html = raw
+    .replace(HEADER_LANG_DESKTOP_SRC, HEADER_LANG_DESKTOP_DST)
+    .replace(HEADER_CONTATTI_MOBILE_SRC, HEADER_CONTATTI_MOBILE_DST);
+  const { radice, avvisi } = parse(html); if (avvisi.length) console.log('AVVISI parser header', avvisi);
+  const h = trova(radice, (n) => n.tag === 'header')[0];
+  r = converti(h, { file: 'header (index.html)', dinamici }); etichetta = 'header';
 } else if (cosa === 'footer') {
   const html = fs.readFileSync(path.join(rev2, 'index.html'), 'utf8')
     .replace('<span>Privacy · Cookie · MEPA</span>', '<span><a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a> · <a href="/arredamento-ufficio/">MEPA</a></span>');

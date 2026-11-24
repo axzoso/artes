@@ -1,20 +1,34 @@
 /**
- * ARTES Core — lightbox delle gallerie.
+ * ARTES Core — lightbox delle gallerie (modalità legacy, attiva solo con kill-switch rev2 spento).
  *
  * Un clic su un'immagine di galleria (.gallery-img) o sull'immagine principale di una scheda
  * (.scheda-hero) la apre a tutto schermo, alla risoluzione piena. Le immagini dello stesso blocco
  * (.scheda-media) formano una sequenza: frecce, tastiera (← → Esc) e swipe su touch.
  * Nessuna dipendenza; lo stile sta in artes-core.css (sezione "Lightbox").
+ * Stringhe localizzate lette da `window.ArtesCoreI18n` (fallback italiano).
  */
 ( function () {
 	'use strict';
 
 	var SELECTOR = 'img.gallery-img, img.scheda-hero';
+	var I18N_DEFAULT = {
+		galleria: 'Galleria immagini',
+		chiudi: 'Chiudi',
+		precedente: 'Immagine precedente',
+		successiva: 'Immagine successiva',
+		ingrandisci: 'Ingrandisci: ',
+		immagine: 'immagine',
+	};
 	var root = null;
 	var items = [];
 	var index = 0;
 	var lastFocus = null;
 	var touchX = null;
+
+	function tr( key ) {
+		var map = window.ArtesCoreI18n || {};
+		return ( typeof map[ key ] === 'string' && map[ key ] !== '' ) ? map[ key ] : ( I18N_DEFAULT[ key ] || '' );
+	}
 
 	/** URL a piena risoluzione: srcset più largo, altrimenti l'URL senza il suffisso -LxA di WordPress. */
 	function fullUrl( img ) {
@@ -45,14 +59,21 @@
 		root.className = 'artes-lb';
 		root.setAttribute( 'role', 'dialog' );
 		root.setAttribute( 'aria-modal', 'true' );
-		root.setAttribute( 'aria-label', 'Galleria immagini' );
+		root.setAttribute( 'aria-label', tr( 'galleria' ) );
 		root.hidden = true;
 		root.innerHTML =
-			'<button type="button" class="artes-lb-btn artes-lb-close" aria-label="Chiudi">Chiudi</button>' +
-			'<button type="button" class="artes-lb-btn artes-lb-prev" aria-label="Immagine precedente">&larr;</button>' +
+			'<button type="button" class="artes-lb-btn artes-lb-close"></button>' +
+			'<button type="button" class="artes-lb-btn artes-lb-prev">&larr;</button>' +
 			'<figure class="artes-lb-fig"><img class="artes-lb-img" alt=""><figcaption class="artes-lb-cap"></figcaption></figure>' +
-			'<button type="button" class="artes-lb-btn artes-lb-next" aria-label="Immagine successiva">&rarr;</button>' +
+			'<button type="button" class="artes-lb-btn artes-lb-next">&rarr;</button>' +
 			'<div class="artes-lb-count" aria-live="polite"></div>';
+
+		var closeBtn = root.querySelector( '.artes-lb-close' );
+		closeBtn.textContent = tr( 'chiudi' );
+		closeBtn.setAttribute( 'aria-label', tr( 'chiudi' ) );
+		root.querySelector( '.artes-lb-prev' ).setAttribute( 'aria-label', tr( 'precedente' ) );
+		root.querySelector( '.artes-lb-next' ).setAttribute( 'aria-label', tr( 'successiva' ) );
+
 		document.body.appendChild( root );
 
 		root.addEventListener( 'click', function ( e ) {
@@ -196,7 +217,7 @@
 		Array.prototype.forEach.call( document.querySelectorAll( SELECTOR ), function ( img ) {
 			img.setAttribute( 'tabindex', '0' );
 			img.setAttribute( 'role', 'button' );
-			img.setAttribute( 'aria-label', 'Ingrandisci: ' + ( img.alt || 'immagine' ) );
+			img.setAttribute( 'aria-label', tr( 'ingrandisci' ) + ( img.alt || tr( 'immagine' ) ) );
 		} );
 	} );
 }() );

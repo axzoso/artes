@@ -49,7 +49,7 @@ const intestazione = (nome) => `<!-- Modello generato da tools/rev2/genera-model
   const griglia = trova(m, (n) => n.tag === 'div' && classi(n).includes('brands'))[0];
   const vuoto = trova(griglia, (n) => classi(n).includes('progetti__empty'))[0];
   const sezione = griglia.padre;
-  const nuovaGriglia = frammento(`<div class="brands" data-loop="archivio_brand"><a class="brand" href="#" data-dyn-href="url_post"><span class="brand__n" data-dyn="card_nome">Nome</span><span class="brand__c" data-dyn="card_categoria_brand">Categoria</span></a></div>`)[0];
+  const nuovaGriglia = frammento(`<div class="brands" data-loop="archivio_brand"><a class="brand" href="#" data-dyn-href="url_post"><span class="brand__n" data-dyn="card_nome">Nome</span><span class="brand__c" data-dyn="card_categoria_brand">Categoria</span><span class="rev2-dato" data-dyn="dato_categoria_brand">categoria</span></a></div>`)[0];
   const idx = sezione.figli.indexOf(griglia);
   const vuotoPulito = frammento(serializza(vuoto))[0];
   sezione.figli.splice(idx, 1, nuovaGriglia, vuotoPulito);

@@ -28,8 +28,11 @@ const eq = (g, nome, atteso, attuale) => check(g, nome, norm(atteso) === norm(at
   const nv = await connetti('novamira');
   const A = await leggiDev3(nv);
   const att = A.att;
-  const attivi = (tipo) => A.post.filter((p) => p.tipo === tipo && p.stato === 'publish');
-  const perSlug = (tipo, slug, stato = 'publish') => A.post.find((p) => p.tipo === tipo && p.slug === slug && p.stato === stato);
+  // dalla traduzione EN (WPML) ogni articolo ha una copia en-gb: i controlli sulla rev2 riguardano l'italiano; l'inglese ha i suoi script (wpml-trad-dati.js --stato)
+  const it = (p) => p.lingua !== 'en-gb';
+  const idEn = new Set(A.post.filter((p) => !it(p)).map((p) => p.id));
+  const attivi = (tipo) => A.post.filter((p) => p.tipo === tipo && p.stato === 'publish' && it(p));
+  const perSlug = (tipo, slug, stato = 'publish') => A.post.find((p) => p.tipo === tipo && p.slug === slug && p.stato === stato && it(p));
   // Origine del file di un allegato (meta _artes_src): "rev2:<percorso>" per i nuovi, "<percorso>" per quelli del vecchio import che
   // import-media.js ha riusato perché il file è identico (confronto md5); le copie per card/brand aggiungono "#etichetta".
   const srcOk = (a, src) => !!(a && a.src && String(a.src).replace(/^rev2:/, '').split('#')[0] === src);
@@ -143,7 +146,7 @@ const eq = (g, nome, atteso, attuale) => check(g, nome, norm(atteso) === norm(at
   const coppieAtt = new Set(A.rel.map(([p, c]) => `${p}|${c}`));
   const coppieExp = new Set(E.relazioni.filter(([pr, br]) => idDi[pr] && idBrand[br]).map(([pr, br]) => `${idDi[pr]}|${idBrand[br]}`));
   check('9 relazioni', `${E.relazioni.length} coppie brand ↔ progetto come nella rev2`, coppieExp.size === E.relazioni.length && [...coppieExp].every((k) => coppieAtt.has(k)), `attese ${E.relazioni.length}, presenti ${[...coppieExp].filter((k) => coppieAtt.has(k)).length}`);
-  const estranee = A.rel.filter(([p, c]) => !coppieExp.has(`${p}|${c}`));
+  const estranee = A.rel.filter(([p, c]) => !(idEn.has(p) && idEn.has(c)) && !coppieExp.has(`${p}|${c}`));
   check('9 relazioni', 'nessuna relazione in più (né verso articoli nel cestino)', estranee.length === 0, `relazioni estranee: ${estranee.map((r) => r.join('→')).join(', ')}`);
 
   // ---- 9. campi del vecchio modello tolti (fine fase 4) -------------------------------------------------------------------

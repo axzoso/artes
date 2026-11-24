@@ -240,3 +240,19 @@ Il rilascio di una modifica al CSS è sempre lo stesso: si cambia `tools/rev2/cs
 `node tools/rev2/port-css.js` e `node tools/rev2/push-asset.js artes-rev2.css`, si rimisura. Lezione della fase 4: un selettore generico in
 `adattamenti.css` con la stessa specificità di una regola della rev2 la **annulla** (viene dopo): usare `:where()` per stare sotto le regole della rev2
 e sopra quelle di Elementor.
+
+**Versione inglese con WPML (dal 2026-11-24)** — prerequisito: configurazione guidata di WPML completata (`setup_complete = 1`), altrimenti WPML
+non filtra i contenuti per lingua e gli articoli EN compaiono anche nel sito italiano. Ogni script ha `--piano` (offline), `--esegui` (con backup) e
+`--rollback`.
+
+| Comando | A cosa serve |
+|---|---|
+| `node tools/rev2/wpml-prepara.js --stato\|--esegui` | configurazione WPML e template IT compatibili (già eseguito) |
+| `node tools/rev2/wpml-url-en.js` | **tabella unica degli indirizzi inglesi** (slug delle pagine, basi `projects`/`brand-partners`, slug dei termini nei filtri); stampa le corrispondenze |
+| `node tools/rev2/wpml-trad-dati.js` | termini, 20 realizzazioni, 18 brand, relazioni e stringhe in inglese (dataset `traduzioni/en-dati.json`, link localizzati con la tabella) |
+| `node tools/rev2/wpml-trad-pagine.js` | 6 template e 12 pagine in inglese (`traduzioni/en-pagine.json`, `en-template.json`), slug EN delle pagine |
+| `node tools/rev2/wpml-slug-cpt.js --stato\|--esegui\|--rollback` | traduzione WPML delle basi `realizzazioni` → `projects`, `brand-partner` → `brand-partners` |
+| `node tools/rev2/wpml-trad-alt.js` | testi alternativi EN delle immagini (meta `_artes_alt_en`, `traduzioni/en-alt.json`); il plugin li usa sul sito inglese |
+
+Ordine per rifare tutto: `wpml-slug-cpt.js --esegui`, `wpml-trad-dati.js --esegui`, `wpml-trad-pagine.js --esegui`, `wpml-trad-alt.js --esegui`,
+poi `salute-pagine.js` sugli indirizzi EN e la non regressione italiana (`verifica-dati.js`, `verifica-seo.js`, `fase5-pagine.js --parita`).

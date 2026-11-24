@@ -79,6 +79,63 @@ body.rev2 .elementor .contract-page [id] {
   body.rev2.admin-bar .elementor .mobile-nav:not([hidden]) {
     top: calc(var(--artes-admin-bar) + 68px);
   }
+  /* Menu hamburger mobile (<=1180px): nascosta .nav (unico flex-spacer), .masthead restava flex-start e
+     .nav-toggle finiva accanto al logo. Allinea il pulsante hamburger al margine destro (--pad). */
+  body.rev2 .elementor .masthead {
+    justify-content: space-between;
+  }
+  body.rev2 .elementor .masthead .nav-toggle {
+    margin-left: auto;
+  }
+}
+
+/* ===== Selettore lingua WPML [artes_lingue] (desktop topbar + menu mobile) =========================================== */
+/* Desktop: display inline e nessuna variazione metrica (Δ 0 px rispetto al testo statico "IT / EN").
+   Elementor Atomic V4 `e-paragraph` (Escaped_Html_Prop_Type) rimuove `class` dagli `<span>` interni: si affianca
+   il selettore strutturale `span > span` a `.lang-current` per contrasto coerente su desktop e mobile anche prima di JS. */
+body.rev2 .elementor .topbar__lang .lang-switch,
+body.rev2 .elementor .topbar__lang > span {
+  display: inline;
+  white-space: nowrap;
+}
+body.rev2 .elementor .topbar__lang .lang-current,
+body.rev2 .elementor .topbar__lang > span > span {
+  color: var(--graphite);
+}
+body.rev2 .elementor .topbar__lang a {
+  color: var(--muted-3);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+body.rev2 .elementor .topbar__lang a:hover,
+body.rev2 .elementor .topbar__lang a:focus-visible {
+  color: var(--accent);
+}
+/* Mobile/tablet (<=1180px): selettore lingua in coda a .mobile-nav__list, coerente con .mobile-nav__sec. */
+@media (max-width: 1180px) {
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(17,17,17,.12);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted-3);
+  }
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang .lang-current,
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang > span > span {
+    color: var(--graphite);
+    font-weight: 500;
+  }
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang a {
+    color: var(--muted-2);
+    padding: 4px 2px;
+  }
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang a:hover,
+  body.rev2 .elementor .mobile-nav__list > .topbar__lang a:focus-visible {
+    color: var(--accent);
+  }
 }
 
 /* ===== Modelli dinamici: schede e archivi (fase 4) =================================================================== */

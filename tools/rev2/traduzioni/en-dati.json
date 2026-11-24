@@ -1,0 +1,1263 @@
+{
+  "meta": {
+    "lang_code": "en-gb",
+    "source_lang": "it",
+    "locale": "en_GB",
+    "url_prefix": "/en/",
+    "url_strategy": "canonical-it-slugs-under-en-prefix",
+    "term_slug_strategy": "it-slug-with-en-suffix",
+    "note": "Dataset completo di traduzione EN (en-GB) per tassonomie (settore, categoria, categoria_brand), CPT (20 realizzazioni, 18 brand), 8 relazioni JetEngine e stringhe WPML ST."
+  },
+  "settori": [
+    {
+      "codice": "uffici",
+      "slug_en": "uffici-en",
+      "nome": "Office and workspace furniture",
+      "nome_breve": "Offices & workspace",
+      "ordine": 1,
+      "pagina_it_slug": "arredamento-ufficio",
+      "url_en": "/en/arredamento-ufficio/"
+    },
+    {
+      "codice": "retail",
+      "slug_en": "retail-en",
+      "nome": "Retail and store furniture",
+      "nome_breve": "Retail & stores",
+      "ordine": 2,
+      "pagina_it_slug": "arredo-negozi",
+      "url_en": "/en/arredo-negozi/"
+    },
+    {
+      "codice": "bar-ristoranti",
+      "slug_en": "bar-ristoranti-en",
+      "nome": "Bar and restaurant furniture",
+      "nome_breve": "Bars & restaurants",
+      "ordine": 3,
+      "pagina_it_slug": "arredamento-bar-ristoranti",
+      "url_en": "/en/arredamento-bar-ristoranti/"
+    },
+    {
+      "codice": "food",
+      "slug_en": "food-en",
+      "nome": "Food retail furniture",
+      "nome_breve": "Food stores",
+      "ordine": 4,
+      "pagina_it_slug": "arredo-negozi-food",
+      "url_en": "/en/arredo-negozi-food/"
+    },
+    {
+      "codice": "hospitality",
+      "slug_en": "hospitality-en",
+      "nome": "Hotel and hospitality furniture",
+      "nome_breve": "Hotels & hospitality",
+      "ordine": 5,
+      "pagina_it_slug": "arredamento-hotel",
+      "url_en": "/en/arredamento-hotel/"
+    }
+  ],
+  "categorie": [
+    {
+      "slug": "aziende-e-studi-professionali",
+      "slug_en": "aziende-e-studi-professionali-en",
+      "settore": "uffici",
+      "nome": "Companies and professional practices",
+      "descrizione": "Corporate offices, co-working spaces, call centres, software houses, law firms, notary offices, accountancy practices, architecture, engineering and design studios, marketing and communications agencies",
+      "ordine_pagina": 1,
+      "ordine_filtro": 1
+    },
+    {
+      "slug": "banche-assicurazioni-e-servizi",
+      "slug_en": "banche-assicurazioni-e-servizi-en",
+      "settore": "uffici",
+      "nome": "Banks, insurance and financial services",
+      "descrizione": "Banks, insurance agencies, financial institutions, tax and advisory centres, service centres, vehicle licensing agencies",
+      "ordine_pagina": 2,
+      "ordine_filtro": 2
+    },
+    {
+      "slug": "istruzione-e-formazione",
+      "slug_en": "istruzione-e-formazione-en",
+      "settore": "uffici",
+      "nome": "Education and training",
+      "descrizione": "Schools, universities, academies, training centres, libraries, play centres, driving schools",
+      "ordine_pagina": 3,
+      "ordine_filtro": 3
+    },
+    {
+      "slug": "sanita",
+      "slug_en": "sanita-en",
+      "settore": "uffici",
+      "nome": "Healthcare",
+      "descrizione": "Healthcare facilities, outpatient clinics, medical practices, dental practices, private clinics, physiotherapy and rehabilitation centres, diagnostic centres, analytical laboratories",
+      "ordine_pagina": 4,
+      "ordine_filtro": 4
+    },
+    {
+      "slug": "enti-e-istituzioni",
+      "slug_en": "enti-e-istituzioni-en",
+      "settore": "uffici",
+      "nome": "Public bodies and institutions",
+      "descrizione": "Public bodies, public administrations, armed forces and defence, institutional facilities, multi-purpose civic centres",
+      "ordine_pagina": 5,
+      "ordine_filtro": 5
+    },
+    {
+      "slug": "moda-e-sport",
+      "slug_en": "moda-e-sport-en",
+      "settore": "retail",
+      "nome": "Fashion and sport",
+      "descrizione": "Clothing, footwear, leather goods, underwear and lingerie, sporting goods, fitness, childrenswear and baby goods",
+      "ordine_pagina": 1,
+      "ordine_filtro": 1
+    },
+    {
+      "slug": "salute-bellezza-e-lusso",
+      "slug_en": "salute-bellezza-e-lusso-en",
+      "settore": "retail",
+      "nome": "Health, beauty and luxury",
+      "descrizione": "Pharmacies, parapharmacies, herbalists, medical supply shops, opticians, perfumeries, cosmetics stores, jewellers",
+      "ordine_pagina": 2,
+      "ordine_filtro": 2
+    },
+    {
+      "slug": "elettronica-informatica-e-servizi",
+      "slug_en": "elettronica-informatica-e-servizi-en",
+      "settore": "retail",
+      "nome": "Electronics, IT and services",
+      "descrizione": "Mobile phone shops, computer stores, consumer electronics and home appliances, gaming stores, energy and utilities retail outlets",
+      "ordine_pagina": 3,
+      "ordine_filtro": 3
+    },
+    {
+      "slug": "mobilita-e-automotive",
+      "slug_en": "mobilita-e-automotive-en",
+      "settore": "retail",
+      "nome": "Mobility and automotive",
+      "descrizione": "Car dealerships, motorcycle dealerships, service stations, bicycle shops, auto parts retailers, car rental offices",
+      "ordine_pagina": 4,
+      "ordine_filtro": 4
+    },
+    {
+      "slug": "cultura-e-tempo-libero",
+      "slug_en": "cultura-e-tempo-libero-en",
+      "settore": "retail",
+      "nome": "Culture and leisure",
+      "descrizione": "Bookshops, stationers, newsagents, toy shops, music stores, hobby shops, party supplies",
+      "ordine_pagina": 5,
+      "ordine_filtro": 5
+    },
+    {
+      "slug": "negozi-specializzati",
+      "slug_en": "negozi-specializzati-en",
+      "settore": "retail",
+      "nome": "Specialist retail",
+      "descrizione": "Pet stores, florists, gift shops, homewares, tobacconists, vape shops and e-cigarettes, hardware and DIY stores",
+      "ordine_pagina": 6,
+      "ordine_filtro": 6
+    },
+    {
+      "slug": "centri-servizi-e-agenzie-su-strada",
+      "slug_en": "centri-servizi-e-agenzie-su-strada-en",
+      "settore": "retail",
+      "nome": "High-street agencies and service centres",
+      "descrizione": "Estate agencies, travel agencies, private postal and courier centres",
+      "ordine_pagina": 7,
+      "ordine_filtro": 0
+    },
+    {
+      "slug": "showroom-e-finiture-dinterni",
+      "slug_en": "showroom-e-finiture-dinterni-en",
+      "settore": "retail",
+      "nome": "Showrooms and interior finishes",
+      "descrizione": "Furniture showrooms, ceramic tile and bathroom showrooms, flooring and wall-cladding showrooms",
+      "ordine_pagina": 8,
+      "ordine_filtro": 0
+    },
+    {
+      "slug": "saloni-e-cura-della-persona",
+      "slug_en": "saloni-e-cura-della-persona-en",
+      "settore": "retail",
+      "nome": "Salons and personal care",
+      "descrizione": "Hairdressers, beauty salons, nail bars, barber shops",
+      "ordine_pagina": 9,
+      "ordine_filtro": 0
+    },
+    {
+      "slug": "sport-e-fitness",
+      "slug_en": "sport-e-fitness-en",
+      "settore": "retail",
+      "nome": "Sport and fitness",
+      "descrizione": "Gyms, padel clubs, sports centres",
+      "ordine_pagina": 10,
+      "ordine_filtro": 0
+    },
+    {
+      "slug": "bar-e-caffetterie",
+      "slug_en": "bar-e-caffetterie-en",
+      "settore": "bar-ristoranti",
+      "nome": "Bars and cafés",
+      "descrizione": "Bars, cafés, bakeries, cocktail bars, lounge bars, American bars, wine bars, tea rooms, gelaterias, frozen yoghurt parlours",
+      "ordine_pagina": 1,
+      "ordine_filtro": 1
+    },
+    {
+      "slug": "ristorazione",
+      "slug_en": "ristorazione-en",
+      "settore": "bar-ristoranti",
+      "nome": "Restaurants",
+      "descrizione": "Restaurants, pizzerias, trattorias, osterias, bistros, steakhouses, sushi restaurants, burger joints",
+      "ordine_pagina": 2,
+      "ordine_filtro": 2
+    },
+    {
+      "slug": "locali-e-intrattenimento",
+      "slug_en": "locali-e-intrattenimento-en",
+      "settore": "bar-ristoranti",
+      "nome": "Venues and entertainment",
+      "descrizione": "Pubs, disco bars, nightclubs, live music venues, gaming lounges, betting shops, bowling alleys, cinemas with food areas, beach clubs and lidos",
+      "ordine_pagina": 3,
+      "ordine_filtro": 3
+    },
+    {
+      "slug": "panetterie-e-pasticcerie",
+      "slug_en": "panetterie-e-pasticcerie-en",
+      "settore": "food",
+      "nome": "Bakeries and patisseries",
+      "descrizione": "Bakeries, artisan bakehouses, patisseries, cake shops, chocolatiers, confectioners",
+      "ordine_pagina": 1,
+      "ordine_filtro": 1
+    },
+    {
+      "slug": "gastronomia",
+      "slug_en": "gastronomia-en",
+      "settore": "food",
+      "nome": "Delicatessens and fresh food",
+      "descrizione": "Delicatessens, charcuteries, butchers, fishmongers, cheese shops",
+      "ordine_pagina": 2,
+      "ordine_filtro": 2
+    },
+    {
+      "slug": "vino-e-bevande",
+      "slug_en": "vino-e-bevande-en",
+      "settore": "food",
+      "nome": "Wine and beverages",
+      "descrizione": "Wine shops, bottle shops, craft beer shops, spirits boutiques, speciality coffee retail",
+      "ordine_pagina": 3,
+      "ordine_filtro": 3
+    },
+    {
+      "slug": "botteghe-e-alimentari",
+      "slug_en": "botteghe-e-alimentari-en",
+      "settore": "food",
+      "nome": "Grocers and food shops",
+      "descrizione": "Mini-markets, grocery stores, neighbourhood food shops, speciality food retailers",
+      "ordine_pagina": 4,
+      "ordine_filtro": 4
+    },
+    {
+      "slug": "aziende-agricole-cantine-e-oleifici",
+      "slug_en": "aziende-agricole-cantine-e-oleifici-en",
+      "settore": "food",
+      "nome": "Farms, wineries and olive mills",
+      "descrizione": "Wineries, olive mills, agricultural estates, dairies, food production kitchens, dark kitchens",
+      "ordine_pagina": 5,
+      "ordine_filtro": 5
+    },
+    {
+      "slug": "hotel-e-strutture-ricettive",
+      "slug_en": "hotel-e-strutture-ricettive-en",
+      "settore": "hospitality",
+      "nome": "Hotels and accommodation",
+      "descrizione": "Hotels, resorts, country resorts, farm stays, aparthotels, serviced residences, B&Bs, guest houses, alberghi diffusi, holiday villages",
+      "ordine_pagina": 1,
+      "ordine_filtro": 1
+    },
+    {
+      "slug": "student-housing-e-co-living",
+      "slug_en": "student-housing-e-co-living-en",
+      "settore": "hospitality",
+      "nome": "Student housing and co-living",
+      "descrizione": "Student housing, co-living spaces, corporate guest quarters, university residences",
+      "ordine_pagina": 2,
+      "ordine_filtro": 2
+    },
+    {
+      "slug": "sale-ricevimenti-e-location-per-eventi",
+      "slug_en": "sale-ricevimenti-e-location-per-eventi-en",
+      "settore": "hospitality",
+      "nome": "Banqueting halls and event venues",
+      "descrizione": "Banqueting halls, wedding venues, event villas, independent conference centres, multi-purpose event spaces",
+      "ordine_pagina": 3,
+      "ordine_filtro": 3
+    }
+  ],
+  "categorie_brand": [
+    {
+      "slug": "ufficio",
+      "slug_en": "ufficio-en",
+      "nome": "Office",
+      "ordine": 1
+    },
+    {
+      "slug": "contract",
+      "slug_en": "contract-en",
+      "nome": "Contract",
+      "ordine": 2
+    },
+    {
+      "slug": "acustica",
+      "slug_en": "acustica-en",
+      "nome": "Acoustics",
+      "ordine": 3
+    },
+    {
+      "slug": "pareti-e-pod",
+      "slug_en": "pareti-e-pod-en",
+      "nome": "Partitions & pods",
+      "ordine": 4
+    },
+    {
+      "slug": "sedute",
+      "slug_en": "sedute-en",
+      "nome": "Seating",
+      "ordine": 5
+    },
+    {
+      "slug": "retail",
+      "slug_en": "retail-en",
+      "nome": "Retail",
+      "ordine": 6
+    },
+    {
+      "slug": "food",
+      "slug_en": "food-en",
+      "nome": "Food",
+      "ordine": 7
+    },
+    {
+      "slug": "outdoor",
+      "slug_en": "outdoor-en",
+      "nome": "Outdoor",
+      "ordine": 8
+    }
+  ],
+  "realizzazioni": [
+    {
+      "slug": "ruffolo-group",
+      "ordine": 1,
+      "settore": "uffici",
+      "categoria": "aziende-e-studi-professionali",
+      "titolo": "Ruffolo Group",
+      "localita": "Rende (CS)",
+      "kw": "Bespoke executive office furniture in Rende",
+      "introduzione": "The new executive headquarters of a transport and logistics group, fitted out through a turnkey contract project.",
+      "tipologia": "Corporate offices",
+      "progettista": "Arch. Bruno Filice",
+      "brand_forniture": "<a href=\"/en/brand-partner/frezza/\">Frezza</a>, <a href=\"/en/brand-partner/della-rovere/\">Della Rovere</a>, Mael, Virag",
+      "descrizione_lead": "For the new executive headquarters of Ruffolo Group, a transport and logistics company, we delivered a complete turnkey contract fit-out based on architect Bruno Filice's concept.",
+      "descrizione_testo": "The project includes executive desks and furnishings, glazed partitions, flooring and bespoke joinery, integrated with partner-brand systems to create an image aligned with the company's identity. The goal was to balance design, ergonomics and functionality across productive, comfortable and representative workspaces."
+    },
+    {
+      "slug": "costruzioni-imbrogno",
+      "ordine": 2,
+      "settore": "uffici",
+      "categoria": "aziende-e-studi-professionali",
+      "titolo": "Costruzioni Imbrogno",
+      "localita": "Rende (CS)",
+      "kw": "Bespoke office furniture in Rende",
+      "introduzione": "Desks, storage and seating for the offices of a growing construction company.",
+      "tipologia": "Corporate offices",
+      "progettista": "",
+      "brand_forniture": "<a href=\"/en/brand-partner/colombini-office/\">Colombini Office</a>",
+      "descrizione_lead": "For the offices of construction company Costruzioni Imbrogno in Rende, we supplied and installed Colombini Office furniture and seating.",
+      "descrizione_testo": "The result is a well-proportioned, functional working environment combining ergonomics and clean design to support a dynamic, growing business."
+    },
+    {
+      "slug": "bcc-tarsia",
+      "ordine": 3,
+      "settore": "uffici",
+      "categoria": "banche-assicurazioni-e-servizi",
+      "titolo": "BCC di Tarsia",
+      "localita": "Tarsia (CS)",
+      "kw": "Bespoke bank interior fit-out in Tarsia",
+      "introduzione": "Complete interior fit-out for a cooperative bank headquarters, with office furniture and glazed partitions.",
+      "tipologia": "Banks",
+      "progettista": "",
+      "brand_forniture": "<a href=\"/en/brand-partner/frezza/\">Frezza</a>",
+      "descrizione_lead": "For the headquarters of BCC di Tarsia, we delivered the complete office fit-out, supplying and installing furniture and partition walls.",
+      "descrizione_testo": "Using Frezza systems, we created a practical, well-ordered working environment that enhances the banking setting and supports daily comfort for staff."
+    },
+    {
+      "slug": "il-quotidiano",
+      "ordine": 4,
+      "settore": "uffici",
+      "categoria": "aziende-e-studi-professionali",
+      "titolo": "Il Quotidiano",
+      "localita": "Castrolibero (CS)",
+      "kw": "Bespoke conference hall furniture in Castrolibero",
+      "introduzione": "A representative conference hall for press conferences, institutional meetings and corporate events.",
+      "tipologia": "Conference hall",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For the conference hall of Il Quotidiano, we delivered a turnkey contract fit-out designed as a representative venue for press conferences, institutional meetings and corporate events.",
+      "descrizione_testo": "The project brings together bespoke joinery integrated into the hall's architecture, conference seating and acoustic wall panelling that improves speech intelligibility. The brief balanced aesthetics, ergonomics and technical performance for both speakers and audiences."
+    },
+    {
+      "slug": "ingrediente-school",
+      "ordine": 5,
+      "settore": "uffici",
+      "categoria": "istruzione-e-formazione",
+      "titolo": "Ingrediente School",
+      "localita": "Fuscaldo (CS)",
+      "kw": "Bespoke culinary school fit-out in Fuscaldo",
+      "introduzione": "Bespoke furniture, tables, seating and professional catering equipment for a food and wine school.",
+      "tipologia": "Food and wine school",
+      "progettista": "",
+      "brand_forniture": "<a href=\"/en/brand-partner/gaber/\">Gaber</a>, Rossanese, Fagor, Electrolux",
+      "descrizione_lead": "For Ingrediente School, a food and wine school in Fuscaldo, we crafted bespoke furnishings and supplied tables, seating and professional kitchen equipment.",
+      "descrizione_testo": "Developed in close collaboration with owner Mimmo Rosselli, the fit-out combines functionality and visual clarity in a modern, fully equipped teaching space."
+    },
+    {
+      "slug": "arpacal",
+      "ordine": 6,
+      "settore": "uffici",
+      "categoria": "enti-e-istituzioni",
+      "titolo": "Arpacal",
+      "localita": "Cosenza",
+      "kw": "Public-sector office furniture in Cosenza",
+      "introduzione": "Supply and installation of office furniture for the Regional Meteorological Centre.",
+      "tipologia": "Regional meteorological centre",
+      "progettista": "",
+      "brand_forniture": "About Office, Moving",
+      "descrizione_lead": "For the Arpacal Regional Meteorological Centre in Cosenza, we managed the supply and installation of all office furnishings.",
+      "descrizione_testo": "The scheme combines About Office and Moving systems with bespoke Artes joinery, creating an efficient workspace tailored to the agency's operational requirements."
+    },
+    {
+      "slug": "free-sport",
+      "ordine": 7,
+      "settore": "retail",
+      "categoria": "moda-e-sport",
+      "titolo": "Free Sport",
+      "localita": "Amantea (CS)",
+      "kw": "Bespoke sportswear store furniture in Amantea",
+      "introduzione": "A contemporary sportswear and footwear store, designed for practical day-to-day retail operations.",
+      "tipologia": "Sporting goods",
+      "progettista": "Lucio Pellicanò and Fausto Scalercio",
+      "brand_forniture": "",
+      "descrizione_lead": "For the Free Sport store in Amantea, we produced bespoke fixtures combining aesthetics and functionality, making full use of the floor area and showcasing apparel and footwear.",
+      "descrizione_testo": "Designed by Lucio Pellicanò and Fausto Scalercio, the interior creates a modern, welcoming store that works smoothly for staff and offers an engaging experience for customers."
+    },
+    {
+      "slug": "lico",
+      "ordine": 8,
+      "settore": "retail",
+      "categoria": "elettronica-informatica-e-servizi",
+      "titolo": "Lico",
+      "localita": "Cosenza",
+      "kw": "Bespoke home appliance store furniture in Cosenza",
+      "introduzione": "The new retail outlet of a long-established home appliance and electronics retailer.",
+      "tipologia": "Electronics and home appliances",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "We designed and built the new Lico store in Cosenza, a home appliance and consumer electronics retailer established in the area for decades.",
+      "descrizione_testo": "The layout was conceived to be contemporary and practical, keeping the focus squarely on the products on display."
+    },
+    {
+      "slug": "tema-motori",
+      "ordine": 9,
+      "settore": "retail",
+      "categoria": "mobilita-e-automotive",
+      "titolo": "Tema Motori",
+      "localita": "Rende (CS)",
+      "kw": "Glazed partitions for a car dealership in Rende",
+      "introduzione": "Glazed partition walls for the showroom floor and the new service reception area of a car dealership.",
+      "tipologia": "Car dealerships",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For the Tema Motori dealership in Rende, we designed and installed glazed partition walls across the showroom, defining separate brand zones and elevating the new reception area.",
+      "descrizione_testo": "The transparency of the glass preserves the full scale of the industrial volume while bringing natural light and visual continuity across the showroom."
+    },
+    {
+      "slug": "wellness-universe",
+      "ordine": 10,
+      "settore": "retail",
+      "categoria": "moda-e-sport",
+      "titolo": "Wellness Universe",
+      "localita": "Cosenza",
+      "kw": "Bespoke wellness and fitness store furniture in Cosenza",
+      "introduzione": "A wellness and fitness retail store refurbished with bespoke fixtures and display systems.",
+      "tipologia": "Wellness and fitness",
+      "progettista": "",
+      "brand_forniture": "HiRetail",
+      "descrizione_lead": "For the Wellness Universe store in Cosenza, we supplied and installed retail furnishings that balance functionality and visual appeal.",
+      "descrizione_testo": "Combining bespoke joinery with HiRetail display systems, we created a refreshed, inviting retail space structured to highlight products and improve the customer journey."
+    },
+    {
+      "slug": "perfect-man",
+      "ordine": 11,
+      "settore": "retail",
+      "categoria": "moda-e-sport",
+      "titolo": "Perfect Man",
+      "localita": "Mangone (CS)",
+      "kw": "Bespoke menswear store furniture in Mangone",
+      "introduzione": "A refined menswear boutique tailored to reflect the brand's identity.",
+      "tipologia": "Clothing",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For the Perfect Man store in Mangone, we supplied bespoke fixtures designed to unite aesthetics and practicality, aligned with the brand's identity and conceived to elevate garment presentation.",
+      "descrizione_testo": "The interior focuses on ease of operation for staff and a relaxed shopping experience for customers, with close attention paid to detailing and material finishes."
+    },
+    {
+      "slug": "morgana",
+      "ordine": 12,
+      "settore": "retail",
+      "categoria": "moda-e-sport",
+      "titolo": "Morgana",
+      "localita": "Montalto Uffugo (CS)",
+      "kw": "Bespoke footwear store furniture in Montalto Uffugo",
+      "introduzione": "Bespoke display fixtures crafted to showcase the collections of a footwear boutique.",
+      "tipologia": "Footwear",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For the Morgana store in Montalto Uffugo, we handled the supply and installation of retail fixtures engineered for clear, functional presentation.",
+      "descrizione_testo": "The fit-out optimised the store's floor plan, highlighted seasonal footwear collections and created a welcoming atmosphere for shoppers."
+    },
+    {
+      "slug": "calzature-rao",
+      "ordine": 13,
+      "settore": "retail",
+      "categoria": "moda-e-sport",
+      "titolo": "Calzature Rao",
+      "localita": "Cosenza",
+      "kw": "Footwear store refurbishment in Cosenza",
+      "introduzione": "Complete interior refurbishment and bespoke fixtures for an established footwear store.",
+      "tipologia": "Footwear",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For Calzature Rao in Cosenza, we managed the complete interior restyling, updating the store with a contemporary, functional furniture scheme.",
+      "descrizione_testo": "The refurbishment enhances footwear displays and shapes an inviting retail space that balances aesthetics with everyday practicality."
+    },
+    {
+      "slug": "jumecitu",
+      "ordine": 14,
+      "settore": "bar-ristoranti",
+      "categoria": "ristorazione",
+      "titolo": "Jumecitu",
+      "localita": "Rogliano (CS)",
+      "kw": "Bespoke restaurant and pizzeria fit-out in Rogliano",
+      "introduzione": "Bespoke furnishings and professional kitchen equipment for a contemporary restaurant and pizzeria.",
+      "tipologia": "Restaurant and pizzeria",
+      "progettista": "Edoardo Carlino",
+      "brand_forniture": "Fagor, Sammic, Amitek, Ambrogi, <a href=\"/en/brand-partner/pedrali/\">Pedrali</a>, Rossanese",
+      "descrizione_lead": "For the Jumecitu restaurant and pizzeria in Rogliano, we supplied and installed bespoke furniture and professional catering equipment, combining operational efficiency with design.",
+      "descrizione_testo": "Designed by Edoardo Carlino, the venue adopts a contemporary language shaped around both front-of-house atmosphere and kitchen workflow. Bespoke joinery and partner-brand furnishings work together to frame the guest experience."
+    },
+    {
+      "slug": "soft-bar",
+      "ordine": 15,
+      "settore": "bar-ristoranti",
+      "categoria": "bar-e-caffetterie",
+      "titolo": "Soft Bar",
+      "localita": "Rende (CS)",
+      "kw": "Bespoke lounge bar fit-out in Rende",
+      "introduzione": "Bespoke bar furniture and kitchen equipment for a welcoming, high-efficiency lounge bar.",
+      "tipologia": "Lounge bar",
+      "progettista": "",
+      "brand_forniture": "Fagor, Tecnoeka, Amitek, Metaltecnica, Agorà Mobili",
+      "descrizione_lead": "For Soft Bar in Rende, we supplied and installed the bespoke bar counter, furnishings and kitchen equipment, creating a welcoming and functional venue.",
+      "descrizione_testo": "Developed alongside owner and bartender Italo Chiappetta, the project paid close attention to service ergonomics and every detail of the guest experience."
+    },
+    {
+      "slug": "lido-da-pietro",
+      "ordine": 16,
+      "settore": "bar-ristoranti",
+      "categoria": "locali-e-intrattenimento",
+      "titolo": "Lido da Pietro",
+      "localita": "Scalea (CS)",
+      "kw": "Beach club bar fit-out in Scalea",
+      "introduzione": "Bar furnishings and commercial kitchen equipment for a coastal beach club.",
+      "tipologia": "Beach clubs and lidos",
+      "progettista": "Arch. Olivia Bruno",
+      "brand_forniture": "",
+      "descrizione_lead": "For Lido da Pietro in Scalea, we delivered a complete fit-out covering the supply and installation of bar furnishings and professional kitchen equipment.",
+      "descrizione_testo": "Developed in collaboration with architect Olivia Bruno, the project unites clean aesthetics with practical durability, enhancing guest comfort and back-of-house efficiency."
+    },
+    {
+      "slug": "sakuralab",
+      "ordine": 17,
+      "settore": "food",
+      "categoria": "panetterie-e-pasticcerie",
+      "titolo": "Sakuralab",
+      "localita": "Rende (CS)",
+      "kw": "Patisserie workshop equipment and furniture in Rende",
+      "introduzione": "An artisan patisserie workshop laid out for clean, efficient production workflows.",
+      "tipologia": "Patisserie workshop",
+      "progettista": "",
+      "brand_forniture": "Zanolli, Mecnosud, Ilsa, Staf59, Metaltecnica, Offcar, FBM Boscolo, Karel",
+      "descrizione_lead": "For the new Sakuralab patisserie workshop in Rende, we supplied and installed the professional equipment, planning an efficient, well-organised production environment.",
+      "descrizione_testo": "The equipment supports every stage of artisan production, from dough preparation to finished-product preservation, within a layout structured around seamless kitchen workflows."
+    },
+    {
+      "slug": "agricola-benincasa",
+      "ordine": 18,
+      "settore": "food",
+      "categoria": "aziende-agricole-cantine-e-oleifici",
+      "titolo": "Agricola Luigi Benincasa",
+      "localita": "Cantinella (CS)",
+      "kw": "Olive mill and tasting room fit-out in Cantinella",
+      "introduzione": "Retail space, tasting room and executive office for an olive mill housed in a stone farmhouse.",
+      "tipologia": "Olive mills",
+      "progettista": "",
+      "brand_forniture": "Brugnotto HiRetail, <a href=\"/en/brand-partner/gaber/\">Gaber</a>, <a href=\"/en/brand-partner/frezza/\">Frezza</a>",
+      "descrizione_lead": "For the olive mill of Azienda Agricola Luigi Benincasa, we delivered a contract fit-out bringing together retail, tasting room and office areas inside a historic stone farmhouse.",
+      "descrizione_testo": "The tasting counter and back counter were crafted to measure; the retail area pairs iron-and-wood shelving and display tables with Gaber chairs and stools. A glazed executive office furnished with Frezza systems completes the intervention."
+    },
+    {
+      "slug": "bottega-del-vicinato",
+      "ordine": 19,
+      "settore": "food",
+      "categoria": "botteghe-e-alimentari",
+      "titolo": "La bottega del vicinato",
+      "localita": "Guardia Piemontese (CS)",
+      "kw": "Bespoke mini-market furniture in Guardia Piemontese",
+      "introduzione": "Fixtures and retail equipment for a neighbourhood mini-market blending traditional warmth and clean contemporary lines.",
+      "tipologia": "Mini-market",
+      "progettista": "",
+      "brand_forniture": "",
+      "descrizione_lead": "For La bottega del vicinato in Guardia Piemontese, we delivered a complete fit-out, supplying and installing bespoke retail fixtures and store equipment.",
+      "descrizione_testo": "The redesign improves store circulation and product visibility, creating a welcoming, practical space for both customers and staff that balances traditional cues with modern lines."
+    },
+    {
+      "slug": "royal-hotel",
+      "ordine": 20,
+      "settore": "hospitality",
+      "categoria": "hotel-e-strutture-ricettive",
+      "titolo": "Royal Hotel",
+      "localita": "Cosenza",
+      "kw": "Bespoke hotel guestroom furniture in Cosenza",
+      "introduzione": "Bespoke guestrooms for a city hotel, combining fine materials with refined furniture design.",
+      "tipologia": "Hotel",
+      "progettista": "Arch. Virginia Oriolo",
+      "brand_forniture": "",
+      "descrizione_lead": "For Royal Hotel in Cosenza, we crafted the bespoke guestroom furnishings in collaboration with architect Virginia Oriolo.",
+      "descrizione_testo": "Selected materials and refined furniture design unite elegance and comfort, delivering warm, functional interiors tailored to guest wellbeing."
+    }
+  ],
+  "brand": [
+    {
+      "slug": "frezza",
+      "ordine": 1,
+      "categoria_brand": "ufficio",
+      "titolo": "Frezza",
+      "introduzione": "Frezza is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use Frezza primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. Featured in <a href=\"/en/realizzazioni/ruffolo-group/\">Ruffolo Group</a>, <a href=\"/en/realizzazioni/bcc-tarsia/\">BCC di Tarsia</a> and <a href=\"/en/realizzazioni/agricola-benincasa/\">Agricola Luigi Benincasa</a>."
+    },
+    {
+      "slug": "colombini-office",
+      "ordine": 2,
+      "categoria_brand": "ufficio",
+      "titolo": "Colombini Office",
+      "introduzione": "Colombini Office is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use Colombini Office primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. Featured in <a href=\"/en/realizzazioni/costruzioni-imbrogno/\">Costruzioni Imbrogno</a>."
+    },
+    {
+      "slug": "las",
+      "ordine": 3,
+      "categoria_brand": "ufficio",
+      "titolo": "LAS",
+      "introduzione": "LAS is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use LAS primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "della-rovere",
+      "ordine": 4,
+      "categoria_brand": "ufficio",
+      "titolo": "Della Rovere",
+      "introduzione": "Della Rovere is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use Della Rovere primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. Featured in <a href=\"/en/realizzazioni/ruffolo-group/\">Ruffolo Group</a>."
+    },
+    {
+      "slug": "martex",
+      "ordine": 5,
+      "categoria_brand": "ufficio",
+      "titolo": "Martex",
+      "introduzione": "Martex is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use Martex primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "estel",
+      "ordine": 6,
+      "categoria_brand": "ufficio",
+      "titolo": "Estel",
+      "introduzione": "Estel is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Operational and executive desks, workstations and storage systems: we integrate them with reception counters, wall panelling and built-in cabinetry crafted in our own joinery workshop, giving the office a coherent look from reception to the final workstation.",
+      "dove_lo_usiamo": "We use Estel primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "pedrali",
+      "ordine": 7,
+      "categoria_brand": "contract",
+      "titolo": "Pedrali",
+      "introduzione": "Pedrali is one of the partner brands we work with for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>, <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>, <a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>, <a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Seating, tables and accessories engineered for public spaces, selected for durability, certifications and alignment with the architect's specification. We integrate them alongside our bespoke joinery within the same contract package.",
+      "dove_lo_usiamo": "We use Pedrali primarily for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>, <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. Featured in <a href=\"/en/realizzazioni/jumecitu/\">Jumecitu</a>."
+    },
+    {
+      "slug": "gaber",
+      "ordine": 8,
+      "categoria_brand": "contract",
+      "titolo": "Gaber",
+      "introduzione": "Gaber is one of the partner brands we work with for <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>, <a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Seating, tables and accessories engineered for public spaces, selected for durability, certifications and alignment with the architect's specification. We integrate them alongside our bespoke joinery within the same contract package.",
+      "dove_lo_usiamo": "We use Gaber primarily for <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>. Featured in <a href=\"/en/realizzazioni/ingrediente-school/\">Ingrediente School</a> and <a href=\"/en/realizzazioni/agricola-benincasa/\">Agricola Luigi Benincasa</a>."
+    },
+    {
+      "slug": "et-al",
+      "ordine": 9,
+      "categoria_brand": "contract",
+      "titolo": "Et al.",
+      "introduzione": "Et al. is one of the partner brands we work with for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>, <a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Seating, tables and accessories engineered for public spaces, selected for durability, certifications and alignment with the architect's specification. We integrate them alongside our bespoke joinery within the same contract package.",
+      "dove_lo_usiamo": "We use Et al. primarily for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>."
+    },
+    {
+      "slug": "caimi",
+      "ordine": 10,
+      "categoria_brand": "acustica",
+      "titolo": "Caimi",
+      "introduzione": "Caimi is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>, <a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Sound-absorbing panels and acoustic solutions for open-plan offices, meeting rooms and hospitality venues: we position them directly on the layout to cut reverberation where it matters most, without visually weighing down the space.",
+      "dove_lo_usiamo": "We use Caimi primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>."
+    },
+    {
+      "slug": "snowsound",
+      "ordine": 11,
+      "categoria_brand": "acustica",
+      "titolo": "Snowsound",
+      "introduzione": "Snowsound is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>, <a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Sound-absorbing panels and acoustic solutions for open-plan offices, meeting rooms and hospitality venues: we position them directly on the layout to cut reverberation where it matters most, without visually weighing down the space.",
+      "dove_lo_usiamo": "We use Snowsound primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>."
+    },
+    {
+      "slug": "vetroin",
+      "ordine": 12,
+      "categoria_brand": "pareti-e-pod",
+      "titolo": "Vetroin",
+      "introduzione": "Vetroin is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Glazed partitions and acoustic pods to divide spaces without sacrificing daylight. We engineer them alongside the interior layout and install them in sequence with the rest of the furnishings.",
+      "dove_lo_usiamo": "We use Vetroin primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "kastel",
+      "ordine": 13,
+      "categoria_brand": "sedute",
+      "titolo": "Kastel",
+      "introduzione": "Kastel is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>, <a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Task, executive and waiting-area seating, selected for ergonomics, intended use and ease of maintenance, and coordinated with the workstation layout.",
+      "dove_lo_usiamo": "We use Kastel primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a> and <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a>."
+    },
+    {
+      "slug": "leyform",
+      "ordine": 14,
+      "categoria_brand": "sedute",
+      "titolo": "Leyform",
+      "introduzione": "Leyform is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Task, executive and waiting-area seating, selected for ergonomics, intended use and ease of maintenance, and coordinated with the workstation layout.",
+      "dove_lo_usiamo": "We use Leyform primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "sm-milani",
+      "ordine": 15,
+      "categoria_brand": "sedute",
+      "titolo": "SM Milani",
+      "introduzione": "SM Milani is one of the partner brands we work with for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-ufficio/\">Office and workspace furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Task, executive and waiting-area seating, selected for ergonomics, intended use and ease of maintenance, and coordinated with the workstation layout.",
+      "dove_lo_usiamo": "We use SM Milani primarily for <a href=\"/en/arredamento-ufficio/\">offices and workspaces</a>."
+    },
+    {
+      "slug": "arken",
+      "ordine": 16,
+      "categoria_brand": "retail",
+      "titolo": "Arken",
+      "introduzione": "Arken is one of the partner brands we work with for <a href=\"/en/arredo-negozi/\">retail and stores</a> and <a href=\"/en/arredo-negozi-food/\">food stores</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredo-negozi/\">Retail and store furniture</a>, <a href=\"/en/arredo-negozi-food/\">Food retail furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Modular display systems integrated with bespoke counters, checkout units and joinery, allowing the store to be reconfigured cleanly each season.",
+      "dove_lo_usiamo": "We use Arken primarily for <a href=\"/en/arredo-negozi/\">retail and stores</a> and <a href=\"/en/arredo-negozi-food/\">food stores</a>."
+    },
+    {
+      "slug": "lainox",
+      "ordine": 17,
+      "categoria_brand": "food",
+      "titolo": "Lainox",
+      "introduzione": "Lainox is one of the partner brands we work with for <a href=\"/en/arredo-negozi-food/\">food stores</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredo-negozi-food/\">Food retail furniture</a>, <a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Professional equipment for food workshops and commercial kitchens, integrated into the counters and joinery we manufacture and installed in coordination with MEP contractors.",
+      "dove_lo_usiamo": "We use Lainox primarily for <a href=\"/en/arredo-negozi-food/\">food stores</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>."
+    },
+    {
+      "slug": "nardi-outdoor",
+      "ordine": 18,
+      "categoria_brand": "outdoor",
+      "titolo": "Nardi Outdoor",
+      "introduzione": "Nardi Outdoor is one of the partner brands we work with for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>. We select products against the project specification, coordinate them with our bespoke joinery, and manage delivery and installation.",
+      "settori_artes": "<a href=\"/en/arredamento-hotel/\">Hotel and hospitality furniture</a>, <a href=\"/en/arredamento-bar-ristoranti/\">Bar and restaurant furniture</a>",
+      "fornitura_artes": "Selection, specification, coordination, delivery and installation",
+      "assistenza": "Warranty and spare parts through a single point of contact",
+      "come_lavoriamo": "Weather- and UV-resistant outdoor furniture for terraces, street-side seating, gardens and poolside areas.",
+      "dove_lo_usiamo": "We use Nardi Outdoor primarily for <a href=\"/en/arredamento-hotel/\">hotels and hospitality</a> and <a href=\"/en/arredamento-bar-ristoranti/\">bars and restaurants</a>."
+    }
+  ],
+  "relazioni": [
+    ["ruffolo-group", "frezza"],
+    ["bcc-tarsia", "frezza"],
+    ["agricola-benincasa", "frezza"],
+    ["costruzioni-imbrogno", "colombini-office"],
+    ["ruffolo-group", "della-rovere"],
+    ["jumecitu", "pedrali"],
+    ["ingrediente-school", "gaber"],
+    ["agricola-benincasa", "gaber"]
+  ],
+  "wpml_strings": {
+    "artes_seo_archives": [
+      {
+        "context": "admin_texts_artes_seo_archives",
+        "name": "[artes_seo_archives][realizzazione]title",
+        "post_type": "realizzazione",
+        "field": "title",
+        "it": "Realizzazioni di arredi su misura — Artes",
+        "en": "Bespoke furniture projects — Artes"
+      },
+      {
+        "context": "admin_texts_artes_seo_archives",
+        "name": "[artes_seo_archives][realizzazione]description",
+        "post_type": "realizzazione",
+        "field": "description",
+        "it": "Le realizzazioni Artes per uffici, negozi, bar e ristoranti, negozi food e hotel: case history di arredi su misura progettati, prodotti e montati, filtrabili per settore e categoria.",
+        "en": "Artes projects for offices, retail stores, bars and restaurants, food shops and hotels: bespoke furniture case studies designed, crafted and installed, filterable by sector and category."
+      },
+      {
+        "context": "admin_texts_artes_seo_archives",
+        "name": "[artes_seo_archives][brand]title",
+        "post_type": "brand",
+        "field": "title",
+        "it": "Brand Partner — ARTES Contract",
+        "en": "Brand Partners — ARTES Contract"
+      },
+      {
+        "context": "admin_texts_artes_seo_archives",
+        "name": "[artes_seo_archives][brand]description",
+        "post_type": "brand",
+        "field": "description",
+        "it": "I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato.",
+        "en": "The partner brands Artes works with: office furniture, contract seating, acoustics, stone surfaces and outdoor furniture. Each brand is linked to the projects in which it was used."
+      }
+    ],
+    "wp_options": [
+      {
+        "context": "WP",
+        "name": "Tagline",
+        "option": "blogdescription",
+        "it": "azienda consolidata e in continua crescita, specializzata nella Progettazione, produzione e fornitura di arredi per uffici, negozi, bar, ristoranti e hotel.",
+        "en": "Bespoke contract furniture design, manufacturing and installation for offices, retail stores, bars, restaurants and hotels."
+      }
+    ],
+    "artes_core": [
+      {
+        "context": "artes-core",
+        "name": "email_in_allegato",
+        "it": "(in allegato)",
+        "en": "(attached)"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_informazioni",
+        "it": "Informazioni generali",
+        "en": "General enquiries"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_tecnico",
+        "it": "Parlare con un tecnico",
+        "en": "Speak with a technician"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_progettisti",
+        "it": "Collaborazione per studi e progettisti",
+        "en": "Collaboration for architects and studios"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_pa",
+        "it": "Pubblica amministrazione e MEPA",
+        "en": "Public administration and MEPA"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_assistenza",
+        "it": "Assistenza su una fornitura",
+        "en": "After-sales support"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_fornitori",
+        "it": "Fornitori e partner",
+        "en": "Suppliers and partners"
+      },
+      {
+        "context": "artes-core",
+        "name": "motivo_lavoro",
+        "it": "Lavora con noi",
+        "en": "Careers"
+      },
+      {
+        "context": "artes-core",
+        "name": "breadcrumb_home",
+        "it": "Home",
+        "en": "Home"
+      },
+      {
+        "context": "artes-core",
+        "name": "breadcrumb_brand",
+        "it": "Brand partner",
+        "en": "Brand partners"
+      },
+      {
+        "context": "artes-core",
+        "name": "breadcrumb_realizzazioni",
+        "it": "Realizzazioni",
+        "en": "Projects"
+      },
+      {
+        "context": "artes-core",
+        "name": "galleria_titolo_singolare",
+        "it": "Galleria fotografica · %d foto",
+        "en": "Photo gallery · %d photo"
+      },
+      {
+        "context": "artes-core",
+        "name": "galleria_titolo_plurale",
+        "it": "Galleria fotografica · %d foto",
+        "en": "Photo gallery · %d photos"
+      },
+      {
+        "context": "artes-core",
+        "name": "scopri_arredo_testo",
+        "it": "Scopri l'arredo %s",
+        "en": "Explore %s"
+      },
+      {
+        "context": "artes-core",
+        "name": "cta_brand",
+        "it": "Arredi %s<br>per il tuo spazio?",
+        "en": "%s furniture<br>for your space?"
+      },
+      {
+        "context": "artes-core",
+        "name": "correlate_titolo",
+        "it": "Altre realizzazioni %s",
+        "en": "More projects — %s"
+      },
+      {
+        "context": "artes-core",
+        "name": "correlate_titolo_vuoto",
+        "it": "Altre realizzazioni",
+        "en": "More projects"
+      },
+      {
+        "context": "artes-core",
+        "name": "eyebrow_brand",
+        "it": "Brand partner — %s",
+        "en": "Brand partner — %s"
+      },
+      {
+        "context": "artes-core",
+        "name": "eyebrow_brand_vuoto",
+        "it": "Brand partner",
+        "en": "Brand partner"
+      },
+      {
+        "context": "artes-core",
+        "name": "come_titolo",
+        "it": "Come lavoriamo con %s",
+        "en": "How we work with %s"
+      },
+      {
+        "context": "artes-core",
+        "name": "correlate_brand_titolo",
+        "it": "Realizzazioni con %s",
+        "en": "Projects with %s"
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_archive_realizzazione_title",
+        "it": "Realizzazioni di arredi su misura — Artes",
+        "en": "Bespoke furniture projects — Artes"
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_archive_realizzazione_desc",
+        "it": "Le realizzazioni Artes per uffici, negozi, bar e ristoranti, negozi food e hotel: case history di arredi su misura progettati, prodotti e montati, filtrabili per settore e categoria.",
+        "en": "Artes projects for offices, retail stores, bars and restaurants, food shops and hotels: bespoke furniture case studies designed, crafted and installed, filterable by sector and category."
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_archive_brand_title",
+        "it": "Brand Partner — ARTES Contract",
+        "en": "Brand Partners — ARTES Contract"
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_archive_brand_desc",
+        "it": "I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato.",
+        "en": "The partner brands Artes works with: office furniture, contract seating, acoustics, stone surfaces and outdoor furniture. Each brand is linked to the projects in which it was used."
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_brand_title",
+        "it": "%s — Brand partner Artes",
+        "en": "%s — Artes Brand Partner"
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_brand_desc_cat",
+        "it": "%1$s, brand partner Artes per la categoria %2$s: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate.",
+        "en": "%1$s, Artes brand partner for %2$s: where we use it, how we coordinate it with bespoke furniture and related projects."
+      },
+      {
+        "context": "artes-core",
+        "name": "seo_brand_desc",
+        "it": "%s, brand partner Artes: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate.",
+        "en": "%s, Artes brand partner: where we use it, how we coordinate it with bespoke furniture and related projects."
+      },
+      {
+        "context": "artes-core",
+        "name": "js_tutti",
+        "it": "Tutti",
+        "en": "All"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_tutte",
+        "it": "Tutte",
+        "en": "All"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_tutti_settori",
+        "it": "Tutti i settori",
+        "en": "All sectors"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_nav_principale",
+        "it": "Navigazione principale",
+        "en": "Main navigation"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_nav_mobile",
+        "it": "Navigazione mobile",
+        "en": "Mobile navigation"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_apri_menu",
+        "it": "Apri il menu",
+        "en": "Open menu"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_chiudi_menu",
+        "it": "Chiudi il menu",
+        "en": "Close menu"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_foto_in_arrivo",
+        "it": "Foto in arrivo",
+        "en": "Photo coming soon"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_dati_servizio",
+        "it": "Dati principali del servizio",
+        "en": "Key service facts"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_indice_pagina",
+        "it": "Indice della pagina",
+        "en": "Page index"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_controlli_slider",
+        "it": "Controlli galleria produzione",
+        "en": "Production gallery controls"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_galleria_dialog",
+        "it": "Galleria fotografica",
+        "en": "Photo gallery"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_chiudi",
+        "it": "Chiudi",
+        "en": "Close"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_precedente",
+        "it": "Foto precedente",
+        "en": "Previous photo"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_successiva",
+        "it": "Foto successiva",
+        "en": "Next photo"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_foto_di",
+        "it": "{titolo} — foto {n} di {tot}",
+        "en": "{titolo} — photo {n} of {tot}"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_apri_immagine",
+        "it": "Apri la foto {n} di {tot}",
+        "en": "Open photo {n} of {tot}"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_filtra_settore",
+        "it": "Filtra per settore",
+        "en": "Filter by sector"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_filtra_categoria_di",
+        "it": "Filtra {settore} per categoria",
+        "en": "Filter {settore} by category"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_filtra_categoria",
+        "it": "Filtra per categoria",
+        "en": "Filter by category"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_progetto_uno",
+        "it": "1 realizzazione",
+        "en": "1 project"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_progetti_molti",
+        "it": "{n} realizzazioni",
+        "en": "{n} projects"
+      },
+      {
+        "context": "artes-core",
+        "name": "js_nessun_progetto",
+        "it": "Nessuna realizzazione pubblicata per questa categoria.",
+        "en": "No published projects in this category."
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_galleria",
+        "it": "Galleria immagini",
+        "en": "Image gallery"
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_chiudi",
+        "it": "Chiudi",
+        "en": "Close"
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_precedente",
+        "it": "Immagine precedente",
+        "en": "Previous image"
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_successiva",
+        "it": "Immagine successiva",
+        "en": "Next image"
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_ingrandisci",
+        "it": "Ingrandisci: ",
+        "en": "Enlarge: "
+      },
+      {
+        "context": "artes-core",
+        "name": "legacy_immagine",
+        "it": "immagine",
+        "en": "image"
+      }
+    ]
+  }
+}

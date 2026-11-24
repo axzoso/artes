@@ -1,4 +1,4 @@
-# Installa (o aggiorna) il plugin artes-core su dev3 come plugin vero.
+﻿# Installa (o aggiorna) il plugin artes-core su dev3 come plugin vero.
 #   1. impacchetta wp/artes-core (artes-core.php + artes-core.css) in uno ZIP;
 #   2. lo carica con il link di upload di Novamira (i file .php si possono scrivere solo nella
 #      sandbox, uno ZIP no: è il canale previsto per i plugin);
@@ -17,19 +17,30 @@ function RunWp($cliArgs) { (Ability 'novamira/run-wp-cli' @{ args = $cliArgs } |
 
 # 1. pacchetto
 $stage = Join-Path $out 'pkg'
+$pkgRoot = Join-Path $stage 'artes-core'
 Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force (Join-Path $stage 'artes-core') | Out-Null
-Copy-Item (Join-Path $src 'artes-core.php'), (Join-Path $src 'artes-core.css'), (Join-Path $src 'artes-core.js') (Join-Path $stage 'artes-core')
-# file della rev2 (generati da tools/rev2/port-css.js e scritti a mano nel caso del JavaScript), se presenti
-foreach ($f in 'artes-rev2.css', 'artes-rev2.js') { $p = Join-Path $src $f; if (Test-Path $p) { Copy-Item $p (Join-Path $stage 'artes-core') } }
+New-Item -ItemType Directory -Force $pkgRoot | Out-Null
+Copy-Item (Join-Path $src 'artes-core.php'), (Join-Path $src 'artes-core.css'), (Join-Path $src 'artes-core.js') $pkgRoot
+# file della rev2 (generati da tools/rev2/port-css.js e scritti a mano nel caso del JavaScript) e configurazione WPML, se presenti
+foreach ($f in 'artes-rev2.css', 'artes-rev2.js', 'wpml-config.xml') {
+  $p = Join-Path $src $f
+  if (Test-Path $p) { Copy-Item $p $pkgRoot }
+}
+# cataloghi traduzioni (.pot/.po/.mo), se presenti
+$langSrc = Join-Path $src 'languages'
+if (Test-Path $langSrc) {
+  Copy-Item $langSrc (Join-Path $pkgRoot 'languages') -Recurse -Force
+}
 $zip = Join-Path $out 'artes-core.zip'
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 # ZIP con barre normali nei percorsi: Compress-Archive (PowerShell 7 su Windows) scrive "artes-core\file.php"
 # e WordPress lo scompatta in file dal nome sbagliato, rompendo il plugin.
 Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
 $za = [System.IO.Compression.ZipFile]::Open($zip, 'Create')
-foreach ($f in Get-ChildItem (Join-Path $stage 'artes-core') -File) {
-  [void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($za, $f.FullName, "artes-core/$($f.Name)")
+$pkgRootFull = (Get-Item $pkgRoot).FullName.TrimEnd('\', '/')
+foreach ($f in Get-ChildItem $pkgRoot -Recurse -File) {
+  $rel = $f.FullName.Substring($pkgRootFull.Length + 1).Replace('\', '/')
+  [void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($za, $f.FullName, "artes-core/$rel")
 }
 $za.Dispose()
 "1. pacchetto: $zip ($((Get-Item $zip).Length) byte)"
@@ -63,8 +74,9 @@ return [
   'plugin_attivo' => is_plugin_active('artes-core/artes-core.php'),
   'versione' => defined('ARTES_CORE_VERSION') ? ARTES_CORE_VERSION : null,
   'file_funzione' => str_replace(ABSPATH, '', $r->getFileName()),
-  'shortcode' => array_map('shortcode_exists', ['artes_lingue', 'artes_titolo', 'artes_settore_ambito']),
+  'shortcode' => array_map('shortcode_exists', ['artes_lingue', 'artes_breadcrumb', 'artes_url_archivio_settore', 'artes_correlate_titolo', 'artes_eyebrow_brand', 'artes_come_titolo', 'artes_correlate_brand_titolo', 'artes_dato_categoria_brand']),
   'css_nel_plugin' => file_exists(WP_PLUGIN_DIR . '/artes-core/artes-core.css'),
+  'wpml_config_nel_plugin' => file_exists(WP_PLUGIN_DIR . '/artes-core/wpml-config.xml'),
   'kit' => $kit,
 ];
 '@ | Set-Content $chk -Encoding utf8

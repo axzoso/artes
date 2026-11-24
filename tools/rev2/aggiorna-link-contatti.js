@@ -28,6 +28,22 @@ const REV_FILE_DEFAULT = path.join(outDir, 'link-contatti-revisions.json');
 
 const FOOTER_PRIVACY_SRC = '<span>Privacy · Cookie · MEPA</span>';
 const FOOTER_PRIVACY_DST = '<span><a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a> · <a href="/arredamento-ufficio/">MEPA</a></span>';
+const HEADER_LANG_DESKTOP_SRC = '<span class="topbar__lang">IT / EN</span>';
+const HEADER_LANG_DESKTOP_DST = '<span class="topbar__lang" data-dyn="lingue">IT / EN</span>';
+const HEADER_CONTATTI_MOBILE_SRC = '<a href="#contatti" class="mobile-nav__sec">Contatti</a>';
+const HEADER_CONTATTI_MOBILE_DST = '<a href="#contatti" class="mobile-nav__sec">Contatti</a>\n      <span class="mobile-nav__sec topbar__lang" data-dyn="lingue">IT / EN</span>';
+
+function preparaHtmlHeader(html) {
+  if (!html.includes(HEADER_LANG_DESKTOP_SRC)) {
+    throw new Error(`Header sorgente senza "${HEADER_LANG_DESKTOP_SRC}"`);
+  }
+  if (!html.includes(HEADER_CONTATTI_MOBILE_SRC)) {
+    throw new Error(`Header sorgente senza "${HEADER_CONTATTI_MOBILE_SRC}"`);
+  }
+  return html
+    .replace(HEADER_LANG_DESKTOP_SRC, HEADER_LANG_DESKTOP_DST)
+    .replace(HEADER_CONTATTI_MOBILE_SRC, HEADER_CONTATTI_MOBILE_DST);
+}
 
 const DOCUMENTI = [
   // Site part globali (da artes-sito-rev2/index.html, identici su tutte le 49 pagine rev2)
@@ -83,6 +99,9 @@ function classificaOrigine(hrefOrig) {
 
 function costruisciDocumento(doc) {
   let html = fs.readFileSync(doc.sorgente, 'utf8');
+  if (doc.tipo === 'header') {
+    html = preparaHtmlHeader(html);
+  }
   if (doc.tipo === 'footer') {
     if (!html.includes(FOOTER_PRIVACY_SRC)) {
       throw new Error(`Footer sorgente senza "${FOOTER_PRIVACY_SRC}"`);
@@ -112,9 +131,11 @@ function costruisciDocumento(doc) {
   }
 
   // Conversione ufficiale tramite html2elementor.js
-  const opzioni = doc.tipo === 'header' || doc.tipo === 'footer'
-    ? { file: doc.fileLog }
-    : { file: doc.fileLog, soloFigli: true, radice: { classi: ['page-root', ...classi(nodo)] }, ...(doc.dinamico ? { dinamici } : {}) };
+  const opzioni = doc.tipo === 'header'
+    ? { file: doc.fileLog, dinamici }
+    : (doc.tipo === 'footer'
+      ? { file: doc.fileLog }
+      : { file: doc.fileLog, soloFigli: true, radice: { classi: ['page-root', ...classi(nodo)] }, ...(doc.dinamico ? { dinamici } : {}) });
 
   const r = converti(nodo, opzioni);
   const avvisiCritici = [...avvisiParser, ...r.avvisi.filter((a) => !AVVISO_BENIGNO_RE.test(a))];
@@ -132,6 +153,23 @@ function costruisciDocumento(doc) {
   }
   if (residuiHashContatti.length > 0) {
     throw new Error(`${doc.nome} (${doc.id}): trovati ${residuiHashContatti.length} link residui a #contatti`);
+  }
+  if (doc.tipo === 'header') {
+    let lingueDesktop = 0;
+    let lingueMobile = 0;
+    for (const [elId, cfg] of Object.entries(r.composizione.element_config || {})) {
+      if (cfg && cfg.paragraph && typeof cfg.paragraph === 'object' && cfg.paragraph.name === 'shortcode' && cfg.paragraph.settings && cfg.paragraph.settings.shortcode === '[artes_lingue]') {
+        const cl = (r.composizione.classes && r.composizione.classes[elId]) || [];
+        if (cl.includes('mobile-nav__sec') && cl.includes('topbar__lang')) lingueMobile++;
+        else if (cl.includes('topbar__lang')) lingueDesktop++;
+      }
+      if (cfg && typeof cfg.paragraph === 'string' && /IT\s*\/\s*EN/.test(cfg.paragraph)) {
+        throw new Error(`Header (${doc.id}): testo statico "IT / EN" residuo in ${elId}`);
+      }
+    }
+    if (lingueDesktop !== 1 || lingueMobile !== 1) {
+      throw new Error(`Header (${doc.id}): [artes_lingue] atteso 1 desktop + 1 mobile (trovati desktop=${lingueDesktop}, mobile=${lingueMobile})`);
+    }
   }
   if (doc.tipo === 'footer') {
     const destSet = new Set(linkComp.map((x) => x.dest));
@@ -479,53 +517,64 @@ async function rollbackDaBackup(fileBackup) {
   console.log('Cache Elementor e WordPress svuotate.');
 }
 
-(async () => {
-  const args = process.argv.slice(2);
-  const modePiano = args.includes('--piano');
-  const modeEsegui = args.includes('--esegui');
-  const modeStato = args.includes('--stato');
-  const idxRollback = args.indexOf('--rollback');
-  const modeRollback = idxRollback >= 0;
+if (require.main === module) {
+  (async () => {
+    const args = process.argv.slice(2);
+    const modePiano = args.includes('--piano');
+    const modeEsegui = args.includes('--esegui');
+    const modeStato = args.includes('--stato');
+    const idxRollback = args.indexOf('--rollback');
+    const modeRollback = idxRollback >= 0;
 
-  if (!modePiano && !modeEsegui && !modeStato && !modeRollback) {
-    console.error('Uso: aggiorna-link-contatti.js --piano | --esegui | --stato | --rollback [file] [--solo ...] [--salva-comp]');
-    process.exit(2);
-  }
-
-  if (modeRollback) {
-    const nextArg = args[idxRollback + 1];
-    const fileBackup = (nextArg && !nextArg.startsWith('--')) ? path.resolve(root, nextArg) : REV_FILE_DEFAULT;
-    await rollbackDaBackup(fileBackup);
-    return;
-  }
-
-  const docs = selezionaDocumenti(args);
-
-  if (modeStato) {
-    await stampaStatoDev3(docs);
-    return;
-  }
-
-  // Costruzione e validazione locale completa prima di qualsiasi scrittura
-  const builtList = docs.map(costruisciDocumento);
-  if (args.includes('--salva-comp')) {
-    fs.mkdirSync(compDir, { recursive: true });
-    for (const b of builtList) {
-      fs.writeFileSync(path.join(compDir, b.doc.compFile), JSON.stringify(b.risultato.composizione, null, 1));
+    if (!modePiano && !modeEsegui && !modeStato && !modeRollback) {
+      console.error('Uso: aggiorna-link-contatti.js --piano | --esegui | --stato | --rollback [file] [--solo ...] [--salva-comp]');
+      process.exit(2);
     }
-    console.log(`Composizioni salvate in ${path.relative(root, compDir)} (${builtList.length} file).\n`);
-  }
 
-  const { totCritici } = stampaPiano(builtList);
-  if (totCritici > 0) {
-    throw new Error(`Trovati ${totCritici} avvisi critici di conversione: operazione interrotta.`);
-  }
+    if (modeRollback) {
+      const nextArg = args[idxRollback + 1];
+      const fileBackup = (nextArg && !nextArg.startsWith('--')) ? path.resolve(root, nextArg) : REV_FILE_DEFAULT;
+      await rollbackDaBackup(fileBackup);
+      return;
+    }
 
-  if (modeEsegui) {
-    console.log('\n=== ESECUZIONE SU DEV3 ===');
-    await eseguiSuDev3(builtList);
-  }
-})().catch((e) => {
-  console.error('ERRORE:', e.message);
-  process.exit(1);
-});
+    const docs = selezionaDocumenti(args);
+
+    if (modeStato) {
+      await stampaStatoDev3(docs);
+      return;
+    }
+
+    // Costruzione e validazione locale completa prima di qualsiasi scrittura
+    const builtList = docs.map(costruisciDocumento);
+    if (args.includes('--salva-comp')) {
+      fs.mkdirSync(compDir, { recursive: true });
+      for (const b of builtList) {
+        fs.writeFileSync(path.join(compDir, b.doc.compFile), JSON.stringify(b.risultato.composizione, null, 1));
+      }
+      console.log(`Composizioni salvate in ${path.relative(root, compDir)} (${builtList.length} file).\n`);
+    }
+
+    const { totCritici } = stampaPiano(builtList);
+    if (totCritici > 0) {
+      throw new Error(`Trovati ${totCritici} avvisi critici di conversione: operazione interrotta.`);
+    }
+
+    if (modeEsegui) {
+      console.log('\n=== ESECUZIONE SU DEV3 ===');
+      await eseguiSuDev3(builtList);
+    }
+  })().catch((e) => {
+    console.error('ERRORE:', e.message);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  DOCUMENTI,
+  preparaHtmlHeader,
+  costruisciDocumento,
+  estraiLinkDaComposizione,
+  svuotaCache,
+  phpConDati,
+};

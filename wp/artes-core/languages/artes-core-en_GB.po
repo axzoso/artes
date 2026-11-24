@@ -1,0 +1,181 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ARTES Core 0.10.0\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: artes-core\n"
+
+msgid "(in allegato)"
+msgstr "(attached)"
+
+msgid "Informazioni generali"
+msgstr "General enquiries"
+
+msgid "Parlare con un tecnico"
+msgstr "Speak with a technician"
+
+msgid "Collaborazione per studi e progettisti"
+msgstr "Collaboration for architects and studios"
+
+msgid "Pubblica amministrazione e MEPA"
+msgstr "Public administration and MEPA"
+
+msgid "Assistenza su una fornitura"
+msgstr "After-sales support"
+
+msgid "Fornitori e partner"
+msgstr "Suppliers and partners"
+
+msgid "Lavora con noi"
+msgstr "Careers"
+
+msgid "Home"
+msgstr "Home"
+
+msgctxt "breadcrumb"
+msgid "Brand partner"
+msgstr "Brand partners"
+
+msgctxt "eyebrow singular"
+msgid "Brand partner"
+msgstr "Brand partner"
+
+msgid "Realizzazioni"
+msgstr "Projects"
+
+msgctxt "singular"
+msgid "Galleria fotografica · %d foto"
+msgstr "Photo gallery · %d photo"
+
+msgctxt "plural"
+msgid "Galleria fotografica · %d foto"
+msgstr "Photo gallery · %d photos"
+
+msgid "Scopri l'arredo %s"
+msgstr "Explore %s"
+
+msgid "Arredi %s<br>per il tuo spazio?"
+msgstr "%s furniture<br>for your space?"
+
+msgid "Altre realizzazioni %s"
+msgstr "More projects — %s"
+
+msgid "Altre realizzazioni"
+msgstr "More projects"
+
+msgid "Brand partner — %s"
+msgstr "Brand partner — %s"
+
+msgid "Come lavoriamo con %s"
+msgstr "How we work with %s"
+
+msgid "Realizzazioni con %s"
+msgstr "Projects with %s"
+
+msgid "Realizzazioni di arredi su misura — Artes"
+msgstr "Bespoke furniture projects — Artes"
+
+msgid "Le realizzazioni Artes per uffici, negozi, bar e ristoranti, negozi food e hotel: case history di arredi su misura progettati, prodotti e montati, filtrabili per settore e categoria."
+msgstr "Artes projects for offices, retail stores, bars and restaurants, food shops and hotels: bespoke furniture case studies designed, crafted and installed, filterable by sector and category."
+
+msgid "Brand Partner — ARTES Contract"
+msgstr "Brand Partners — ARTES Contract"
+
+msgid "I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato."
+msgstr "The partner brands Artes works with: office furniture, contract seating, acoustics, stone surfaces and outdoor furniture. Each brand is linked to the projects in which it was used."
+
+msgid "%s — Brand partner Artes"
+msgstr "%s — Artes Brand Partner"
+
+msgid "%1$s, brand partner Artes per la categoria %2$s: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate."
+msgstr "%1$s, Artes brand partner for %2$s: where we use it, how we coordinate it with bespoke furniture and related projects."
+
+msgid "%s, brand partner Artes: dove lo usiamo, come lo coordiniamo con gli arredi su misura e le realizzazioni collegate."
+msgstr "%s, Artes brand partner: where we use it, how we coordinate it with bespoke furniture and related projects."
+
+msgid "Tutti"
+msgstr "All"
+
+msgid "Tutte"
+msgstr "All"
+
+msgid "Tutti i settori"
+msgstr "All sectors"
+
+msgid "Navigazione principale"
+msgstr "Main navigation"
+
+msgid "Navigazione mobile"
+msgstr "Mobile navigation"
+
+msgid "Apri il menu"
+msgstr "Open menu"
+
+msgid "Chiudi il menu"
+msgstr "Close menu"
+
+msgid "Foto in arrivo"
+msgstr "Photo coming soon"
+
+msgid "Dati principali del servizio"
+msgstr "Key service facts"
+
+msgid "Indice della pagina"
+msgstr "Page index"
+
+msgid "Controlli galleria produzione"
+msgstr "Production gallery controls"
+
+msgid "Galleria fotografica"
+msgstr "Photo gallery"
+
+msgid "Chiudi"
+msgstr "Close"
+
+msgid "Foto precedente"
+msgstr "Previous photo"
+
+msgid "Foto successiva"
+msgstr "Next photo"
+
+msgid "{titolo} — foto {n} di {tot}"
+msgstr "{titolo} — photo {n} of {tot}"
+
+msgid "Apri la foto {n} di {tot}"
+msgstr "Open photo {n} of {tot}"
+
+msgid "Filtra per settore"
+msgstr "Filter by sector"
+
+msgid "Filtra {settore} per categoria"
+msgstr "Filter {settore} by category"
+
+msgid "Filtra per categoria"
+msgstr "Filter by category"
+
+msgid "1 realizzazione"
+msgstr "1 project"
+
+msgid "{n} realizzazioni"
+msgstr "{n} projects"
+
+msgid "Nessuna realizzazione pubblicata per questa categoria."
+msgstr "No published projects in this category."
+
+msgid "Galleria immagini"
+msgstr "Image gallery"
+
+msgid "Immagine precedente"
+msgstr "Previous image"
+
+msgid "Immagine successiva"
+msgstr "Next image"
+
+msgid "Ingrandisci: "
+msgstr "Enlarge: "
+
+msgid "immagine"
+msgstr "image"

@@ -21,17 +21,18 @@ const alias = {
   // --- campi del brand ---
   settori_artes: campo('settori_artes'), fornitura_artes: campo('fornitura_artes'), assistenza: campo('assistenza'),
   come_lavoriamo: campo('come_lavoriamo'), dove_lo_usiamo: campo('dove_lo_usiamo'),
-  // --- valori calcolati (shortcode del plugin) ---
+  // --- valori calcolati (shortcode del plugin, localizzati via WPML / textdomain artes-core) ---
+  lingue: sc('[artes_lingue]'),
   breadcrumb: sc('[artes_breadcrumb]'), eyebrow: sc('[artes_eyebrow]'), settore_link: sc('[artes_settore_link]'),
   categoria_link: sc('[artes_categoria_link]'), galleria_titolo: sc('[artes_galleria_titolo]'),
   scopri_testo: sc('[artes_scopri_testo]'), url_pagina_settore: sc('[artes_url_pagina_settore]'), cta_brand: sc('[artes_cta_brand]'),
+  url_archivio_settore: sc('[artes_url_archivio_settore]'),
+  correlate_titolo: sc('[artes_correlate_titolo]'),
+  eyebrow_brand: sc('[artes_eyebrow_brand]'),
+  come_titolo: sc('[artes_come_titolo]'),
+  correlate_brand_titolo: sc('[artes_correlate_brand_titolo]'),
   // --- termini ---
-  url_archivio_settore: termine('settore', 'slug', { before: '/realizzazioni/?settore=' }),
-  correlate_titolo: termine('settore', 'name', { before: 'Altre realizzazioni ' }),
-  eyebrow_brand: termine('categoria_brand', 'name', { before: 'Brand partner — ' }),
   categoria_brand_nome: termine('categoria_brand', 'name'),
-  come_titolo: dyn('post-title', { before: 'Come lavoriamo con ' }),
-  correlate_brand_titolo: dyn('post-title', { before: 'Realizzazioni con ' }),
   // --- dentro ai cicli ---
   galleria_immagine: dyn('jet-object-property-image', { custom_object_prop: 'ID' }),
   card_immagine: dyn('post-featured-image'),
@@ -41,6 +42,7 @@ const alias = {
   card_categoria_brand: termine('categoria_brand', 'name'),
   dato_settore: termine('settore', 'slug'),
   dato_categoria: termine('categoria', 'slug'),
+  dato_categoria_brand: sc('[artes_dato_categoria_brand]'),
   dato_home_larghezza: campo('home_larghezza'),
 };
 

@@ -10,6 +10,110 @@ Il contesto stabile del progetto (architettura, regole, settori) sta in
 
 ---
 
+## 2026-11-24 (quarta parte) — Testi alternativi e indirizzi in inglese
+
+**Richiesta**: tradurre i testi alternativi delle immagini e rendere inglesi anche gli indirizzi della versione EN.
+
+**Fatto**
+- *Testi alternativi*: in Elementor V4 l'alt si legge dall'allegato a ogni visualizzazione, quindi niente allegati duplicati: meta `_artes_alt_en` su
+  ogni allegato (252, 249 testi distinti, tradotti in `tools/rev2/traduzioni/en-alt.json`; didascalie delle gallerie col glossario dei dati:
+  "Royal Hotel, hotel in Cosenza: photo 1") e filtro nel plugin che in inglese lo restituisce al posto dell'alt italiano. Campo
+  "Testo alternativo (EN)" in Media → allegato. Script `tools/rev2/wpml-trad-alt.js` (`--piano`, `--esegui`, `--rollback`).
+- *Indirizzi*: tabella unica `tools/rev2/wpml-url-en.js` usata dagli script dei dati e delle pagine. Pagine: `/en/office-workspace-furniture/`,
+  `/en/retail-store-furniture/`, `/en/food-store-furniture/`, `/en/bar-restaurant-furniture/`, `/en/hotel-hospitality-furniture/`,
+  `/en/bespoke-furniture/`, `/en/about-us/`, `/en/contact/` (Contract, Privacy e Cookie invariati). Basi: `/en/projects/` e `/en/brand-partners/`
+  (traduzione degli slug dei tipi di contenuto di WPML, `tools/rev2/wpml-slug-cpt.js`). Termini EN con slug inglesi (`offices-workspace`,
+  `fashion-and-sport`…) al posto di `…-en`, quindi anche i filtri: `/en/projects/?settore=offices-workspace&categoria=public-bodies-and-institutions`.
+  I vecchi indirizzi inglesi rimandano ai nuovi con 301.
+- *Plugin `artes-core` 0.10.3*: alt per lingua; 301 dell'archivio EN con la base italiana; slug originale dei termini letto dal database
+  (`get_term` viene "riaggiustato" da WPML sulla lingua corrente); redirect delle categorie EN con lo slug EN del settore.
+
+**Difetti trovati e corretti (c'erano già prima di questa sessione)**: in inglese i link filtrati delle pagine settore usavano `?settore=uffici`
+(il filtro mostrava 20 progetti invece di 6) e il filtro per categoria non funzionava mai (il JavaScript riceveva per ogni categoria il codice
+italiano del settore). Ora: settore 6/6, categoria 1/1, uguale all'italiano.
+
+**Verifica**: EN 52 pagine × 2 larghezze 104/104 in salute, 137 link interni distinti 0 rotti, nessun testo italiano residuo (restano solo "Della
+Rovere", nome di brand, e il titolo del feed RSS "Realizzazioni", etichetta del tipo di contenuto). IT invariato: 9 pagine statiche, 2 archivi e
+Arpacal in parità (Δ 0), SEO 51/51, dati 1.137/1.137, redirect 17/17, archivi 20/18.
+
+**Aperto**: etichetta del tipo di contenuto nel feed RSS inglese; `fase8-collaudo.js` non conosce la versione EN; 5 bozze non tradotte (restano bozze).
+
+---
+
+## 2026-11-24 (terza parte) — Traduzione EN pubblicata su dev3
+
+**Richiesta**: l'utente ha completato la configurazione guidata di WPML (`setup_complete = 1`, traduzione automatica spenta, URL `/en/`); procedere.
+
+**Fatto**
+- `wpml-trad-dati.js --esegui`: 39 termini, 20 realizzazioni, 18 brand, 8 relazioni, 62 stringhe EN. Controllato **subito** che il sito italiano non avesse doppioni
+  (archivi IT 20/18, EN 20/18): ora WPML filtra per lingua.
+- `wpml-trad-pagine.js --esegui`: 6 template EN (header 1285, footer 1286, singolo realizzazione 1287, singolo brand 1288, archivi 1289/1290) e 12 pagine EN
+  (Home 1291 collegata come pagina iniziale EN, settori 1292-1296, Su misura, Contract 1298, Chi siamo, Contatti, Privacy, Cookie). Ogni indirizzo `/en/…` usa
+  la propria pagina e i propri template (verificato dagli ID nel markup).
+- **Selettore lingua automatico di WPML in fondo alle pagine spento** (attivato dalla procedura guidata: bandierine senza alt, elemento che la rev2 non ha; il sito
+  usa `[artes_lingue]` nella topbar). Backup dell'opzione: `tools/out/rev2/wpml-ls-backup.b64`.
+- `verifica-dati.js` reso consapevole della lingua (conta solo gli articoli italiani; le copie e le relazioni EN non sono "in più").
+
+**Verifica**: IT invariato — 9 pagine statiche, 2 archivi, Arpacal e Pedrali in parità con la rev2 (Δ 0), SEO 51/51, dati 1.137/1.137, redirect 17/17.
+EN — 52 pagine × 2 larghezze 104/104 in salute (HTTP 200, un H1, nessun errore, nessuno scroll orizzontale), link interni 0 rotti, titoli/testi/menu/modulo in inglese;
+gli unici link senza `/en/` sono quelli del selettore verso la pagina italiana corrispondente.
+
+**Aperto**
+- **221 testi alternativi delle immagini ancora in italiano** nelle pagine EN (alt degli allegati della libreria: "Uffici open space", "Ruffolo Group, uffici aziendali a
+  Rende (CS): foto 1"…). Non previsti dagli script né dai dataset dell'altro agente: servono le traduzioni degli allegati (WPML Media) o un filtro nel plugin.
+- Indirizzi EN con slug italiani (`/en/arredamento-ufficio/`, `/en/realizzazioni/…`): scelta dello script (slug identici); slug inglesi sono possibili ma da decidere.
+- `fase8-collaudo.js` non conosce ancora la versione EN né le modifiche del 23/11.
+
+---
+
+## 2026-11-24 (seconda parte) — Traduzione EN con WPML: ripresa, tentativo, annullamento
+
+**Richiesta**: riprendere il lavoro di un altro agente (Gemini/Antigravity, fermato dai limiti d'uso) che doveva verificare che non ci fossero testi
+italiani "cablati" che WPML interpreterebbe male, e poi tradurre il sito in inglese.
+
+**Stato trovato** (non era nel diario): audit i18n fatto (`tools/out/rev2/wpml-audit-codice.json`: 25 problemi, 11 bloccanti) e **risolto nel codice**
+(plugin `artes-core` 0.10.0 con textdomain, `languages/` `.po/.mo` en_GB, `wpml-config.xml`, testi UI/ARIA del JS letti da `window.ArtesRev2Dati.i18n`,
+nessun filtro che dipenda da parole italiane, `wpml_object_id` nelle query; su dev3 i file sono identici al locale, verificato con md5).
+`wpml-prepara.js --esegui` già eseguito (Translate Everything spento, 9 template registrati in lingua `it`, configurazione dei widget V4, pacchetto en_GB,
+template IT 557/1040/1049/1051 ricostruiti con gli shortcode traducibili). Dataset EN pronti in `tools/rev2/traduzioni/`. Script delle pagine
+`wpml-trad-pagine.js` **non eseguibile**: errore di sintassi (apici inversi in un commento PHP dentro `String.raw`) e chiamata sbagliata a `compilaTutte`
+(restituisce `{ risultati }`, non un array). Corretti entrambi; le tre verifiche offline danno 0 errori (dati 100/100 link EN, pagine 908 stringhe + 82
+invarianti, 211 link riscritti, 0 condizioni sui template EN).
+
+**Esecuzione e problema**: `wpml-trad-dati.js --esegui` (39 termini, 20 realizzazioni, 18 brand, 8 relazioni, 62 stringhe EN) e `wpml-trad-pagine.js --esegui`
+(6 template + 12 pagine EN) sono andati a buon fine, ma il collaudo live ha mostrato che **WPML non filtra i contenuti per lingua**: `/en/contract/`
+serviva la pagina italiana 150, le schede EN usavano i template italiani, e soprattutto **il sito italiano mostrava 40 realizzazioni e 36 brand** (ogni
+articolo doppio). Causa: in WPML `setup_complete = false` (la procedura guidata iniziale di WPML non è mai stata completata): così WPML assegna lingue e
+calcola i link ma non filtra le query.
+
+**Annullato** con i rollback degli script (`wpml-trad-pagine.js --rollback`, `wpml-trad-dati.js --rollback`): 18 post EN, 39 termini, 38 articoli, 8
+relazioni e 58 stringhe rimossi. Sito italiano verificato com'era: archivi 20/18, Home 6 card senza doppioni, dati 1.099/1.099, redirect 17/17, SEO 51/51,
+condizioni dei template intatte. Restano attivi (innocui) i passi di `wpml-prepara.js`.
+
+**Per ripartire**: completare la configurazione di WPML dal pannello (WPML → Configurazione: lingue it + en-gb, URL in cartella `/en/`, nessuna traduzione
+automatica, chiave del sito se richiesta), poi verificare che WPML filtri (`setup_complete = true`) e rilanciare, in quest'ordine,
+`wpml-trad-dati.js --esegui`, `wpml-trad-pagine.js --esegui` e il collaudo (archivi 20/18 in entrambe le lingue, `/en/…` con contenuti e template EN, nessun
+testo italiano: controllo `tools/out/rev2/_residui-it.js`).
+
+---
+
+## 2026-11-24 — Fix allineamento pulsante hamburger mobile nell'header su `dev3`
+
+**Richiesta**
+
+Spostare il pulsante hamburger (`≡`) dell'header mobile tutto a destra sul margine destro dell'header anziché vicino al logo `ARTES ARREDAMENTI`, senza alterare il layout desktop (`>1180 px`).
+
+**Diagnosi e fix**
+
+- **Causa**: in `artes-sito-rev2/assets/css/artes.css`, `.masthead` è un contenitore flex (`align-items: center; gap: 28px`, senza `justify-content: space-between`). Su desktop (`>1180 px`) è `.nav` (`flex: 1 1 auto`) a distribuire lo spazio tra logo e bordo destro; sotto i `1180 px` `.nav` passa a `display: none` e i soli due figli visibili restano `.masthead__logo` e `.nav-toggle` (entrambi `flex: 0 0 auto; margin-left: 0`), quindi l'hamburger finiva subito dopo il logo a distanza `28 px` (`left: 170 px` @1180/1024, `left: 162 px` @768/390).
+- **Intervento** (`tools/rev2/css/adattamenti.css` → rigenerato `wp/artes-core/artes-rev2.css` con `node tools/rev2/port-css.js`, deployato con `tools/install-plugin.ps1`, plugin `0.9.0`, ZIP rimosso e cache svuotate; annotata la divergenza intenzionale in `tools/rev2/collaudo-header.js`):
+  - Aggiunte nel blocco `@media (max-width: 1180px)` di `adattamenti.css`: `body.rev2 .elementor .masthead { justify-content: space-between; }` e `body.rev2 .elementor .masthead .nav-toggle { margin-left: auto; }`.
+- **Verifica live e ispezione visiva su `dev3`** (`tools/out/rev2/fix-burger/`):
+  - Screenshot ispezionati a `390`, `768`, `1024`, `1180`, `1440` px (chiuso + menu aperto a `390` e `1024` px): logo a sinistra (`left: 20` ≤780 px / `28` 781–1180 px), hamburger (40×40) allineato esattamente al margine destro meno `--pad` (`390`: `330–370`; `768`: `708–748`; `1024`: `956–996`; `1180`: `1112–1152`), `×` aperto nella stessa posizione, `scrollX = 0 px`.
+  - Desktop `1440 px` invariato (`logo 40–154`, `nav 240–1400`, `.nav-toggle` nascosto; `parita.js` `/` @`1440`: `7406/7406 px`, `Δ 0 px`, `0,813%` diff, 0% in header); `salute-pagine.js` `/` (`1440, 390`): **2/2 OK**.
+
+---
+
 ## 2026-11-23 (quinta parte) — Controllo generale di dev3 (sola lettura)
 
 **Richiesta**: controllo generale del passaggio alla rev2 per trovare pezzi in sospeso o parti rotte. Nessuna scrittura su dev3.

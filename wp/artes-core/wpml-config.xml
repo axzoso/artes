@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1" display-as-translated="1">realizzazione</custom-type>
+    <custom-type translate="1" display-as-translated="1">brand</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1" display-as-translated="1">settore</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">categoria</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">categoria_brand</taxonomy>
+  </taxonomies>
+  <custom-fields>
+    <!-- ARTES Core SEO e stato rev2 -->
+    <custom-field action="translate">_artes_seo_title</custom-field>
+    <custom-field action="translate">_artes_seo_description</custom-field>
+    <custom-field action="copy">_artes_rev2</custom-field>
+    <custom-field action="ignore">_artes_src</custom-field>
+    <custom-field action="ignore">_artes_alt_en</custom-field>
+    <custom-field action="copy">settore_collegato</custom-field>
+    <!-- JetEngine CPT realizzazione -->
+    <custom-field action="translate">kw</custom-field>
+    <custom-field action="translate">introduzione</custom-field>
+    <custom-field action="copy">localita</custom-field>
+    <custom-field action="translate">tipologia</custom-field>
+    <custom-field action="translate">progettista</custom-field>
+    <custom-field action="translate">brand_forniture</custom-field>
+    <custom-field action="translate">descrizione_lead</custom-field>
+    <custom-field action="translate">descrizione_testo</custom-field>
+    <custom-field action="copy">galleria</custom-field>
+    <custom-field action="copy">home_ordine</custom-field>
+    <custom-field action="copy">home_larghezza</custom-field>
+    <!-- JetEngine CPT brand (introduzione gia dichiarata sopra come translate) -->
+    <custom-field action="translate">settori_artes</custom-field>
+    <custom-field action="translate">fornitura_artes</custom-field>
+    <custom-field action="translate">assistenza</custom-field>
+    <custom-field action="translate">come_lavoriamo</custom-field>
+    <custom-field action="translate">dove_lo_usiamo</custom-field>
+  </custom-fields>
+  <custom-term-fields>
+    <custom-term-field action="copy">ordine</custom-term-field>
+    <custom-term-field action="copy">pagina</custom-term-field>
+    <custom-term-field action="copy">settore</custom-term-field>
+    <custom-term-field action="copy">ordine_pagina</custom-term-field>
+    <custom-term-field action="copy">ordine_filtro</custom-term-field>
+  </custom-term-fields>
+  <admin-texts>
+    <key name="artes_seo_archives">
+      <key name="realizzazione">
+        <key name="title"/>
+        <key name="description"/>
+      </key>
+      <key name="brand">
+        <key name="title"/>
+        <key name="description"/>
+      </key>
+    </key>
+  </admin-texts>
+</wpml-config>

@@ -1,5 +1,8 @@
 'use strict';
 // Collaudo delle interazioni di header e footer: stesso gesto su rev2 e dev3, screenshot del viewport e differenza pixel.
+// Nota (2026-11-24): su dev3, sotto i 1180px, il pulsante hamburger (.nav-toggle) è allineato intenzionalmente sul bordo destro
+// di .masthead (justify-content: space-between + margin-left: auto in adattamenti.css), mentre nella rev2 statica resta
+// accanto al logo: i casi mobile/tablet (390 e 1024) differiscono intenzionalmente dalla rev2 statica nell'area header.
 //   node tools/rev2/collaudo-header.js <url-rev2> <url-dev3>
 // Casi: tendina "Realizzazioni" (1440), menu mobile aperto (390 e 1024), accordion del menu mobile (390), voce attiva.
 const fs = require('fs');
