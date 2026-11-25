@@ -91,6 +91,9 @@ function localizzaUrl(raw) {
 module.exports = { PAGINE, BASI, BASI_PER_TIPO, terminiEn, localizzaUrl, slugify };
 
 if (require.main === module) {
+  console.log('Pagine (slug IT -> slug EN):'); for (const [it, en] of Object.entries(PAGINE)) console.log(`  /${it}/`.padEnd(40), `-> /en/${en}/`);
+  console.log('Basi:', JSON.stringify(BASI));
+  console.log('Esempi:');
   for (const u of ['/', '/arredamento-ufficio/', '/en/realizzazioni/arpacal/', '/realizzazioni/?settore=uffici&categoria=enti-e-istituzioni', '/contract/#interlocutori', '/brand-partner/', 'https://dev3.minimalstudiodev.it/chi-siamo/', 'mailto:x@y.it', '/wp-content/uploads/a.jpg']) console.log(u.padEnd(64), '->', localizzaUrl(u));
   console.log(JSON.stringify(terminiEn(), null, 1));
 }

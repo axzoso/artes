@@ -8,7 +8,6 @@
 // Il CSS della rev2 NON si modifica a mano: se cambia la rev2 si rilancia lo script.
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..', '..');
 const rev2 = path.resolve(process.argv[2] || root);
@@ -152,23 +151,26 @@ const usate = classiUsate();
 const css = fs.readFileSync(sorgente, 'utf8').replace(/\r\n/g, '\n');
 let trasformato = elabora(css, usate).replace(/\n{3,}/g, '\n\n');
 // url('../img/…') relativi al foglio della rev2: il CSS gira dalla cartella del plugin, quindi vanno puntati alla libreria
-// multimediale (mappa scritta da tools/rev2/import-media.js). Si usa il percorso senza dominio, valido anche in produzione
-// finché la cartella uploads è la stessa; altrimenti si rigenera il CSS dopo aver reimportato le immagini.
-const fileMappa = path.join(root, 'tools', 'out', 'rev2', 'media-rev2.json');
-const mappaMedia = fs.existsSync(fileMappa) ? JSON.parse(fs.readFileSync(fileMappa, 'utf8')) : {};
+// multimediale: mappa versionata tools/rev2/css/immagini.json (immagine della rev2 -> ID e percorso nella libreria di WordPress).
+// Si usa il percorso senza dominio, valido anche in produzione finché la cartella uploads è la stessa. Se la rev2 usa una nuova
+// immagine nel CSS: caricarla nella libreria e aggiungerla alla mappa, altrimenti lo script si ferma senza scrivere nulla.
+const mappaMedia = JSON.parse(fs.readFileSync(path.join(__dirname, 'css', 'immagini.json'), 'utf8'));
 let urlRiscritti = 0; const urlSenzaMappa = [];
 trasformato = trasformato.replace(/url\((['"]?)\.\.\/(img\/[^)'"]+)\1\)/g, (tutto, q, rel) => {
   const voce = mappaMedia['assets/' + rel];
   if (!voce || !voce.url) { urlSenzaMappa.push(rel); return tutto; }
   urlRiscritti++;
-  return `url(${q}${new URL(voce.url).pathname}${q})`;
+  return `url(${q}${voce.url}${q})`;
 });
-if (urlSenzaMappa.length) console.log('ATTENZIONE: url() non mappati (esegui prima import-media.js):', urlSenzaMappa.join(', '));
-let commit = '(sconosciuto)';
-try { commit = execSync('git log -1 --format=%h -- assets/css/artes.css', { cwd: root }).toString().trim(); } catch { /* ignorato */ }
+if (urlSenzaMappa.length) {
+  console.error('ERRORE: immagini del CSS non presenti in tools/rev2/css/immagini.json (nessun file scritto):', urlSenzaMappa.join(', '));
+  process.exit(1);
+}
+// Impronta del contenuto (non l'hash del commit, che cambierebbe a ogni commit e renderebbe il file "diverso" senza motivo).
+const commit = 'sha1 ' + require('crypto').createHash('sha1').update(css).digest('hex').slice(0, 10);
 const parte = (f) => { const p = path.join(__dirname, 'css', f); return fs.existsSync(p) ? fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n') : ''; };
 const intestazione = `/* ARTES rev2 — CSS GENERATO da tools/rev2/port-css.js: NON modificare a mano.
-   Sorgente: ${path.relative(root, sorgente).replace(/\\/g, '/')} (ultimo commit della cartella: ${commit}).
+   Sorgente: ${path.relative(root, sorgente).replace(/\\/g, '/')} (impronta: ${commit}).
    Struttura: 1) reset degli stili base di Elementor (tools/rev2/css/reset.css)
               2) CSS della rev2 con selettori prefissati "${PREFISSO}" (e main -> ${RADICE}, dt/dd -> classi)
               3) adattamenti di markup (tools/rev2/css/adattamenti.css)

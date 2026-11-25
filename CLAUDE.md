@@ -18,7 +18,8 @@ Lo storico della costruzione è in `archivio/` e **non va letto** salvo richiest
 Staging **`https://dev3.minimalstudiodev.it`** (noindex): WordPress + Hello Elementor + Elementor 4 (widget atomici) + Elementor Pro + JetEngine
 (CPT `realizzazione`, `brand`; tassonomie `settore`, `categoria`, `categoria_brand`) + WPML (it predefinita, en-gb in `/en/`).
 Connettori MCP `artes-elementor` e `novamira-dev3-minimalstud` (in `~/.claude.json`, mai credenziali nel repo): si usano tramite
-`tools/rev2/mcp-client.js` (Node) o `tools/mcp.ps1` / `tools/php.ps1`.
+`tools/rev2/mcp-client.js` (Node, `.php(codice)`) o `tools/php.ps1 -File x.php` (codice senza `<?php` iniziale, si usa `return`;
+output tagliato a 8000 caratteri, `-Max` per alzarlo). Sola lettura = niente update/delete/flush nelle chiamate PHP.
 
 ## Regole
 
@@ -39,11 +40,10 @@ Connettori MCP `artes-elementor` e `novamira-dev3-minimalstud` (in `~/.claude.js
 ## Verifiche standard (dopo modifiche al sito)
 
 `node tools/rev2/verifica-seo.js` · `node tools/rev2/collaudo-redirect.js` · `node tools/rev2/salute-pagine.js --cpt` ·
-`node tools/rev2/verifica-dati.js` · parità con la grafica: `py -3 -m http.server 8765` in radice, poi `node tools/rev2/parita.js <nome>
+`node tools/rev2/verifica-dati.js` (`salute-pagine.js` vuole percorsi o `--cpt`; indirizzi EN: `node tools/rev2/wpml-url-en.js`) · parità con la grafica: `py -3 -m http.server 8765` in radice, poi `node tools/rev2/parita.js <nome>
 http://localhost:8765/<file>.html https://dev3.minimalstudiodev.it/<percorso>/`. Controllare sempre 0px di scroll orizzontale a 390px.
 
 ## Ambiente (Windows)
 
-- Bash di Git: le barre rovesciate negli heredoc si perdono e gli argomenti che iniziano con `/` diventano percorsi Windows
-  (`MSYS_NO_PATHCONV=1`). Per file con regex o apici usare gli strumenti di scrittura, non `sed`/heredoc.
-- `install-plugin.ps1` si lancia dallo strumento PowerShell (la policy blocca gli script da Bash).
+`install-plugin.ps1` solo da PowerShell. In Git Bash: `MSYS_NO_PATHCONV=1` per argomenti che iniziano con `/`; file con regex o apici
+scritti con gli strumenti di scrittura (heredoc e `sed` perdono le barre rovesciate).

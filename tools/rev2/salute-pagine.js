@@ -19,7 +19,7 @@ const parallelo = parseInt(opt('--parallelo', '3'), 10);
 const rimettiPercorso = (a) => a.replace(/^[A-Za-z]:[\\/]Program Files[\\/]Git(?=[\\/])/, '').split('\\').join('/');
 let pagine = args.filter((a) => !a.startsWith('--')).map(rimettiPercorso);
 if (args.includes('--cpt')) {
-  const E = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'out', 'rev2', 'dati-rev2.json'), 'utf8'));
+  const E = require('./dati-rev2-carica')();
   pagine = ['/realizzazioni/', '/brand-partner/', ...E.realizzazioni.map((r) => `/realizzazioni/${r.slug}/`), ...E.brand.map((b) => `/brand-partner/${b.slug}/`)];
 }
 if (!pagine.length) { console.error('uso: salute-pagine.js <percorso|url>… | --cpt [--w 1440,390] [--parallelo 3]'); process.exit(2); }

@@ -1,9 +1,9 @@
 # Stato del sito (dev3) — aggiornato al 2026-11-25
 
 ## Plugin
-`artes-core` **1.0.0**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
+`artes-core` **1.0.1**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
 Testi e lingue, Stile, Manutenzione, Guida), riquadro "SEO ARTES" negli editor, caratteri locali (nessuna richiesta a Google),
-compatibile con Yoast/Rank Math/AIOSEO (si fa da parte). Opzioni: `artes_seo_archives`, `artes_antispam_max_link` (3),
+compatibile con Yoast/Rank Math/AIOSEO (si fa da parte), etichette EN dei CPT nei feed. Opzioni: `artes_seo_archives`, `artes_antispam_max_link` (3),
 `artes_prova_invio` (+ `_log`), `artes_css_aggiuntivo`, `artes_seo_yoast_copiato`. Meta: `_artes_seo_title`, `_artes_seo_description`,
 `_artes_alt_en` (allegati).
 
@@ -30,11 +30,12 @@ Cataloghi 491 → 1434. Pubblicazione: ARTES → Manutenzione → Pagine in bozz
 ## Contenuti
 20 realizzazioni, 18 brand, 8 relazioni brand↔progetti, 5 settori, 26 categorie, 8 categorie brand; tutto anche in inglese
 (slug EN dei termini da `tools/rev2/wpml-url-en.js`). Basi EN: `/en/projects/`, `/en/brand-partners/`. Blog: 0 articoli.
-Testo alternativo EN delle immagini: meta `_artes_alt_en` (252 allegati).
+Testo alternativo EN delle immagini: meta `_artes_alt_en` (224 dei 243 allegati; gli altri sono loghi o senza alt).
 
 ## Impostazioni
 noindex attivo (`blog_public` = 0) · WPML configurato, selettore automatico nel footer spento (si usa `[artes_lingue]`) · nessun SMTP
-(le email partono dal server: configurare sul dominio definitivo) · cestino vuoto · allegati inutilizzati eliminati (2026-11-25).
+(le email partono dal server: configurare sul dominio definitivo) · nessuna icona del sito (`/favicon.ico` 404: manca nella grafica) ·
+`error_log` in radice di 4,4 MB (da ripulire prima della messa online) · cestino vuoto · allegati inutilizzati eliminati (2026-11-25).
 
 ## Da fare (decisioni del cliente)
 Dominio definitivo + SMTP + testi legali definitivi · eventuale Yoast (consulente SEO) · pubblicazione delle bozze · attivazione del blog

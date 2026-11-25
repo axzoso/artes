@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, i18n/WPML, gestione allegati moduli e asset CSS/JS del sito.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Text Domain: artes-core
  * Domain Path: /languages
  *
@@ -24,7 +24,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '1.0.0' );
+define( 'ARTES_CORE_VERSION', '1.0.1' );
 
 // Pagina "ARTES" nel menu di amministrazione (impostazioni, controlli, manutenzione, guida) e riquadro "SEO ARTES" negli editor.
 if ( is_admin() ) {
@@ -2325,4 +2325,29 @@ add_action(
 		}
 	},
 	2
+);
+
+/**
+ * Etichette inglesi dei tipi di contenuto sul sito pubblico in inglese: WordPress le usa nel titolo dei feed
+ * ("Artes » Projects Feed") e nei titoli d'archivio generati. In italiano restano quelle di JetEngine.
+ */
+add_action(
+	'wp',
+	function () {
+		if ( is_admin() || ! artes_is_english() ) {
+			return;
+		}
+		$nomi = array(
+			'realizzazione' => artes_t( 'Realizzazioni', 'breadcrumb_realizzazioni', 'breadcrumb' ),
+			'brand'         => artes_t( 'Brand partner', 'breadcrumb_brand', 'breadcrumb' ),
+		);
+		foreach ( $nomi as $tipo => $nome ) {
+			$oggetto = get_post_type_object( $tipo );
+			if ( $oggetto && isset( $oggetto->labels ) ) {
+				$oggetto->labels->name          = $nome;
+				$oggetto->labels->menu_name     = $nome;
+				$oggetto->labels->archives      = $nome;
+			}
+		}
+	}
 );

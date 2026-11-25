@@ -11,7 +11,7 @@ const { leggiDev3 } = require('./dev3-dati');
 const M = require('./modello-dati');
 
 const root = path.resolve(__dirname, '..', '..');
-const E = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'out', 'rev2', 'dati-rev2.json'), 'utf8'));
+const E = require('./dati-rev2-carica')();
 const dettagli = process.argv.includes('--dettagli');
 const norm = (s) => String(s === undefined || s === null ? '' : s).replace(/\s+/g, ' ').trim();
 
