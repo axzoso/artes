@@ -45,6 +45,7 @@ Questa guida è per chi prende in mano il sito senza averlo sviluppato. Si legge
 
 ### Immagini
 - Ogni immagine ha due testi alternativi nella Libreria media: "Testo alternativo" (italiano) e "Testo alternativo (EN)".
+- Caricare foto larghe almeno 1800 px: il plugin fa scaricare a ogni dispositivo la versione della misura giusta (attributo `sizes`).
 
 ### SEO
 - Pagine, realizzazioni e brand: riquadro **SEO ARTES** nella schermata di modifica. Se vuoto, il testo si calcola dai campi.
@@ -82,4 +83,5 @@ Questa guida è per chi prende in mano il sito senza averlo sviluppato. Si legge
 
 - Il codice sorgente, gli strumenti con cui il sito è stato costruito e collaudato (`tools/rev2/`, Node.js) e la documentazione completa sono nel repository del progetto (cartelle `wp/artes-core/`, `tools/`, `docs/`). Non servono per la manutenzione ordinaria.
 - Il CSS del sito si rigenera con `node tools/rev2/port-css.js` partendo dalla grafica approvata (radice del repository: `assets/css/artes.css`) e da `tools/rev2/css/adattamenti.css`.
+- Immagini: `artes_optimize_elementor_images()` (filtro `elementor/frontend/the_content`) aggiunge `sizes`, `loading` e `fetchpriority` in base alle classi del contenitore (regole in `artes_img_context_rule()`). Una griglia nuova con classi diverse riceve la regola di riserva (circa tutta larghezza): aggiungerle una regola.
 - Shortcode del plugin: tutti iniziano con `artes_`; i cicli di Elementor usano un "Query ID" che corrisponde a un filtro `elementor/query/<id>` in `artes-core.php`.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, i18n/WPML, gestione allegati moduli e asset CSS/JS del sito.
- * Version:     1.0.1
+ * Version:     1.0.2
  * Text Domain: artes-core
  * Domain Path: /languages
  *
@@ -24,7 +24,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '1.0.1' );
+define( 'ARTES_CORE_VERSION', '1.0.2' );
 
 // Pagina "ARTES" nel menu di amministrazione (impostazioni, controlli, manutenzione, guida) e riquadro "SEO ARTES" negli editor.
 if ( is_admin() ) {
@@ -2350,4 +2350,431 @@ add_action(
 			}
 		}
 	}
+);
+
+/**
+ * ===== Ottimizzazione immagini responsive (`sizes`, `loading`, `fetchpriority`) (1.0.2) =======================
+ *
+ * Il widget immagine atomico di Elementor V4 (`Image_Transformer`) emette `srcset` senza `sizes`: senza `sizes`
+ * il browser assume `100vw` e scarica le versioni da 1536–1800 px anche per card da 336–440 px. Inoltre WordPress
+ * assegna `fetchpriority="high"` al logo dell'header (prima immagine in ordine DOM con dimensioni naturali > 50k px²)
+ * sottraendo la priorità alla vera immagine principale (LCP) della pagina.
+ *
+ * Qui si interviene sul filtro nativo `elementor/frontend/the_content` (eseguito su pagine, header, footer, schede e
+ * archivi del Theme Builder, senza output buffering) leggendo il contesto reale dalle classi CSS dei contenitori
+ * (allineate ai breakpoint di `assets/css/artes.css`), con rete di sicurezza su `wp_content_img_tag`.
+ */
+
+/**
+ * Verifica se almeno un antenato nello stack HTML possiede una determinata classe CSS.
+ */
+function artes_img_has_ancestor( $stack, $class_name ) {
+	for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
+		if ( isset( $stack[ $i ]['classes'][ $class_name ] ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Verifica se almeno un antenato nello stack HTML ha un determinato nome tag (es. `header`, `footer`).
+ */
+function artes_img_has_ancestor_tag( $stack, $tag_name ) {
+	for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
+		if ( $stack[ $i ]['tag'] === $tag_name ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Imposta o sostituisce un attributo HTML su una stringa di attributi `<img>` (senza toccare `width`/`height`).
+ */
+function artes_img_set_attr( $attrs, $name, $value ) {
+	$pattern     = '/\s+\b' . preg_quote( $name, '/' ) . '=(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i';
+	$replacement = ' ' . $name . '="' . esc_attr( $value ) . '"';
+
+	if ( preg_match( $pattern, $attrs ) ) {
+		return (string) preg_replace( $pattern, $replacement, $attrs, 1 );
+	}
+
+	return rtrim( $attrs ) . $replacement;
+}
+
+/**
+ * Rimuove un attributo HTML da una stringa di attributi `<img>`.
+ */
+function artes_img_remove_attr( $attrs, $name ) {
+	return (string) preg_replace( '/\s+\b' . preg_quote( $name, '/' ) . '(?:=(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?/i', '', $attrs );
+}
+
+/**
+ * Determina `sizes` (valore di riserva esplicito) e modalità di caricamento (`lcp`, `eager`, `logo`, `lazy`, `lazy-low`, `keep`)
+ * per un `<img>` in base alle sue classi, agli antenati CSS e alla posizione nei cicli.
+ */
+function artes_img_context_rule( $self_classes, $stack, $counters ) {
+	// 1. Loghi header e footer (800×217 naturali, resi a 114×31 e 96×26 px).
+	if ( artes_img_has_ancestor( $stack, 'masthead__logo' ) || artes_img_has_ancestor_tag( $stack, 'header' ) ) {
+		return array(
+			'sizes' => '114px',
+			'mode'  => 'logo',
+		);
+	}
+
+	if ( isset( $self_classes['footer__logo'] ) || artes_img_has_ancestor_tag( $stack, 'footer' ) ) {
+		return array(
+			'sizes' => '96px',
+			'mode'  => 'lazy',
+		);
+	}
+
+	// 2. Hero home a tutta larghezza.
+	if ( isset( $self_classes['hero__texture'] ) || artes_img_has_ancestor( $stack, 'hero' ) ) {
+		return array(
+			'sizes' => '100vw',
+			'mode'  => 'lcp',
+		);
+	}
+
+	// 3. Riquadri sovrapposti (inset) di settori e produzione (42–44% di metà schermo su desktop).
+	if ( artes_img_has_ancestor( $stack, 'settore__inset' ) || artes_img_has_ancestor( $stack, 'produzione__inset' ) ) {
+		return array(
+			'sizes' => '(max-width: 1024px) 44vw, 22vw',
+			'mode'  => 'lazy',
+		);
+	}
+
+	// 4. Foto principale delle pagine settore (metà schermo su desktop, 100vw sotto 1024 px).
+	if ( artes_img_has_ancestor( $stack, 'settore__media' ) ) {
+		return array(
+			'sizes' => '(max-width: 1024px) 100vw, 50vw',
+			'mode'  => 'lcp',
+		);
+	}
+
+	// 5. Foto hero pagina Contract (~42% su desktop, 1 col sotto 1024 px).
+	if ( artes_img_has_ancestor( $stack, 'contract-hero__media' ) ) {
+		return array(
+			'sizes' => '(max-width: 1024px) calc(100vw - 40px), 42vw',
+			'mode'  => 'lcp',
+		);
+	}
+
+	// 6. Banda fotografica orizzontale (Chi siamo, Su misura).
+	if ( artes_img_has_ancestor( $stack, 'page-band' ) ) {
+		return array(
+			'sizes' => '(max-width: 640px) calc(100vw - 40px), calc(100vw - 80px)',
+			'mode'  => 'lcp',
+		);
+	}
+
+	// 7. Slider fotografico della scheda brand (prima slide LCP, successive nascoste deprioritizzate).
+	if ( artes_img_has_ancestor( $stack, 'scheda__slider' ) ) {
+		$idx = (int) ( $counters['slider'] ?? 1 );
+
+		return array(
+			'sizes' => '(max-width: 640px) calc(100vw - 40px), calc(100vw - 80px)',
+			'mode'  => $idx <= 1 ? 'lcp' : 'lazy-low',
+		);
+	}
+
+	// 8. Blocco Produzione (Home e Su misura, sotto il primo schermo: 50vw su desktop, 100vw sotto 1024 px).
+	if ( artes_img_has_ancestor( $stack, 'produzione__media' ) ) {
+		$idx = (int) ( $counters['slider'] ?? 1 );
+
+		return array(
+			'sizes' => '(max-width: 1024px) 100vw, 50vw',
+			'mode'  => $idx > 1 ? 'lazy-low' : 'lazy',
+		);
+	}
+
+	// 9. Mosaico 5 settori in Home (1.4fr 1fr 1fr su desktop; 1 colonna sotto 1024 px).
+	if ( isset( $self_classes['tile__texture'] ) || artes_img_has_ancestor( $stack, 'tile' ) ) {
+		$is_tall = artes_img_has_ancestor( $stack, 'tile--tall' );
+
+		return array(
+			'sizes' => $is_tall
+				? '(max-width: 1024px) calc(100vw - 40px), 41vw'
+				: '(max-width: 1024px) calc(100vw - 40px), 29vw',
+			'mode'  => 'lazy',
+		);
+	}
+
+	// 10. Galleria della scheda realizzazione (griglie .caso-gallery--n1..n5 in artes.css).
+	if ( artes_img_has_ancestor( $stack, 'caso-gallery__item' ) ) {
+		$n   = max( 1, min( 5, (int) ( $counters['gallery_total'] ?? 5 ) ) );
+		$idx = max( 1, (int) ( $counters['gallery'] ?? 1 ) );
+
+		if ( 1 === $n ) {
+			$sizes = '(max-width: 640px) calc(100vw - 32px), calc(100vw - 80px)';
+		} elseif ( 2 === $n ) {
+			$sizes = '(max-width: 640px) calc(100vw - 32px), calc(50vw - 44px)';
+		} elseif ( 3 === $n ) {
+			$sizes = 1 === $idx
+				? '(max-width: 900px) calc(100vw - 32px), calc(66.67vw - 56px)'
+				: '(max-width: 900px) calc(50vw - 20px), calc(33.33vw - 30px)';
+		} elseif ( 4 === $n && ( 1 === $idx || 4 === $idx ) ) {
+			$sizes = 1 === $idx
+				? '(max-width: 900px) calc(100vw - 32px), calc(50vw - 44px)'
+				: '(max-width: 900px) calc(50vw - 20px), calc(50vw - 44px)';
+		} else {
+			$sizes = 1 === $idx
+				? '(max-width: 900px) calc(100vw - 32px), calc(50vw - 44px)'
+				: '(max-width: 900px) calc(50vw - 20px), calc(25vw - 24px)';
+		}
+
+		$mode = 1 === $idx ? 'lcp' : ( $idx <= 3 ? 'eager' : 'lazy' );
+
+		return array(
+			'sizes' => $sizes,
+			'mode'  => $mode,
+		);
+	}
+
+	// 11. Card dell'archivio realizzazioni (3 col desktop, 2 col ≤1024, 1 col ≤780).
+	if ( artes_img_has_ancestor( $stack, 'progetto__media' ) && artes_img_has_ancestor( $stack, 'archivio__grid' ) ) {
+		$idx = max( 1, (int) ( $counters['progetti'] ?? 1 ) );
+
+		return array(
+			'sizes' => '(max-width: 780px) calc(100vw - 40px), (max-width: 1024px) calc(50vw - 30px), calc(33.33vw - 40px)',
+			'mode'  => 1 === $idx ? 'lcp' : ( $idx <= 3 ? 'eager' : 'lazy' ),
+		);
+	}
+
+	// 12. Card dei 6 progetti in evidenza in Home (card 1 = 4/6 col, card 2–5 = 2/6 col, card 6 = 6/6 col).
+	if ( artes_img_has_ancestor( $stack, 'progetto__media' ) && artes_img_has_ancestor( $stack, 'progetti' ) ) {
+		$idx = max( 1, (int) ( $counters['progetti'] ?? 1 ) );
+
+		if ( 1 === $idx || artes_img_has_ancestor( $stack, 'progetto--w4' ) ) {
+			$sizes = '(max-width: 780px) calc(100vw - 40px), (max-width: 1024px) calc(50vw - 30px), calc(66.67vw - 60px)';
+		} elseif ( 6 === $idx || artes_img_has_ancestor( $stack, 'progetto--w6' ) ) {
+			$sizes = '(max-width: 780px) calc(100vw - 40px), calc(100vw - 80px)';
+		} else {
+			$sizes = '(max-width: 780px) calc(100vw - 40px), (max-width: 1024px) calc(50vw - 30px), calc(33.33vw - 40px)';
+		}
+
+		return array(
+			'sizes' => $sizes,
+			'mode'  => 'lazy',
+		);
+	}
+
+	// 13. Card "Altre realizzazioni" / "Realizzazioni con <Brand>" in fondo alle schede (3 col → 2 col → 1 col).
+	if ( artes_img_has_ancestor( $stack, 'correlate__grid' ) ) {
+		return array(
+			'sizes' => '(max-width: 640px) calc(100vw - 40px), (max-width: 1024px) calc(50vw - 30px), calc(33.33vw - 40px)',
+			'mode'  => 'lazy',
+		);
+	}
+
+	// 14. Riserva generica per qualsiasi altra immagine con srcset.
+	return array(
+		'sizes' => '(max-width: 640px) calc(100vw - 40px), calc(100vw - 80px)',
+		'mode'  => 'keep',
+	);
+}
+
+/**
+ * Arricchisce gli `<img>` con `srcset` prodotti da Elementor con `sizes` contestuale, `loading` e `fetchpriority`
+ * corretti, senza alterare `width`/`height` né toccare l'editor.
+ */
+function artes_optimize_elementor_images( $html ) {
+	if ( ! is_string( $html ) || false === stripos( $html, '<img' ) ) {
+		return $html;
+	}
+
+	if ( is_admin() ) {
+		return $html;
+	}
+
+	if ( class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance ) {
+		if ( ! empty( \Elementor\Plugin::$instance->editor ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			return $html;
+		}
+		if ( ! empty( \Elementor\Plugin::$instance->preview ) && \Elementor\Plugin::$instance->preview->is_preview_mode() ) {
+			return $html;
+		}
+	}
+
+	$void_tags     = array_flip( array( 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr' ) );
+	$stack         = array();
+	$in_raw        = '';
+	$lcp_assigned  = false;
+	$gallery_total = preg_match_all( '/\bcaso-gallery__item\b/', $html );
+	$counters      = array(
+		'progetti'      => 0,
+		'gallery'       => 0,
+		'gallery_total' => (int) $gallery_total,
+		'slider'        => 0,
+	);
+
+	return (string) preg_replace_callback(
+		'/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b((?:"[^"]*"|\'[^\']*\'|[^\'">])*?)(\/?)>/',
+		function ( $m ) use ( $void_tags, &$stack, &$in_raw, &$lcp_assigned, &$counters ) {
+			$is_close = '/' === $m[1];
+			$tag      = strtolower( $m[2] );
+			$attrs    = $m[3];
+			$is_self  = '/' === $m[4] || isset( $void_tags[ $tag ] );
+
+			if ( '' !== $in_raw ) {
+				if ( $is_close && $tag === $in_raw ) {
+					$in_raw = '';
+				}
+
+				return $m[0];
+			}
+
+			if ( ! $is_close && ( 'script' === $tag || 'style' === $tag ) && ! $is_self ) {
+				$in_raw = $tag;
+
+				return $m[0];
+			}
+
+			if ( $is_close ) {
+				for ( $i = count( $stack ) - 1; $i >= 0; $i-- ) {
+					if ( $stack[ $i ]['tag'] === $tag ) {
+						if ( isset( $stack[ $i ]['classes']['progetti'] ) ) {
+							$counters['progetti'] = 0;
+						}
+						if ( isset( $stack[ $i ]['classes']['caso-gallery'] ) ) {
+							$counters['gallery'] = 0;
+						}
+						if ( isset( $stack[ $i ]['classes']['produzione-slider'] ) || isset( $stack[ $i ]['classes']['scheda__slider'] ) ) {
+							$counters['slider'] = 0;
+						}
+						array_splice( $stack, $i );
+						break;
+					}
+				}
+
+				return $m[0];
+			}
+
+			$classes = array();
+
+			if ( preg_match( '/\bclass=(?:"([^"]*)"|\'([^\']*)\')/i', $attrs, $cm ) ) {
+				$raw_cls = '' !== $cm[1] ? $cm[1] : ( $cm[2] ?? '' );
+				foreach ( preg_split( '/\s+/', trim( $raw_cls ) ) as $c ) {
+					if ( '' !== $c ) {
+						$classes[ $c ] = true;
+					}
+				}
+			}
+
+			if ( 'img' !== $tag ) {
+				if ( isset( $classes['progetto'] ) ) {
+					$counters['progetti']++;
+				}
+				if ( isset( $classes['caso-gallery__item'] ) ) {
+					$counters['gallery']++;
+				}
+				if ( isset( $classes['produzione-slide'] ) ) {
+					$counters['slider']++;
+				}
+				if ( ! $is_self ) {
+					$stack[] = array(
+						'tag'     => $tag,
+						'classes' => $classes,
+					);
+				}
+
+				return $m[0];
+			}
+
+			// Solo immagini con srcset (o loghi header/footer per correggere fetchpriority/loading).
+			$has_srcset = (bool) preg_match( '/\bsrcset=/i', $attrs );
+
+			if ( ! $has_srcset ) {
+				return $m[0];
+			}
+
+			$rule = artes_img_context_rule( $classes, $stack, $counters );
+			$mode = $rule['mode'];
+
+			if ( 'lcp' === $mode && ! $lcp_assigned ) {
+				$attrs        = artes_img_remove_attr( $attrs, 'loading' );
+				$attrs        = artes_img_set_attr( $attrs, 'fetchpriority', 'high' );
+				$lcp_assigned = true;
+			} elseif ( 'lcp' === $mode || 'eager' === $mode ) {
+				$attrs = artes_img_set_attr( $attrs, 'loading', 'eager' );
+				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
+			} elseif ( 'logo' === $mode ) {
+				$attrs = artes_img_set_attr( $attrs, 'loading', 'eager' );
+				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
+			} elseif ( 'lazy' === $mode ) {
+				$attrs = artes_img_set_attr( $attrs, 'loading', 'lazy' );
+				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
+			} elseif ( 'lazy-low' === $mode ) {
+				$attrs = artes_img_set_attr( $attrs, 'loading', 'lazy' );
+				$attrs = artes_img_set_attr( $attrs, 'fetchpriority', 'low' );
+			}
+
+			$is_lazy = (bool) preg_match( '/\bloading=(?:"lazy"|\'lazy\'|lazy)/i', $attrs );
+
+			if ( ! preg_match( '/\bsizes=/i', $attrs ) && '' !== $rule['sizes'] ) {
+				// `sizes="auto, …"` è valido solo con `loading="lazy"`: i browser moderni usano la larghezza
+				// effettiva del box, gli altri il valore esplicito di riserva ricavato da artes.css.
+				$sizes_val = $is_lazy ? 'auto, ' . $rule['sizes'] : $rule['sizes'];
+				$attrs     = artes_img_set_attr( $attrs, 'sizes', $sizes_val );
+			}
+
+			return '<img' . $attrs . ( '/' === $m[4] ? ' />' : '>' );
+		},
+		$html
+	);
+}
+
+add_filter( 'elementor/frontend/the_content', 'artes_optimize_elementor_images', 99 );
+
+/**
+ * Evita che WordPress assegni `fetchpriority="high"` al logo di header/footer (prima immagine in ordine DOM
+ * con dimensioni naturali > 50.000 px²): la priorità alta resta riservata alla vera immagine LCP della pagina.
+ */
+add_filter(
+	'wp_get_loading_optimization_attributes',
+	function ( $loading_attrs, $tag_name, $attr ) {
+		if ( 'img' !== $tag_name || is_admin() ) {
+			return $loading_attrs;
+		}
+
+		$src = isset( $attr['src'] ) ? (string) $attr['src'] : '';
+
+		if ( '' !== $src && false !== stripos( $src, 'artes-logo' ) ) {
+			unset( $loading_attrs['fetchpriority'] );
+		}
+
+		return $loading_attrs;
+	},
+	20,
+	3
+);
+
+/**
+ * Rete di sicurezza dopo `wp_filter_content_tags()`: evita che WordPress riassegni `fetchpriority="high"`
+ * al logo dell'header/footer o combini `fetchpriority="high"` con `loading="lazy"`.
+ */
+add_filter(
+	'wp_content_img_tag',
+	function ( $img ) {
+		if ( ! is_string( $img ) || is_admin() ) {
+			return $img;
+		}
+
+		// Il logo dell'header (sizes="114px") o del footer (sizes="auto, 96px") non deve rubare fetchpriority="high" all'LCP.
+		if ( preg_match( '/\bsizes=(?:"(?:114px|auto,\s*96px)"|\'(?:114px|auto,\s*96px)\')/i', $img ) ) {
+			$img = artes_img_remove_attr( $img, 'fetchpriority' );
+		}
+
+		// Mai combinare fetchpriority="high" con loading="lazy".
+		if ( preg_match( '/\bfetchpriority=(?:"high"|\'high\')/i', $img ) ) {
+			$img = artes_img_remove_attr( $img, 'loading' );
+		}
+
+		return $img;
+	},
+	99
 );

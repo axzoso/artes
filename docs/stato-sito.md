@@ -1,9 +1,10 @@
 # Stato del sito (dev3) — aggiornato al 2026-11-25
 
 ## Plugin
-`artes-core` **1.0.1**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
+`artes-core` **1.0.2**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
 Testi e lingue, Stile, Manutenzione, Guida), riquadro "SEO ARTES" negli editor, caratteri locali (nessuna richiesta a Google),
-compatibile con Yoast/Rank Math/AIOSEO (si fa da parte), etichette EN dei CPT nei feed. Opzioni: `artes_seo_archives`, `artes_antispam_max_link` (3),
+compatibile con Yoast/Rank Math/AIOSEO (si fa da parte), etichette EN dei CPT nei feed, `sizes` responsive e priorità LCP automatici sugli
+`<img>` di Elementor. Opzioni: `artes_seo_archives`, `artes_antispam_max_link` (3),
 `artes_prova_invio` (+ `_log`), `artes_css_aggiuntivo`, `artes_seo_yoast_copiato`. Meta: `_artes_seo_title`, `_artes_seo_description`,
 `_artes_alt_en` (allegati).
 
@@ -35,7 +36,7 @@ Testo alternativo EN delle immagini: meta `_artes_alt_en` (224 dei 243 allegati;
 ## Impostazioni
 noindex attivo (`blog_public` = 0) · WPML configurato, selettore automatico nel footer spento (si usa `[artes_lingue]`) · nessun SMTP
 (le email partono dal server: configurare sul dominio definitivo) · nessuna icona del sito (`/favicon.ico` 404: manca nella grafica) ·
-`error_log` in radice di 4,4 MB (da ripulire prima della messa online) · cestino vuoto · allegati inutilizzati eliminati (2026-11-25).
+`error_log` in radice svuotato a 0 byte (2026-11-25) · cestino vuoto · allegati inutilizzati eliminati (2026-11-25).
 
 ## Da fare (decisioni del cliente)
 Dominio definitivo + SMTP + testi legali definitivi · eventuale Yoast (consulente SEO) · pubblicazione delle bozze · attivazione del blog
