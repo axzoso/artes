@@ -45,6 +45,7 @@ Questa guida è per chi prende in mano il sito senza averlo sviluppato. Si legge
 
 ### Immagini
 - Ogni immagine ha due testi alternativi nella Libreria media: "Testo alternativo" (italiano) e "Testo alternativo (EN)".
+- Icona del sito (favicon): la mette il plugin, ricavata dal logo. Per cambiarla basta impostarne una in Aspetto → Personalizza → Identità del sito (ha la precedenza).
 - Caricare foto larghe almeno 1800 px: il plugin fa scaricare a ogni dispositivo la versione della misura giusta (attributo `sizes`).
 
 ### SEO

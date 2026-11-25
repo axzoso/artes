@@ -43,6 +43,11 @@ $fontSrc = Join-Path $src 'fonts'
 if (Test-Path $fontSrc) {
   Copy-Item $fontSrc (Join-Path $pkgRoot 'fonts') -Recurse -Force
 }
+# icone del sito (generate da tools/rev2/favicon.py)
+$iconeSrc = Join-Path $src 'icone'
+if (Test-Path $iconeSrc) {
+  Copy-Item $iconeSrc (Join-Path $pkgRoot 'icone') -Recurse -Force
+}
 $zip = Join-Path $out 'artes-core.zip'
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 # ZIP con barre normali nei percorsi: Compress-Archive (PowerShell 7 su Windows) scrive "artes-core\file.php"

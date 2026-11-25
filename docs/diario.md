@@ -5,6 +5,13 @@ Voci **brevi** (5-10 righe): data, richiesta, cosa è cambiato, cosa resta. Voce
 
 ---
 
+## 2026-11-25 — Icone del sito (`artes-core` 1.0.4)
+
+- Favicon dal simbolo del logo (griglia 3×3, colori `#C6C6C5` `#88888D` `#E11417`), ridisegnata a pixel interi: `favicon.ico` 16/32/48,
+  `icona.svg`, `apple-touch-icon.png` (fondo bianco), `icona-512.png`. Generatore `tools/rev2/favicon.py` (Pillow), file in `wp/artes-core/icone/`.
+- Il plugin stampa i `<link>` in `<head>` (IT ed EN) solo se in WordPress non c'è un'"Icona del sito". `/favicon.ico` in radice resta 404
+  (risposta di LiteSpeed, non passa da WordPress): i browser usano i `<link>`; in produzione si può copiare il file nella radice.
+
 ## 2026-11-25 — Priorità del logo (`artes-core` 1.0.3)
 
 - Il logo dell'header prendeva `fetchpriority="high"` dal modulo di Elementor "Image loading optimization" (lavora sull'output finale e

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, i18n/WPML, gestione allegati moduli e asset CSS/JS del sito.
- * Version:     1.0.3
+ * Version:     1.0.4
  * Text Domain: artes-core
  * Domain Path: /languages
  *
@@ -24,7 +24,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '1.0.3' );
+define( 'ARTES_CORE_VERSION', '1.0.4' );
 
 // Pagina "ARTES" nel menu di amministrazione (impostazioni, controlli, manutenzione, guida) e riquadro "SEO ARTES" negli editor.
 if ( is_admin() ) {
@@ -2732,3 +2732,23 @@ function artes_optimize_elementor_images( $html ) {
 }
 
 add_filter( 'elementor/frontend/the_content', 'artes_optimize_elementor_images', 99 );
+
+/**
+ * Icone del sito (favicon) ricavate dal simbolo del logo: file in `icone/`, generati da tools/rev2/favicon.py.
+ * Se in WordPress si imposta un'"Icona del sito" (Aspetto → Personalizza → Identità del sito), vale quella e queste non si stampano.
+ */
+add_action(
+	'wp_head',
+	function () {
+		if ( has_site_icon() ) {
+			return;
+		}
+		$url = function ( $file ) {
+			return esc_url( plugins_url( 'icone/' . $file, __FILE__ ) . '?v=' . ARTES_CORE_VERSION );
+		};
+		echo '<link rel="icon" href="' . $url( 'favicon.ico' ) . '" sizes="32x32">' . "\n";
+		echo '<link rel="icon" href="' . $url( 'icona.svg' ) . '" type="image/svg+xml">' . "\n";
+		echo '<link rel="apple-touch-icon" href="' . $url( 'apple-touch-icon.png' ) . '">' . "\n";
+	},
+	3
+);

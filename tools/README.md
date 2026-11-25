@@ -36,4 +36,5 @@ applicazione si leggono da `~/.claude.json` (server MCP `artes-elementor`, `nova
   `wpml-slug-cpt.js` (tutti `--piano`/`--esegui`/`--rollback`): traduzioni EN già fatte; da rilanciare solo per rifare l'inglese da zero.
 - `rev2/modelli/*.html` + `dinamici.js` + `costruisci-modello.js`: sorgenti dei template dinamici (realizzazione, brand, archivi, 404, blog).
   **Non rilanciare su template già modificati in Elementor.**
-- `blog-template.js --stato|--pubblica`, `anteprima-blog.js`: blog (template in bozza). `pagina-404.js`, `modulo-honeypot.js`, `font-locali.js`.
+- `blog-template.js --stato|--pubblica`, `anteprima-blog.js`: blog (template in bozza). `pagina-404.js`, `modulo-honeypot.js`, `font-locali.js`,
+  `favicon.py` (Python + Pillow: icone del sito dal simbolo del logo in `wp/artes-core/icone/`).
