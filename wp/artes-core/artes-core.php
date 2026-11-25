@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, i18n/WPML, gestione allegati moduli e asset CSS/JS del sito.
- * Version:     1.0.2
+ * Version:     1.0.3
  * Text Domain: artes-core
  * Domain Path: /languages
  *
@@ -24,7 +24,7 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '1.0.2' );
+define( 'ARTES_CORE_VERSION', '1.0.3' );
 
 // Pagina "ARTES" nel menu di amministrazione (impostazioni, controlli, manutenzione, guida) e riquadro "SEO ARTES" negli editor.
 if ( is_admin() ) {
@@ -2362,7 +2362,7 @@ add_action(
  *
  * Qui si interviene sul filtro nativo `elementor/frontend/the_content` (eseguito su pagine, header, footer, schede e
  * archivi del Theme Builder, senza output buffering) leggendo il contesto reale dalle classi CSS dei contenitori
- * (allineate ai breakpoint di `assets/css/artes.css`), con rete di sicurezza su `wp_content_img_tag`.
+ * (allineate ai breakpoint di `assets/css/artes.css`). `fetchpriority="high"` lo assegna poi il modulo di Elementor (vedi sotto).
  */
 
 /**
@@ -2695,16 +2695,19 @@ function artes_optimize_elementor_images( $html ) {
 			$rule = artes_img_context_rule( $classes, $stack, $counters );
 			$mode = $rule['mode'];
 
+			// fetchpriority="high" lo mette Elementor (modulo "Image loading optimization", sull'output finale) alla PRIMA
+			// immagine grande, non lazy e senza fetchpriority. Se lo scrivessimo noi, Elementor lo aggiungerebbe una seconda
+			// volta. Quindi: l'immagine principale resta senza fetchpriority e non lazy; tutte le altre immagini non lazy
+			// (logo compreso, che viene prima nel DOM) ricevono fetchpriority="auto" e Elementor le salta.
 			if ( 'lcp' === $mode && ! $lcp_assigned ) {
 				$attrs        = artes_img_remove_attr( $attrs, 'loading' );
-				$attrs        = artes_img_set_attr( $attrs, 'fetchpriority', 'high' );
+				$attrs        = artes_img_remove_attr( $attrs, 'fetchpriority' );
 				$lcp_assigned = true;
-			} elseif ( 'lcp' === $mode || 'eager' === $mode ) {
+			} elseif ( 'lcp' === $mode || 'eager' === $mode || 'logo' === $mode ) {
 				$attrs = artes_img_set_attr( $attrs, 'loading', 'eager' );
-				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
-			} elseif ( 'logo' === $mode ) {
-				$attrs = artes_img_set_attr( $attrs, 'loading', 'eager' );
-				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
+				$attrs = artes_img_set_attr( $attrs, 'fetchpriority', 'auto' );
+			} elseif ( 'keep' === $mode && ! preg_match( '/\bloading=["\']?lazy/i', $attrs ) ) {
+				$attrs = artes_img_set_attr( $attrs, 'fetchpriority', 'auto' );
 			} elseif ( 'lazy' === $mode ) {
 				$attrs = artes_img_set_attr( $attrs, 'loading', 'lazy' );
 				$attrs = artes_img_remove_attr( $attrs, 'fetchpriority' );
@@ -2729,52 +2732,3 @@ function artes_optimize_elementor_images( $html ) {
 }
 
 add_filter( 'elementor/frontend/the_content', 'artes_optimize_elementor_images', 99 );
-
-/**
- * Evita che WordPress assegni `fetchpriority="high"` al logo di header/footer (prima immagine in ordine DOM
- * con dimensioni naturali > 50.000 px²): la priorità alta resta riservata alla vera immagine LCP della pagina.
- */
-add_filter(
-	'wp_get_loading_optimization_attributes',
-	function ( $loading_attrs, $tag_name, $attr ) {
-		if ( 'img' !== $tag_name || is_admin() ) {
-			return $loading_attrs;
-		}
-
-		$src = isset( $attr['src'] ) ? (string) $attr['src'] : '';
-
-		if ( '' !== $src && false !== stripos( $src, 'artes-logo' ) ) {
-			unset( $loading_attrs['fetchpriority'] );
-		}
-
-		return $loading_attrs;
-	},
-	20,
-	3
-);
-
-/**
- * Rete di sicurezza dopo `wp_filter_content_tags()`: evita che WordPress riassegni `fetchpriority="high"`
- * al logo dell'header/footer o combini `fetchpriority="high"` con `loading="lazy"`.
- */
-add_filter(
-	'wp_content_img_tag',
-	function ( $img ) {
-		if ( ! is_string( $img ) || is_admin() ) {
-			return $img;
-		}
-
-		// Il logo dell'header (sizes="114px") o del footer (sizes="auto, 96px") non deve rubare fetchpriority="high" all'LCP.
-		if ( preg_match( '/\bsizes=(?:"(?:114px|auto,\s*96px)"|\'(?:114px|auto,\s*96px)\')/i', $img ) ) {
-			$img = artes_img_remove_attr( $img, 'fetchpriority' );
-		}
-
-		// Mai combinare fetchpriority="high" con loading="lazy".
-		if ( preg_match( '/\bfetchpriority=(?:"high"|\'high\')/i', $img ) ) {
-			$img = artes_img_remove_attr( $img, 'loading' );
-		}
-
-		return $img;
-	},
-	99
-);

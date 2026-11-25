@@ -5,6 +5,13 @@ Voci **brevi** (5-10 righe): data, richiesta, cosa è cambiato, cosa resta. Voce
 
 ---
 
+## 2026-11-25 — Priorità del logo (`artes-core` 1.0.3)
+
+- Il logo dell'header prendeva `fetchpriority="high"` dal modulo di Elementor "Image loading optimization" (lavora sull'output finale e
+  sceglie la prima immagine grande senza priorità), e l'immagine principale lo aveva due volte. Ora il plugin lascia l'immagine principale
+  senza attributo e mette `fetchpriority="auto"` sulle altre non lazy: Elementor assegna `high` una sola volta, all'immagine giusta.
+- Tolti i due filtri WordPress inefficaci. Verifiche: SEO 51/51, salute 80/80 + 14/14, redirect 17/17.
+
 ## 2026-11-25 — Ottimizzazione immagini (`artes-core` 1.0.2) e pulizia `error_log`
 
 - Su autorizzazione del titolare: aggiunta in `wp/artes-core/artes-core.php` (v1.0.2) la gestione automatica di `sizes` (`auto, …` sulle

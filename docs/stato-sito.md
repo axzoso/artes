@@ -1,7 +1,7 @@
 # Stato del sito (dev3) — aggiornato al 2026-11-25
 
 ## Plugin
-`artes-core` **1.0.2**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
+`artes-core` **1.0.3**: solo design rev2 (modalità selettiva e design v1 rimossi), menu **ARTES** in amministrazione (Stato, SEO, Moduli,
 Testi e lingue, Stile, Manutenzione, Guida), riquadro "SEO ARTES" negli editor, caratteri locali (nessuna richiesta a Google),
 compatibile con Yoast/Rank Math/AIOSEO (si fa da parte), etichette EN dei CPT nei feed, `sizes` responsive e priorità LCP automatici sugli
 `<img>` di Elementor. Opzioni: `artes_seo_archives`, `artes_antispam_max_link` (3),
