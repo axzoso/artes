@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Brand Partner — ARTES Contract</title>
-<meta name="description" content="I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato ai progetti in cui è stato impiegato.">
+<meta name="description" content="I brand partner con cui Artes lavora: mobili per ufficio, sedute contract, acustica, lapidei e outdoor. Ogni brand è collegato alle realizzazioni in cui è stato impiegato.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,55 +12,119 @@
 </head>
 <body>
 
-<div data-artes-header></div>
-<script src="assets/js/shell.js"></script>
+<header class="header">
+  <div class="topbar">
+    <span>Arredi contract su misura — Calabria / Italia</span>
+    <div class="topbar__right">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="#">Blog</a>
+      <a href="#contatti">Contatti</a>
+      <span class="topbar__lang">IT / EN</span>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <a class="masthead__logo" href="index.html"><img src="assets/artes-logo.png" alt="ARTES Arredamenti"></a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="arredamento-ufficio.html"><span class="nav__pre">Arredo </span><strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html"><span class="nav__pre">Arredo </span><strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html"><span class="nav__pre">Arredo </span><strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="nav__item">
+        <a href="realizzazioni.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-realizzazioni">Realizzazioni</a>
+        <div class="drop drop--simple" id="drop-realizzazioni" hidden>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+          <a href="realizzazioni.html" class="drop__all">Tutte le realizzazioni</a>
+        </div>
+      </div>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <nav class="mobile-nav__list" aria-label="Navigazione mobile">
+      <a href="arredamento-ufficio.html">Arredo <strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html">Arredo <strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html">Arredo <strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html">Arredo <strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html">Arredo <strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="mobile-nav__item">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-realizzazioni">Realizzazioni</button>
+        <div class="mobile-nav__panel" id="mnav-realizzazioni" hidden>
+          <a href="realizzazioni.html">Tutte le realizzazioni</a>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+        </div>
+      </div>
+      <div class="mobile-nav__divider"></div>
+      <a href="chi-siamo.html" class="mobile-nav__sec">Chi siamo</a>
+      <a href="#" class="mobile-nav__sec">Blog</a>
+      <a href="#contatti" class="mobile-nav__sec">Contatti</a>
+    </nav>
+  </div>
+</header>
 <main>
 
   <section class="page-intro">
     <div class="breadcrumb">
-      <a href="index.html">Home</a> / <strong>Brand Partner</strong>
+      <a href="index.html">Home</a> / <strong>Brand partner</strong>
     </div>
     <div class="page-intro__row">
       <div>
         <div class="eyebrow">40+ brand distribuiti</div>
         <h1 class="page-title">I brand<br><strong>con cui costruiamo.</strong></h1>
       </div>
-      <p class="lead">Coordiniamo brand partner selezionati per ogni categoria di prodotto. Ogni brand è collegato ai progetti reali in cui è stato impiegato: filtra per categoria o apri una scheda per vedere dove è stato usato.</p>
+      <p class="lead">Coordiniamo brand partner selezionati per ogni categoria di prodotto. Ogni brand è collegato alle realizzazioni in cui è stato impiegato: filtra per categoria o apri una scheda per vedere dove è stato usato.</p>
     </div>
   </section>
 
-  <section class="section bg-alt">
+  <section class="section">
     <div class="filtri" data-filtri role="group" aria-label="Filtra per categoria">
       <button type="button" class="filtro is-active" data-filtro="Tutti" aria-pressed="true">Tutti</button>
       <button type="button" class="filtro" data-filtro="Ufficio" aria-pressed="false">Ufficio</button>
       <button type="button" class="filtro" data-filtro="Contract" aria-pressed="false">Contract</button>
       <button type="button" class="filtro" data-filtro="Acustica" aria-pressed="false">Acustica</button>
-      <button type="button" class="filtro" data-filtro="Pareti / pod" aria-pressed="false">Pareti / pod</button>
+      <button type="button" class="filtro" data-filtro="Pareti e pod" aria-pressed="false">Pareti e pod</button>
       <button type="button" class="filtro" data-filtro="Sedute" aria-pressed="false">Sedute</button>
       <button type="button" class="filtro" data-filtro="Retail" aria-pressed="false">Retail</button>
       <button type="button" class="filtro" data-filtro="Food" aria-pressed="false">Food</button>
       <button type="button" class="filtro" data-filtro="Outdoor" aria-pressed="false">Outdoor</button>
     </div>
     <div class="brands" data-progetti>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">Frezza</span><span class="brand__c">Ufficio</span></div>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">Colombini Office</span><span class="brand__c">Ufficio</span></div>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">LAS</span><span class="brand__c">Ufficio</span></div>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">Della Rovere</span><span class="brand__c">Ufficio</span></div>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">Martex</span><span class="brand__c">Ufficio</span></div>
-      <div class="brand" data-settore="Ufficio"><span class="brand__n">Estel</span><span class="brand__c">Ufficio</span></div>
+      <a class="brand" href="brand-frezza.html" data-settore="Ufficio"><span class="brand__n">Frezza</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-colombini-office.html" data-settore="Ufficio"><span class="brand__n">Colombini Office</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-las.html" data-settore="Ufficio"><span class="brand__n">LAS</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-della-rovere.html" data-settore="Ufficio"><span class="brand__n">Della Rovere</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-martex.html" data-settore="Ufficio"><span class="brand__n">Martex</span><span class="brand__c">Ufficio</span></a>
+      <a class="brand" href="brand-estel.html" data-settore="Ufficio"><span class="brand__n">Estel</span><span class="brand__c">Ufficio</span></a>
       <a class="brand" href="brand-pedrali.html" data-settore="Contract"><span class="brand__n">Pedrali</span><span class="brand__c">Contract</span></a>
-      <div class="brand" data-settore="Contract"><span class="brand__n">Gaber</span><span class="brand__c">Contract</span></div>
-      <div class="brand" data-settore="Contract"><span class="brand__n">Et al.</span><span class="brand__c">Contract</span></div>
-      <div class="brand" data-settore="Contract"><span class="brand__n">Mottura</span><span class="brand__c">Contract</span></div>
-      <div class="brand" data-settore="Acustica"><span class="brand__n">Caimi</span><span class="brand__c">Acustica</span></div>
-      <div class="brand" data-settore="Acustica"><span class="brand__n">Snowsound</span><span class="brand__c">Acustica</span></div>
-      <div class="brand" data-settore="Pareti / pod"><span class="brand__n">Vetroin</span><span class="brand__c">Pareti / pod</span></div>
-      <div class="brand" data-settore="Sedute"><span class="brand__n">Kastel</span><span class="brand__c">Sedute</span></div>
-      <div class="brand" data-settore="Sedute"><span class="brand__n">Leyform</span><span class="brand__c">Sedute</span></div>
-      <div class="brand" data-settore="Sedute"><span class="brand__n">SM Milani</span><span class="brand__c">Sedute</span></div>
-      <div class="brand" data-settore="Retail"><span class="brand__n">Arken</span><span class="brand__c">Retail</span></div>
-      <div class="brand" data-settore="Food"><span class="brand__n">Lainox</span><span class="brand__c">Food</span></div>
-      <div class="brand" data-settore="Outdoor"><span class="brand__n">Nardi Outdoor</span><span class="brand__c">Outdoor</span></div>
+      <a class="brand" href="brand-gaber.html" data-settore="Contract"><span class="brand__n">Gaber</span><span class="brand__c">Contract</span></a>
+      <a class="brand" href="brand-et-al.html" data-settore="Contract"><span class="brand__n">Et al.</span><span class="brand__c">Contract</span></a>
+      <a class="brand" href="brand-caimi.html" data-settore="Acustica"><span class="brand__n">Caimi</span><span class="brand__c">Acustica</span></a>
+      <a class="brand" href="brand-snowsound.html" data-settore="Acustica"><span class="brand__n">Snowsound</span><span class="brand__c">Acustica</span></a>
+      <a class="brand" href="brand-vetroin.html" data-settore="Pareti e pod"><span class="brand__n">Vetroin</span><span class="brand__c">Pareti e pod</span></a>
+      <a class="brand" href="brand-kastel.html" data-settore="Sedute"><span class="brand__n">Kastel</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-leyform.html" data-settore="Sedute"><span class="brand__n">Leyform</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-sm-milani.html" data-settore="Sedute"><span class="brand__n">SM Milani</span><span class="brand__c">Sedute</span></a>
+      <a class="brand" href="brand-arken.html" data-settore="Retail"><span class="brand__n">Arken</span><span class="brand__c">Retail</span></a>
+      <a class="brand" href="brand-lainox.html" data-settore="Food"><span class="brand__n">Lainox</span><span class="brand__c">Food</span></a>
+      <a class="brand" href="brand-nardi-outdoor.html" data-settore="Outdoor"><span class="brand__n">Nardi Outdoor</span><span class="brand__c">Outdoor</span></a>
       <p class="progetti__empty" data-empty hidden>Nessun brand pubblicato per questa categoria.</p>
     </div>
   </section>
@@ -68,14 +132,48 @@
   <section class="cta-band">
     <h2>Vuoi diventare<br>un brand partner?</h2>
     <div class="cta-band__actions">
-      <a href="contatti.html" class="btn btn--red">Contattaci</a>
+      <a href="#contatti" class="btn btn--red">Contattaci</a>
       <a href="contract.html" class="btn btn--ghost">Scopri il processo contract</a>
     </div>
   </section>
 
 </main>
 
-<div data-artes-footer></div>
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <img class="footer__logo" src="assets/artes-logo-bianco.png" alt="ARTES Arredamenti">
+      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e montaggio di arredi su misura per uffici, negozi, bar e ristoranti, negozi food e hotel.</p>
+    </div>
+    <div>
+      <div class="footer__t">Azienda</div>
+      <div class="footer__list">
+        <a href="chi-siamo.html">Chi siamo</a><a href="contract.html">Arredo Contract</a><a href="arredamento-su-misura.html">Arredo su misura</a><a href="realizzazioni.html">Realizzazioni</a><a href="#contatti">Contatti</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Settori</div>
+      <div class="footer__list">
+        <a href="arredamento-ufficio.html">Arredo uffici e workspace</a><a href="arredo-negozi.html">Arredo negozi e retail</a><a href="arredamento-bar-ristoranti.html">Arredo bar e ristoranti</a><a href="arredo-negozi-food.html">Arredo negozi food</a><a href="arredamento-hotel.html">Arredo hotel e hospitality</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Risorse</div>
+      <div class="footer__list">
+        <a href="brand-partner.html">Brand Partner</a><a href="#">Prodotti</a><a href="#">Area progettisti</a><a href="#">MEPA · Acquisti in Rete PA</a><a href="#">Cataloghi PDF</a><a href="#">Blog</a>
+      </div>
+    </div>
+    <div id="contatti">
+      <div class="footer__t">Contatti</div>
+      <div class="footer__contact">Via A. Nervoso 1, 87036 Rende (CS)<br><a href="tel:+390984462039">T +39 0984 462039</a><br>info@artessrl.it</div>
+      <a href="mailto:info@artessrl.it" class="footer__cta">Richiedi un preventivo</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Artes srl — P.IVA 02343330789</span>
+    <span>Privacy · Cookie · MEPA</span>
+  </div>
+</footer>
 
 <script src="assets/js/artes.js"></script>
 </body>

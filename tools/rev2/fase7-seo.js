@@ -10,7 +10,7 @@ const { parse, trova, testo, classi } = require('./html-parse');
 const { connetti } = require('./mcp-client');
 
 const root = path.resolve(__dirname, '..', '..');
-const rev2Dir = path.join(root, 'artes-sito-rev2');
+const rev2Dir = root;
 const outDir = path.join(root, 'tools', 'out', 'rev2');
 
 const ENTITA = {

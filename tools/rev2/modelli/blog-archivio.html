@@ -1,0 +1,41 @@
+<!-- Template "Archivio del blog" (Theme Builder, pagina degli articoli). La rev2 non ha il blog: componenti della rev2 (page-intro, breadcrumb,
+     eyebrow, page-title, lead, section, cta-band) più blog__ / blog-card__ (stile in tools/rev2/css/adattamenti.css, sezione "Blog").
+     Con zero articoli pubblicati il ciclo è vuoto e compare il messaggio blog__vuoto. -->
+<main class="blog-archivio">
+
+  <section class="page-intro">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <strong>Blog</strong>
+    </div>
+    <div class="page-intro__row">
+      <div>
+        <div class="eyebrow">Blog</div>
+        <h1 class="page-title">Idee, materiali<br><strong>e cantieri.</strong></h1>
+      </div>
+      <p class="lead">Appunti dal mondo contract: come progettiamo spazi di lavoro, negozi e locali, i materiali che scegliamo in falegnameria e quello che impariamo in cantiere.</p>
+    </div>
+  </section>
+
+  <section class="section blog__lista">
+    <div class="blog__griglia" data-loop="archivio_articoli"><a class="blog-card" href="#" data-dyn-href="url_post">
+        <div class="blog-card__foto"><img data-dyn-src="card_immagine" alt=""></div>
+        <div class="blog-card__meta" data-dyn="eyebrow_articolo">Data · Categoria</div>
+        <h2 class="blog-card__titolo" data-dyn="card_nome">Titolo</h2>
+        <p class="blog-card__estratto" data-dyn="estratto">Estratto</p>
+        <span class="blog-card__leggi">Leggi l'articolo</span>
+      </a></div>
+    <div class="blog__vuoto">
+      <div class="eyebrow">In preparazione</div>
+      <p class="lead">I primi articoli arrivano presto. Nel frattempo puoi guardare le <a href="realizzazioni.html">realizzazioni</a> o scoprire il nostro <a href="contract.html">metodo contract</a>.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Hai un progetto<br>da raccontarci?</h2>
+    <div class="cta-band__actions">
+      <a href="#contatti" class="btn btn--red">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un tecnico</a>
+    </div>
+  </section>
+
+</main>

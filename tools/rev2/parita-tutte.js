@@ -2,7 +2,7 @@
 // Parità di TUTTE le schede e gli archivi dei tipi di contenuto (20 realizzazioni, 18 brand, 2 archivi): per ognuna lancia
 // parita.js (aspetto a 1440 e 390 px) e contenuti.js (testo, titoli, link, alt) con alcuni processi in parallelo e stampa una tabella.
 //   node tools/rev2/parita-tutte.js [--solo realizzazioni|brand|archivi] [--parallelo 4] [--w 1440,390]
-// Rev2 in locale (py -3 -m http.server 8765 --directory artes-sito-rev2); dev3 agli indirizzi veri (senza ?artes_rev2=1: i template
+// Rev2 in locale (py -3 -m http.server 8765 (dalla radice del repository)); dev3 agli indirizzi veri (senza ?artes_rev2=1: i template
 // rev2 sono attivi per tutte le schede dopo condizioni.js --attiva). Esito in tools/out/rev2/parita-tutte.json.
 const fs = require('fs');
 const path = require('path');

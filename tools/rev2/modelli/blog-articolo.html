@@ -1,0 +1,49 @@
+<!-- Template "Articolo del blog" (Theme Builder, singolo articolo). La rev2 non ha il blog: componenti della rev2 (scheda__intro, breadcrumb,
+     eyebrow, lead, page-band, section, prose, section__head, h-section, link-rule, cta-band) più il gruppo blog__ / blog-card__ (stile in
+     tools/rev2/css/adattamenti.css, sezione "Blog"). Il corpo dell'articolo è il widget nativo "Contenuto articolo" di Elementor Pro, inserito
+     da tools/rev2/blog-template.js al posto del segnaposto data-segnaposto="contenuto-articolo". -->
+<main class="blog">
+
+  <section class="scheda__intro blog__intro">
+    <div class="breadcrumb" data-dyn="breadcrumb">Home / Blog / Titolo</div>
+    <div class="blog__testata">
+      <div class="eyebrow" data-dyn="eyebrow_articolo">12 novembre 2026 · Categoria · 4 min di lettura</div>
+      <h1 class="blog__titolo" data-dyn="titolo">Titolo dell'articolo</h1>
+      <div class="blog__estratto" data-opz><p class="lead" data-dyn="estratto">Estratto dell'articolo</p></div>
+    </div>
+  </section>
+
+  <div class="page-band blog__foto" data-opzimg><img data-dyn-src="foto" alt=""></div>
+
+  <section class="section blog__corpo">
+    <div class="prose blog__contenuto" data-segnaposto="contenuto-articolo"><p>Contenuto dell'articolo</p></div>
+  </section>
+
+  <section class="section blog__altri" data-opz>
+    <div class="section__head">
+      <div>
+        <div class="eyebrow">Dal blog</div>
+        <h2 class="h-section">Continua<br>a leggere.</h2>
+      </div>
+      <a href="#" class="link-rule" data-dyn-href="url_blog">Tutti gli articoli</a>
+    </div>
+    <div class="blog__griglia" data-loop="articoli_correlati"><a class="blog-card" href="#" data-dyn-href="url_post">
+        <div class="blog-card__foto"><img data-dyn-src="card_immagine" alt=""></div>
+        <div class="blog-card__meta" data-dyn="eyebrow_articolo">Data · Categoria</div>
+        <h3 class="blog-card__titolo" data-dyn="card_nome">Titolo</h3>
+        <span class="blog-card__leggi">Leggi l'articolo</span>
+      </a></div>
+  </section>
+
+  <section class="cta-band cta-band--accent">
+    <div>
+      <h2>Hai uno spazio<br>da arredare?</h2>
+      <p>Raccontaci il progetto: un nostro tecnico ti affianca nella valutazione di esigenze, spazi e soluzioni.</p>
+    </div>
+    <div class="cta-band__actions">
+      <a href="#contatti" class="btn btn--light">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un tecnico</a>
+    </div>
+  </section>
+
+</main>

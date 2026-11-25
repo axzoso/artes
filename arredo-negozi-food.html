@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arredo negozi food — ARTES Contract</title>
-<meta name="description" content="Arredi su misura per panetterie, pasticcerie, gastronomie, macellerie e market gourmet. Progetto, produzione e montaggio con un unico referente.">
+<title>Arredo negozi food su misura — Artes</title>
+<meta name="description" content="Progettazione, produzione e montaggio di arredi e attrezzature per panetterie, pasticcerie, gastronomie, enoteche, botteghe, cantine e oleifici, con un unico referente per tutta la commessa.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,8 +12,73 @@
 </head>
 <body>
 
-<div data-artes-header></div>
-<script src="assets/js/shell.js"></script>
+<header class="header">
+  <div class="topbar">
+    <span>Arredi contract su misura — Calabria / Italia</span>
+    <div class="topbar__right">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="#">Blog</a>
+      <a href="#contatti">Contatti</a>
+      <span class="topbar__lang">IT / EN</span>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <a class="masthead__logo" href="index.html"><img src="assets/artes-logo.png" alt="ARTES Arredamenti"></a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="arredamento-ufficio.html"><span class="nav__pre">Arredo </span><strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html"><span class="nav__pre">Arredo </span><strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html" class="is-active"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html"><span class="nav__pre">Arredo </span><strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="nav__item">
+        <a href="realizzazioni.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-realizzazioni">Realizzazioni</a>
+        <div class="drop drop--simple" id="drop-realizzazioni" hidden>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+          <a href="realizzazioni.html" class="drop__all">Tutte le realizzazioni</a>
+        </div>
+      </div>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <nav class="mobile-nav__list" aria-label="Navigazione mobile">
+      <a href="arredamento-ufficio.html">Arredo <strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html">Arredo <strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html">Arredo <strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html">Arredo <strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html">Arredo <strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="mobile-nav__item">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-realizzazioni">Realizzazioni</button>
+        <div class="mobile-nav__panel" id="mnav-realizzazioni" hidden>
+          <a href="realizzazioni.html">Tutte le realizzazioni</a>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+        </div>
+      </div>
+      <div class="mobile-nav__divider"></div>
+      <a href="chi-siamo.html" class="mobile-nav__sec">Chi siamo</a>
+      <a href="#" class="mobile-nav__sec">Blog</a>
+      <a href="#contatti" class="mobile-nav__sec">Contatti</a>
+    </nav>
+  </div>
+</header>
 <main>
 
   <section class="page-intro">
@@ -22,136 +87,197 @@
     </div>
     <div class="page-intro__row">
       <div>
-        <div class="eyebrow">03 — Arredo negozi food</div>
-        <h1 class="page-title">Dove il freddo<br><strong>e il carattere convivono.</strong></h1>
+        <div class="eyebrow">04 — Settore</div>
+        <h1 class="page-title">Arredo negozi<br><strong>food.</strong></h1>
       </div>
-      <p class="lead">Banchi refrigerati, retrobanco, esposizione a vista: qui il capitolato parte da superfici certificate, pulibilità e continuità della catena del freddo. Il progetto comincia da questi vincoli e trova lo stile dentro, non sopra.</p>
+      <p class="lead">Progettiamo, produciamo e realizziamo panetterie, pasticcerie, gastronomie, enoteche, botteghe, laboratori e punti vendita aziendali. Dal progetto di banchi ed esposizione alla produzione degli arredi, fino alla fornitura delle attrezzature e al montaggio, gestiamo ogni fase della commessa.</p>
     </div>
   </section>
 
-  <div class="page-band">
-    <img src="assets/img/sfuse/the-cave.jpg" alt="Bottega gastronomica con scaffalature su misura">
-  </div>
-
-  <!-- Il nostro punto di vista (testo discorsivo, da rivedere con il cliente) -->
-  <section class="racconto">
-    <div class="racconto__head">
-      <div class="eyebrow">Il nostro punto di vista</div>
-      <p class="racconto__lead">Il cibo si sceglie con gli occhi e con il naso, ma si compra anche perché <strong>il luogo ispira fiducia</strong>.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Igiene e bellezza possono convivere</h3>
-      <p>Chi lavora con gli alimenti conosce bene la lista di cose da rispettare: superfici lavabili, giunzioni pulite, materiali che non assorbono. Il nostro compito è fare in modo che tutto questo non si veda come un obbligo, ma diventi parte di un ambiente accogliente. Un acciaio ben scelto accanto al legno giusto, una pietra che si pulisce in un attimo: la regola non è nemica dell'estetica.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Il banco è il palcoscenico</h3>
-      <p>In una panetteria, in una gastronomia o in una macelleria il banco è il punto in cui tutto si decide. Deve far vedere il prodotto nel modo migliore, mantenerlo nelle giuste condizioni e permettere a chi serve di muoversi senza intralci. Lo disegniamo insieme al titolare, partendo da cosa si vende e da come lo si taglia, lo si confeziona, lo si racconta.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Il laboratorio conta quanto il negozio</h3>
-      <p>Quello che il cliente vede è solo una parte del lavoro: dietro ci sono forni, celle, piani di lavoro e percorsi che devono essere fluidi. Coordiniamo le attrezzature professionali dei brand partner con l'arredo del punto vendita, così il tragitto dal laboratorio al banco resta breve e senza strozzature.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Materiali che reggono le pulizie</h3>
-      <p>Un locale alimentare si lava ogni giorno, spesso più volte. Scegliamo materiali e finiture che reggono detergenti, urti e umidità senza segnare il tempo, e proponiamo soluzioni di manutenzione semplici, perché la durata di un negozio dipende anche da quanto è facile prendersene cura.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section__head">
-      <div>
-        <div class="eyebrow">Il settore</div>
-        <h2 class="h-section">Banchi e laboratori<br>a norma e su misura.</h2>
-      </div>
-      <p class="lead">Panetterie, pasticcerie, gastronomie e market lavorano con superfici a contatto con gli alimenti, attrezzature refrigerate e ritmi di produzione serrati. Progettiamo banco, retrobanco e laboratorio come un unico sistema, integrando le attrezzature dei fornitori.</p>
-    </div>
-    <div class="grid-1px grid-1px--3">
-      <div class="card">
-        <div class="card__n">Igiene</div>
-        <div class="card__t">Superfici certificate</div>
-        <div class="card__d">Materiali idonei al contatto alimentare, raccordi facili da pulire, piani in pietra o agglomerato tecnico.</div>
-      </div>
-      <div class="card">
-        <div class="card__n">Attrezzature</div>
-        <div class="card__t">Freddo e forni integrati</div>
-        <div class="card__d">Vetrine refrigerate, celle e forni inseriti nell'arredo con quote, scarichi e aerazioni previsti dal produttore.</div>
-      </div>
-      <div class="card">
-        <div class="card__n">Esposizione</div>
-        <div class="card__t">Il prodotto in vetrina</div>
-        <div class="card__d">Luce e altezze del banco studiate per mostrare il fresco e rendere veloce il servizio.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="settore bg-alt" id="negozi-food">
-    <div class="settore__text">
-      <div class="eyebrow">Ambiti</div>
-      <ul class="ambiti">
-        <li><span>Panetterie e bakery</span></li>
-        <li><span>Pasticcerie</span></li>
-        <li><span>Gastronomie e salumerie</span></li>
-        <li><span>Macellerie e pescherie</span></li>
-        <li><span>Caseifici</span></li>
-        <li><span>Alimentari e market gourmet</span></li>
-        <li><span>Chocolate shop e take-away</span></li>
-        <li><span>Healthy food store</span></li>
-      </ul>
+  <section class="settore" id="negozi-food">
+    <div class="settore__text prose">
+      <div class="eyebrow">Il nostro approccio</div>
+      <h2 class="settore__t">Esposizione, freddo e laboratorio in un unico progetto.</h2>
+      <p>In un negozio alimentare l'arredo deve valorizzare il prodotto e rispettare i requisiti di igiene, conservazione e pulibilità. Per questo progettiamo banchi, vetrine e laboratori considerando fin dall'inizio superfici, attrezzature e flussi di lavoro.</p>
+      <p>Un referente tecnico raccoglie le esigenze del cliente, seleziona arredi e attrezzature dei brand partner, coordina la progettazione, la nostra falegnameria, frigoristi, impiantisti e squadre di posa.</p>
+      <p>La pianificazione delle attività di fornitura e montaggio viene definita in funzione della data di apertura e delle caratteristiche della commessa, in accordo con il cliente.</p>
       <div class="settore__links">
-        <a href="brand-partner.html" class="link-rule">Brand collegati</a>
+        <a href="#categorie" class="link-rule">Categorie</a>
       </div>
     </div>
     <div class="settore__media">
       <img src="assets/img/sfuse/brugnotto-onstage.jpg" alt="Banco bakery su misura">
-      <div class="settore__inset"><img src="assets/img/progetti/sakuralab/04.jpg" alt="Attrezzatura da forno, dettaglio"></div>
+      <div class="settore__inset"><img src="assets/img/progetti/sakuralab/04.jpg" alt="Laboratorio, dettaglio"></div>
+    </div>
+  </section>
+
+  <section class="section" id="categorie">
+    <div class="section__head">
+      <div>
+        <div class="eyebrow">Categorie</div>
+        <h2 class="h-section">Prodotti diversi, esposizioni differenti.</h2>
+      </div>
+      <p class="lead">Operiamo nei diversi ambiti del commercio e della produzione alimentare, progettando soluzioni di arredo in funzione del prodotto, della conservazione e del servizio al cliente.</p>
+    </div>
+    <div class="categorie-grid">
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=food&amp;categoria=panetterie-e-pasticcerie">Panetterie e pasticcerie</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Panetterie, forni, pasticcerie, cake shop, cioccolaterie, confetterie</p>
+      </article>
+      <article class="categoria">
+        <h3>Gastronomia</h3>
+        <p class="categoria__tip"><span>Tipologie</span> Gastronomie, salumerie, macellerie, pescherie, caseifici</p>
+      </article>
+      <article class="categoria">
+        <h3>Vino e bevande</h3>
+        <p class="categoria__tip"><span>Tipologie</span> Enoteche, wine shop, beer shop, liquor boutique, coffee retail</p>
+      </article>
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=food&amp;categoria=botteghe-e-alimentari">Botteghe e alimentari</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Minimarket, alimentari, botteghe, negozi specializzati</p>
+      </article>
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=food&amp;categoria=aziende-agricole-cantine-e-oleifici">Aziende agricole, cantine e oleifici</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Cantine, oleifici, aziende agricole, caseifici, laboratori alimentari, dark kitchen</p>
+      </article>
+    </div>
+    <div class="categorie-cta">
+      <p><strong>Hai un negozio alimentare da aprire o rinnovare?</strong> Dal banco vendita al punto vendita completo di laboratorio, affianchiamo commercianti, produttori e aziende agricole nella scelta e nella realizzazione delle soluzioni più adatte.</p>
+      <a href="#contatti" class="btn btn--red">Parla con un nostro tecnico</a>
     </div>
   </section>
 
   <section class="section">
-    <div class="section__head">
-      <div>
-        <div class="eyebrow">Realizzazioni</div>
-        <h2 class="h-section">Progetti<br>Arredo negozi food.</h2>
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Cosa facciamo per voi</div>
+        <h2 class="h-section">Un solo referente,<br>dal rilievo<br>al montaggio.</h2>
+        <a href="contract.html" class="link-rule link-rule--spaced">Il metodo in sei fasi</a>
       </div>
-      <p class="lead">Filtra per ambito per vedere solo i progetti della categoria che ti interessa.</p>
+      <div class="prose">
+        <h3>Progettazione del punto vendita</h3>
+        <p>Rilievi, analisi delle esigenze e sviluppo del layout di vendita, esposizione, laboratorio e magazzino. Realizziamo elaborati 2D, progettazioni 3D e render, fino allo sviluppo tecnico ed esecutivo degli arredi.</p>
+        <h3>Banchi e vetrine refrigerate</h3>
+        <p>Banchi gastronomia, vetrine per pane e pasticceria e isole refrigerate dei brand partner, integrati negli arredi su misura.</p>
+        <h3>Esposizione e scaffali</h3>
+        <p>Scaffalature, espositori per vino, olio e prodotti confezionati, retrobanchi a vista che valorizzano il prodotto.</p>
+        <h3>Laboratori e attrezzature</h3>
+        <p>Banchi di lavoro, attrezzature professionali e arredi per laboratori e magazzini, con superfici idonee al contatto con gli alimenti.</p>
+        <h3>Fornitura e installazione</h3>
+        <p>Coordiniamo approvvigionamenti, logistica, consegne e montaggio, insieme a frigoristi e impiantisti, programmando le attività in funzione della data di apertura e delle caratteristiche della commessa.</p>
+        <h3>Punti vendita aziendali e degustazioni</h3>
+        <p>Punti vendita, sale degustazione e spazi espositivi per cantine, oleifici e aziende agricole, per raccontare il prodotto dove nasce.</p>
+        <p class="prose__note">Ogni commessa racconta il nostro modo di progettare, produrre e realizzare negozi food. Tra le realizzazioni del settore: <a href="realizzazione-sakuralab.html">Sakuralab</a>, <a href="realizzazione-agricola-benincasa.html">Agricola Luigi Benincasa</a> e <a href="realizzazione-bottega-del-vicinato.html">La bottega del vicinato</a>. <a href="realizzazioni.html?settore=food">Scopri tutte le realizzazioni</a>.</p>
+      </div>
     </div>
-    <div class="filtri" data-filtri role="group" aria-label="Filtra per ambito">
-      <button type="button" class="filtro is-active" data-filtro="Tutti" aria-pressed="true">Tutti</button>
-      <button type="button" class="filtro" data-filtro="Panetterie e bakery" aria-pressed="false">Panetterie e bakery</button>
-      <button type="button" class="filtro" data-filtro="Pasticcerie" aria-pressed="false">Pasticcerie</button>
-      <button type="button" class="filtro" data-filtro="Gastronomie e salumerie" aria-pressed="false">Gastronomie e salumerie</button>
-      <button type="button" class="filtro" data-filtro="Macellerie e pescherie" aria-pressed="false">Macellerie e pescherie</button>
-      <button type="button" class="filtro" data-filtro="Caseifici" aria-pressed="false">Caseifici</button>
-      <button type="button" class="filtro" data-filtro="Alimentari e market gourmet" aria-pressed="false">Alimentari e market gourmet</button>
-      <button type="button" class="filtro" data-filtro="Chocolate shop e take-away" aria-pressed="false">Chocolate shop e take-away</button>
-      <button type="button" class="filtro" data-filtro="Healthy food store" aria-pressed="false">Healthy food store</button>
+  </section>
+
+  <section class="section">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Commesse</div>
+        <h2 class="h-section">Dal banco vendita al laboratorio completo.</h2>
+      </div>
+      <div class="prose">
+        <p class="prose__lead">Gestiamo forniture e realizzazioni di diversa dimensione e complessità, coordinando progettazione, produzione, attrezzature e installazione.</p>
+        <ul class="scala-list">
+          <li>Panetterie e pasticcerie con laboratorio</li>
+          <li>Gastronomie e botteghe</li>
+          <li>Enoteche e wine shop</li>
+          <li>Punti vendita e sale degustazione aziendali</li>
+          <li>Forniture integrate di arredi standard e personalizzati</li>
+        </ul>
+      </div>
     </div>
-    <div class="progetti" data-progetti>
-      <a class="progetto progetto--w2" href="realizzazione-sakuralab.html" data-settore="Panetterie e bakery">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/sakuralab/01.jpg" alt="Laboratorio Sakuralab"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Sakuralab</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Panetterie e bakery</div>
-        </div>
-      </a>
-      <p class="progetti__empty" data-empty hidden>Nessuna realizzazione pubblicata per questo ambito.</p>
+  </section>
+
+  <section class="section">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Domande frequenti</div>
+        <h2 class="h-section">Prima di iniziare.</h2>
+      </div>
+      <div class="faq">
+      <details class="faq__item">
+        <summary>Fornite anche banchi refrigerati e attrezzature?</summary>
+        <p>Sì. Li selezioniamo con i brand partner e li integriamo negli arredi su misura, coordinando frigoristi e impiantisti.</p>
+      </details>
+      <details class="faq__item">
+        <summary>I materiali sono adatti al contatto con gli alimenti?</summary>
+        <p>Sì. Selezioniamo superfici idonee e facili da pulire, con la documentazione tecnica richiesta per ogni fornitura.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Lavorate con il progetto del nostro architetto?</summary>
+        <p>Sì. Possiamo partire dal progetto del vostro architetto o professionista incaricato, occupandoci di ingegnerizzazione, produzione e installazione. In alternativa, possiamo seguire direttamente la progettazione del punto vendita.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Arredate anche laboratori e magazzini?</summary>
+        <p>Sì. Progettiamo anche gli spazi che il cliente non vede, organizzando attrezzature e flussi di lavoro.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Arredate anche sale degustazione in cantina o in azienda?</summary>
+        <p>Sì, progettiamo punti vendita aziendali, sale degustazione e spazi espositivi per cantine, oleifici e aziende agricole.</p>
+      </details>
+      </div>
     </div>
-    <div class="section__more">
-      <a href="realizzazioni.html?settore=Arredo%20negozi%20food" class="link-rule">Tutte le realizzazioni Arredo negozi food</a>
+    <div class="brand-row">
+      <div class="eyebrow">Brand partner per i negozi food</div>
+      <p class="brand-row__lead">Collaboriamo con aziende specializzate in arredi, refrigerazione e attrezzature per il commercio alimentare, per offrire soluzioni che uniscono funzionalità, igiene e qualità dei materiali. Selezioniamo prodotti e sistemi in funzione delle caratteristiche di ogni commessa.</p>
+      <div class="brands-mini">
+        <a href="brand-arken.html">Arken</a>
+        <a href="brand-lainox.html">Lainox</a>
+      </div>
     </div>
   </section>
 
   <section class="cta-band">
-    <h2>Un locale<br>da riprogettare?</h2>
+    <div>
+      <h2>Hai un negozio food<br>da realizzare o rinnovare?</h2>
+      <p>Raccontaci la tua commessa. Il nostro team tecnico ti affiancherà nella valutazione delle esigenze, degli spazi e delle soluzioni più adatte.</p>
+    </div>
     <div class="cta-band__actions">
-      <a href="richiedi-preventivo.html?settore=Arredo%20negozi%20food" class="btn btn--red">Richiedi un preventivo</a>
-      <a href="contatti.html?motivo=tecnico#scrivici" class="btn btn--ghost">Parla con un tecnico</a>
+      <a href="#contatti" class="btn btn--red">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un nostro tecnico</a>
     </div>
   </section>
 
 </main>
 
-<div data-artes-footer></div>
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <img class="footer__logo" src="assets/artes-logo-bianco.png" alt="ARTES Arredamenti">
+      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e montaggio di arredi su misura per uffici, negozi, bar e ristoranti, negozi food e hotel.</p>
+    </div>
+    <div>
+      <div class="footer__t">Azienda</div>
+      <div class="footer__list">
+        <a href="chi-siamo.html">Chi siamo</a><a href="contract.html">Arredo Contract</a><a href="arredamento-su-misura.html">Arredo su misura</a><a href="realizzazioni.html">Realizzazioni</a><a href="#contatti">Contatti</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Settori</div>
+      <div class="footer__list">
+        <a href="arredamento-ufficio.html">Arredo uffici e workspace</a><a href="arredo-negozi.html">Arredo negozi e retail</a><a href="arredamento-bar-ristoranti.html">Arredo bar e ristoranti</a><a href="arredo-negozi-food.html">Arredo negozi food</a><a href="arredamento-hotel.html">Arredo hotel e hospitality</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Risorse</div>
+      <div class="footer__list">
+        <a href="brand-partner.html">Brand Partner</a><a href="#">Prodotti</a><a href="#">Area progettisti</a><a href="#">MEPA · Acquisti in Rete PA</a><a href="#">Cataloghi PDF</a><a href="#">Blog</a>
+      </div>
+    </div>
+    <div id="contatti">
+      <div class="footer__t">Contatti</div>
+      <div class="footer__contact">Via A. Nervoso 1, 87036 Rende (CS)<br><a href="tel:+390984462039">T +39 0984 462039</a><br>info@artessrl.it</div>
+      <a href="mailto:info@artessrl.it" class="footer__cta">Richiedi un preventivo</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Artes srl — P.IVA 02343330789</span>
+    <span>Privacy · Cookie · MEPA</span>
+  </div>
+</footer>
 
 <script src="assets/js/artes.js"></script>
 </body>

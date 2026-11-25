@@ -13,7 +13,6 @@
     <!-- ARTES Core SEO e stato rev2 -->
     <custom-field action="translate">_artes_seo_title</custom-field>
     <custom-field action="translate">_artes_seo_description</custom-field>
-    <custom-field action="copy">_artes_rev2</custom-field>
     <custom-field action="ignore">_artes_src</custom-field>
     <custom-field action="ignore">_artes_alt_en</custom-field>
     <custom-field action="copy">settore_collegato</custom-field>

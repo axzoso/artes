@@ -38,12 +38,14 @@ const LANG_EN = 'en-gb';
 const LANG_IT = 'it';
 const URL_PREFIX_EN = '/en';
 
-// ID vietati (5 bozze + 3 [Riserva]): non devono mai entrare nel perimetro
-const IDS_VIETATI = new Set([153, 154, 471, 472, 491, 539, 540, 541]);
+// ID vietati (3 [Riserva]): non devono mai entrare nel perimetro
+const IDS_VIETATI = new Set([539, 540, 541]);
+// Pagine fuori rev2 in bozza (2026-11-25: tradotte anche loro, ma la traduzione EN resta in BOZZA come l'italiano)
+const IDS_BOZZE = [153, 154, 471, 472, 491];
 
-// Catalogo ordinato dei 6 Theme Builder Site Parts + 12 Pagine pubblicate
+// Catalogo ordinato dei 6 Theme Builder Site Parts + 12 Pagine pubblicate + 5 bozze
 const SITE_PARTS_IDS = [557, 971, 1040, 1049, 1050, 1051];
-const PAGINE_IDS = [376, 144, 145, 146, 147, 148, 149, 150, 151, 152, 3, 493];
+const PAGINE_IDS = [376, 144, 145, 146, 147, 148, 149, 150, 151, 152, 3, 493, ...IDS_BOZZE];
 const TUTTI_IDS = [...SITE_PARTS_IDS, ...PAGINE_IDS];
 
 // Mappa id pagina settore IT -> slug canonico tassonomia `settore`
@@ -358,11 +360,12 @@ function costruisciAlberoOffline(docId) {
     return composizioneToElementorTree(built.risultato.composizione);
   }
 
-  if (docId === 152) {
+  // Contatti (152) e le 5 pagine fuori rev2 (bozze): HTML generato da pagine-bozze-rev2.js
+  if ([152, ...IDS_BOZZE].includes(docId)) {
     // compilaTutte restituisce { risultati, erroriGlobali }
-    const res = compilaBozzeRev2(new Set(['152'])).risultati;
+    const res = compilaBozzeRev2(new Set([String(docId)])).risultati;
     if (!res.length || res[0].errori.length) {
-      throw new Error(`Contatti 152 offline fallito: ${res.length ? res[0].errori.join('; ') : 'non trovato'}`);
+      throw new Error(`Pagina ${docId} offline fallita: ${res.length ? res[0].errori.join('; ') : 'non trovata'}`);
     }
     return composizioneToElementorTree(res[0].composizione);
   }
@@ -1208,6 +1211,8 @@ async function eseguiSuDev3(ids, specs) {
       post_type: spec.postType,
       trid_it: live.trid,
       slug_en: spec.slugEn,
+      // le pagine fuori rev2 restano in bozza anche in inglese
+      stato_en: IDS_BOZZE.includes(spec.id) ? 'draft' : 'publish',
       post_title_en: spec.postTitleEn,
       menu_order: live.menu_order,
       elementor_data_raw: enJsonRaw,
@@ -1254,7 +1259,7 @@ async function eseguiSuDev3(ids, specs) {
           $u = wp_update_post([
             'ID' => $en_id,
             'post_title' => $D['post_title_en'],
-            'post_status' => 'publish',
+            'post_status' => $D['stato_en'] ?? 'publish',
             'menu_order' => (int)$D['menu_order'],
           ], true);
           if (is_wp_error($u)) throw new \RuntimeException($u->get_error_message());
@@ -1263,7 +1268,7 @@ async function eseguiSuDev3(ids, specs) {
             'post_type' => $pt,
             'post_title' => $D['post_title_en'],
             'post_name' => $slug_en,
-            'post_status' => 'publish',
+            'post_status' => $D['stato_en'] ?? 'publish',
             'post_content' => '',
             'menu_order' => (int)$D['menu_order'],
           ], true);

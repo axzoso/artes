@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ARTES Core
  * Description: Logica su misura del sito ARTES (rev2): modalità globale rev2, dati dei cicli Elementor, shortcode, redirect 301, SEO on-page, i18n/WPML, gestione allegati moduli e asset CSS/JS del sito.
- * Version:     0.10.3
+ * Version:     1.0.0
  * Text Domain: artes-core
  * Domain Path: /languages
  *
@@ -24,7 +24,12 @@ if ( defined( 'ARTES_CORE_VERSION' ) ) {
 	return;
 }
 
-define( 'ARTES_CORE_VERSION', '0.10.3' );
+define( 'ARTES_CORE_VERSION', '1.0.0' );
+
+// Pagina "ARTES" nel menu di amministrazione (impostazioni, controlli, manutenzione, guida) e riquadro "SEO ARTES" negli editor.
+if ( is_admin() ) {
+	require_once __DIR__ . '/admin/artes-admin.php';
+}
 
 /**
  * ===== Internazionalizzazione (i18n) e compatibilità WPML (0.10.0) ==========================================
@@ -132,13 +137,6 @@ function artes_en_dictionary() {
 		'js_progetto_uno'                   => '1 project',
 		'js_progetti_molti'                 => '{n} projects',
 		'js_nessun_progetto'                => 'No published projects in this category.',
-		// Lightbox legacy (artes-core.js).
-		'legacy_galleria'                   => 'Image gallery',
-		'legacy_chiudi'                     => 'Close',
-		'legacy_precedente'                 => 'Previous image',
-		'legacy_successiva'                 => 'Next image',
-		'legacy_ingrandisci'                => 'Enlarge: ',
-		'legacy_immagine'                   => 'image',
 	);
 
 	return $dict;
@@ -414,46 +412,14 @@ function artes_term_original_slug( $term, $taxonomy ) {
 }
 
 /**
- * Stringhe localizzate per la lightbox legacy (`artes-core.js`, attiva solo con kill-switch rev2 spento).
- */
-function artes_core_legacy_i18n() {
-	return array(
-		'galleria'    => artes_t( 'Galleria immagini', 'legacy_galleria' ),
-		'chiudi'      => artes_t( 'Chiudi', 'legacy_chiudi' ),
-		'precedente'  => artes_t( 'Immagine precedente', 'legacy_precedente' ),
-		'successiva'  => artes_t( 'Immagine successiva', 'legacy_successiva' ),
-		'ingrandisci' => artes_t( 'Ingrandisci: ', 'legacy_ingrandisci' ),
-		'immagine'    => artes_t( 'immagine', 'legacy_immagine' ),
-	);
-}
-
-/**
- * CSS del sito (menu, header sticky, hover, archivio): vive nel plugin, non nel database
- * di Elementor, quindi viaggia con il plugin in produzione. Si carica per ultimo perché
- * deve prevalere sui CSS del tema e di Elementor.
+ * CSS, caratteri e JavaScript del sito (design rev2, l'unico dal 2026-11-25): si caricano per ultimi perché devono prevalere
+ * sui CSS del tema e di Elementor.
  */
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		// Pagine con il design nuovo (rev2): CSS e JavaScript propri al posto di quelli vecchi.
 		if ( artes_is_rev2() ) {
 			artes_enqueue_rev2();
-
-			return;
-		}
-
-		$file = plugin_dir_path( __FILE__ ) . 'artes-core.css';
-
-		// Lightbox delle gallerie (clic sull'immagine -> schermo intero).
-		$js = plugin_dir_path( __FILE__ ) . 'artes-core.js';
-
-		if ( file_exists( $js ) ) {
-			wp_enqueue_script( 'artes-core', plugins_url( 'artes-core.js', __FILE__ ), array(), (string) filemtime( $js ), true );
-			wp_add_inline_script( 'artes-core', 'window.ArtesCoreI18n = ' . wp_json_encode( artes_core_legacy_i18n() ) . ';', 'before' );
-		}
-
-		if ( file_exists( $file ) ) {
-			wp_enqueue_style( 'artes-core', plugins_url( 'artes-core.css', __FILE__ ), array(), (string) filemtime( $file ) );
 		}
 	},
 	9999
@@ -856,7 +822,7 @@ add_shortcode(
 
 /**
  * Archivio realizzazioni e pagine dei settori: in rev2 tutti i progetti in una pagina (filtri lato client),
- * con fallback a 12 per pagina in caso di kill-switch completo (`artes_rev2_globale = 0` e `artes_rev2_cpt = 0`).
+ * (filtri lato browser).
  */
 add_action(
 	'pre_get_posts',
@@ -866,7 +832,7 @@ add_action(
 		}
 
 		if ( $query->is_post_type_archive( 'realizzazione' ) || $query->is_tax( 'settore' ) ) {
-			$query->set( 'posts_per_page', ( artes_rev2_globale_attiva() || get_option( 'artes_rev2_cpt' ) ) ? -1 : 12 );
+			$query->set( 'posts_per_page', -1 );
 			// Prima l'ordine scelto (campo "Ordine" nell'admin), poi i più recenti: un progetto
 			// nuovo ha ordine 0 e compare per primo.
 			$query->set(
@@ -1058,6 +1024,73 @@ add_action(
 );
 
 /**
+ * ===== Moduli: anti-spam e modalità prova (0.10.5) ===========================================================
+ *
+ * Anti-spam: il campo honeypot nativo di Elementor Pro (`e-form-honeypot`, invisibile) è dentro i moduli, come ULTIMO campo
+ * (prima del campo allegati farebbe perdere i file: tools/rev2/modulo-honeypot.js); in più qui si
+ * scartano i messaggi con più di 3 link (tipico dello spam automatico). Il filtro non sostituisce un servizio dedicato
+ * (reCAPTCHA v3 è disponibile nelle impostazioni di Elementor Pro se servirà).
+ */
+add_filter(
+	'elementor_pro/atomic_forms/spam_check',
+	function ( $is_spam, $form_fields, $widget_settings, $post_id, $form_data = array() ) {
+		if ( $is_spam ) {
+			return true;
+		}
+
+		$testo = '';
+
+		foreach ( (array) $form_data as $valore ) {
+			$testo .= ' ' . ( is_array( $valore ) ? implode( ' ', array_map( 'strval', $valore ) ) : (string) $valore );
+		}
+
+		// soglia modificabile da ARTES → Moduli (0 = controllo spento)
+		$massimo = (int) get_option( 'artes_antispam_max_link', 3 );
+
+		return $massimo > 0 && preg_match_all( '#https?://|www\.#i', $testo ) > $massimo;
+	},
+	10,
+	5
+);
+
+/**
+ * Modalità prova degli invii: con l'opzione `artes_prova_invio` = 1 le email del sito NON partono, vengono registrate
+ * (destinatario, oggetto, testo, allegati) nell'opzione `artes_prova_invio_log` (ultime 10). Serve a collaudare i moduli
+ * senza scrivere davvero al cliente. Spenta di default; la accende e la spegne tools/rev2/collaudo-modulo.js.
+ */
+add_filter(
+	'pre_wp_mail',
+	function ( $risultato, $atts ) {
+		if ( ! get_option( 'artes_prova_invio' ) ) {
+			return $risultato;
+		}
+
+		$log   = (array) get_option( 'artes_prova_invio_log', array() );
+		$log[] = array(
+			'quando'   => current_time( 'mysql' ),
+			'to'       => $atts['to'] ?? '',
+			'subject'  => $atts['subject'] ?? '',
+			'headers'  => $atts['headers'] ?? '',
+			'message'  => substr( wp_strip_all_tags( (string) ( $atts['message'] ?? '' ) ), 0, 3000 ),
+			'allegati' => array_map(
+				function ( $f ) {
+					return array(
+						'nome'  => basename( (string) $f ),
+						'byte'  => file_exists( $f ) ? filesize( $f ) : null,
+					);
+				},
+				(array) ( $atts['attachments'] ?? array() )
+			),
+		);
+		update_option( 'artes_prova_invio_log', array_slice( $log, -10 ), false );
+
+		return true;
+	},
+	10,
+	2
+);
+
+/**
  * ===== Testo alternativo delle immagini per lingua (0.10.1) ===================================================
  *
  * I widget immagine di Elementor V4, le gallerie, le immagini in evidenza e le card dei cicli leggono l'alt dall'allegato
@@ -1201,6 +1234,10 @@ add_shortcode(
 			return $home . ' / <a href="' . esc_url( artes_archive_url( 'brand' ) ) . '">' . esc_html( artes_t( 'Brand partner', 'breadcrumb_brand', 'breadcrumb' ) ) . '</a> / ' . $title;
 		}
 
+		if ( 'post' === get_post_type( $id ) ) {
+			return $home . ' / <a href="' . esc_url( artes_url_blog() ) . '">' . esc_html( artes_t( 'Blog', 'breadcrumb_blog' ) ) . '</a> / ' . $title;
+		}
+
 		$settore = artes_primo_termine( $id, 'settore' );
 		$out     = $home . ' / <a href="' . esc_url( artes_archive_url( 'realizzazione' ) ) . '">' . esc_html( artes_t( 'Realizzazioni', 'breadcrumb_realizzazioni' ) ) . '</a> / ';
 
@@ -1209,6 +1246,88 @@ add_shortcode(
 		}
 
 		return $out . $title;
+	}
+);
+
+/**
+ * ===== Blog (template "Articolo" e "Archivio blog", 0.11.0 — in bozza finché non si decide di pubblicarli) =========
+ *
+ * Indirizzo dell'archivio del blog: la "Pagina articoli" di WordPress (Impostazioni → Lettura) se esiste, nella lingua corrente;
+ * altrimenti la home. Oggi non c'è (il blog non è ancora attivo).
+ */
+function artes_url_blog() {
+	$page_id = (int) get_option( 'page_for_posts' );
+
+	if ( $page_id ) {
+		$page_id = (int) apply_filters( 'wpml_object_id', $page_id, 'page', true );
+
+		return (string) get_permalink( $page_id );
+	}
+
+	return artes_home_url( '/' );
+}
+
+add_shortcode(
+	'artes_url_blog',
+	function () {
+		return esc_url( artes_url_blog() );
+	}
+);
+
+/**
+ * Riga sopra il titolo dell'articolo e meta delle card: "12 novembre 2026 · Categoria · 4 min di lettura" (data nella lingua corrente).
+ */
+add_shortcode(
+	'artes_eyebrow_articolo',
+	function () {
+		$id    = artes_current_post_id();
+		$parti = array( date_i18n( get_option( 'date_format' ), get_post_timestamp( $id ) ) );
+		$cat   = artes_primo_termine( $id, 'category' );
+
+		if ( $cat && 'senza-categoria' !== $cat->slug && 'uncategorized' !== $cat->slug ) {
+			$parti[] = $cat->name;
+		}
+
+		$parole = str_word_count( wp_strip_all_tags( (string) get_post_field( 'post_content', $id ) ) );
+		$parti[] = str_replace( '{n}', (string) max( 1, (int) ceil( $parole / 200 ) ), artes_t( '{n} min di lettura', 'blog_minuti_lettura' ) );
+
+		return esc_html( implode( ' · ', $parti ) );
+	}
+);
+
+/**
+ * Ciclo dell'archivio del blog: tutti gli articoli pubblicati, dal più recente (i filtri, se serviranno, lato browser come gli altri archivi).
+ */
+add_action(
+	'elementor/query/artes_archivio_articoli',
+	function ( $query ) {
+		$query->set( 'post_type', 'post' );
+		$query->set( 'post_status', 'publish' );
+		$query->set( 'posts_per_page', -1 );
+		$query->set( 'ignore_sticky_posts', true );
+		$query->set( 'orderby', array( 'date' => 'DESC', 'ID' => 'DESC' ) );
+	}
+);
+
+/**
+ * Articoli correlati (in fondo all'articolo): 3, della stessa categoria se c'è, esclusa la corrente, dal più recente.
+ */
+add_action(
+	'elementor/query/artes_articoli_correlati',
+	function ( $query ) {
+		$current = artes_current_post_id();
+		$cats    = wp_get_post_categories( $current );
+
+		$query->set( 'post_type', 'post' );
+		$query->set( 'post_status', 'publish' );
+		$query->set( 'post__not_in', array( $current ) );
+		$query->set( 'posts_per_page', 3 );
+		$query->set( 'ignore_sticky_posts', true );
+		$query->set( 'orderby', array( 'date' => 'DESC', 'ID' => 'DESC' ) );
+
+		if ( $cats ) {
+			$query->set( 'category__in', $cats );
+		}
 	}
 );
 
@@ -1482,8 +1601,7 @@ add_filter(
 	'request',
 	function ( $vars ) {
 		if (
-			( artes_rev2_globale_attiva() || get_option( 'artes_rev2_cpt' ) )
-			&& isset( $vars['post_type'] )
+			isset( $vars['post_type'] )
 			&& is_string( $vars['post_type'] )
 			&& in_array( $vars['post_type'], array( 'realizzazione', 'brand' ), true )
 			&& empty( $vars['name'] )
@@ -1536,10 +1654,6 @@ add_action(
 add_action(
 	'template_redirect',
 	function () {
-		if ( ! artes_rev2_globale_attiva() && ! get_option( 'artes_rev2_cpt' ) ) {
-			return;
-		}
-
 		// Con posts_per_page = -1 WordPress risponderebbe 200 anche su /page/2/ con contenuto duplicato: 301 all'archivio.
 		if ( is_post_type_archive() ) {
 			if ( is_paged() && is_post_type_archive( array( 'realizzazione', 'brand' ) ) ) {
@@ -1588,62 +1702,18 @@ add_action(
 );
 
 /**
- * Modalità rev2 (adeguamento alla versione 2 del sito, novembre 2026 — accensione globale fase 9).
- *
- * Dalla versione 0.9.0 la rev2 è attiva globalmente su tutto il frontend (pagine, CPT, archivi, 404, ricerca,
- * anteprime frontend) tramite l'opzione `artes_rev2_globale` (default attivo: `'1'`).
- * Kill-switch reversibile: impostare l'opzione `artes_rev2_globale` a `'0'` riporta alla modalità selettiva
- * (`?artes_rev2=1`, meta `_artes_rev2` e opzione `artes_rev2_cpt`). In area admin (`is_admin()`) restituisce sempre `false`.
+ * Design rev2: dal 2026-11-25 è l'unico design del sito (modalità selettiva e design precedente rimossi; il vecchio mockup è
+ * archiviato nel repository). Le due funzioni restano perché le usano altri punti del codice: in area admin il design non si applica.
  */
 function artes_rev2_globale_attiva() {
-	$opt = get_option( 'artes_rev2_globale', '1' );
-
-	if ( is_bool( $opt ) ) {
-		return $opt;
-	}
-
-	$val = strtolower( trim( (string) $opt ) );
-
-	return ! in_array( $val, array( '', '0', 'false', 'off', 'no' ), true );
+	return true;
 }
 
 /**
- * Indica se la richiesta corrente deve essere renderizzata con il design rev2.
+ * La richiesta corrente usa il design rev2 (sempre, tranne l'area di amministrazione). Filtro `artes_is_rev2` per eccezioni future.
  */
 function artes_is_rev2() {
-	static $rev2 = null;
-
-	if ( is_admin() ) {
-		return false;
-	}
-
-	if ( null !== $rev2 && did_action( 'wp' ) ) {
-		return $rev2;
-	}
-
-	$flag = false;
-
-	if ( artes_rev2_globale_attiva() ) {
-		$flag = true;
-	} elseif ( isset( $_GET['artes_rev2'] ) && '1' === $_GET['artes_rev2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$flag = true;
-	} elseif ( is_singular() ) {
-		$flag = (bool) get_post_meta( get_queried_object_id(), '_artes_rev2', true );
-	}
-
-	// Schede e archivi di realizzazioni e brand: i template rev2 (fase 4) restano attivi se `artes_rev2_cpt` è acceso
-	// anche quando il kill-switch `artes_rev2_globale = '0'` è impostato.
-	if ( ! $flag && get_option( 'artes_rev2_cpt' ) ) {
-		$flag = is_singular( array( 'realizzazione', 'brand' ) ) || is_post_type_archive( array( 'realizzazione', 'brand' ) );
-	}
-
-	$flag = (bool) apply_filters( 'artes_is_rev2', $flag );
-
-	if ( did_action( 'wp' ) ) {
-		$rev2 = $flag;
-	}
-
-	return $flag;
+	return ! is_admin() && (bool) apply_filters( 'artes_is_rev2', true );
 }
 
 /**
@@ -1678,11 +1748,21 @@ function artes_enqueue_rev2() {
 	// I font li carica il plugin (sotto, con i soli pesi usati): non quelli, completi, delle impostazioni del kit di Elementor.
 	add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
 
-	// Stessi font della rev2 (Archivo, Instrument Sans, IBM Plex Mono): non dipendono dalle impostazioni di Elementor.
-	wp_enqueue_style( 'artes-rev2-fonts', 'https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+	// Stessi font della rev2 (Archivo, Instrument Sans, IBM Plex Mono), serviti dal plugin: nessuna richiesta ai server di Google
+	// (privacy). File e @font-face generati da tools/rev2/font-locali.js in fonts/.
+	if ( file_exists( $dir . 'fonts/fonts.css' ) ) {
+		wp_enqueue_style( 'artes-rev2-fonts', plugins_url( 'fonts/fonts.css', __FILE__ ), array(), (string) filemtime( $dir . 'fonts/fonts.css' ) );
+	}
 
 	if ( file_exists( $dir . 'artes-rev2.css' ) ) {
 		wp_enqueue_style( 'artes-rev2', plugins_url( 'artes-rev2.css', __FILE__ ), array(), (string) filemtime( $dir . 'artes-rev2.css' ) );
+
+		// CSS aggiuntivo (ARTES → Stile): piccoli ritocchi senza rigenerare artes-rev2.css; caricato dopo, quindi prevale a parità di selettore
+		$css_extra = trim( (string) get_option( 'artes_css_aggiuntivo', '' ) );
+
+		if ( '' !== $css_extra ) {
+			wp_add_inline_style( 'artes-rev2', $css_extra );
+		}
 
 		if ( is_404() || is_search() ) {
 			wp_add_inline_style( 'artes-rev2', artes_rev2_system_pages_css() );
@@ -1908,21 +1988,20 @@ add_filter(
 	}
 );
 
-// Collegamento anticipato ai server dei font nelle pagine rev2.
-add_filter(
-	'wp_resource_hints',
-	function ( $urls, $relation_type ) {
-		if ( 'preconnect' === $relation_type && artes_is_rev2() ) {
-			$urls[] = 'https://fonts.googleapis.com';
-			$urls[] = array(
-				'href'        => 'https://fonts.gstatic.com',
-				'crossorigin' => 'anonymous',
-			);
+// Precaricamento dei tre file di carattere usati in ogni pagina (alfabeto latino): evitano il "salto" del testo al caricamento.
+add_action(
+	'wp_head',
+	function () {
+		if ( ! artes_is_rev2() ) {
+			return;
 		}
 
-		return $urls;
+		foreach ( array( 'archivo-variabile-latin', 'instrument-sans-variabile-latin', 'ibm-plex-mono-400-latin' ) as $f ) {
+			if ( file_exists( plugin_dir_path( __FILE__ ) . 'fonts/' . $f . '.woff2' ) ) {
+				printf( '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n", esc_url( plugins_url( 'fonts/' . $f . '.woff2', __FILE__ ) ) );
+			}
+		}
 	},
-	10,
 	2
 );
 
@@ -2179,16 +2258,33 @@ function artes_seo_data() {
 }
 
 /**
+ * Plugin SEO esterno (Yoast SEO, Rank Math, All in One SEO): se è attivo, il plugin ARTES non scrive titolo e meta description
+ * (li gestisce quel plugin) e nasconde il riquadro "SEO ARTES". I testi già scritti si copiano in Yoast da ARTES → SEO.
+ */
+function artes_seo_esterno() {
+	return defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEO_VERSION' );
+}
+
+/**
  * Titolo del documento via `pre_get_document_title` (usato da `_wp_render_title_tag()` di WordPress + Hello Elementor:
  * evita `<title>` duplicati e bypassa `wptexturize`, mantenendo i testi identici alla rev2).
  */
 add_filter(
 	'pre_get_document_title',
 	function ( $title ) {
+		if ( artes_seo_esterno() ) {
+			return $title;
+		}
+
 		$seo = artes_seo_data();
 
 		if ( '' !== $seo['title'] ) {
 			return esc_html( $seo['title'] );
+		}
+
+		// Pagina 404 (template "Errore 404"): stesso formato "Titolo — Artes" del resto del sito.
+		if ( is_404() ) {
+			return esc_html( artes_t( 'Pagina non trovata', 'seo_404_title' ) . ' — Artes' );
 		}
 
 		return $title;
@@ -2202,6 +2298,10 @@ add_filter(
 add_filter(
 	'hello_elementor_description_meta_tag',
 	function ( $enabled ) {
+		if ( artes_seo_esterno() ) {
+			return $enabled;
+		}
+
 		$seo = artes_seo_data();
 
 		return '' !== $seo['description'] ? false : $enabled;
@@ -2214,6 +2314,10 @@ add_filter(
 add_action(
 	'wp_head',
 	function () {
+		if ( artes_seo_esterno() ) {
+			return;
+		}
+
 		$seo = artes_seo_data();
 
 		if ( '' !== $seo['description'] ) {

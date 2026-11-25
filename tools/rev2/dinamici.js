@@ -31,6 +31,10 @@ const alias = {
   eyebrow_brand: sc('[artes_eyebrow_brand]'),
   come_titolo: sc('[artes_come_titolo]'),
   correlate_brand_titolo: sc('[artes_correlate_brand_titolo]'),
+  // --- blog (articolo e archivio) ---
+  eyebrow_articolo: sc('[artes_eyebrow_articolo]'),
+  url_blog: sc('[artes_url_blog]'),
+  estratto: dyn('post-excerpt'),
   // --- termini ---
   categoria_brand_nome: termine('categoria_brand', 'name'),
   // --- dentro ai cicli ---
@@ -53,6 +57,8 @@ const loops = {
   archivio_realizzazioni: ciclo('realizzazione', 'artes_archivio_realizzazioni'),
   archivio_brand: ciclo('brand', 'artes_archivio_brand'),
   progetti_home_rev2: ciclo('realizzazione', 'artes_progetti_home_rev2'),
+  archivio_articoli: ciclo('post', 'artes_archivio_articoli'),
+  articoli_correlati: ciclo('post', 'artes_articoli_correlati'),
 };
 
 module.exports = { alias, loops };

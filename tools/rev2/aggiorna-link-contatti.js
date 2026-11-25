@@ -20,7 +20,7 @@ const { converti, risolviLink } = require('./html2elementor');
 const dinamici = require('./dinamici');
 
 const root = path.resolve(__dirname, '..', '..');
-const rev2Dir = path.join(root, 'artes-sito-rev2');
+const rev2Dir = root;
 const modelliDir = path.join(__dirname, 'modelli');
 const outDir = path.join(root, 'tools', 'out', 'rev2');
 const compDir = path.join(outDir, 'comp');

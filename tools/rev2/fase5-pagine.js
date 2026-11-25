@@ -12,7 +12,7 @@ const dinamici = require('./dinamici');
 const { connetti } = require('./mcp-client');
 
 const root = path.resolve(__dirname, '..', '..');
-const rev2 = path.join(root, 'artes-sito-rev2');
+const rev2 = root;
 const outDir = path.join(root, 'tools', 'out', 'rev2');
 fs.mkdirSync(outDir, { recursive: true });
 

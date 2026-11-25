@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arredo uffici &amp; workspace — ARTES Contract</title>
-<meta name="description" content="Arredi su misura per uffici direzionali, open space, coworking, sale meeting, academy e reception corporate. Progetto, produzione e montaggio con un unico referente.">
+<title>Arredo uffici e workspace su misura — Artes</title>
+<meta name="description" content="Progettazione, produzione e montaggio di arredi per uffici, studi professionali, banche, scuole, strutture sanitarie ed enti pubblici, con un unico referente per tutta la commessa.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,181 +12,283 @@
 </head>
 <body>
 
-<div data-artes-header></div>
-<script src="assets/js/shell.js"></script>
+<header class="header">
+  <div class="topbar">
+    <span>Arredi contract su misura — Calabria / Italia</span>
+    <div class="topbar__right">
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="#">Blog</a>
+      <a href="#contatti">Contatti</a>
+      <span class="topbar__lang">IT / EN</span>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <a class="masthead__logo" href="index.html"><img src="assets/artes-logo.png" alt="ARTES Arredamenti"></a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="arredamento-ufficio.html" class="is-active"><span class="nav__pre">Arredo </span><strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html"><span class="nav__pre">Arredo </span><strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html"><span class="nav__pre">Arredo </span><strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html"><span class="nav__pre">Arredo </span><strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="nav__item">
+        <a href="realizzazioni.html" class="nav__trigger" data-drop-trigger aria-expanded="false" aria-controls="drop-realizzazioni">Realizzazioni</a>
+        <div class="drop drop--simple" id="drop-realizzazioni" hidden>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+          <a href="realizzazioni.html" class="drop__all">Tutte le realizzazioni</a>
+        </div>
+      </div>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <nav class="mobile-nav__list" aria-label="Navigazione mobile">
+      <a href="arredamento-ufficio.html">Arredo <strong class="nav__em">uffici e workspace</strong></a>
+      <a href="arredo-negozi.html">Arredo <strong class="nav__em">negozi e retail</strong></a>
+      <a href="arredamento-bar-ristoranti.html">Arredo <strong class="nav__em">bar e ristoranti</strong></a>
+      <a href="arredo-negozi-food.html">Arredo <strong class="nav__em">negozi food</strong></a>
+      <a href="arredamento-hotel.html">Arredo <strong class="nav__em">hotel e hospitality</strong></a>
+      <a href="arredamento-su-misura.html">Arredo <strong class="nav__em">su misura</strong></a>
+      <a href="contract.html">Arredo <strong class="nav__em nav__em--accent">Contract</strong></a>
+      <div class="mobile-nav__item">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false" aria-controls="mnav-realizzazioni">Realizzazioni</button>
+        <div class="mobile-nav__panel" id="mnav-realizzazioni" hidden>
+          <a href="realizzazioni.html">Tutte le realizzazioni</a>
+          <a href="realizzazioni.html?settore=uffici">Arredo uffici e workspace</a>
+          <a href="realizzazioni.html?settore=retail">Arredo negozi e retail</a>
+          <a href="realizzazioni.html?settore=bar-ristoranti">Arredo bar e ristoranti</a>
+          <a href="realizzazioni.html?settore=food">Arredo negozi food</a>
+          <a href="realizzazioni.html?settore=hospitality">Arredo hotel e hospitality</a>
+        </div>
+      </div>
+      <div class="mobile-nav__divider"></div>
+      <a href="chi-siamo.html" class="mobile-nav__sec">Chi siamo</a>
+      <a href="#" class="mobile-nav__sec">Blog</a>
+      <a href="#contatti" class="mobile-nav__sec">Contatti</a>
+    </nav>
+  </div>
+</header>
 <main>
 
   <section class="page-intro">
     <div class="breadcrumb">
-      <a href="index.html">Home</a> / <strong>Arredo uffici &amp; workspace</strong>
+      <a href="index.html">Home</a> / <strong>Arredo uffici e workspace</strong>
     </div>
     <div class="page-intro__row">
       <div>
-        <div class="eyebrow">01 — Arredo uffici &amp; workspace</div>
-        <h1 class="page-title">L'ufficio non è<br><strong>più una fila di postazioni.</strong></h1>
+        <div class="eyebrow">01 — Settore</div>
+        <h1 class="page-title">Arredo uffici<br><strong>e workspace.</strong></h1>
       </div>
-      <p class="lead">Meno scrivanie fisse, più aree di relazione: il layout deve reggere riorganizzazioni che una volta avvenivano ogni dieci anni e oggi ogni due. Progettiamo partendo da acustica, riservatezza e flessibilità, non dall'estetica della postazione.</p>
+      <p class="lead">Progettiamo, produciamo e realizziamo ambienti di lavoro per aziende, studi professionali, banche, scuole, strutture sanitarie ed enti pubblici. Dalla progettazione degli spazi alla produzione degli arredi, fino alla fornitura e al montaggio, gestiamo ogni fase della commessa.</p>
     </div>
   </section>
 
-  <div class="page-band">
-    <img src="assets/img/sfuse/frezza-alplus.jpg" alt="Sala riunioni con tavolo su misura">
-  </div>
-
-  <!-- Il nostro punto di vista (testo discorsivo, da rivedere con il cliente) -->
-  <section class="racconto">
-    <div class="racconto__head">
-      <div class="eyebrow">Il nostro punto di vista</div>
-      <p class="racconto__lead">Un ufficio non è un insieme di scrivanie: è <strong>il modo in cui un'azienda lavora</strong>, ogni giorno, per anni.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Si parte da come si lavora</h3>
-      <p>Prima di parlare di tavoli e sedute ci facciamo raccontare la giornata tipo: chi lavora in silenzio e chi telefona tutto il giorno, quante riunioni ci sono, quanto spazio serve per incontrarsi senza disturbare gli altri. Un open space pensato bene non è uno spazio vuoto riempito di postazioni, ma una sequenza di zone diverse che si capiscono a colpo d'occhio. Per questo il rilievo e il confronto con chi userà davvero gli ambienti pesano più di qualsiasi catalogo.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Il comfort non è un lusso</h3>
-      <p>Si passa in ufficio più ore che in qualsiasi altro luogo, e si vede subito quando una seduta è sbagliata o quando il rumore di una sala riunioni invade le scrivanie vicine. Sedute regolabili, superfici che non abbagliano, pannelli che assorbono il suono: sono scelte che non si notano finché funzionano, e che fanno la differenza sulla stanchezza, sulla concentrazione e, alla lunga, sul clima di lavoro.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Uno spazio che cambia con l'azienda</h3>
-      <p>Un'azienda cresce, si riorganizza, introduce il lavoro ibrido. L'arredo dovrebbe poterla seguire senza ricominciare da capo: postazioni che si riconfigurano, pareti che si spostano, contenitori che servono a più usi. Quando proponiamo una soluzione ci chiediamo sempre cosa succederà tra tre anni, non solo come sarà il giorno dell'inaugurazione.</p>
-    </div>
-    <div class="racconto__row">
-      <h3>Un cantiere senza sorprese</h3>
-      <p>Un trasloco o una ristrutturazione non devono fermare chi lavora. Programmiamo consegne e montaggi a fasi, anche fuori orario quando serve, e restiamo l'unico interlocutore dal rilievo al collaudo: se qualcosa cambia lo sappiamo prima noi, non lo scopre il cliente il lunedì mattina. Vale per un piccolo studio come per una scuola o un ente pubblico, con i loro capitolati e le loro scadenze.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section__head">
-      <div>
-        <div class="eyebrow">Il settore</div>
-        <h2 class="h-section">Spazi di lavoro<br>che cambiano con l'azienda.</h2>
-      </div>
-      <p class="lead">Dagli uffici direzionali alle sedi della pubblica amministrazione, progettiamo ambienti di lavoro in cui arredo, acustica e impianti nascono insieme. Il risultato è uno spazio che accoglie nuove persone e nuovi modi di lavorare senza essere rifatto da capo.</p>
-    </div>
-    <div class="grid-1px grid-1px--3">
-      <div class="card">
-        <div class="card__n">Acustica</div>
-        <div class="card__t">Riservatezza dove serve</div>
-        <div class="card__d">Pareti vetrate, pannelli fonoassorbenti e phone booth dimensionati sul numero di persone e sull'uso reale delle sale.</div>
-      </div>
-      <div class="card">
-        <div class="card__n">Flessibilità</div>
-        <div class="card__t">Layout riconfigurabili</div>
-        <div class="card__d">Bench, cablaggio continuo e arredi mobili: il layout segue un team che cresce senza interventi murari.</div>
-      </div>
-      <div class="card">
-        <div class="card__n">Pubblica amministrazione</div>
-        <div class="card__t">Forniture MEPA</div>
-        <div class="card__d">Uffici pubblici, scuole e biblioteche: forniture a capitolato con procedura su Acquisti in Rete PA gestita da noi.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="settore bg-alt" id="workspace">
-    <div class="settore__text">
-      <div class="eyebrow">Ambiti</div>
-      <ul class="ambiti">
-        <li><span>Uffici direzionali</span></li>
-        <li><span>Open space</span></li>
-        <li><span>Coworking</span></li>
-        <li><span>Sale meeting e conferenze</span></li>
-        <li><span>Academy e aule formazione</span></li>
-        <li><span>Scuole, università, biblioteche</span></li>
-        <li><span>Reception corporate</span></li>
-        <li><span>Business lounge e aree break</span></li>
-      </ul>
+  <section class="settore" id="workspace">
+    <div class="settore__text prose">
+      <div class="eyebrow">Il nostro approccio</div>
+      <h2 class="settore__t">Ambienti di lavoro che seguono l'evoluzione delle organizzazioni.</h2>
+      <p>Gli ambienti di lavoro devono adattarsi all'evoluzione delle organizzazioni, alle nuove modalità operative e alle esigenze delle persone. Per questo progettiamo gli spazi considerando fin dall'inizio flessibilità, acustica, riservatezza e funzionalità.</p>
+      <p>Un referente tecnico raccoglie le esigenze del cliente, seleziona i prodotti dei brand partner, coordina la progettazione degli arredi, la nostra falegnameria e le squadre di posa.</p>
+      <p>La pianificazione delle attività di fornitura e montaggio viene definita in funzione delle esigenze operative del cliente e delle caratteristiche della commessa, con la massima flessibilità organizzativa.</p>
       <div class="settore__links">
-        <a href="brand-partner.html" class="link-rule">Brand collegati</a>
+        <a href="#categorie" class="link-rule">Categorie</a>
       </div>
     </div>
     <div class="settore__media">
-      <img src="assets/img/progetti/agricola-benincasa/01.jpg" alt="Sala meeting vetrata su misura">
-      <div class="settore__inset"><img src="assets/img/progetti/agricola-benincasa/03.jpg" alt="Ufficio, dettaglio"></div>
+      <img src="assets/img/progetti/costruzioni-imbrogno/01.jpg" alt="Uffici operativi arredati su misura">
+      <div class="settore__inset"><img src="assets/img/progetti/bcc-tarsia/02.jpg" alt="Uffici con pareti vetrate, dettaglio"></div>
+    </div>
+  </section>
+
+  <section class="section" id="categorie">
+    <div class="section__head">
+      <div>
+        <div class="eyebrow">Categorie</div>
+        <h2 class="h-section">Ambienti di lavoro, contesti ed esigenze differenti.</h2>
+      </div>
+      <p class="lead">Operiamo in diversi ambiti professionali, aziendali e istituzionali, progettando soluzioni di arredo in funzione delle caratteristiche e delle necessità di ogni ambiente.</p>
+    </div>
+    <div class="categorie-grid">
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=uffici&amp;categoria=aziende-e-studi-professionali">Aziende e studi professionali</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Uffici aziendali, co-working, call center, software house, studi legali, studi notarili, studi commercialisti, studi di architettura, ingegneria e design, agenzie di marketing e comunicazione</p>
+      </article>
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=uffici&amp;categoria=banche-assicurazioni-e-servizi">Banche, assicurazioni e servizi finanziari</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Banche, assicurazioni, finanziarie, CAF e patronati, centri servizi, agenzie pratiche auto</p>
+      </article>
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=uffici&amp;categoria=istruzione-e-formazione">Istruzione e formazione</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Scuole, università, academy, centri di formazione, biblioteche, ludoteche, scuole guida</p>
+      </article>
+      <article class="categoria">
+        <h3>Sanità</h3>
+        <p class="categoria__tip"><span>Tipologie</span> Strutture sanitarie, poliambulatori, studi medici, studi dentistici, cliniche private, centri di fisioterapia e riabilitazione, centri diagnostici, laboratori di analisi</p>
+      </article>
+      <article class="categoria">
+        <h3><a href="realizzazioni.html?settore=uffici&amp;categoria=enti-e-istituzioni">Enti e istituzioni</a></h3>
+        <p class="categoria__tip"><span>Tipologie</span> Enti pubblici, amministrazioni pubbliche, forze armate e difesa, strutture istituzionali, centri polifunzionali</p>
+      </article>
+    </div>
+    <div class="categorie-cta">
+      <p><strong>Hai un ambiente di lavoro da realizzare o rinnovare?</strong> Dalla singola fornitura alla realizzazione di una sede completa, affianchiamo aziende e professionisti nella scelta e nella realizzazione delle soluzioni più adatte alle loro esigenze.</p>
+      <a href="#contatti" class="btn btn--red">Parla con un nostro tecnico</a>
     </div>
   </section>
 
   <section class="section">
-    <div class="section__head">
-      <div>
-        <div class="eyebrow">Realizzazioni</div>
-        <h2 class="h-section">Progetti<br>Arredo uffici &amp; workspace.</h2>
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Cosa facciamo per voi</div>
+        <h2 class="h-section">Un solo referente,<br>dal rilievo<br>al montaggio.</h2>
+        <a href="contract.html" class="link-rule link-rule--spaced">Il metodo in sei fasi</a>
       </div>
-      <p class="lead">Filtra per ambito per vedere solo i progetti della categoria che ti interessa.</p>
+      <div class="prose">
+        <h3>Progettazione degli spazi</h3>
+        <p>Rilievi, analisi delle esigenze e sviluppo del layout per organizzare postazioni, sale riunioni, aree operative e spazi comuni. Realizziamo elaborati 2D, progettazioni 3D e render, fino allo sviluppo tecnico ed esecutivo degli arredi.</p>
+        <h3>Acustica e riservatezza</h3>
+        <p>Soluzioni per migliorare il comfort acustico e la privacy negli ambienti di lavoro: pannelli fonoassorbenti, pareti divisorie, vetrate, phone booth e sale riunioni riservate.</p>
+        <h3>Produzione e arredi su misura</h3>
+        <p>Realizziamo nella nostra falegnameria reception, boiserie, armadiature, tavoli riunione e arredi speciali, integrando le lavorazioni personalizzate con prodotti e sistemi dei brand partner per l'ufficio.</p>
+        <h3>Fornitura e installazione</h3>
+        <p>Coordiniamo approvvigionamenti, logistica, consegne e montaggio, programmando le attività in funzione delle esigenze operative del cliente e delle caratteristiche della commessa.</p>
+        <h3>Forniture per la pubblica amministrazione</h3>
+        <p>Operiamo sul Mercato elettronico della Pubblica Amministrazione (MePA) e gestiamo documentazione tecnica e amministrativa, capitolati e procedure di affidamento per enti e istituzioni.</p>
+        <h3>Certificazioni e requisiti tecnici</h3>
+        <p>Selezioniamo prodotti corredati dalla documentazione tecnica richiesta, privilegiando soluzioni conformi ai Criteri Ambientali Minimi (CAM) e, per gli arredi imbottiti, disponibili con omologazione in classe 1IM, secondo i requisiti previsti per ogni specifica fornitura.</p>
+        <p class="prose__note">Ogni commessa racconta il nostro modo di progettare, produrre e realizzare ambienti di lavoro. Tra le realizzazioni del settore: <a href="realizzazione-ruffolo-group.html">Ruffolo Group</a>, <a href="realizzazione-costruzioni-imbrogno.html">Costruzioni Imbrogno</a>, <a href="realizzazione-bcc-tarsia.html">BCC di Tarsia</a>, <a href="realizzazione-il-quotidiano.html">Il Quotidiano</a>, <a href="realizzazione-ingrediente-school.html">Ingrediente School</a> e <a href="realizzazione-arpacal.html">Arpacal</a>. <a href="realizzazioni.html?settore=uffici">Scopri tutte le realizzazioni</a>.</p>
+      </div>
     </div>
-    <div class="filtri" data-filtri role="group" aria-label="Filtra per ambito">
-      <button type="button" class="filtro is-active" data-filtro="Tutti" aria-pressed="true">Tutti</button>
-      <button type="button" class="filtro" data-filtro="Uffici direzionali" aria-pressed="false">Uffici direzionali</button>
-      <button type="button" class="filtro" data-filtro="Open space" aria-pressed="false">Open space</button>
-      <button type="button" class="filtro" data-filtro="Coworking" aria-pressed="false">Coworking</button>
-      <button type="button" class="filtro" data-filtro="Sale meeting e conferenze" aria-pressed="false">Sale meeting e conferenze</button>
-      <button type="button" class="filtro" data-filtro="Academy e aule formazione" aria-pressed="false">Academy e aule formazione</button>
-      <button type="button" class="filtro" data-filtro="Scuole, università, biblioteche" aria-pressed="false">Scuole, università, biblioteche</button>
-      <button type="button" class="filtro" data-filtro="Reception corporate" aria-pressed="false">Reception corporate</button>
-      <button type="button" class="filtro" data-filtro="Business lounge e aree break" aria-pressed="false">Business lounge e aree break</button>
+  </section>
+
+  <section class="section">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Commesse</div>
+        <h2 class="h-section">Dalle singole forniture alle commesse articolate.</h2>
+      </div>
+      <div class="prose">
+        <p class="prose__lead">Gestiamo forniture e realizzazioni di diversa dimensione e complessità, coordinando progettazione, produzione, approvvigionamenti e installazione.</p>
+        <ul class="scala-list">
+          <li>Sedi aziendali complete</li>
+          <li>Uffici distribuiti su più piani</li>
+          <li>Filiali e reti di sportelli</li>
+          <li>Edifici pubblici e istituzionali</li>
+          <li>Forniture integrate di arredi standard e personalizzati</li>
+        </ul>
+      </div>
     </div>
-    <div class="progetti" data-progetti>
-      <a class="progetto progetto--w2" href="realizzazione-bbc-tarsia.html" data-settore="Uffici direzionali">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/bbc-tarsia/01.jpg" alt="Uffici BBC di Tarsia"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">BBC di Tarsia</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Uffici direzionali</div>
-        </div>
-      </a>
-      <a class="progetto progetto--w2" href="realizzazione-ingrediente-school.html" data-settore="Academy e aule formazione">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/ingrediente-school/01.jpg" alt="Aula Ingrediente School"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Ingrediente School</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Academy e aule formazione</div>
-        </div>
-      </a>
-      <a class="progetto progetto--w2" href="realizzazione-ruffolo-group.html" data-settore="Uffici direzionali">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/ruffolo-group/01.jpg" alt="Ufficio direzionale Ruffolo Group"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Ruffolo Group</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Uffici direzionali</div>
-        </div>
-      </a>
-      <a class="progetto progetto--w2" href="realizzazione-costruzioni-imbrogno.html" data-settore="Open space">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/costruzioni-imbrogno/04.jpg" alt="Open space Costruzioni Imbrogno"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Costruzioni Imbrogno</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Open space</div>
-        </div>
-      </a>
-      <a class="progetto progetto--w2" href="realizzazione-arpacal.html" data-settore="Sale meeting e conferenze">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/arpacal/01.jpg" alt="Sala riunioni Arpacal"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Arpacal</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Sale meeting e conferenze</div>
-        </div>
-      </a>
-      <a class="progetto progetto--w2" href="realizzazione-quotidiano.html" data-settore="Sale meeting e conferenze">
-        <div class="progetto__media"><div class="progetto__wash"></div><img src="assets/img/progetti/quotidiano/01.jpg" alt="Sala conferenze Quotidiano"></div>
-        <div class="progetto__meta">
-          <div><div class="progetto__nome">Quotidiano</div><div class="progetto__luogo">Calabria</div></div>
-          <div class="progetto__settore">Sale meeting e conferenze</div>
-        </div>
-      </a>
-      <p class="progetti__empty" data-empty hidden>Nessuna realizzazione pubblicata per questo ambito.</p>
+  </section>
+
+  <section class="section">
+    <div class="split">
+      <div class="split__aside">
+        <div class="eyebrow">Domande frequenti</div>
+        <h2 class="h-section">Prima di iniziare.</h2>
+      </div>
+      <div class="faq">
+      <details class="faq__item">
+        <summary>Potete arredare l'ufficio senza interrompere l'attività?</summary>
+        <p>Sì. Organizziamo consegne e installazioni in modo coordinato e per fasi, definendo tempi e modalità operative in accordo con il cliente, per ridurre al minimo le interferenze con la normale attività lavorativa.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Lavorate con il progetto del nostro architetto?</summary>
+        <p>Sì. Possiamo partire dal progetto del vostro architetto o professionista incaricato, sviluppando gli aspetti tecnici degli arredi e occupandoci di ingegnerizzazione, produzione e installazione. In alternativa, possiamo seguire direttamente la progettazione degli arredi, in coordinamento con il progettista.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Fornite anche enti pubblici e scuole?</summary>
+        <p>Sì. Siamo abilitati al Mercato elettronico della Pubblica Amministrazione (MePA) e operiamo con enti pubblici, scuole, università e istituzioni, gestendo le forniture e la relativa documentazione tecnica e amministrativa.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Potete realizzare arredi personalizzati sulle esigenze del nostro ufficio?</summary>
+        <p>Sì. Grazie alla nostra falegnameria interna realizziamo arredi su misura, integrandoli con prodotti e sistemi dei brand partner. Sviluppiamo soluzioni personalizzate in funzione delle esigenze funzionali, delle dimensioni degli ambienti e del progetto architettonico.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Vi occupate anche della progettazione esecutiva degli arredi?</summary>
+        <p>Sì. Seguiamo lo sviluppo degli arredi dalle prime soluzioni progettuali fino agli elaborati esecutivi necessari alla produzione. Possiamo sviluppare internamente l'intero processo oppure partire da un progetto già definito, occupandoci dell'ingegnerizzazione e dello sviluppo tecnico dei singoli elementi.</p>
+      </details>
+      </div>
     </div>
-    <div class="section__more">
-      <a href="realizzazioni.html?settore=Arredo%20uffici%20%26%20workspace" class="link-rule">Tutte le realizzazioni Arredo uffici &amp; workspace</a>
+    <div class="brand-row">
+      <div class="eyebrow">Brand partner per l'ufficio</div>
+      <p class="brand-row__lead">Collaboriamo con aziende specializzate nell'arredo professionale per offrire soluzioni che integrano design, ergonomia, funzionalità e qualità dei materiali. Selezioniamo prodotti e sistemi in funzione delle caratteristiche di ogni commessa.</p>
+      <div class="brands-mini">
+        <a href="brand-frezza.html">Frezza</a>
+        <a href="brand-colombini-office.html">Colombini Office</a>
+        <a href="brand-las.html">LAS</a>
+        <a href="brand-della-rovere.html">Della Rovere</a>
+        <a href="brand-martex.html">Martex</a>
+        <a href="brand-estel.html">Estel</a>
+        <a href="brand-pedrali.html">Pedrali</a>
+        <a href="brand-caimi.html">Caimi</a>
+        <a href="brand-snowsound.html">Snowsound</a>
+        <a href="brand-vetroin.html">Vetroin</a>
+        <a href="brand-kastel.html">Kastel</a>
+        <a href="brand-leyform.html">Leyform</a>
+        <a href="brand-sm-milani.html">SM Milani</a>
+      </div>
     </div>
   </section>
 
   <section class="cta-band">
-    <h2>Un ufficio<br>da riprogettare?</h2>
+    <div>
+      <h2>Hai una sede da realizzare<br>o rinnovare?</h2>
+      <p>Raccontaci la tua commessa. Il nostro team tecnico ti affiancherà nella valutazione delle esigenze, degli spazi e delle soluzioni più adatte.</p>
+    </div>
     <div class="cta-band__actions">
-      <a href="richiedi-preventivo.html?settore=Arredo%20uffici%20%26%20workspace" class="btn btn--red">Richiedi un preventivo</a>
-      <a href="contatti.html?motivo=tecnico#scrivici" class="btn btn--ghost">Parla con un tecnico</a>
+      <a href="#contatti" class="btn btn--red">Richiedi un preventivo</a>
+      <a href="#contatti" class="btn btn--ghost">Parla con un nostro tecnico</a>
     </div>
   </section>
 
 </main>
 
-<div data-artes-footer></div>
+<footer class="footer">
+  <div class="footer__grid">
+    <div>
+      <img class="footer__logo" src="assets/artes-logo-bianco.png" alt="ARTES Arredamenti">
+      <p class="footer__about">Artes: arredi contract. Progettazione, produzione e montaggio di arredi su misura per uffici, negozi, bar e ristoranti, negozi food e hotel.</p>
+    </div>
+    <div>
+      <div class="footer__t">Azienda</div>
+      <div class="footer__list">
+        <a href="chi-siamo.html">Chi siamo</a><a href="contract.html">Arredo Contract</a><a href="arredamento-su-misura.html">Arredo su misura</a><a href="realizzazioni.html">Realizzazioni</a><a href="#contatti">Contatti</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Settori</div>
+      <div class="footer__list">
+        <a href="arredamento-ufficio.html">Arredo uffici e workspace</a><a href="arredo-negozi.html">Arredo negozi e retail</a><a href="arredamento-bar-ristoranti.html">Arredo bar e ristoranti</a><a href="arredo-negozi-food.html">Arredo negozi food</a><a href="arredamento-hotel.html">Arredo hotel e hospitality</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__t">Risorse</div>
+      <div class="footer__list">
+        <a href="brand-partner.html">Brand Partner</a><a href="#">Prodotti</a><a href="#">Area progettisti</a><a href="#">MEPA · Acquisti in Rete PA</a><a href="#">Cataloghi PDF</a><a href="#">Blog</a>
+      </div>
+    </div>
+    <div id="contatti">
+      <div class="footer__t">Contatti</div>
+      <div class="footer__contact">Via A. Nervoso 1, 87036 Rende (CS)<br><a href="tel:+390984462039">T +39 0984 462039</a><br>info@artessrl.it</div>
+      <a href="mailto:info@artessrl.it" class="footer__cta">Richiedi un preventivo</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Artes srl — P.IVA 02343330789</span>
+    <span>Privacy · Cookie · MEPA</span>
+  </div>
+</footer>
 
 <script src="assets/js/artes.js"></script>
 </body>

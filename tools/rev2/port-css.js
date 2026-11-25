@@ -11,7 +11,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..', '..');
-const rev2 = path.resolve(process.argv[2] || path.join(root, 'artes-sito-rev2'));
+const rev2 = path.resolve(process.argv[2] || root);
 const sorgente = path.join(rev2, 'assets', 'css', 'artes.css');
 const uscita = path.join(root, 'wp', 'artes-core', 'artes-rev2.css');
 
@@ -165,7 +165,7 @@ trasformato = trasformato.replace(/url\((['"]?)\.\.\/(img\/[^)'"]+)\1\)/g, (tutt
 });
 if (urlSenzaMappa.length) console.log('ATTENZIONE: url() non mappati (esegui prima import-media.js):', urlSenzaMappa.join(', '));
 let commit = '(sconosciuto)';
-try { commit = execSync('git log -1 --format=%h -- artes-sito-rev2', { cwd: root }).toString().trim(); } catch { /* ignorato */ }
+try { commit = execSync('git log -1 --format=%h -- assets/css/artes.css', { cwd: root }).toString().trim(); } catch { /* ignorato */ }
 const parte = (f) => { const p = path.join(__dirname, 'css', f); return fs.existsSync(p) ? fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n') : ''; };
 const intestazione = `/* ARTES rev2 — CSS GENERATO da tools/rev2/port-css.js: NON modificare a mano.
    Sorgente: ${path.relative(root, sorgente).replace(/\\/g, '/')} (ultimo commit della cartella: ${commit}).

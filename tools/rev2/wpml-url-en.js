@@ -22,9 +22,12 @@ const PAGINE = {
   'contatti': 'contact',
   'privacy-policy': 'privacy-policy',
   'cookie-policy': 'cookie-policy',
-  // bozze (non tradotte oggi): previste per coerenza dei link
+  // pagine fuori rev2, in bozza (tradotte il 2026-11-25, anche la versione EN resta in bozza)
   'area-progettisti': 'architects-area',
   'richiedi-preventivo': 'request-a-quote',
+  prodotti: 'products',
+  mepa: 'public-sector-mepa',
+  cataloghi: 'catalogues',
 };
 
 // Basi dei tipi di contenuto (slug di riscrittura: valgono per schede e archivi)

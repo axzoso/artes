@@ -10,7 +10,7 @@ const { parse, trova, testo, classi, serializzaFigli } = require('./html-parse')
 const { risolviLink } = require('./html2elementor');
 
 const root = path.resolve(__dirname, '..', '..');
-const rev2 = path.join(root, 'artes-sito-rev2');
+const rev2 = root;
 const out = path.join(root, 'tools', 'out', 'rev2');
 fs.mkdirSync(out, { recursive: true });
 const avvisi = [];

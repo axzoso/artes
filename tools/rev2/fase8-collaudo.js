@@ -24,7 +24,7 @@ const { comparePngs } = require('./png-diff');
 const { risolviLink } = require('./html2elementor');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const REV2_DIR = path.join(ROOT, 'artes-sito-rev2');
+const REV2_DIR = ROOT;
 const OUT_DIR = path.join(ROOT, 'tools', 'out', 'rev2', 'fase8');
 const DEV3 = 'https://dev3.minimalstudiodev.it';
 
